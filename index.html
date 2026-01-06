@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,26 +8,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #080808; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        body { background-color: #080808; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
         
         .glass-nav { 
             background: rgba(10, 10, 10, 0.95); 
             backdrop-filter: blur(20px); 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
         }
 
         .movie-card { transition: 0.3s; border-radius: 8px; overflow: hidden; background: #121212; height: 100%; cursor: pointer; position: relative; border: 1px solid rgba(255,255,255,0.05); }
-        .movie-card:hover { transform: translateY(-5px); border-color: #ef4444; }
+        .movie-card:active { transform: scale(0.95); }
         
-        .type-badge { position: absolute; top: 5px; left: 5px; background: #ef4444; color: white; font-size: 6px; font-weight: 900; padding: 1px 4px; border-radius: 3px; text-transform: uppercase; z-index: 20; }
+        .type-badge { position: absolute; top: 5px; left: 5px; background: #ef4444; color: white; font-size: 7px; font-weight: 900; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; z-index: 20; }
         
-        /* Ikon Love di Poster */
-        .fav-btn { position: absolute; bottom: 5px; right: 5px; color: rgba(255,255,255,0.7); font-size: 14px; z-index: 30; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); transition: 0.3s; }
-        .fav-btn.active { color: #ef4444; transform: scale(1.1); }
+        .fav-btn { position: absolute; bottom: 35px; right: 8px; color: rgba(255,255,255,0.6); font-size: 16px; z-index: 30; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); transition: 0.3s; }
+        .fav-btn.active { color: #ef4444; }
 
         .modal { display: none; position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.98); overflow-y: auto; backdrop-filter: blur(25px); }
-        #modalBackdrop { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(80px) brightness(0.1); opacity: 0.8; z-index: -1; }
+        #modalBackdrop { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(80px) brightness(0.2); opacity: 0.8; z-index: -1; }
         
         .scrollbar-hide::-webkit-scrollbar { display: none; }
     </style>
@@ -37,7 +36,7 @@
     <nav class="fixed top-0 w-full glass-nav p-3">
         <div class="container mx-auto space-y-3">
             <div class="flex items-center gap-2">
-                <div class="flex items-center gap-1 cursor-pointer shrink-0" onclick="location.reload()">
+                <div class="flex items-center gap-1 cursor-pointer shrink-0" onclick="window.location.reload()">
                     <span class="text-lg font-black text-white italic tracking-tighter">AMNES</span>
                     <span class="text-lg font-black text-red-600 italic">FILM</span>
                 </div>
@@ -49,7 +48,7 @@
             </div>
             
             <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                <select id="genreFilter" onchange="resetAndLoad()" class="bg-[#1a1a1a] p-2 rounded-lg outline-none text-white text-[10px] min-w-[100px]">
+                <select id="genreFilter" onchange="resetAndLoad()" class="bg-[#1a1a1a] p-2 rounded-lg outline-none text-white text-[10px] min-w-[90px]">
                     <option value="">Semua Genre</option>
                     <option value="27">Horor</option>
                     <option value="35">Komedi</option>
@@ -61,17 +60,13 @@
                     <option value="movie">Film</option>
                     <option value="tv">Series</option>
                 </select>
-                <select id="yearFilter" onchange="resetAndLoad()" class="bg-[#1a1a1a] p-2 rounded-lg outline-none text-white text-[10px]">
-                    <option value="">Tahun</option>
-                    <script>for(let y=2026; y>=2000; y--) document.write(`<option value="${y}">${y}</option>`);</script>
-                </select>
-                <button onclick="showFavorites()" class="bg-red-600/20 text-red-500 px-4 py-2 rounded-lg text-[10px] font-black uppercase whitespace-nowrap border border-red-600/30">❤ My List</button>
+                <button onclick="showFavorites()" class="bg-white/10 text-white px-4 py-2 rounded-lg text-[10px] font-black uppercase whitespace-nowrap border border-white/10">❤ My List</button>
             </div>
         </div>
     </nav>
 
     <main class="container mx-auto px-2 pt-32 pb-10 min-h-screen">
-        <div id="movieGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 sm:gap-4"></div>
+        <div id="movieGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2"></div>
         <div id="scrollLoader" class="flex justify-center p-10 hidden">
             <div class="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
@@ -94,7 +89,14 @@
         let isSearchMode = false;
         let favorites = JSON.parse(localStorage.getItem('amnesIndoFavs')) || [];
 
-        function initApp() { loadMovies(false); }
+        function initApp() {
+            loadMovies();
+            window.addEventListener('scroll', () => {
+                if (!isLoading && !isSearchMode && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800) {
+                    loadMovies(true);
+                }
+            });
+        }
 
         async function loadMovies(isNextPage = false) {
             if (isLoading) return;
@@ -103,19 +105,20 @@
             document.getElementById('scrollLoader').classList.remove('hidden');
             
             const type = document.getElementById('typeFilter').value;
-            const year = document.getElementById('yearFilter').value;
             const genre = document.getElementById('genreFilter').value;
-
             let url = `https://api.themoviedb.org/3/discover/${type}?api_key=${API_KEY}&with_origin_country=ID&language=id-ID&page=${currentPage}&sort_by=popularity.desc`;
-            
-            if (year) url += type === 'tv' ? `&first_air_date_year=${year}` : `&primary_release_year=${year}`;
             if (genre) url += `&with_genres=${genre}`;
             
             try {
                 const res = await fetch(url);
                 const data = await res.json();
-                displayMovies(data.results, isNextPage);
-            } finally { isLoading = false; document.getElementById('scrollLoader').classList.add('hidden'); }
+                if (data.results) displayMovies(data.results, isNextPage);
+            } catch (err) {
+                console.error("Gagal memuat data", err);
+            } finally {
+                isLoading = false;
+                document.getElementById('scrollLoader').classList.add('hidden');
+            }
         }
 
         function displayMovies(movies, append = false) {
@@ -134,35 +137,35 @@
                     </div>
                     <img src="${IMG_URL + item.poster_path}" class="w-full aspect-[2/3] object-cover" onclick="showDetail(${item.id}, '${isTV?'tv':'movie'}')">
                     <div class="p-2" onclick="showDetail(${item.id}, '${isTV?'tv':'movie'}')">
-                        <h3 class="text-[9px] font-bold truncate uppercase text-gray-200">${item.title || item.name}</h3>
+                        <h3 class="text-[8px] font-bold truncate text-gray-200 uppercase">${item.title || item.name}</h3>
                     </div>`;
                 grid.appendChild(card);
             });
         }
 
         async function showDetail(id, type) {
-            const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&append_to_response=videos,credits&language=id-ID`);
+            const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&append_to_response=videos&language=id-ID`);
             const movie = await res.json();
             const isFav = favorites.some(f => f.id === movie.id);
             
-            document.getElementById('modalBackdrop').style.backgroundImage = `url(${ORI_IMG + movie.backdrop_path})`;
+            document.getElementById('modalBackdrop').style.backgroundImage = `url(${ORI_IMG + (movie.backdrop_path || movie.poster_path)})`;
             const video = movie.videos.results.find(v => v.type === 'Trailer') || movie.videos.results[0];
-            const finalVideoSrc = video ? `https://www.youtube.com/embed/${video.key}?autoplay=1` : '';
+            const videoSrc = video ? `https://www.youtube.com/embed/${video.key}?autoplay=1` : '';
 
             document.getElementById('modalContent').innerHTML = `
                 <div class="md:w-1/3 p-6 border-r border-white/5">
                     <img src="${IMG_URL + movie.poster_path}" class="w-full rounded-2xl border border-white/10 mb-4">
-                    <button onclick="toggleFav(event, ${JSON.stringify(movie).replace(/"/g, '&quot;')}); this.classList.toggle('bg-red-600');" 
-                        class="w-full ${isFav?'bg-red-600':'bg-white/10'} py-3 rounded-xl text-[10px] font-black uppercase mb-4 transition">
-                        <i class="fas fa-heart mr-2"></i> ${isFav?'Hapus dari List':'Tambah ke List'}
+                    <button onclick='toggleFavFromModal(${JSON.stringify(movie).replace(/'/g, "\\'")})' id="modalFavBtn" 
+                        class="w-full ${isFav?'bg-red-600':'bg-white/10'} py-3 rounded-xl text-[10px] font-black mb-4">
+                        <i class="fas fa-heart mr-2"></i> ${isFav?'DI FAVORIT':'TAMBAH FAVORIT'}
                     </button>
                     <a href="https://vidsrc.to/embed/${type}/${movie.id}" target="_blank" class="block w-full bg-red-600 text-center py-4 rounded-xl text-xs font-black uppercase italic shadow-lg">NONTON SEKARANG</a>
                 </div>
                 <div class="md:w-2/3 p-8">
                     <h2 class="text-3xl font-black text-white uppercase italic mb-2 leading-none">${movie.title || movie.name}</h2>
                     <p class="text-[10px] text-red-500 font-black mb-4 uppercase">⭐ ${movie.vote_average.toFixed(1)} | ${movie.genres.map(g => g.name).join(', ')}</p>
-                    <div class="mb-6 rounded-xl overflow-hidden aspect-video bg-black">
-                        <iframe class="w-full h-full" src="${finalVideoSrc}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+                    <div class="mb-6 rounded-xl overflow-hidden aspect-video bg-black shadow-2xl border border-white/5">
+                        <iframe class="w-full h-full" src="${videoSrc}" frameborder="0" allowfullscreen allow="autoplay"></iframe>
                     </div>
                     <p class="text-[11px] font-black text-gray-500 uppercase mb-2">Sinopsis</p>
                     <p class="text-[13px] text-gray-300 italic leading-relaxed">"${movie.overview || 'Sinopsis belum tersedia.'}"</p>
@@ -179,15 +182,52 @@
             localStorage.setItem('amnesIndoFavs', JSON.stringify(favorites));
         }
 
-        function resetAndLoad() { currentPage = 1; isSearchMode = false; document.getElementById('movieGrid').innerHTML = ''; loadMovies(false); }
+        function toggleFavFromModal(item) {
+            const idx = favorites.findIndex(f => f.id === item.id);
+            const btn = document.getElementById('modalFavBtn');
+            if(idx === -1) { 
+                favorites.push(item); 
+                btn.classList.replace('bg-white/10', 'bg-red-600');
+                btn.innerHTML = '<i class="fas fa-heart mr-2"></i> DI FAVORIT';
+            } else { 
+                favorites.splice(idx, 1); 
+                btn.classList.replace('bg-red-600', 'bg-white/10');
+                btn.innerHTML = '<i class="fas fa-heart mr-2"></i> TAMBAH FAVORIT';
+            }
+            localStorage.setItem('amnesIndoFavs', JSON.stringify(favorites));
+            resetAndLoad(); // Refresh grid di belakang modal
+        }
+
+        function resetAndLoad() { 
+            currentPage = 1; 
+            isSearchMode = false; 
+            document.getElementById('movieGrid').innerHTML = ''; 
+            loadMovies(); 
+        }
+
         async function searchIndo() {
-            isSearchMode = true; const q = document.getElementById('searchInput').value; if (!q) return;
+            const q = document.getElementById('searchInput').value; 
+            if (!q) return;
+            isSearchMode = true; 
+            document.getElementById('movieGrid').innerHTML = '';
             const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(q)}&language=id-ID`);
             const data = await res.json();
             displayMovies(data.results.filter(m => (m.origin_country && m.origin_country.includes('ID')) || m.original_language === 'id'), false);
         }
-        function showFavorites() { isSearchMode = true; displayMovies(favorites, false); }
-        function closeModal() { document.getElementById('movieModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+
+        function showFavorites() { 
+            isSearchMode = true; 
+            displayMovies(favorites, false); 
+            if(favorites.length === 0) document.getElementById('movieGrid').innerHTML = '<p class="col-span-3 text-center text-gray-500 py-20 text-xs uppercase font-black">Belum ada film yang disukai</p>';
+        }
+
+        function closeModal() { 
+            document.getElementById('movieModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto'; 
+            document.getElementById('modalContent').innerHTML = '';
+        }
+
+        window.onclick = (e) => { if (e.target.id == 'movieModal') closeModal(); }
     </script>
 </body>
 </html>
