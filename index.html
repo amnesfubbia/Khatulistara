@@ -9,84 +9,76 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
         
-        body { background-color: #050505; color: white; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: #050505; color: white; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; }
 
         .nav-fixed {
             position: fixed; top: 0; left: 0; right: 0;
-            background: rgba(5, 5, 5, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            z-index: 50;
-            padding: 10px 0;
+            background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.08); z-index: 50; padding: 12px 0;
         }
 
-        .search-container { position: relative; width: 100%; }
         .search-input {
-            width: 100%; background: #1a1a1a; border: 1px solid #333;
-            padding: 10px 40px 10px 15px; border-radius: 8px;
-            color: white; font-size: 12px; outline: none;
+            width: 100%; background: #151515; border: 1px solid #333;
+            padding: 10px 40px 10px 15px; border-radius: 10px;
+            color: white; font-size: 13px; outline: none;
         }
 
         .movie-grid {
             display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 10px; padding: 10px; padding-top: 140px;
+            gap: 12px; padding: 160px 12px 100px 12px;
         }
         @media (min-width: 768px) {
-            .movie-grid { grid-template-columns: repeat(6, 1fr); gap: 20px; padding: 20px; padding-top: 150px; }
+            .movie-grid { grid-template-columns: repeat(6, 1fr); gap: 20px; padding: 170px 40px 100px 40px; }
         }
 
         .card { 
             position: relative; aspect-ratio: 2/3; background: #111; 
-            border-radius: 8px; overflow: hidden; cursor: pointer;
+            border-radius: 12px; overflow: hidden; cursor: pointer;
+            border: 1px solid #222;
         }
         .card img { width: 100%; height: 100%; object-fit: cover; }
 
         .badge {
-            position: absolute; top: 6px; left: 6px;
-            padding: 3px 6px; border-radius: 4px;
-            font-size: 8px; font-weight: 900; text-transform: uppercase;
-            z-index: 10; letter-spacing: 0.5px;
+            position: absolute; top: 8px; right: 8px;
+            padding: 3px 7px; border-radius: 5px;
+            font-size: 8px; font-weight: 900; z-index: 10;
+            text-transform: uppercase;
         }
-        .badge-movie { background: #e11d48; color: white; }
-        .badge-tv { background: #2563eb; color: white; }
-        .badge-short { background: #f59e0b; color: black; }
+        .badge-movie { background: #e11d48; }
+        .badge-tv { background: #2563eb; }
+        .badge-short { background: #f59e0b; color: #000; }
 
-        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.95); overflow-y: auto; }
-        .modal-box { min-height: 100vh; background: #0a0a0a; padding: 20px; }
-        @media (min-width: 768px) { .modal-box { max-width: 900px; margin: 50px auto; border-radius: 20px; border: 1px solid #333; } }
-
-        .m-title { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; padding-right: 50px; margin-bottom: 5px; line-height: 1.2; }
+        .modal { display: none; position: fixed; inset: 0; z-index: 100; background: black; overflow-y: auto; }
+        .modal-box { min-height: 100vh; background: #080808; padding: 20px; padding-top: 60px; }
 
         .btn-red {
             display: flex; justify-content: space-between; align-items: center;
-            width: 100%; padding: 12px 16px; margin-bottom: 8px;
-            background: #e11d48; color: white; border: none; border-radius: 8px;
-            font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-            cursor: pointer; text-decoration: none;
+            width: 100%; padding: 14px; margin-bottom: 10px;
+            background: #e11d48; color: white; border-radius: 10px;
+            font-size: 11px; font-weight: 800; cursor: pointer; border: none;
         }
 
         .menu-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
         
-        /* FONT DISESUAIKAN UNTUK HP BIAR TIDAK TERPOTONG */
+        /* PERBAIKAN FONT MENU AGAR TERPOPULER TERLIHAT */
         select { 
-            background: #1a1a1a; color: white; border: 1px solid #333; 
-            padding: 8px 4px; border-radius: 6px; font-size: 8.5px; 
-            font-weight: bold; text-transform: uppercase; outline: none; 
+            background: #151515; color: white; border: 1px solid #333; 
+            padding: 6px 4px; border-radius: 8px; font-size: 7.5px; 
+            font-weight: bold; text-transform: uppercase;
         }
-
-        #loadingIndicator { text-align: center; padding: 20px; font-size: 12px; color: #888; display: none; }
     </style>
 </head>
 <body>
 
     <nav class="nav-fixed">
         <div class="container mx-auto px-4">
-            <div class="flex items-center gap-3 mb-3">
+            <div class="flex items-center gap-3 mb-4">
                 <div onclick="location.reload()" class="cursor-pointer shrink-0">
-                    <span class="text-lg font-black italic">AMNESFUBBIA<span class="text-red-600">FILM</span></span>
+                    <span class="text-xl font-black italic">AMNESFUBBIA<span class="text-red-600">FILM</span></span>
                 </div>
-                <div class="search-container">
+                <div class="relative w-full">
                     <input type="text" id="inputCari" class="search-input" placeholder="Cari Film..." onkeypress="if(event.key==='Enter') cariFilm()">
+                    <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 -translate-y-1/2 text-gray-500" onclick="cariFilm()"></i>
                 </div>
             </div>
 
@@ -97,24 +89,18 @@
                     <option value="tv">SERIES</option>
                     <option value="short">FILM PENDEK</option>
                 </select>
-
                 <select id="pilihGenre" onchange="resetLoad()">
                     <option value="">GENRE</option>
                     <option value="28">AKSI</option>
                     <option value="27">HOROR</option>
                     <option value="35">KOMEDI</option>
                     <option value="18">DRAMA</option>
+                    <option value="10749">ROMANTIS</option>
                 </select>
-
                 <select id="pilihTahun" onchange="resetLoad()">
                     <option value="">TAHUN</option>
-                    <script>
-                        for(let t = new Date().getFullYear(); t >= 1950; t--) {
-                            document.write(`<option value="${t}">${t}</option>`);
-                        }
-                    </script>
+                    <script>for(let t=2026;t>=1970;t--) document.write(`<option value="${t}">${t}</option>`);</script>
                 </select>
-
                 <select id="pilihSort" onchange="resetLoad()" class="flex-grow">
                     <option value="popularity.desc">TERPOPULER</option>
                     <option value="primary_release_date.desc">TERBARU</option>
@@ -124,26 +110,25 @@
     </nav>
 
     <div id="gridFilm" class="movie-grid"></div>
-    <div id="loadingIndicator">SEDANG MEMUAT...</div>
 
     <div id="modalFilm" class="modal">
-        <div class="modal-box relative">
-            <button onclick="tutupModal()" class="absolute top-4 right-4 bg-black/50 text-white w-8 h-8 rounded-full border border-white/20 z-50">✕</button>
-            <div class="flex flex-col md:flex-row gap-6">
-                <div class="md:w-2/3">
-                    <h1 id="jdl" class="m-title">JUDUL</h1>
-                    <p id="inf" class="text-xs text-gray-500 font-bold mb-4 uppercase"></p>
-                    <div class="aspect-video bg-black rounded-xl overflow-hidden mb-5 border border-white/10">
+        <div class="modal-box">
+            <button onclick="tutupModal()" class="fixed top-5 right-5 bg-red-600 text-white w-10 h-10 rounded-full z-[110] font-bold">✕</button>
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="lg:w-2/3">
+                    <h1 id="jdl" class="text-2xl font-black mb-2 uppercase">JUDUL</h1>
+                    <p id="inf" class="text-[10px] text-gray-500 font-black mb-5 tracking-widest uppercase"></p>
+                    <div class="aspect-video bg-black rounded-2xl overflow-hidden mb-6 border border-white/5">
                         <iframe id="layar" class="w-full h-full" allowfullscreen></iframe>
                     </div>
-                    <p class="text-[10px] text-red-600 font-black tracking-widest mb-1">SINOPSIS</p>
-                    <p id="sinop" class="text-sm text-gray-300 italic font-light leading-relaxed mb-6"></p>
+                    <h3 class="text-red-600 text-[10px] font-black tracking-[3px] mb-2 uppercase">Sinopsis</h3>
+                    <p id="sinop" class="text-sm text-gray-300 leading-relaxed italic"></p>
                 </div>
-                <div class="md:w-1/3">
-                    <p class="text-[10px] text-gray-500 font-bold mb-2 uppercase">Streaming</p>
+                <div class="lg:w-1/3">
+                    <p class="text-gray-500 text-[10px] font-bold mb-4 uppercase tracking-widest">Streaming</p>
                     <div id="btnStream"></div>
-                    <hr class="border-white/10 my-4">
-                    <p class="text-[10px] text-gray-500 font-bold mb-2 uppercase">Download</p>
+                    <hr class="border-white/5 my-6">
+                    <p class="text-gray-500 text-[10px] font-bold mb-4 uppercase tracking-widest">Download</p>
                     <div id="btnDown"></div>
                 </div>
             </div>
@@ -152,21 +137,13 @@
 
     <script>
         const API = 'bfa7df5310c9974f62f26c6789a8c00d';
-        let hal = 1;
-        let sedangMemuat = false;
+        let hal = 1; let sedangMemuat = false;
 
         window.onload = memuatFilm;
-        window.onscroll = () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
-                if (!sedangMemuat) loadLagi();
-            }
-        };
+        window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) { if (!sedangMemuat) loadLagi(); } };
 
         async function memuatFilm() {
-            if (sedangMemuat) return;
-            sedangMemuat = true;
-            document.getElementById('loadingIndicator').style.display = 'block';
-
+            if (sedangMemuat) return; sedangMemuat = true;
             const tipe = document.getElementById('pilihTipe').value;
             const genre = document.getElementById('pilihGenre').value;
             const tahun = document.getElementById('pilihTahun').value;
@@ -188,35 +165,28 @@
                 const res = await fetch(url);
                 const data = await res.json();
                 tampilkan(data.results, tipe);
-            } catch (e) { console.log(e); }
-            finally {
-                sedangMemuat = false;
-                document.getElementById('loadingIndicator').style.display = 'none';
-            }
+            } catch (e) { console.error(e); }
+            finally { sedangMemuat = false; }
         }
 
         function tampilkan(data, filterTipe) {
             const grid = document.getElementById('gridFilm');
             if(hal === 1) grid.innerHTML = '';
-            
-            data.forEach(film => {
-                if(!film.poster_path) return;
-                if(film.original_language !== 'id' && !film.origin_country?.includes('ID')) return;
+            data.forEach(m => {
+                if(!m.poster_path) return;
+                // Filter hanya Indonesia
+                if(m.original_language !== 'id' && !m.origin_country?.includes('ID')) return;
                 
                 const kartu = document.createElement('div');
                 kartu.className = 'card';
-                const tipeItem = film.media_type || (film.title ? 'movie' : 'tv');
+                const tipeItem = m.media_type || (m.title ? 'movie' : 'tv');
                 
-                let badgeClass = tipeItem === 'movie' ? 'badge-movie' : 'badge-tv';
-                let label = tipeItem === 'movie' ? 'FILM' : 'SERIES';
-                
-                if(filterTipe === 'short') {
-                    badgeClass = 'badge-short';
-                    label = 'SHORT';
-                }
+                let bCls = tipeItem === 'movie' ? 'badge-movie' : 'badge-tv';
+                let bTxt = tipeItem === 'movie' ? 'FILM' : 'SERIES';
+                if(filterTipe === 'short') { bCls = 'badge-short'; bTxt = 'SHORT'; }
 
-                kartu.onclick = () => bukaModal(film.id, tipeItem);
-                kartu.innerHTML = `<div class="badge ${badgeClass}">${label}</div><img src="https://image.tmdb.org/t/p/w500${film.poster_path}" loading="lazy">`;
+                kartu.onclick = () => bukaModal(m.id, tipeItem);
+                kartu.innerHTML = `<div class="badge ${bCls}">${bTxt}</div><img src="https://image.tmdb.org/t/p/w500${m.poster_path}" loading="lazy">`;
                 grid.appendChild(kartu);
             });
         }
@@ -226,25 +196,17 @@
             document.body.style.overflow = 'hidden';
             const res = await fetch(`https://api.themoviedb.org/3/${tipe}/${id}?api_key=${API}&language=id-ID&append_to_response=videos`);
             const d = await res.json();
-            
             document.getElementById('jdl').innerText = d.title || d.name;
             document.getElementById('inf').innerText = `${(d.release_date || d.first_air_date || '').split('-')[0]} • ⭐ ${d.vote_average.toFixed(1)}`;
             document.getElementById('sinop').innerText = d.overview || "Sinopsis tidak tersedia.";
-            
             const v = d.videos?.results.find(x => x.type === 'Trailer') || d.videos?.results[0];
             document.getElementById('layar').src = v ? `https://www.youtube.com/embed/${v.key}?autoplay=1` : '';
-            
             const bH = (n, l) => `<button onclick="document.getElementById('layar').src='${l}'" class="btn-red"><span>${n}</span> <i class="fa-solid fa-play"></i></button>`;
-            document.getElementById('btnStream').innerHTML = bH('Server Utama', `https://vidsrc.xyz/embed/${tipe}/${id}`) + bH('Server Cadangan', `https://vidsrc.to/embed/${tipe}/${id}`);
-            document.getElementById('btnDown').innerHTML = `<a href="https://dl.vidsrc.vip/${tipe}/${id}" target="_blank" class="btn-red"><span>Download VIP</span> <i class="fa-solid fa-download"></i></a>`;
+            document.getElementById('btnStream').innerHTML = bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`) + bH('SERVER CADANGAN', `https://vidsrc.to/embed/${tipe}/${id}`);
+            document.getElementById('btnDown').innerHTML = `<a href="https://dl.vidsrc.vip/${tipe}/${id}" target="_blank" class="btn-red" style="text-decoration:none"><span>DOWNLOAD VIP</span> <i class="fa-solid fa-download"></i></a>`;
         }
 
-        function tutupModal() {
-            document.getElementById('modalFilm').style.display = 'none';
-            document.getElementById('layar').src = '';
-            document.body.style.overflow = 'auto';
-        }
-
+        function tutupModal() { document.getElementById('modalFilm').style.display = 'none'; document.getElementById('layar').src = ''; document.body.style.overflow = 'auto'; }
         function loadLagi() { hal++; memuatFilm(); }
         function resetLoad() { hal = 1; window.scrollTo(0,0); memuatFilm(); }
         async function cariFilm() {
