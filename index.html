@@ -1,6 +1,3 @@
-Minta maaf ya, aku benar-benar mengerti rasa frustrasimu. Dari screenshot tadi, aku lihat masalahnya adalah data film tidak muncul (blank) dan menu masih terlalu lebar.
-Aku sudah menemukan letak kesalahannya. Di kode sebelumnya, ada kesalahan teknis pada alamat (URL) yang memanggil data film Indonesia, sehingga browser memblokirnya dan layarmu jadi hitam.
-Ini adalah perbaikan paling stabil. Aku kecilkan font ke 6.5px agar teks "TERPOPULER" pasti kelihatan, dan aku perbaiki jalur datanya supaya film langsung muncul saat dibuka:
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -38,12 +35,10 @@ Ini adalah perbaikan paling stabil. Aku kecilkan font ke 6.5px agar teks "TERPOP
         }
         .badge-movie { background: #e11d48; }
         .badge-tv { background: #2563eb; }
-        .badge-short { background: #f59e0b; color: #000; }
 
         .menu-scroll { display: flex; gap: 3px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; }
         .menu-scroll::-webkit-scrollbar { display: none; }
         
-        /* FONT SANGAT KECIL AGAR TERPOPULER TERLIHAT JELAS */
         select { 
             background: #1a1a1a; color: white; border: 1px solid #333; 
             padding: 5px 2px; border-radius: 5px; font-size: 6.5px; 
@@ -52,6 +47,12 @@ Ini adalah perbaikan paling stabil. Aku kecilkan font ke 6.5px agar teks "TERPOP
 
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: black; overflow-y: auto; }
         .modal-box { min-height: 100vh; background: #080808; padding: 15px; padding-top: 50px; }
+        
+        .cast-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
+        .cast-card { flex: 0 0 70px; text-align: center; cursor: pointer; }
+        .cast-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
+        .cast-name { font-size: 8px; font-weight: bold; line-height: 1; }
+
         .btn-red { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px; margin-bottom: 8px; background: #e11d48; color: white; border-radius: 8px; font-size: 10px; font-weight: 800; border: none; text-decoration: none; }
     </style>
 </head>
@@ -60,28 +61,22 @@ Ini adalah perbaikan paling stabil. Aku kecilkan font ke 6.5px agar teks "TERPOP
     <nav class="nav-fixed">
         <div class="container mx-auto px-3">
             <div class="flex items-center gap-2 mb-3">
-                <div onclick="location.reload()" class="cursor-pointer shrink-0">
-                    <span class="text-sm font-black italic uppercase">AMNESFUBBIA<span class="text-red-600">FILM</span></span>
+                <div onclick="location.reload()" class="cursor-pointer shrink-0 uppercase font-black italic text-sm">
+                    AMNESFUBBIA<span class="text-red-600">FILM</span>
                 </div>
                 <div class="relative w-full">
                     <input type="text" id="inputCari" class="search-input" placeholder="Cari Film..." onkeypress="if(event.key==='Enter') cariFilm()">
-                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-[10px]"></i>
                 </div>
             </div>
-
             <div class="menu-scroll">
                 <select id="pilihTipe" onchange="resetLoad()">
-                    <option value="multi">SEMUA</option>
+                    <option value="movie">SEMUA</option>
                     <option value="movie">FILM</option>
                     <option value="tv">SERIES</option>
-                    <option value="short">FILM PENDEK</option>
                 </select>
                 <select id="pilihGenre" onchange="resetLoad()">
                     <option value="">GENRE</option>
-                    <option value="28">AKSI</option>
-                    <option value="27">HOROR</option>
-                    <option value="35">KOMEDI</option>
-                    <option value="18">DRAMA</option>
+                    <option value="28">AKSI</option><option value="27">HOROR</option><option value="35">KOMEDI</option><option value="18">DRAMA</option>
                 </select>
                 <select id="pilihTahun" onchange="resetLoad()">
                     <option value="">TAHUN</option>
@@ -99,14 +94,21 @@ Ini adalah perbaikan paling stabil. Aku kecilkan font ke 6.5px agar teks "TERPOP
 
     <div id="modalFilm" class="modal">
         <div class="modal-box">
-            <button onclick="tutupModal()" class="fixed top-4 right-4 bg-red-600 text-white w-8 h-8 rounded-full z-[110] font-bold">✕</button>
-            <h1 id="jdl" class="text-base font-black mb-1 uppercase">JUDUL</h1>
-            <p id="inf" class="text-[8px] text-gray-500 font-bold mb-4 uppercase"></p>
+            <button onclick="tutupModal()" class="fixed top-4 right-4 bg-red-600 text-white w-8 h-8 rounded-full z-[110] font-bold text-xs">✕</button>
+            <h1 id="jdl" class="text-base font-black uppercase">JUDUL</h1>
+            <p id="inf" class="text-[9px] text-gray-500 font-bold mb-1"></p>
+            <p id="gen" class="text-[9px] text-red-500 font-bold mb-4 uppercase"></p>
+            
             <div class="aspect-video bg-black rounded-lg overflow-hidden mb-5 border border-white/10">
-                <iframe id="layar" class="w-full h-full" allowfullscreen></iframe>
+                <iframe id="layar" class="w-full h-full" allow="autoplay" allowfullscreen></iframe>
             </div>
-            <p class="text-red-600 text-[8px] font-black mb-1 uppercase tracking-widest">Sinopsis</p>
+
+            <p class="text-gray-500 text-[8px] font-black uppercase tracking-widest mb-1">Pemeran</p>
+            <div id="castList" class="cast-scroll"></div>
+
+            <p class="text-red-600 text-[8px] font-black uppercase tracking-widest mt-4 mb-1">Sinopsis</p>
             <p id="sinop" class="text-xs text-gray-400 italic mb-6 leading-relaxed"></p>
+            
             <div id="btnStream"></div>
             <div id="btnDown" class="mt-4"></div>
         </div>
@@ -125,45 +127,28 @@ Ini adalah perbaikan paling stabil. Aku kecilkan font ke 6.5px agar teks "TERPOP
             const genre = document.getElementById('pilihGenre').value;
             const tahun = document.getElementById('pilihTahun').value;
             const sort = document.getElementById('pilihSort').value;
-
-            let url = "";
-            // LOGIKA URL DIPERBAIKI: Menggunakan discover agar filter Indonesia jalan
-            if(tipe === "multi" || tipe === "movie") {
-                url = `https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
-            } else if(tipe === "short") {
-                url = `https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&with_runtime.lte=45&language=id-ID&page=${hal}&sort_by=${sort}`;
-            } else if(tipe === "tv") {
-                url = `https://api.themoviedb.org/3/discover/tv?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
-            }
-
+            let url = `https://api.themoviedb.org/3/discover/${tipe}?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
             if(genre) url += `&with_genres=${genre}`;
             if(tahun) url += (tipe === 'tv' ? `&first_air_date_year=${tahun}` : `&primary_release_year=${tahun}`);
 
             try {
                 const res = await fetch(url);
                 const data = await res.json();
-                tampilkan(data.results, tipe);
-            } catch (e) { console.error("Gagal muat:", e); }
+                tampilkan(data.results);
+            } catch (e) { console.log(e); }
             finally { sedangMemuat = false; }
         }
 
-        function tampilkan(data, filterTipe) {
+        function tampilkan(data) {
             const grid = document.getElementById('gridFilm');
             if(hal === 1) grid.innerHTML = '';
-            if(!data || data.length === 0) return;
-
             data.forEach(m => {
                 if(!m.poster_path) return;
                 const kartu = document.createElement('div');
                 kartu.className = 'card';
-                
-                const tipeItem = m.title ? 'movie' : 'tv';
-                let bCls = tipeItem === 'movie' ? 'badge-movie' : 'badge-tv';
-                let bTxt = tipeItem === 'movie' ? 'FILM' : 'SERIES';
-                if(filterTipe === 'short') { bCls = 'badge-short'; bTxt = 'SHORT'; }
-
-                kartu.onclick = () => bukaModal(m.id, tipeItem);
-                kartu.innerHTML = `<div class="badge ${bCls}">${bTxt}</div><img src="https://image.tmdb.org/t/p/w500${m.poster_path}" loading="lazy">`;
+                const tipe = m.title ? 'movie' : 'tv';
+                kartu.onclick = () => bukaModal(m.id, tipe);
+                kartu.innerHTML = `<div class="badge ${tipe==='movie'?'badge-movie':'badge-tv'}">${tipe==='movie'?'FILM':'SERIES'}</div><img src="https://image.tmdb.org/t/p/w500${m.poster_path}" loading="lazy">`;
                 grid.appendChild(kartu);
             });
         }
@@ -171,30 +156,51 @@ Ini adalah perbaikan paling stabil. Aku kecilkan font ke 6.5px agar teks "TERPOP
         async function bukaModal(id, tipe) {
             document.getElementById('modalFilm').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            const res = await fetch(`https://api.themoviedb.org/3/${tipe}/${id}?api_key=${API}&language=id-ID`);
+            
+            const res = await fetch(`https://api.themoviedb.org/3/${tipe}/${id}?api_key=${API}&language=id-ID&append_to_response=videos,credits`);
             const d = await res.json();
             
             document.getElementById('jdl').innerText = d.title || d.name;
             document.getElementById('inf').innerText = `${(d.release_date || d.first_air_date || '').split('-')[0]} • ⭐ ${d.vote_average.toFixed(1)}`;
+            document.getElementById('gen').innerText = d.genres.map(g => g.name).join(', ');
             document.getElementById('sinop').innerText = d.overview || "Sinopsis belum tersedia.";
-            document.getElementById('layar').src = `https://vidsrc.xyz/embed/${tipe}/${id}`;
             
+            // Trailer Autoplay Fix
+            const trailer = d.videos.results.find(v => v.type === 'Trailer');
+            document.getElementById('layar').src = trailer ? `https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=0` : `https://vidsrc.xyz/embed/${tipe}/${id}`;
+            
+            // Render Cast
+            const castHtml = d.credits.cast.slice(0, 10).map(c => `
+                <div class="cast-card" onclick="cariPemeran('${c.name}')">
+                    <img class="cast-img" src="${c.profile_path ? 'https://image.tmdb.org/t/p/w200'+c.profile_path : 'https://via.placeholder.com/100x100?text=No+Photo'}">
+                    <p class="cast-name">${c.name}</p>
+                </div>
+            `).join('');
+            document.getElementById('castList').innerHTML = castHtml;
+
             const bH = (n, l) => `<button onclick="document.getElementById('layar').src='${l}'" class="btn-red"><span>${n}</span> <i class="fa-solid fa-play"></i></button>`;
-            document.getElementById('btnStream').innerHTML = bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`) + bH('SERVER CADANGAN', `https://vidsrc.to/embed/${tipe}/${id}`);
+            document.getElementById('btnStream').innerHTML = bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`);
             document.getElementById('btnDown').innerHTML = `<a href="https://dl.vidsrc.vip/${tipe}/${id}" target="_blank" class="btn-red"><span>DOWNLOAD VIP</span> <i class="fa-solid fa-download"></i></a>`;
+        }
+
+        function cariPemeran(nama) {
+            tutupModal();
+            document.getElementById('inputCari').value = nama;
+            cariFilm();
         }
 
         function tutupModal() { document.getElementById('modalFilm').style.display = 'none'; document.getElementById('layar').src = ''; document.body.style.overflow = 'auto'; }
         function loadLagi() { hal++; memuatFilm(); }
         function resetLoad() { hal = 1; window.scrollTo(0,0); memuatFilm(); }
+        
         async function cariFilm() {
             const q = document.getElementById('inputCari').value;
             if(!q) return;
             const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API}&query=${q}&language=id-ID`);
             const data = await res.json();
-            hal = 1; tampilkan(data.results, 'multi');
+            hal = 1; tampilkan(data.results);
+            window.scrollTo(0,0);
         }
     </script>
 </body>
 </html>
-
