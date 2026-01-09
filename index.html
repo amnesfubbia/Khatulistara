@@ -198,7 +198,12 @@
             document.getElementById('castList').innerHTML = castHtml;
 
             const bH = (n, l) => `<button onclick="document.getElementById('layar').src='${l}'" class="btn-red"><span>${n}</span> <i class="fa-solid fa-play"></i></button>`;
-            document.getElementById('btnStream').innerHTML = bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`) + bH('SERVER CADANGAN', `https://vidsrc.to/embed/${tipe}/${id}`);
+            // KEMBALI KE 3 SERVER
+            document.getElementById('btnStream').innerHTML = 
+                bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`) + 
+                bH('SERVER CADANGAN 1', `https://vidsrc.to/embed/${tipe}/${id}`) +
+                bH('SERVER CADANGAN 2', `https://vidsrc.me/embed/${tipe}/${id}`);
+            
             document.getElementById('btnDown').innerHTML = `<a href="https://dl.vidsrc.vip/${tipe}/${id}" target="_blank" class="btn-red"><span>DOWNLOAD VIP</span> <i class="fa-solid fa-download"></i></a>`;
         }
 
