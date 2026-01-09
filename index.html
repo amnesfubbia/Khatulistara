@@ -12,9 +12,20 @@
 
         .nav-fixed {
             position: fixed; top: 0; left: 0; right: 0;
-            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 50; padding: 10px 0;
+            background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 50; padding: 12px 0 10px 0;
         }
+
+        #loadingBar { position: absolute; bottom: 0; left: 0; height: 2px; background: #e11d48; width: 0; transition: width 0.3s; }
+
+        .pill-container { display: flex; gap: 6px; overflow-x: auto; padding: 4px 12px; scrollbar-width: none; }
+        .pill-container::-webkit-scrollbar { display: none; }
+        .pill { 
+            white-space: nowrap; padding: 5px 12px; background: #1a1a1a; border: 1px solid #333; 
+            border-radius: 15px; font-size: 9px; font-weight: 800; color: #888; cursor: pointer; transition: 0.2s;
+            text-transform: uppercase;
+        }
+        .pill.active { background: #e11d48; color: white; border-color: #e11d48; }
 
         .search-input {
             width: 100%; background: #1a1a1a; border: 1px solid #333;
@@ -23,217 +34,280 @@
 
         .movie-grid {
             display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 8px; padding: 135px 8px 80px 8px;
+            gap: 8px; padding: 250px 8px 80px 8px;
         }
 
         .card { position: relative; aspect-ratio: 2/3; background: #111; border-radius: 8px; overflow: hidden; border: 1px solid #222; cursor: pointer; }
-        .card img { width: 100%; height: 100%; object-fit: cover; }
-
-        .badge {
-            position: absolute; top: 4px; left: 4px; padding: 2px 4px; border-radius: 3px;
-            font-size: 7px; font-weight: 900; z-index: 10; text-transform: uppercase;
-        }
-        .badge-movie { background: #e11d48; }
-        .badge-tv { background: #2563eb; }
-        .badge-short { background: #f59e0b; color: #000; }
-
-        .menu-scroll { display: flex; gap: 3px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; }
         
-        select { 
-            background: #1a1a1a; color: white; border: 1px solid #333; 
-            padding: 5px 2px; border-radius: 5px; font-size: 6px; 
-            font-weight: 800; text-transform: uppercase; outline: none; min-width: 45px;
+        .badge {
+            position: absolute; top: 5px; left: 5px; padding: 2px 5px; border-radius: 3px;
+            font-size: 8px; font-weight: 900; z-index: 10; text-transform: uppercase;
+        }
+        .badge-movie { background: #e11d48; color: white; }
+        .badge-tv { background: #2563eb; color: white; }
+        .badge-short { background: #f59e0b; color: black; }
+
+        .card img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.5s; }
+        .card img.loaded { opacity: 1; }
+
+        #backToTop {
+            display: none; position: fixed; bottom: 20px; right: 20px;
+            width: 45px; height: 45px; background: #e11d48; color: white;
+            border-radius: 50%; border: none; z-index: 150; cursor: pointer; font-size: 18px;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
         }
 
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: black; overflow-y: auto; }
-        .modal-box { min-height: 100vh; background: #080808; padding: 15px; padding-top: 50px; }
+        .modal-box { min-height: 100vh; background: #080808; padding: 15px 15px 50px 15px; padding-top: 50px; }
         
         .cast-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
         .cast-card { flex: 0 0 70px; text-align: center; cursor: pointer; }
-        .cast-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
-        .cast-name { font-size: 8px; font-weight: bold; line-height: 1.1; color: #ccc; }
+        .cast-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
+        
+        .selector-box { background: #1a1a1a; padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333; }
+        select { background: #000; color: white; border: 1px solid #444; padding: 8px; border-radius: 5px; font-size: 11px; width: 100%; outline: none; margin-top: 5px; }
 
-        .btn-red { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px; margin-bottom: 8px; background: #e11d48; color: white; border-radius: 8px; font-size: 10px; font-weight: 800; border: none; text-decoration: none; }
+        .btn-red { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px; margin-bottom: 8px; background: #e11d48; color: white; border-radius: 8px; font-size: 10px; font-weight: 800; border: none; text-decoration: none; cursor: pointer; }
+        .btn-gray { background: #333; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px; margin-bottom: 8px; color: white; border-radius: 8px; font-size: 10px; font-weight: 800; border: none; text-decoration: none; cursor: pointer; }
+        
+        .history-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 8px 12px; scrollbar-width: none; background: #000; border-bottom: 1px solid #111; }
+        .hist-item { flex: 0 0 45px; aspect-ratio: 2/3; border-radius: 4px; overflow: hidden; border: 1px solid #333; cursor: pointer; }
     </style>
 </head>
 <body>
 
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fa-solid fa-arrow-up"></i></button>
+
     <nav class="nav-fixed">
+        <div id="loadingBar"></div>
         <div class="container mx-auto px-3">
             <div class="flex items-center gap-2 mb-3">
-                <div onclick="location.reload()" class="cursor-pointer shrink-0 uppercase font-black italic text-sm">
-                    AMNESFUBBIA<span class="text-red-600">FILM</span>
-                </div>
+                <div onclick="location.reload()" class="cursor-pointer shrink-0 uppercase font-black italic text-sm">AMNESFUBBIA<span class="text-red-600">FILM</span></div>
                 <div class="relative w-full">
-                    <input type="text" id="inputCari" class="search-input" placeholder="Cari Film..." onkeyup="if(event.key==='Enter') cariFilm()">
-                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-[12px] cursor-pointer" onclick="cariFilm()"></i>
+                    <input type="text" id="inputCari" class="search-input" placeholder="Ketik judul (Contoh: Cinta)..." onkeyup="if(event.key==='Enter') cariFilm()">
                 </div>
             </div>
-            <div class="menu-scroll">
-                <select id="pilihTipe" onchange="resetLoad()">
-                    <option value="multi">SEMUA</option>
-                    <option value="movie">FILM</option>
-                    <option value="tv">SERIES</option>
-                    <option value="short">SHORT</option>
-                </select>
-                <select id="pilihGenre" onchange="resetLoad()">
-                    <option value="">GENRE</option>
-                    <option value="28">AKSI</option><option value="27">HOROR</option>
-                    <option value="35">KOMEDI</option><option value="18">DRAMA</option>
-                    <option value="10749">ROMANTIS</option><option value="16">ANIMASI</option>
-                    <option value="10751">KELUARGA</option>
-                </select>
-                <select id="pilihTahun" onchange="resetLoad()">
-                    <option value="">TAHUN</option>
-                    <script>for(let t=2026;t>=1920;t--) document.write(`<option value="${t}">${t}</option>`);</script>
-                </select>
-                <select id="pilihSort" onchange="resetLoad()" class="flex-grow">
-                    <option value="popularity.desc">TERPOPULER</option>
-                    <option value="primary_release_date.desc">TERBARU</option>
-                </select>
+            
+            <div class="pill-container" id="tipePills">
+                <div class="pill active" onclick="updateFilter('tipe', 'multi', this)">SEMUA</div>
+                <div class="pill" onclick="updateFilter('tipe', 'movie', this)">FILM</div>
+                <div class="pill" onclick="updateFilter('tipe', 'tv', this)">SERIES</div>
+                <div class="pill" onclick="updateFilter('tipe', 'short', this)">SHORT</div>
+            </div>
+            <div class="pill-container" id="genrePills">
+                <div class="pill active" onclick="updateFilter('genre', '', this)">GENRE</div>
+                <div class="pill" onclick="updateFilter('genre', '28', this)">AKSI</div><div class="pill" onclick="updateFilter('genre', '27', this)">HOROR</div>
+                <div class="pill" onclick="updateFilter('genre', '35', this)">KOMEDI</div><div class="pill" onclick="updateFilter('genre', '18', this)">DRAMA</div>
+                <div class="pill" onclick="updateFilter('genre', '10749', this)">ROMANTIS</div><div class="pill" onclick="updateFilter('genre', '16', this)">ANIMASI</div>
+            </div>
+            <div class="pill-container" id="tahunPills">
+                <div class="pill active" onclick="updateFilter('tahun', '', this)">TAHUN</div>
+                <script>for(let t=2026; t>=1930; t--) document.write(`<div class="pill" onclick="updateFilter('tahun', '${t}', this)">${t}</div>`);</script>
             </div>
         </div>
+        <div id="historyBar" class="history-scroll hidden"></div>
     </nav>
 
     <div id="gridFilm" class="movie-grid"></div>
 
     <div id="modalFilm" class="modal">
         <div class="modal-box">
-            <button onclick="tutupModal()" class="fixed top-4 right-4 bg-red-600 text-white w-8 h-8 rounded-full z-[110] font-bold text-xs">✕</button>
-            <h1 id="jdl" class="text-base font-black uppercase">JUDUL</h1>
-            <p id="inf" class="text-[9px] text-gray-500 font-bold mb-1"></p>
-            <p id="gen" class="text-[9px] text-red-500 font-bold mb-4 uppercase"></p>
+            <button onclick="tutupModal()" class="fixed top-4 right-4 bg-red-600 text-white w-8 h-8 rounded-full z-[110] font-bold">✕</button>
+            <h1 id="jdl" class="text-base font-black uppercase"></h1>
+            <p id="inf" class="text-[10px] text-gray-400 font-bold mb-4"></p>
             
-            <div class="aspect-video bg-black rounded-lg overflow-hidden mb-5 border border-white/10">
-                <iframe id="layar" class="w-full h-full" allow="autoplay" allowfullscreen></iframe>
+            <div class="aspect-video bg-black rounded-lg overflow-hidden mb-4 border border-white/10">
+                <iframe id="layar" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
 
-            <p class="text-gray-500 text-[8px] font-black uppercase tracking-widest mb-1">Pemeran</p>
-            <div id="castList" class="cast-scroll"></div>
+            <div id="seriesOption" class="hidden selector-box">
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="text-[8px] font-bold text-gray-500">SEASON</label><select id="selSeason" onchange="updateEpsList()"></select></div>
+                    <div><label class="text-[8px] font-bold text-gray-500">EPISODE</label><select id="selEps" onchange="playEps()"></select></div>
+                </div>
+            </div>
 
-            <p class="text-red-600 text-[8px] font-black uppercase tracking-widest mt-4 mb-1">Sinopsis</p>
-            <p id="sinop" class="text-xs text-gray-400 italic mb-6 leading-relaxed"></p>
+            <p class="text-[8px] font-bold text-gray-600 uppercase">Pemeran</p>
+            <div id="castList" class="cast-scroll"></div>
+            <p id="sinop" class="text-xs text-gray-400 italic my-4 leading-relaxed"></p>
             
             <div id="btnStream"></div>
-            <div id="btnDown" class="mt-4"></div>
+            <div id="btnDown"></div>
         </div>
     </div>
 
     <script>
         const API = 'bfa7df5310c9974f62f26c6789a8c00d';
-        let hal = 1; let sedangMemuat = false;
+        let hal = 1, sedangMemuat = false, fTipe = 'multi', fGenre = '', fTahun = '', curId = '', curTipe = '';
 
-        window.onload = memuatFilm;
-        window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) { if (!sedangMemuat) loadLagi(); } };
+        window.onload = () => { memuatFilm(); updateHistoryUI(); };
 
         async function memuatFilm() {
             if (sedangMemuat) return; sedangMemuat = true;
-            const tipe = document.getElementById('pilihTipe').value;
-            const genre = document.getElementById('pilihGenre').value;
-            const tahun = document.getElementById('pilihTahun').value;
-            const sort = document.getElementById('pilihSort').value;
-
+            document.getElementById('loadingBar').style.width = '50%';
+            
+            let hasil = [];
             try {
-                let hasilGabungan = [];
-                if (tipe === "multi") {
-                    const [resFilm, resTV] = await Promise.all([
-                        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}${genre ? '&with_genres='+genre : ''}${tahun ? '&primary_release_year='+tahun : ''}`),
-                        fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}${genre ? '&with_genres='+genre : ''}${tahun ? '&first_air_date_year='+tahun : ''}`)
+                if (fTipe === 'multi') {
+                    const [resM, resT] = await Promise.all([
+                        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}${fGenre?`&with_genres=${fGenre}`:''}${fTahun?`&primary_release_year=${fTahun}`:''}`),
+                        fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}${fGenre?`&with_genres=${fGenre}`:''}${fTahun?`&first_air_date_year=${fTahun}`:''}`)
                     ]);
-                    const dataFilm = await resFilm.json();
-                    const dataTV = await resTV.json();
-                    hasilGabungan = [...dataFilm.results, ...dataTV.results].sort((a, b) => b.popularity - a.popularity);
+                    const dM = await resM.json();
+                    const dT = await resT.json();
+                    hasil = [...(dM.results || []).map(i => ({...i, m_type: 'movie'})), ...(dT.results || []).map(i => ({...i, m_type: 'tv'}))].sort(() => Math.random() - 0.5);
                 } else {
-                    let url = `https://api.themoviedb.org/3/discover/${tipe==='short'?'movie':tipe}?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
-                    if(tipe === 'short') url += '&with_runtime.lte=45';
-                    if(genre) url += `&with_genres=${genre}`;
-                    if(tahun) url += (tipe === 'tv' ? `&first_air_date_year=${tahun}` : `&primary_release_year=${tahun}`);
+                    let endpoint = (fTipe === 'tv') ? 'tv' : 'movie';
+                    let url = `https://api.themoviedb.org/3/discover/${endpoint}?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}`;
+                    if(fTipe === 'short') url += '&with_runtime.lte=45';
+                    if(fGenre) url += `&with_genres=${fGenre}`;
+                    if(fTahun) url += (fTipe==='tv'?'&first_air_date_year=':'&primary_release_year=')+fTahun;
+                    
                     const res = await fetch(url);
-                    const data = await res.json();
-                    hasilGabungan = data.results;
+                    const d = await res.json();
+                    hasil = (d.results || []).map(i => ({...i, m_type: fTipe === 'short' ? 'short' : endpoint}));
                 }
-                tampilkan(hasilGabungan, tipe);
-            } catch (e) { console.log(e); }
-            finally { sedangMemuat = false; }
+                tampilkan(hasil);
+            } catch (e) { console.error(e); }
+
+            sedangMemuat = false;
+            document.getElementById('loadingBar').style.width = '100%';
+            setTimeout(()=>document.getElementById('loadingBar').style.width='0', 300);
         }
 
-        function tampilkan(data, filterTipe) {
+        function tampilkan(data) {
             const grid = document.getElementById('gridFilm');
             if(hal === 1) grid.innerHTML = '';
             data.forEach(m => {
                 if(!m.poster_path) return;
-                const kartu = document.createElement('div');
-                kartu.className = 'card';
-                const tipeItem = m.title ? 'movie' : 'tv';
-                let bCls = tipeItem === 'movie' ? 'badge-movie' : 'badge-tv';
-                let bTxt = tipeItem === 'movie' ? 'FILM' : 'SERIES';
-                if(filterTipe === 'short') { bCls = 'badge-short'; bTxt = 'SHORT'; }
+                const tipeActual = m.m_type || (m.title ? 'movie' : 'tv');
+                let bCls = tipeActual === 'tv' ? 'badge-tv' : 'badge-movie';
+                let bTxt = tipeActual === 'tv' ? 'SERIES' : 'FILM';
+                if(tipeActual === 'short') { bCls = 'badge-short'; bTxt = 'SHORT'; }
 
-                kartu.onclick = () => bukaModal(m.id, tipeItem);
-                kartu.innerHTML = `<div class="badge ${bCls}">${bTxt}</div><img src="https://image.tmdb.org/t/p/w500${m.poster_path}" loading="lazy">`;
-                grid.appendChild(kartu);
+                const k = document.createElement('div');
+                k.className = 'card';
+                k.onclick = () => { saveHistory(m.id, (tipeActual === 'short' ? 'movie' : tipeActual), m.poster_path); bukaModal(m.id, (tipeActual === 'short' ? 'movie' : tipeActual)); };
+                k.innerHTML = `<div class="badge ${bCls}">${bTxt}</div><img src="https://image.tmdb.org/t/p/w500${m.poster_path}" onload="this.classList.add('loaded')">`;
+                grid.appendChild(k);
             });
         }
 
         async function bukaModal(id, tipe) {
+            curId = id; curTipe = tipe;
             document.getElementById('modalFilm').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            const res = await fetch(`https://api.themoviedb.org/3/${tipe}/${id}?api_key=${API}&language=id-ID&append_to_response=videos,credits`);
-            const d = await res.json();
+            const [resID, resEN] = await Promise.all([
+                fetch(`https://api.themoviedb.org/3/${tipe}/${id}?api_key=${API}&language=id-ID&append_to_response=credits,videos`),
+                fetch(`https://api.themoviedb.org/3/${tipe}/${id}?api_key=${API}&language=en-US&append_to_response=videos`)
+            ]);
+            const dID = await resID.json();
+            const dEN = await resEN.json();
             
-            document.getElementById('jdl').innerText = d.title || d.name;
-            document.getElementById('inf').innerText = `${(d.release_date || d.first_air_date || '').split('-')[0]} • ⭐ ${d.vote_average.toFixed(1)}`;
-            document.getElementById('gen').innerText = d.genres.map(g => g.name).join(', ');
-            document.getElementById('sinop').innerText = d.overview || "Sinopsis belum tersedia.";
+            document.getElementById('jdl').innerText = dID.title || dID.name;
+            const thn = (dID.release_date || dID.first_air_date || '').split('-')[0];
+            const gnr = dID.genres.map(g => g.name).join(', ');
+            document.getElementById('inf').innerText = `${thn} • ⭐ ${dID.vote_average.toFixed(1)} • ${gnr}`;
+            document.getElementById('sinop').innerText = dID.overview || dEN.overview || "Sinopsis tidak tersedia.";
             
-            const video = d.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube') || d.videos.results.find(v => v.site === 'YouTube');
-            document.getElementById('layar').src = video ? `https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0` : `https://vidsrc.xyz/embed/${tipe}/${id}`;
+            const videos = [...(dID.videos?.results || []), ...(dEN.videos?.results || [])];
+            const trailer = videos.find(v => v.type === 'Trailer') || videos.find(v => v.site === 'YouTube');
             
-            const castHtml = d.credits.cast.slice(0, 12).map(c => `
-                <div class="cast-card" onclick="cariFilmPemeran(${c.id}, '${c.name}')">
-                    <img class="cast-img" src="${c.profile_path ? 'https://image.tmdb.org/t/p/w200'+c.profile_path : 'https://via.placeholder.com/100x100?text=👤'}">
-                    <p class="cast-name">${c.name}</p>
+            if (trailer) {
+                document.getElementById('layar').src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&playlist=${trailer.key}&loop=1`;
+            } else {
+                document.getElementById('layar').src = `https://vidsrc.xyz/embed/${tipe}/${id}`;
+            }
+
+            const sBox = document.getElementById('seriesOption');
+            if(tipe === 'tv') {
+                sBox.classList.remove('hidden');
+                let sHtml = (dID.seasons || []).filter(s => s.season_number > 0).map(s => `<option value="${s.season_number}">Season ${s.season_number}</option>`).join('');
+                document.getElementById('selSeason').innerHTML = sHtml;
+                updateEpsList();
+            } else { sBox.classList.add('hidden'); }
+
+            document.getElementById('castList').innerHTML = (dID.credits?.cast || []).slice(0, 15).map(c => `
+                <div class="cast-card" onclick="cariPemeran(${c.id}, '${c.name.replace(/'/g, "\\'")}')">
+                    <img class="cast-img" src="${c.profile_path ? 'https://image.tmdb.org/t/p/w200'+c.profile_path : 'https://via.placeholder.com/100'}">
+                    <p class="text-[7px] font-bold text-gray-300 leading-tight">${c.name}</p>
                 </div>
             `).join('');
-            document.getElementById('castList').innerHTML = castHtml;
 
-            const bH = (n, l) => `<button onclick="document.getElementById('layar').src='${l}'" class="btn-red"><span>${n}</span> <i class="fa-solid fa-play"></i></button>`;
-            // KEMBALI KE 3 SERVER
+            const st = (n, l) => `<button onclick="document.getElementById('layar').src='${l}'" class="btn-red"><span>${n}</span> <i class="fa-solid fa-play"></i></button>`;
             document.getElementById('btnStream').innerHTML = 
-                bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`) + 
-                bH('SERVER CADANGAN 1', `https://vidsrc.to/embed/${tipe}/${id}`) +
-                bH('SERVER CADANGAN 2', `https://vidsrc.me/embed/${tipe}/${id}`);
-            
-            document.getElementById('btnDown').innerHTML = `<a href="https://dl.vidsrc.vip/${tipe}/${id}" target="_blank" class="btn-red"><span>DOWNLOAD VIP</span> <i class="fa-solid fa-download"></i></a>`;
+                st('SERVER 1 (UTAMA)', `https://vidsrc.xyz/embed/${tipe}/${id}`) + 
+                st('SERVER 2 (CADANGAN)', `https://vidsrc.to/embed/${tipe}/${id}`) +
+                st('SERVER 3 (ALTERNATIF)', `https://vidsrc.me/embed/${tipe}/${id}`);
+            document.getElementById('btnDown').innerHTML = `<a href="https://dl.vidsrc.vip/${tipe}/${id}" target="_blank" class="btn-gray"><span>DOWNLOAD VIP</span> <i class="fa-solid fa-download"></i></a>`;
         }
 
-        async function cariFilmPemeran(pId, pName) {
+        async function updateEpsList() {
+            const sNum = document.getElementById('selSeason').value;
+            const res = await fetch(`https://api.themoviedb.org/3/tv/${curId}/season/${sNum}?api_key=${API}&language=id-ID`);
+            const d = await res.json();
+            document.getElementById('selEps').innerHTML = (d.episodes || []).map(e => `<option value="${e.episode_number}">Eps ${e.episode_number}: ${e.name}</option>`).join('');
+            playEps();
+        }
+
+        function playEps() {
+            const s = document.getElementById('selSeason').value, e = document.getElementById('selEps').value;
+            document.getElementById('layar').src = `https://vidsrc.xyz/embed/tv/${curId}/${s}/${e}?autoplay=1&mute=1`;
+        }
+
+        // AKURASI PEMERAN: Benar-benar hanya karya pemeran tersebut
+        async function cariPemeran(pId, pNama) {
             tutupModal();
-            document.getElementById('inputCari').value = pName;
+            document.getElementById('inputCari').value = pNama;
             const res = await fetch(`https://api.themoviedb.org/3/person/${pId}/combined_credits?api_key=${API}&language=id-ID`);
-            const data = await res.json();
-            hal = 1;
-            const hasilIndo = data.cast.filter(m => m.original_language === 'id' || m.origin_country?.includes('ID'));
-            tampilkan(hasilIndo, 'multi');
-            window.scrollTo(0,0);
+            const d = await res.json();
+            // Filter agar hanya film Indonesia (ID) dari pemeran tersebut
+            const hasil = (d.cast || []).filter(m => (m.original_language === 'id') || (m.origin_country && m.origin_country.includes('ID')));
+            hal = 1; tampilkan(hasil);
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
+        // AKURASI PENCARIAN: Harus mengandung kata kunci di judul
         async function cariFilm() {
-            const q = document.getElementById('inputCari').value;
-            if(!q) return;
-            sedangMemuat = true;
-            const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API}&query=${q}&language=id-ID`);
-            const data = await res.json();
-            hal = 1;
-            const hasilIndo = data.results.filter(m => m.original_language === 'id' || m.origin_country?.includes('ID'));
-            tampilkan(hasilIndo, 'multi');
-            window.scrollTo(0,0);
-            sedangMemuat = false;
+            const q = document.getElementById('inputCari').value; if(!q) return;
+            const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API}&query=${encodeURIComponent(q)}&language=id-ID`);
+            const d = await res.json();
+            const hasil = (d.results || []).filter(m => {
+                const jdl = (m.title || m.name || '').toLowerCase();
+                const oriID = (m.original_language === 'id') || (m.origin_country && m.origin_country.includes('ID'));
+                // Pengecekan kata kunci di dalam judul + Harus Indonesia
+                return jdl.includes(q.toLowerCase()) && oriID && m.media_type !== 'person';
+            });
+            hal = 1; tampilkan(hasil);
         }
 
-        function tutupModal() { document.getElementById('modalFilm').style.display = 'none'; document.getElementById('layar').src = ''; document.body.style.overflow = 'auto'; }
+        function updateFilter(t, v, el) {
+            document.querySelectorAll(`#${t === 'tipe' ? 'tipePills' : (t === 'genre' ? 'genrePills' : 'tahunPills')} .pill`).forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            if(t==='tipe') fTipe=v; else if(t==='genre') fGenre=v; else fTahun=v;
+            hal = 1; memuatFilm();
+        }
+
+        function saveHistory(id, t, p) {
+            let h = JSON.parse(localStorage.getItem('hist_amnes')) || [];
+            h = h.filter(x => x.id !== id); h.unshift({id, t, p});
+            localStorage.setItem('hist_amnes', JSON.stringify(h.slice(0, 10)));
+            updateHistoryUI();
+        }
+
+        function updateHistoryUI() {
+            const h = JSON.parse(localStorage.getItem('hist_amnes')) || [];
+            const b = document.getElementById('historyBar');
+            if(h.length > 0) { b.classList.remove('hidden'); b.innerHTML = h.map(x => `<div class="hist-item" onclick="bukaModal(${x.id},'${x.t}')"><img src="https://image.tmdb.org/t/p/w200${x.p}"></div>`).join(''); }
+        }
+
+        function tutupModal() { document.getElementById('modalFilm').style.display='none'; document.getElementById('layar').src=''; }
         function loadLagi() { hal++; memuatFilm(); }
-        function resetLoad() { hal = 1; window.scrollTo(0,0); memuatFilm(); }
+        window.onscroll = () => { 
+            const btt = document.getElementById('backToTop');
+            if (window.scrollY > 400) btt.style.display = 'block'; else btt.style.display = 'none';
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800 && !sedangMemuat) loadLagi(); 
+        };
     </script>
 </body>
 </html>
+
