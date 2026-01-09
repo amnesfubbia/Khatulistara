@@ -41,8 +41,8 @@
         
         select { 
             background: #1a1a1a; color: white; border: 1px solid #333; 
-            padding: 5px 2px; border-radius: 5px; font-size: 6.5px; 
-            font-weight: 800; text-transform: uppercase; outline: none; min-width: 50px;
+            padding: 5px 2px; border-radius: 5px; font-size: 6px; 
+            font-weight: 800; text-transform: uppercase; outline: none; min-width: 45px;
         }
 
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: black; overflow-y: auto; }
@@ -65,8 +65,8 @@
                     AMNESFUBBIA<span class="text-red-600">FILM</span>
                 </div>
                 <div class="relative w-full">
-                    <input type="text" id="inputCari" class="search-input" placeholder="Cari Film..." onkeypress="if(event.key==='Enter') cariFilm()">
-                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-[10px]" onclick="cariFilm()"></i>
+                    <input type="text" id="inputCari" class="search-input" placeholder="Cari Film..." onkeyup="if(event.key==='Enter') cariFilm()">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-[12px] cursor-pointer" onclick="cariFilm()"></i>
                 </div>
             </div>
             <div class="menu-scroll">
@@ -136,7 +136,6 @@
             try {
                 let hasilGabungan = [];
                 if (tipe === "multi") {
-                    // AMBIL FILM DAN TV BERSAMAAN UNTUK MENU SEMUA
                     const [resFilm, resTV] = await Promise.all([
                         fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}${genre ? '&with_genres='+genre : ''}${tahun ? '&primary_release_year='+tahun : ''}`),
                         fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}${genre ? '&with_genres='+genre : ''}${tahun ? '&first_air_date_year='+tahun : ''}`)
@@ -168,7 +167,7 @@
                 const tipeItem = m.title ? 'movie' : 'tv';
                 let bCls = tipeItem === 'movie' ? 'badge-movie' : 'badge-tv';
                 let bTxt = tipeItem === 'movie' ? 'FILM' : 'SERIES';
-                if(filterTipe === 'short' || (tipeItem === 'movie' && m.runtime <= 45)) { bCls = 'badge-short'; bTxt = 'SHORT'; }
+                if(filterTipe === 'short') { bCls = 'badge-short'; bTxt = 'SHORT'; }
 
                 kartu.onclick = () => bukaModal(m.id, tipeItem);
                 kartu.innerHTML = `<div class="badge ${bCls}">${bTxt}</div><img src="https://image.tmdb.org/t/p/w500${m.poster_path}" loading="lazy">`;
@@ -187,10 +186,7 @@
             document.getElementById('gen').innerText = d.genres.map(g => g.name).join(', ');
             document.getElementById('sinop').innerText = d.overview || "Sinopsis belum tersedia.";
             
-            // LOGIKA TRAILER DIPERKUAT (Cari Trailer, Teaser, atau Video apa saja)
-            const video = d.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube') || 
-                          d.videos.results.find(v => v.site === 'YouTube');
-            
+            const video = d.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube') || d.videos.results.find(v => v.site === 'YouTube');
             document.getElementById('layar').src = video ? `https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0` : `https://vidsrc.xyz/embed/${tipe}/${id}`;
             
             const castHtml = d.credits.cast.slice(0, 12).map(c => `
@@ -217,19 +213,22 @@
             window.scrollTo(0,0);
         }
 
-        function tutupModal() { document.getElementById('modalFilm').style.display = 'none'; document.getElementById('layar').src = ''; document.body.style.overflow = 'auto'; }
-        function loadLagi() { hal++; memuatFilm(); }
-        function resetLoad() { hal = 1; window.scrollTo(0,0); memuatFilm(); }
         async function cariFilm() {
             const q = document.getElementById('inputCari').value;
             if(!q) return;
+            sedangMemuat = true;
             const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API}&query=${q}&language=id-ID`);
             const data = await res.json();
             hal = 1;
             const hasilIndo = data.results.filter(m => m.original_language === 'id' || m.origin_country?.includes('ID'));
             tampilkan(hasilIndo, 'multi');
             window.scrollTo(0,0);
+            sedangMemuat = false;
         }
+
+        function tutupModal() { document.getElementById('modalFilm').style.display = 'none'; document.getElementById('layar').src = ''; document.body.style.overflow = 'auto'; }
+        function loadLagi() { hal++; memuatFilm(); }
+        function resetLoad() { hal = 1; window.scrollTo(0,0); memuatFilm(); }
     </script>
 </body>
 </html>
