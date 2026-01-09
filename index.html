@@ -133,22 +133,27 @@
             const tahun = document.getElementById('pilihTahun').value;
             const sort = document.getElementById('pilihSort').value;
 
-            let url = "";
-            if(tipe === "multi") {
-                url = `https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
-            } else if(tipe === "short") {
-                url = `https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&with_runtime.lte=45&language=id-ID&page=${hal}&sort_by=${sort}`;
-            } else {
-                url = `https://api.themoviedb.org/3/discover/${tipe}?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
-            }
-
-            if(genre && tipe !== "multi") url += `&with_genres=${genre}`;
-            if(tahun) url += (tipe === 'tv' ? `&first_air_date_year=${tahun}` : `&primary_release_year=${tahun}`);
-
             try {
-                const res = await fetch(url);
-                const data = await res.json();
-                tampilkan(data.results, tipe);
+                let hasilGabungan = [];
+                if (tipe === "multi") {
+                    // AMBIL FILM DAN TV BERSAMAAN UNTUK MENU SEMUA
+                    const [resFilm, resTV] = await Promise.all([
+                        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}${genre ? '&with_genres='+genre : ''}${tahun ? '&primary_release_year='+tahun : ''}`),
+                        fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}${genre ? '&with_genres='+genre : ''}${tahun ? '&first_air_date_year='+tahun : ''}`)
+                    ]);
+                    const dataFilm = await resFilm.json();
+                    const dataTV = await resTV.json();
+                    hasilGabungan = [...dataFilm.results, ...dataTV.results].sort((a, b) => b.popularity - a.popularity);
+                } else {
+                    let url = `https://api.themoviedb.org/3/discover/${tipe==='short'?'movie':tipe}?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
+                    if(tipe === 'short') url += '&with_runtime.lte=45';
+                    if(genre) url += `&with_genres=${genre}`;
+                    if(tahun) url += (tipe === 'tv' ? `&first_air_date_year=${tahun}` : `&primary_release_year=${tahun}`);
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    hasilGabungan = data.results;
+                }
+                tampilkan(hasilGabungan, tipe);
             } catch (e) { console.log(e); }
             finally { sedangMemuat = false; }
         }
@@ -158,14 +163,12 @@
             if(hal === 1) grid.innerHTML = '';
             data.forEach(m => {
                 if(!m.poster_path) return;
-                if(m.original_language !== 'id' && !m.origin_country?.includes('ID')) return;
-                
                 const kartu = document.createElement('div');
                 kartu.className = 'card';
                 const tipeItem = m.title ? 'movie' : 'tv';
                 let bCls = tipeItem === 'movie' ? 'badge-movie' : 'badge-tv';
                 let bTxt = tipeItem === 'movie' ? 'FILM' : 'SERIES';
-                if(filterTipe === 'short') { bCls = 'badge-short'; bTxt = 'SHORT'; }
+                if(filterTipe === 'short' || (tipeItem === 'movie' && m.runtime <= 45)) { bCls = 'badge-short'; bTxt = 'SHORT'; }
 
                 kartu.onclick = () => bukaModal(m.id, tipeItem);
                 kartu.innerHTML = `<div class="badge ${bCls}">${bTxt}</div><img src="https://image.tmdb.org/t/p/w500${m.poster_path}" loading="lazy">`;
@@ -184,8 +187,11 @@
             document.getElementById('gen').innerText = d.genres.map(g => g.name).join(', ');
             document.getElementById('sinop').innerText = d.overview || "Sinopsis belum tersedia.";
             
-            const trailer = d.videos.results.find(v => v.type === 'Trailer');
-            document.getElementById('layar').src = trailer ? `https://www.youtube.com/embed/${trailer.key}?autoplay=1` : `https://vidsrc.xyz/embed/${tipe}/${id}`;
+            // LOGIKA TRAILER DIPERKUAT (Cari Trailer, Teaser, atau Video apa saja)
+            const video = d.videos.results.find(v => v.type === 'Trailer' && v.site === 'YouTube') || 
+                          d.videos.results.find(v => v.site === 'YouTube');
+            
+            document.getElementById('layar').src = video ? `https://www.youtube.com/embed/${video.key}?autoplay=1&rel=0` : `https://vidsrc.xyz/embed/${tipe}/${id}`;
             
             const castHtml = d.credits.cast.slice(0, 12).map(c => `
                 <div class="cast-card" onclick="cariFilmPemeran(${c.id}, '${c.name}')">
