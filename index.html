@@ -117,6 +117,7 @@
             <p id="inf" class="text-[10px] text-gray-400 font-bold mb-4"></p>
             
             <div class="aspect-video bg-black rounded-lg overflow-hidden mb-4 border border-white/10">
+                <!-- MUTE DIHAPUS agar suara muncul langsung -->
                 <iframe id="layar" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
 
@@ -210,10 +211,11 @@
             document.getElementById('sinop').innerText = dID.overview || dEN.overview || "Sinopsis tidak tersedia.";
             
             const videos = [...(dID.videos?.results || []), ...(dEN.videos?.results || [])];
-            const trailer = videos.find(v => v.type === 'Trailer') || videos.find(v => v.site === 'YouTube');
+            const trailer = videos.find(v => v.type === 'Trailer' && v.site === 'YouTube') || videos.find(v => v.site === 'YouTube');
             
+            // Perbaikan: Hapus mute=1 agar suara langsung ada
             if (trailer) {
-                document.getElementById('layar').src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&playlist=${trailer.key}&loop=1`;
+                document.getElementById('layar').src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1&playlist=${trailer.key}&loop=1`;
             } else {
                 document.getElementById('layar').src = `https://vidsrc.xyz/embed/${tipe}/${id}`;
             }
@@ -233,6 +235,7 @@
                 </div>
             `).join('');
 
+            // Tombol putar server (tanpa mute)
             const st = (n, l) => `<button onclick="document.getElementById('layar').src='${l}'" class="btn-red"><span>${n}</span> <i class="fa-solid fa-play"></i></button>`;
             document.getElementById('btnStream').innerHTML = 
                 st('SERVER 1 (UTAMA)', `https://vidsrc.xyz/embed/${tipe}/${id}`) + 
@@ -251,22 +254,20 @@
 
         function playEps() {
             const s = document.getElementById('selSeason').value, e = document.getElementById('selEps').value;
-            document.getElementById('layar').src = `https://vidsrc.xyz/embed/tv/${curId}/${s}/${e}?autoplay=1&mute=1`;
+            // Tanpa mute agar suara langsung aktif
+            document.getElementById('layar').src = `https://vidsrc.xyz/embed/tv/${curId}/${s}/${e}?autoplay=1`;
         }
 
-        // AKURASI PEMERAN: Benar-benar hanya karya pemeran tersebut
         async function cariPemeran(pId, pNama) {
             tutupModal();
             document.getElementById('inputCari').value = pNama;
             const res = await fetch(`https://api.themoviedb.org/3/person/${pId}/combined_credits?api_key=${API}&language=id-ID`);
             const d = await res.json();
-            // Filter agar hanya film Indonesia (ID) dari pemeran tersebut
             const hasil = (d.cast || []).filter(m => (m.original_language === 'id') || (m.origin_country && m.origin_country.includes('ID')));
             hal = 1; tampilkan(hasil);
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // AKURASI PENCARIAN: Harus mengandung kata kunci di judul
         async function cariFilm() {
             const q = document.getElementById('inputCari').value; if(!q) return;
             const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API}&query=${encodeURIComponent(q)}&language=id-ID`);
@@ -274,7 +275,6 @@
             const hasil = (d.results || []).filter(m => {
                 const jdl = (m.title || m.name || '').toLowerCase();
                 const oriID = (m.original_language === 'id') || (m.origin_country && m.origin_country.includes('ID'));
-                // Pengecekan kata kunci di dalam judul + Harus Indonesia
                 return jdl.includes(q.toLowerCase()) && oriID && m.media_type !== 'person';
             });
             hal = 1; tampilkan(hasil);
