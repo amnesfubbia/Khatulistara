@@ -38,7 +38,6 @@
         .badge-short { background: #f59e0b; color: #000; }
 
         .menu-scroll { display: flex; gap: 3px; overflow-x: auto; padding: 5px 0; scrollbar-width: none; }
-        .menu-scroll::-webkit-scrollbar { display: none; }
         
         select { 
             background: #1a1a1a; color: white; border: 1px solid #333; 
@@ -51,7 +50,7 @@
         
         .cast-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
         .cast-card { flex: 0 0 70px; text-align: center; cursor: pointer; }
-        .cast-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; transition: 0.3s; }
+        .cast-img { width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
         .cast-name { font-size: 8px; font-weight: bold; line-height: 1.1; color: #ccc; }
 
         .btn-red { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px; margin-bottom: 8px; background: #e11d48; color: white; border-radius: 8px; font-size: 10px; font-weight: 800; border: none; text-decoration: none; }
@@ -86,7 +85,7 @@
                 </select>
                 <select id="pilihTahun" onchange="resetLoad()">
                     <option value="">TAHUN</option>
-                    <script>for(let t=new Date().getFullYear();t>=1920;t--) document.write(`<option value="${t}">${t}</option>`);</script>
+                    <script>for(let t=2026;t>=1920;t--) document.write(`<option value="${t}">${t}</option>`);</script>
                 </select>
                 <select id="pilihSort" onchange="resetLoad()" class="flex-grow">
                     <option value="popularity.desc">TERPOPULER</option>
@@ -136,7 +135,7 @@
 
             let url = "";
             if(tipe === "multi") {
-                url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API}&language=id-ID&page=${hal}`;
+                url = `https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&language=id-ID&page=${hal}&sort_by=${sort}`;
             } else if(tipe === "short") {
                 url = `https://api.themoviedb.org/3/discover/movie?api_key=${API}&with_origin_country=ID&with_runtime.lte=45&language=id-ID&page=${hal}&sort_by=${sort}`;
             } else {
@@ -144,7 +143,7 @@
             }
 
             if(genre && tipe !== "multi") url += `&with_genres=${genre}`;
-            if(tahun && tipe !== "multi") url += (tipe === 'tv' ? `&first_air_date_year=${tahun}` : `&primary_release_year=${tahun}`);
+            if(tahun) url += (tipe === 'tv' ? `&first_air_date_year=${tahun}` : `&primary_release_year=${tahun}`);
 
             try {
                 const res = await fetch(url);
@@ -159,13 +158,11 @@
             if(hal === 1) grid.innerHTML = '';
             data.forEach(m => {
                 if(!m.poster_path) return;
-                // KUNCI HANYA INDONESIA
                 if(m.original_language !== 'id' && !m.origin_country?.includes('ID')) return;
                 
                 const kartu = document.createElement('div');
                 kartu.className = 'card';
-                const tipeItem = m.media_type || (m.title ? 'movie' : 'tv');
-                
+                const tipeItem = m.title ? 'movie' : 'tv';
                 let bCls = tipeItem === 'movie' ? 'badge-movie' : 'badge-tv';
                 let bTxt = tipeItem === 'movie' ? 'FILM' : 'SERIES';
                 if(filterTipe === 'short') { bCls = 'badge-short'; bTxt = 'SHORT'; }
@@ -191,7 +188,7 @@
             document.getElementById('layar').src = trailer ? `https://www.youtube.com/embed/${trailer.key}?autoplay=1` : `https://vidsrc.xyz/embed/${tipe}/${id}`;
             
             const castHtml = d.credits.cast.slice(0, 12).map(c => `
-                <div class="cast-card" onclick="cariFilmBerdasarkanPemeran(${c.id}, '${c.name}')">
+                <div class="cast-card" onclick="cariFilmPemeran(${c.id}, '${c.name}')">
                     <img class="cast-img" src="${c.profile_path ? 'https://image.tmdb.org/t/p/w200'+c.profile_path : 'https://via.placeholder.com/100x100?text=👤'}">
                     <p class="cast-name">${c.name}</p>
                 </div>
@@ -199,18 +196,17 @@
             document.getElementById('castList').innerHTML = castHtml;
 
             const bH = (n, l) => `<button onclick="document.getElementById('layar').src='${l}'" class="btn-red"><span>${n}</span> <i class="fa-solid fa-play"></i></button>`;
-            document.getElementById('btnStream').innerHTML = bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`);
+            document.getElementById('btnStream').innerHTML = bH('SERVER UTAMA', `https://vidsrc.xyz/embed/${tipe}/${id}`) + bH('SERVER CADANGAN', `https://vidsrc.to/embed/${tipe}/${id}`);
             document.getElementById('btnDown').innerHTML = `<a href="https://dl.vidsrc.vip/${tipe}/${id}" target="_blank" class="btn-red"><span>DOWNLOAD VIP</span> <i class="fa-solid fa-download"></i></a>`;
         }
 
-        async function cariFilmBerdasarkanPemeran(pId, pName) {
+        async function cariFilmPemeran(pId, pName) {
             tutupModal();
             document.getElementById('inputCari').value = pName;
             const res = await fetch(`https://api.themoviedb.org/3/person/${pId}/combined_credits?api_key=${API}&language=id-ID`);
             const data = await res.json();
             hal = 1;
-            // Filter hasil agar hanya film Indonesia dari aktor tersebut yang tampil
-            const hasilIndo = data.cast.filter(m => m.original_language === 'id');
+            const hasilIndo = data.cast.filter(m => m.original_language === 'id' || m.origin_country?.includes('ID'));
             tampilkan(hasilIndo, 'multi');
             window.scrollTo(0,0);
         }
@@ -223,7 +219,10 @@
             if(!q) return;
             const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API}&query=${q}&language=id-ID`);
             const data = await res.json();
-            hal = 1; tampilkan(data.results, 'multi');
+            hal = 1;
+            const hasilIndo = data.results.filter(m => m.original_language === 'id' || m.origin_country?.includes('ID'));
+            tampilkan(hasilIndo, 'multi');
+            window.scrollTo(0,0);
         }
     </script>
 </body>
