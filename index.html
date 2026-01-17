@@ -23,16 +23,14 @@
         .pill { background: transparent; border: 1px solid #1c1c1c; color: #fff; padding: 7px 0; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; cursor: pointer; }
         .pill.active { border-color: #fff; background: rgba(255,255,255,0.1); }
         
-        /* Grid Penyesuaian Ruang Kosong */
         .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-top: 255px; padding-bottom: 80px; }
         .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; }
         .post-card img { width: 100%; height: 100%; object-fit: cover; }
         .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(255,255,255,0.9); color: #000; }
         
-        .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 140px; max-height: 250px; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 140px; max-height: 250px; overflow-y: auto; }
         .filter-item { padding: 12px; font-size: 11px; text-align: center; border-bottom: 1px solid #1c1c1c; color: #bbb; cursor: pointer; }
         
-        /* Modal Player & Features */
         .modal-player { display: none; position: fixed; inset: 0; z-index: 400; background: #000; overflow-y: auto; }
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; }
         .server-btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; }
@@ -49,12 +47,15 @@
                 <h1 class="ig-logo" onclick="location.reload()">amnesfubbia <span class="text-white opacity-40 font-normal italic">xx1</span></h1>
                 <i class="fa-solid fa-circle-check text-[#0095f6] ml-1 text-xs"></i>
             </div>
-            <i class="fa-regular fa-bookmark text-xl" onclick="showLibrary('bookmarks')"></i>
+            <div class="flex gap-4">
+                <i class="fa-regular fa-heart text-xl cursor-pointer" onclick="showLibrary('likes')"></i>
+                <i class="fa-regular fa-bookmark text-xl cursor-pointer" onclick="showLibrary('bookmarks')"></i>
+            </div>
         </header>
 
         <div class="search-container">
             <i class="fa-solid fa-magnifying-glass text-zinc-600 text-[10px]"></i>
-            <input type="text" id="searchInp" placeholder="Cari judul, series, anime..." onkeydown="if(event.key==='Enter') searchAction()">
+            <input type="text" id="searchInp" placeholder="Cari judul..." onkeydown="if(event.key==='Enter') searchAction()">
         </div>
 
         <div class="category-wrapper">
@@ -63,7 +64,7 @@
                 <button class="pill" onclick="setFilter('type', 'movie', this)">Film</button>
                 <button class="pill" onclick="setFilter('type', 'tv', this)">Series</button>
                 <button class="pill" onclick="setFilter('type', 'short', this)">Short</button>
-                <button class="pill" onclick="setFilter('anime', '16', this)">Anime</button>
+                <button class="pill" onclick="setFilter('type', 'anime', this)">Anime</button>
             </div>
             <div class="pill-grid grid-cols-4">
                 <button class="pill active" onclick="setSchedule('trending', this)">Trending</button>
@@ -97,7 +98,7 @@
     <nav class="bottom-nav">
         <i class="fa-solid fa-house cursor-pointer" onclick="location.reload()"></i>
         <i class="fa-solid fa-magnifying-glass cursor-pointer" onclick="document.getElementById('searchInp').focus()"></i>
-        <i class="fa-regular fa-heart cursor-pointer" onclick="showLibrary('likes')"></i>
+        <i class="fa-regular fa-user cursor-pointer"></i>
     </nav>
 
     <div id="movieModal" class="modal-player">
@@ -106,11 +107,9 @@
                 <i class="fa-solid fa-chevron-left text-xl cursor-pointer" onclick="closeModal()"></i>
                 <div class="flex-grow text-center text-sm font-bold truncate px-8" id="mTitle"></div>
             </div>
-
             <div class="aspect-video bg-zinc-900 w-full relative">
                 <iframe id="videoPlayer" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
-
             <div class="px-4 py-3 flex justify-between items-center">
                 <div class="flex gap-4">
                     <i id="btnLikeModal" class="interaction-icon"></i>
@@ -118,21 +117,14 @@
                 </div>
                 <i id="btnBookModal" class="interaction-icon"></i>
             </div>
-
             <div class="px-4">
                 <p id="mDesc" class="text-[13.5px] leading-relaxed text-zinc-200 mb-2"></p>
-                <p id="mMeta" class="text-[11px] text-zinc-500"></p>
-
                 <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
-                    <div class="flex justify-between items-center mb-4">
-                        <h4 class="text-[9px] font-black text-zinc-400 uppercase">Pilih Episode</h4>
-                        <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded" onchange="loadEpisodes()"></select>
-                    </div>
+                    <select id="seasonSel" class="w-full bg-zinc-900 text-white p-2 rounded mb-4" onchange="loadEpisodes()"></select>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
-
                 <div id="serverList" class="grid grid-cols-2 gap-2 mt-6"></div>
-                <button id="btnDownloadMain" class="dl-link-btn">Download Sinema</button>
+                <button id="btnDownloadMain" class="dl-link-btn">Download</button>
             </div>
         </div>
     </div>
@@ -152,12 +144,16 @@
         async function loadFeed(isNew = true) {
             if(loading) return; loading = true;
             if(isNew) { page = 1; document.getElementById('feedGrid').innerHTML = ''; }
+            
             const params = `api_key=${API_KEY}&language=id-ID&page=${page}`;
             let url = searchQuery ? `https://api.themoviedb.org/3/search/multi?query=${searchQuery}&${params}` : 
                       (currentSchedule !== 'trending' ? `https://api.themoviedb.org/3/movie/${currentSchedule}?${params}` : 
                       `https://api.themoviedb.org/3/discover/${(currentType==='tv'||currentType==='anime')?'tv':'movie'}?${params}`);
             
+            // Logika Filter Akurat
             if(!searchQuery && currentSchedule === 'trending') {
+                if(currentType === 'short') url += `&with_runtime.lte=40&without_genres=16`; 
+                if(currentType === 'anime') url += `&with_keywords=210024&with_original_language=ja`;
                 if(currentGenre) url += `&with_genres=${currentGenre}`;
                 if(currentYear) url += `&primary_release_year=${currentYear}`;
                 if(currentCountry) url += `&with_origin_country=${currentCountry}`;
@@ -165,15 +161,20 @@
 
             const res = await fetch(url);
             const data = await res.json();
-            data.results.forEach(m => {
+            renderGrid(data.results);
+            loading = false;
+        }
+
+        function renderGrid(items) {
+            const grid = document.getElementById('feedGrid');
+            items.forEach(m => {
                 if(!m.poster_path) return;
                 const card = document.createElement('div');
                 card.className = 'post-card';
-                card.onclick = () => openModal(m.id, m.media_type || (currentType==='tv'?'tv':'movie'));
+                card.onclick = () => openModal(m.id, m.media_type || (currentType==='tv'||currentType==='anime'?'tv':'movie'));
                 card.innerHTML = `<div class="badge-rating">★ ${m.vote_average.toFixed(1)}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}">`;
-                document.getElementById('feedGrid').appendChild(card);
+                grid.appendChild(card);
             });
-            loading = false;
         }
 
         async function openModal(id, type) {
@@ -186,34 +187,20 @@
                 fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`)
             ]);
             const dId = await rId.json(), dEn = await rEn.json();
-
             document.getElementById('mTitle').innerText = dId.title || dId.name;
-            document.getElementById('mDesc').innerText = dId.overview || dEn.overview || "Sinopsis segera hadir.";
+            document.getElementById('mDesc').innerText = dId.overview || dEn.overview || "Sinopsis tidak tersedia.";
             
-            // Fix Autoplay Trailer & Check
             const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])];
-            const tr = vids.find(v => v.type === 'Trailer' || v.type === 'Teaser');
+            const tr = vids.find(v => v.type === 'Trailer');
             
-            if(tr) {
-                document.getElementById('videoPlayer').src = `https://www.youtube.com/embed/${tr.key}?autoplay=1&mute=0&rel=0`;
-            } else {
-                document.getElementById('videoPlayer').src = type === 'movie' ? 
-                    `https://vidrock.net/embed/movie/${id}` : `https://vidrock.net/embed/tv/${id}/1/1`;
-            }
+            document.getElementById('videoPlayer').src = tr ? `https://www.youtube.com/embed/${tr.key}?autoplay=1&rel=0` : (type==='movie'?`https://vidrock.net/embed/movie/${id}`:`https://vidrock.net/embed/tv/${id}/1/1`);
 
-            // Kembalikan Tombol Server & Download
             if(type === 'movie') {
-                document.getElementById('serverList').classList.remove('hidden');
                 document.getElementById('seriesControl').classList.add('hidden');
-                document.getElementById('serverList').innerHTML = `
-                    <button class="server-btn bg-white text-black" onclick="document.getElementById('videoPlayer').src='https://vidrock.net/embed/movie/${id}'">Server Utama</button>
-                    <button class="server-btn" onclick="document.getElementById('videoPlayer').src='https://vidstorm.ru/embed/movie/${id}'">Server 2</button>`;
-                document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/movie/${id}`, '_blank');
+                document.getElementById('serverList').innerHTML = `<button class="server-btn bg-white text-black" onclick="document.getElementById('videoPlayer').src='https://vidrock.net/embed/movie/${id}'">Server Utama</button>`;
             } else {
-                document.getElementById('serverList').classList.add('hidden');
                 document.getElementById('seriesControl').classList.remove('hidden');
                 document.getElementById('seasonSel').innerHTML = dId.seasons.filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join('');
-                document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/tv/${id}`, '_blank');
                 loadEpisodes();
             }
             updateLibButtons(id);
@@ -224,18 +211,17 @@
             const res = await fetch(`https://api.themoviedb.org/3/tv/${window.currentMediaId}/season/${s}?api_key=${API_KEY}`);
             const d = await res.json();
             document.getElementById('episodeGrid').innerHTML = d.episodes.map(e => `<div class="pill text-[10px]" onclick="playEp(${s},${e.episode_number})">${e.episode_number}</div>`).join('');
-            playEp(s, 1);
         }
 
         function playEp(s, e) { document.getElementById('videoPlayer').src = `https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${e}`; }
         function closeModal() { document.getElementById('movieModal').style.display = 'none'; document.getElementById('videoPlayer').src = ''; document.body.style.overflow = 'auto'; }
-        function toggleFilter(id) { document.querySelectorAll('.filter-dropdown').forEach(d=>d.style.display='none'); document.getElementById(id).style.display='block'; }
-        function setFilter(t, v, el) { updatePill(el); currentType=v; if(t==='anime')currentGenre='16'; loadFeed(true); }
+        function setFilter(t, v, el) { updatePill(el); currentType=v; loadFeed(true); }
         function setSchedule(v, el) { updatePill(el); currentSchedule=v; loadFeed(true); }
         function updatePill(el) { el.parentElement.querySelectorAll('.pill').forEach(p=>p.classList.remove('active')); el.classList.add('active'); }
+        function toggleFilter(id) { document.querySelectorAll('.filter-dropdown').forEach(d=>d.style.display='none'); document.getElementById(id).style.display='block'; }
         function setYear(y) { currentYear=y; document.getElementById('yearBtn').innerText=y; closeD(); loadFeed(true); }
-        function setGenre(g) { currentGenre=g; closeD(); loadFeed(true); }
         function setCountry(c) { currentCountry=c; closeD(); loadFeed(true); }
+        function setGenre(g) { currentGenre=g; closeD(); loadFeed(true); }
         function closeD() { document.querySelectorAll('.filter-dropdown').forEach(d=>d.style.display='none'); }
         function searchAction() { searchQuery = document.getElementById('searchInp').value; loadFeed(true); }
 
@@ -253,6 +239,17 @@
             document.getElementById('btnLikeModal').onclick = () => toggleLib('likes');
             document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon';
             document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks');
+        }
+
+        async function showLibrary(k) {
+            const items = JSON.parse(localStorage.getItem(k) || '[]');
+            const grid = document.getElementById('feedGrid');
+            grid.innerHTML = items.length ? '' : '<div class="col-span-3 text-center py-20 opacity-50">Daftar Kosong</div>';
+            for (const item of items) {
+                const res = await fetch(`https://api.themoviedb.org/3/${item.type}/${item.id}?api_key=${API_KEY}&language=id-ID`);
+                const m = await res.json();
+                renderGrid([m]);
+            }
         }
 
         window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800 && !loading) { page++; loadFeed(false); } };
