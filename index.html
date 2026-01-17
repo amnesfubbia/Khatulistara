@@ -11,13 +11,10 @@
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* Fixed Header Setup */
         .fixed-header-section { position: fixed; top: 0; width: 100%; z-index: 100; background: #000; border-bottom: 1px solid #1c1c1c; padding-bottom: 10px; }
         .ig-header { padding: 12px 15px 5px 15px; }
         .ig-logo { font-family: 'DM Sans', sans-serif; font-weight: 700; font-style: italic; font-size: 24px; letter-spacing: -0.8px; text-transform: lowercase; cursor: pointer; }
-        .verified-icon { font-size: 13px; color: #0095f6; margin-left: 5px; }
         
-        /* Search & Filters */
         .search-container { background: #0a0a0a; border-radius: 8px; display: flex; align-items: center; padding: 7px 12px; border: 1px solid #1c1c1c; margin: 0 15px 10px 15px; }
         .search-container input { background: transparent !important; border: none !important; color: white !important; font-size: 13px; width: 100%; outline: none !important; margin-left: 8px; }
         
@@ -26,22 +23,21 @@
         .pill { background: transparent; border: 1px solid #1c1c1c; color: #fff; padding: 7px 0; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; cursor: pointer; }
         .pill.active { border-color: #fff; background: rgba(255,255,255,0.1); }
         
-        /* Movie Grid - Penyesuaian Ruang Kosong */
+        /* Grid Penyesuaian Ruang Kosong */
         .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-top: 255px; padding-bottom: 80px; }
         .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; }
         .post-card img { width: 100%; height: 100%; object-fit: cover; }
         .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(255,255,255,0.9); color: #000; }
         
-        /* Dropdowns */
         .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 140px; max-height: 250px; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
         .filter-item { padding: 12px; font-size: 11px; text-align: center; border-bottom: 1px solid #1c1c1c; color: #bbb; cursor: pointer; }
         
-        /* Modal Player */
+        /* Modal Player & Features */
         .modal-player { display: none; position: fixed; inset: 0; z-index: 400; background: #000; overflow-y: auto; }
-        .interaction-icon { font-size: 22px; cursor: pointer; }
+        .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; }
         .server-btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; }
+        .dl-link-btn { display: block; width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; background: #000; color: #a1a1aa; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #1c1c1c; }
 
-        /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 300; }
     </style>
 </head>
@@ -51,7 +47,7 @@
         <header class="ig-header flex justify-between items-center">
             <div class="flex items-center">
                 <h1 class="ig-logo" onclick="location.reload()">amnesfubbia <span class="text-white opacity-40 font-normal italic">xx1</span></h1>
-                <i class="fa-solid fa-circle-check verified-icon"></i>
+                <i class="fa-solid fa-circle-check text-[#0095f6] ml-1 text-xs"></i>
             </div>
             <i class="fa-regular fa-bookmark text-xl" onclick="showLibrary('bookmarks')"></i>
         </header>
@@ -105,25 +101,38 @@
     </nav>
 
     <div id="movieModal" class="modal-player">
-        <div class="max-w-xl mx-auto pb-20">
+        <div class="max-w-xl mx-auto pb-40">
             <div class="px-4 h-[54px] flex items-center border-b border-zinc-900 sticky top-0 bg-black z-50">
                 <i class="fa-solid fa-chevron-left text-xl cursor-pointer" onclick="closeModal()"></i>
                 <div class="flex-grow text-center text-sm font-bold truncate px-8" id="mTitle"></div>
             </div>
+
             <div class="aspect-video bg-zinc-900 w-full relative">
-                <iframe id="videoPlayer" class="w-full h-full" allowfullscreen></iframe>
+                <iframe id="videoPlayer" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
-            <div class="px-4 py-4">
-                <div class="flex gap-6 mb-4">
+
+            <div class="px-4 py-3 flex justify-between items-center">
+                <div class="flex gap-4">
                     <i id="btnLikeModal" class="interaction-icon"></i>
-                    <i id="btnBookModal" class="interaction-icon"></i>
+                    <i class="fa-regular fa-comment interaction-icon"></i>
                 </div>
-                <p id="mDesc" class="text-[13px] leading-relaxed text-zinc-300"></p>
-                <div id="serverList" class="grid grid-cols-2 gap-2 mt-6"></div>
-                <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-xl border border-zinc-900">
-                    <select id="seasonSel" class="w-full bg-zinc-900 text-white p-2 rounded mb-4" onchange="loadEpisodes()"></select>
+                <i id="btnBookModal" class="interaction-icon"></i>
+            </div>
+
+            <div class="px-4">
+                <p id="mDesc" class="text-[13.5px] leading-relaxed text-zinc-200 mb-2"></p>
+                <p id="mMeta" class="text-[11px] text-zinc-500"></p>
+
+                <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-[9px] font-black text-zinc-400 uppercase">Pilih Episode</h4>
+                        <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded" onchange="loadEpisodes()"></select>
+                    </div>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
+
+                <div id="serverList" class="grid grid-cols-2 gap-2 mt-6"></div>
+                <button id="btnDownloadMain" class="dl-link-btn">Download Sinema</button>
             </div>
         </div>
     </div>
@@ -181,24 +190,30 @@
             document.getElementById('mTitle').innerText = dId.title || dId.name;
             document.getElementById('mDesc').innerText = dId.overview || dEn.overview || "Sinopsis segera hadir.";
             
-            // Fix 404: Cek trailer, jika tidak ada langsung ke player film
+            // Fix Autoplay Trailer & Check
             const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])];
-            const tr = vids.find(v => v.type === 'Trailer');
+            const tr = vids.find(v => v.type === 'Trailer' || v.type === 'Teaser');
             
             if(tr) {
-                document.getElementById('videoPlayer').src = `https://www.youtube.com/embed/${tr.key}?autoplay=1`;
+                document.getElementById('videoPlayer').src = `https://www.youtube.com/embed/${tr.key}?autoplay=1&mute=0&rel=0`;
             } else {
                 document.getElementById('videoPlayer').src = type === 'movie' ? 
                     `https://vidrock.net/embed/movie/${id}` : `https://vidrock.net/embed/tv/${id}/1/1`;
             }
 
+            // Kembalikan Tombol Server & Download
             if(type === 'movie') {
-                document.getElementById('serverList').innerHTML = `<button class="server-btn bg-white text-black" onclick="document.getElementById('videoPlayer').src='https://vidrock.net/embed/movie/${id}'">Nonton Sekarang</button>`;
+                document.getElementById('serverList').classList.remove('hidden');
                 document.getElementById('seriesControl').classList.add('hidden');
+                document.getElementById('serverList').innerHTML = `
+                    <button class="server-btn bg-white text-black" onclick="document.getElementById('videoPlayer').src='https://vidrock.net/embed/movie/${id}'">Server Utama</button>
+                    <button class="server-btn" onclick="document.getElementById('videoPlayer').src='https://vidstorm.ru/embed/movie/${id}'">Server 2</button>`;
+                document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/movie/${id}`, '_blank');
             } else {
-                document.getElementById('serverList').innerHTML = '';
+                document.getElementById('serverList').classList.add('hidden');
                 document.getElementById('seriesControl').classList.remove('hidden');
                 document.getElementById('seasonSel').innerHTML = dId.seasons.filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join('');
+                document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/tv/${id}`, '_blank');
                 loadEpisodes();
             }
             updateLibButtons(id);
@@ -209,6 +224,7 @@
             const res = await fetch(`https://api.themoviedb.org/3/tv/${window.currentMediaId}/season/${s}?api_key=${API_KEY}`);
             const d = await res.json();
             document.getElementById('episodeGrid').innerHTML = d.episodes.map(e => `<div class="pill text-[10px]" onclick="playEp(${s},${e.episode_number})">${e.episode_number}</div>`).join('');
+            playEp(s, 1);
         }
 
         function playEp(s, e) { document.getElementById('videoPlayer').src = `https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${e}`; }
@@ -222,6 +238,22 @@
         function setCountry(c) { currentCountry=c; closeD(); loadFeed(true); }
         function closeD() { document.querySelectorAll('.filter-dropdown').forEach(d=>d.style.display='none'); }
         function searchAction() { searchQuery = document.getElementById('searchInp').value; loadFeed(true); }
+
+        function toggleLib(k) {
+            let items = JSON.parse(localStorage.getItem(k) || '[]');
+            const idx = items.findIndex(x => x.id == window.currentMediaId);
+            idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType});
+            localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId);
+        }
+
+        function updateLibButtons(id) {
+            const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id);
+            const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id);
+            document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon';
+            document.getElementById('btnLikeModal').onclick = () => toggleLib('likes');
+            document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon';
+            document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks');
+        }
 
         window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 800 && !loading) { page++; loadFeed(false); } };
     </script>
