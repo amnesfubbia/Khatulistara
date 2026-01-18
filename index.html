@@ -10,33 +10,25 @@
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        
         .fixed-header-section { position: fixed; top: 0; width: 100%; z-index: 100; background: #000; border-bottom: 1px solid #1c1c1c; padding-bottom: 10px; }
         .ig-header { padding: 12px 15px 5px 15px; }
         .ig-logo { font-family: 'DM Sans', sans-serif; font-weight: 700; font-style: italic; font-size: 24px; letter-spacing: -0.8px; text-transform: lowercase; cursor: pointer; }
-        
         .search-container { background: #0a0a0a; border-radius: 8px; display: flex; align-items: center; padding: 7px 12px; border: 1px solid #1c1c1c; margin: 0 15px 10px 15px; }
         .search-container input { background: transparent !important; border: none !important; color: white !important; font-size: 13px; width: 100%; outline: none !important; margin-left: 8px; }
-        
         .category-wrapper { padding: 0 15px; }
         .pill-grid { display: grid; gap: 6px; margin-bottom: 8px; }
         .pill { background: transparent; border: 1px solid #1c1c1c; color: #fff; padding: 7px 0; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; cursor: pointer; }
         .pill.active { border-color: #fff; background: rgba(255,255,255,0.1); }
-        
         .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-top: 255px; padding-bottom: 80px; }
         .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; }
         .post-card img { width: 100%; height: 100%; object-fit: cover; }
         .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(255,255,255,0.9); color: #000; }
-        
-        .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 150px; max-height: 300px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,1); }
+        .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 150px; max-height: 300px; overflow-y: auto; }
         .filter-item { padding: 12px; font-size: 11px; text-align: center; border-bottom: 1px solid #1c1c1c; color: #bbb; cursor: pointer; }
-        
-        /* Modal Player - Mengikuti struktur awal Anda */
         .modal-player { display: none; position: fixed; inset: 0; z-index: 400; background: #000; overflow-y: auto; }
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; }
         .server-btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; }
         .dl-link-btn { display: block; width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; background: #000; color: #a1a1aa; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #1c1c1c; }
-
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 300; }
     </style>
 </head>
@@ -99,11 +91,9 @@
                 <i class="fa-solid fa-chevron-left text-xl cursor-pointer" onclick="closeModal()"></i>
                 <div class="flex-grow text-center text-sm font-bold truncate px-8" id="mTitle"></div>
             </div>
-
             <div class="aspect-video bg-zinc-900 w-full relative">
                 <iframe id="videoPlayer" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
-
             <div class="px-4 py-3 flex justify-between items-center">
                 <div class="flex gap-4">
                     <i id="btnLikeModal" class="interaction-icon"></i>
@@ -111,20 +101,17 @@
                 </div>
                 <i id="btnBookModal" class="interaction-icon"></i>
             </div>
-
             <div class="px-4">
-                <p id="mDesc" class="text-[13.5px] leading-relaxed text-zinc-200 mb-2"></p>
-                <button id="btnTranslate" class="text-[10px] text-blue-500 font-bold mb-4 hidden" onclick="translatePlot()">Lihat Terjemahan</button>
-                <p id="mMeta" class="text-[11px] text-zinc-500"></p>
-
+                <p id="mDesc" class="text-[13.5px] leading-relaxed text-zinc-200 mb-1"></p>
+                <p id="mTranslateBtn" class="text-[10px] text-zinc-500 font-bold mb-4 cursor-pointer hidden" onclick="translatePlot()">Lihat Terjemahan</p>
+                
                 <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4">
-                        <h4 class="text-[9px] font-black text-zinc-400 uppercase">Pilih Episode</h4>
+                        <h4 class="text-[9px] font-black text-zinc-400 uppercase">Episode</h4>
                         <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded" onchange="loadEpisodes()"></select>
                     </div>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
-
                 <div id="serverList" class="grid grid-cols-2 gap-2 mt-6"></div>
                 <button id="btnDownloadMain" class="dl-link-btn">Download Sinema</button>
             </div>
@@ -142,23 +129,27 @@
             for(let y=2026; y>=1900; y--) yD.innerHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`;
             const countries = [['US','USA'],['ID','Indo'],['JP','Jepang'],['KR','Korea'],['CN','China'],['TH','Thai'],['IN','India'],['GB','UK']];
             countries.forEach(c => document.getElementById('countryDropdown').innerHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`);
-            const genres = [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Komedi'],[27,'Horor'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller']];
+            const genres = [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Comedy'],[27,'Horror'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller']];
             genres.forEach(g => document.getElementById('genreDropdown').innerHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`);
         }
 
         async function loadFeed(isNew = true) {
             if(loading) return; loading = true;
             if(isNew) { page = 1; document.getElementById('feedGrid').innerHTML = ''; }
-            const params = `api_key=${API_KEY}&language=id-ID&page=${page}`;
-            let url = searchQuery ? `https://api.themoviedb.org/3/search/multi?query=${searchQuery}&${params}` : 
-                      (currentSchedule !== 'trending' ? `https://api.themoviedb.org/3/movie/${currentSchedule}?${params}` : 
-                      `https://api.themoviedb.org/3/discover/${(currentType==='tv'||currentType==='anime')?'tv':'movie'}?${params}`);
             
-            if(!searchQuery && currentSchedule === 'trending') {
-                if(currentType === 'short') url = `https://api.themoviedb.org/3/discover/movie?${params}&with_runtime.lte=45&with_runtime.gte=5`;
+            const params = `api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false`;
+            
+            // Logika Kombinasi Filter Akurat
+            let sort = currentSchedule === 'popular' ? 'popularity.desc' : (currentSchedule === 'upcoming' ? 'primary_release_date.desc' : 'trending');
+            
+            let url = searchQuery ? `https://api.themoviedb.org/3/search/multi?query=${searchQuery}&${params}` : 
+                      `https://api.themoviedb.org/3/discover/${(currentType==='tv'||currentType==='anime')?'tv':'movie'}?${params}&sort_by=${sort}`;
+            
+            if(!searchQuery) {
+                if(currentType === 'short') url += `&with_runtime.lte=45&with_runtime.gte=2`;
                 if(currentType === 'anime') url += `&with_genres=16&with_keywords=210024&with_original_language=ja`;
                 if(currentGenre) url += `&with_genres=${currentGenre}`;
-                if(currentYear) url += (currentType==='tv'||currentType==='anime'?`&first_air_date_year=${currentYear}`:`&primary_release_year=${currentYear}`);
+                if(currentYear) url += `&primary_release_year=${currentYear}&first_air_date_year=${currentYear}`;
                 if(currentCountry) url += `&with_origin_country=${currentCountry}`;
             }
 
@@ -192,25 +183,23 @@
 
             document.getElementById('mTitle').innerText = dId.title || dId.name;
             
+            // Logika Terjemahan: Prioritas ID, jika kosong tampilkan EN
             if(dId.overview) {
                 document.getElementById('mDesc').innerText = dId.overview;
-                document.getElementById('btnTranslate').classList.add('hidden');
+                document.getElementById('mTranslateBtn').classList.add('hidden');
             } else {
-                document.getElementById('mDesc').innerText = dEn.overview || "Sinopsis segera hadir.";
+                document.getElementById('mDesc').innerText = dEn.overview || "Sinopsis tidak tersedia.";
                 englishPlot = dEn.overview;
-                document.getElementById('btnTranslate').classList.toggle('hidden', !englishPlot);
+                document.getElementById('mTranslateBtn').classList.toggle('hidden', !englishPlot);
             }
 
             const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])];
             const tr = vids.find(v => v.type === 'Trailer' || v.type === 'Teaser');
-            document.getElementById('videoPlayer').src = tr ? `https://www.youtube.com/embed/${tr.key}?autoplay=1&rel=0` : 
-                (type === 'movie' ? `https://vidrock.net/embed/movie/${id}` : `https://vidrock.net/embed/tv/${id}/1/1`);
+            document.getElementById('videoPlayer').src = tr ? `https://www.youtube.com/embed/${tr.key}?autoplay=1&rel=0` : (type==='movie'?`https://vidrock.net/embed/movie/${id}`:`https://vidrock.net/embed/tv/${id}/1/1`);
 
             if(type === 'movie') {
                 document.getElementById('seriesControl').classList.add('hidden');
-                document.getElementById('serverList').innerHTML = `
-                    <button class="server-btn bg-white text-black" onclick="setVid('https://vidrock.net/embed/movie/${id}')">Server Utama</button>
-                    <button class="server-btn" onclick="setVid('https://vidsrc.me/embed/movie?tmdb=${id}')">Server 2</button>`;
+                document.getElementById('serverList').innerHTML = `<button class="server-btn bg-white text-black" onclick="setVid('https://vidrock.net/embed/movie/${id}')">Server Utama</button>`;
                 document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/movie/${id}`);
             } else {
                 document.getElementById('seriesControl').classList.remove('hidden');
