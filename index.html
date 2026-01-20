@@ -23,8 +23,9 @@
         .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; }
         .post-card img { width: 100%; height: 100%; object-fit: cover; }
         .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(255,255,255,0.9); color: #000; }
-        .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 150px; max-height: 300px; overflow-y: auto; }
+        .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 150px; max-height: 300px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,1); }
         .filter-item { padding: 12px; font-size: 11px; text-align: center; border-bottom: 1px solid #1c1c1c; color: #bbb; cursor: pointer; }
+        .filter-item.reset { color: #ff4d4d; font-weight: 800; }
         .modal-player { display: none; position: fixed; inset: 0; z-index: 400; background: #000; overflow-y: auto; }
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; }
         .server-btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; }
@@ -36,8 +37,8 @@
 
     <div class="fixed-header-section">
         <header class="ig-header flex justify-between items-center">
-            <div class="flex items-center">
-                <h1 class="ig-logo" onclick="location.reload()">amnesfubbia <span class="text-white opacity-40 font-normal italic">xx1</span></h1>
+            <div class="flex items-center" onclick="location.reload()">
+                <h1 class="ig-logo">amnesfubbia <span class="text-white opacity-40 font-normal italic">xx1</span></h1>
                 <i class="fa-solid fa-circle-check text-[#0095f6] ml-1 text-xs"></i>
             </div>
             <div class="flex gap-4">
@@ -53,7 +54,7 @@
 
         <div class="category-wrapper">
             <div class="pill-grid grid-cols-5">
-                <button class="pill active" onclick="setFilter('type', 'multi', this)">Semua</button>
+                <button class="pill active" onclick="location.reload()">Semua</button>
                 <button class="pill" onclick="setFilter('type', 'movie', this)">Film</button>
                 <button class="pill" onclick="setFilter('type', 'tv', this)">Series</button>
                 <button class="pill" onclick="setFilter('type', 'short', this)">Short</button>
@@ -79,12 +80,6 @@
 
     <main id="feedGrid" class="movie-grid"></main>
 
-    <nav class="bottom-nav">
-        <i class="fa-solid fa-house cursor-pointer" onclick="location.reload()"></i>
-        <i class="fa-solid fa-magnifying-glass cursor-pointer" onclick="document.getElementById('searchInp').focus()"></i>
-        <i class="fa-regular fa-user cursor-pointer"></i>
-    </nav>
-
     <div id="movieModal" class="modal-player">
         <div class="max-w-xl mx-auto pb-40">
             <div class="px-4 h-[54px] flex items-center border-b border-zinc-900 sticky top-0 bg-black z-50">
@@ -95,21 +90,14 @@
                 <iframe id="videoPlayer" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
             <div class="px-4 py-3 flex justify-between items-center">
-                <div class="flex gap-4">
-                    <i id="btnLikeModal" class="interaction-icon"></i>
-                    <i class="fa-regular fa-comment interaction-icon"></i>
-                </div>
+                <div class="flex gap-4"><i id="btnLikeModal" class="interaction-icon"></i><i class="fa-regular fa-comment interaction-icon"></i></div>
                 <i id="btnBookModal" class="interaction-icon"></i>
             </div>
             <div class="px-4">
                 <p id="mDesc" class="text-[13.5px] leading-relaxed text-zinc-200 mb-1"></p>
-                <p id="mTranslateBtn" class="text-[10px] text-zinc-500 font-bold mb-4 cursor-pointer hidden" onclick="translatePlot()">Lihat Terjemahan</p>
-                
+                <p id="mTranslateBtn" class="text-[10px] text-zinc-500 font-bold mb-4 cursor-pointer hidden">Lihat Terjemahan...</p>
                 <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
-                    <div class="flex justify-between items-center mb-4">
-                        <h4 class="text-[9px] font-black text-zinc-400 uppercase">Episode</h4>
-                        <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded" onchange="loadEpisodes()"></select>
-                    </div>
+                    <div class="flex justify-between items-center mb-4"><h4 class="text-[9px] font-black text-zinc-400 uppercase">Episode</h4><select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded" onchange="loadEpisodes()"></select></div>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
                 <div id="serverList" class="grid grid-cols-2 gap-2 mt-6"></div>
@@ -118,44 +106,68 @@
         </div>
     </div>
 
+    <nav class="bottom-nav">
+        <i class="fa-solid fa-house cursor-pointer" onclick="location.reload()"></i>
+        <i class="fa-solid fa-magnifying-glass cursor-pointer" onclick="document.getElementById('searchInp').focus()"></i>
+        <i class="fa-regular fa-user cursor-pointer"></i>
+    </nav>
+
     <script>
         const API_KEY = 'bfa7df5310c9974f62f26c6789a8c00d';
-        let page = 1, loading = false, currentType = 'multi', currentGenre = '', currentYear = '', currentCountry = '', currentSchedule = 'trending', searchQuery = '', englishPlot = '';
+        let page = 1, loading = false, currentType = 'multi', currentGenre = '', currentYear = '', currentCountry = '', currentSchedule = 'trending', searchQuery = '';
 
         window.onload = () => { initFilters(); loadFeed(); };
 
         function initFilters() {
             const yD = document.getElementById('yearDropdown');
-            for(let y=2026; y>=1900; y--) yD.innerHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`;
-            const countries = [['US','USA'],['ID','Indo'],['JP','Jepang'],['KR','Korea'],['CN','China'],['TH','Thai'],['IN','India'],['GB','UK']];
-            countries.forEach(c => document.getElementById('countryDropdown').innerHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`);
-            const genres = [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Comedy'],[27,'Horror'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller']];
-            genres.forEach(g => document.getElementById('genreDropdown').innerHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`);
+            yD.innerHTML = '<div class="filter-item reset" onclick="setYear(\'\')">RESET TAHUN</div>';
+            for(let y=2026; y>=1950; y--) yD.innerHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`;
+            const cD = document.getElementById('countryDropdown');
+            cD.innerHTML = '<div class="filter-item reset" onclick="setCountry(\'\',\'Negara\')">RESET NEGARA</div>';
+            [['IN','India'],['TH','Thailand'],['KR','Korea'],['JP','Jepang'],['ID','Indonesia'],['US','USA']].forEach(c => cD.innerHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`);
+            const gD = document.getElementById('genreDropdown');
+            gD.innerHTML = '<div class="filter-item reset" onclick="setGenre(\'\',\'Genre\')">RESET GENRE</div>';
+            [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Comedy'],[27,'Horror'],[10749,'Romance'],[878,'Sci-Fi']].forEach(g => gD.innerHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`);
         }
 
         async function loadFeed(isNew = true) {
             if(loading) return; loading = true;
             if(isNew) { page = 1; document.getElementById('feedGrid').innerHTML = ''; }
             
-            const params = `api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false`;
-            
-            // Logika Kombinasi Filter Akurat
-            let sort = currentSchedule === 'popular' ? 'popularity.desc' : (currentSchedule === 'upcoming' ? 'primary_release_date.desc' : 'trending');
-            
-            let url = searchQuery ? `https://api.themoviedb.org/3/search/multi?query=${searchQuery}&${params}` : 
-                      `https://api.themoviedb.org/3/discover/${(currentType==='tv'||currentType==='anime')?'tv':'movie'}?${params}&sort_by=${sort}`;
-            
-            if(!searchQuery) {
-                if(currentType === 'short') url += `&with_runtime.lte=45&with_runtime.gte=2`;
-                if(currentType === 'anime') url += `&with_genres=16&with_keywords=210024&with_original_language=ja`;
-                if(currentGenre) url += `&with_genres=${currentGenre}`;
-                if(currentYear) url += `&primary_release_year=${currentYear}&first_air_date_year=${currentYear}`;
-                if(currentCountry) url += `&with_origin_country=${currentCountry}`;
+            let endpoint = (currentType === 'tv' || currentType === 'anime') ? 'tv' : 'movie';
+            let params = `api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false`;
+            let url = `https://api.themoviedb.org/3/discover/${endpoint}?${params}`;
+
+            // LOGIKA SCHEDULE AKURAT (Fix)
+            if(currentSchedule === 'trending') {
+                url = `https://api.themoviedb.org/3/trending/${endpoint}/day?${params}`;
+            } else if(currentSchedule === 'popular') {
+                url = `https://api.themoviedb.org/3/${endpoint}/popular?${params}`;
+            } else if(currentSchedule === 'now_playing') {
+                url = `https://api.themoviedb.org/3/${endpoint}/${endpoint==='movie'?'now_playing':'on_the_air'}?${params}`;
+            } else if(currentSchedule === 'upcoming') {
+                url = `https://api.themoviedb.org/3/${endpoint}/${endpoint==='movie'?'upcoming':'on_the_air'}?${params}`;
             }
 
-            const res = await fetch(url);
-            const data = await res.json();
-            renderGrid(data.results);
+            // FILTER KHUSUS ANIME & SHORT (Fix)
+            if(currentType === 'anime') {
+                url = `https://api.themoviedb.org/3/discover/tv?${params}&with_genres=16&with_original_language=ja&sort_by=popularity.desc`;
+            } else if(currentType === 'short') {
+                url = `https://api.themoviedb.org/3/discover/movie?${params}&with_runtime.lte=45&with_runtime.gte=2&sort_by=popularity.desc`;
+            }
+
+            // FILTER NEGARA, GENRE, TAHUN
+            if(currentCountry) url += (currentCountry === 'IN' ? `&with_origin_country=IN&with_original_language=hi|ta|te` : `&with_origin_country=${currentCountry}`);
+            if(currentGenre) url += `&with_genres=${currentGenre}`;
+            if(currentYear) url += (endpoint === 'tv' ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`);
+            
+            if(searchQuery) url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&language=en-US&page=${page}`;
+
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                renderGrid(data.results || []);
+            } catch (e) { console.error(e); }
             loading = false;
         }
 
@@ -164,8 +176,8 @@
                 if(!m.poster_path) return;
                 const card = document.createElement('div');
                 card.className = 'post-card';
-                card.onclick = () => openModal(m.id, m.media_type || (currentType==='tv'||currentType==='anime'?'tv':'movie'));
-                card.innerHTML = `<div class="badge-rating">★ ${m.vote_average.toFixed(1)}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}">`;
+                card.onclick = () => openModal(m.id, m.media_type || (currentType.includes('tv')||currentType==='anime'?'tv':'movie'));
+                card.innerHTML = `<div class="badge-rating">★ ${m.vote_average ? m.vote_average.toFixed(1) : '0'}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}">`;
                 document.getElementById('feedGrid').appendChild(card);
             });
         }
@@ -174,44 +186,32 @@
             window.currentMediaId = id; window.currentMediaType = type;
             document.getElementById('movieModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            
             const [rId, rEn] = await Promise.all([
                 fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos`),
                 fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`)
             ]);
             const dId = await rId.json(), dEn = await rEn.json();
-
-            document.getElementById('mTitle').innerText = dId.title || dId.name;
-            
-            // Logika Terjemahan: Prioritas ID, jika kosong tampilkan EN
-            if(dId.overview) {
-                document.getElementById('mDesc').innerText = dId.overview;
-                document.getElementById('mTranslateBtn').classList.add('hidden');
-            } else {
-                document.getElementById('mDesc').innerText = dEn.overview || "Sinopsis tidak tersedia.";
-                englishPlot = dEn.overview;
-                document.getElementById('mTranslateBtn').classList.toggle('hidden', !englishPlot);
-            }
-
+            document.getElementById('mTitle').innerText = dId.title || dId.name || dEn.title || dEn.name;
+            document.getElementById('mDesc').innerText = dId.overview || dEn.overview || "Sinopsis tidak tersedia.";
+            const btnT = document.getElementById('mTranslateBtn');
+            btnT.classList.toggle('hidden', dId.overview || !dEn.overview);
+            btnT.onclick = () => window.open(`https://translate.google.com/?sl=en&tl=id&text=${encodeURIComponent(dEn.overview)}&op=translate`);
             const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])];
-            const tr = vids.find(v => v.type === 'Trailer' || v.type === 'Teaser');
-            document.getElementById('videoPlayer').src = tr ? `https://www.youtube.com/embed/${tr.key}?autoplay=1&rel=0` : (type==='movie'?`https://vidrock.net/embed/movie/${id}`:`https://vidrock.net/embed/tv/${id}/1/1`);
-
-            if(type === 'movie') {
-                document.getElementById('seriesControl').classList.add('hidden');
-                document.getElementById('serverList').innerHTML = `<button class="server-btn bg-white text-black" onclick="setVid('https://vidrock.net/embed/movie/${id}')">Server Utama</button>`;
-                document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/movie/${id}`);
-            } else {
+            const tr = vids.find(v => v.type === 'Trailer') || vids[0];
+            document.getElementById('videoPlayer').src = tr ? `https://www.youtube.com/embed/${tr.key}?autoplay=1&rel=0` : `https://vidrock.net/embed/${type}/${id}${type==='tv'?'/1/1':''}`;
+            document.getElementById('serverList').innerHTML = `
+                <button class="server-btn bg-white text-black" onclick="setVid('https://vidrock.net/embed/${type}/${id}${type==='tv'?'/1/1':''}')">Server Utama</button>
+                <button class="server-btn" onclick="setVid('https://vidsrc.me/embed/${type}?tmdb=${id}')">Server 2</button>
+                <button class="server-btn col-span-2" onclick="setVid('https://embed.smashystream.com/playere.php?tmdb=${id}')">Server 3</button>`;
+            if(type === 'tv') {
                 document.getElementById('seriesControl').classList.remove('hidden');
                 document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join('');
-                document.getElementById('serverList').innerHTML = `<button class="server-btn" onclick="setVid('https://vidrock.net/embed/tv/${id}/1/1')">Streaming Server</button>`;
-                document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/tv/${id}`);
                 loadEpisodes();
-            }
+            } else { document.getElementById('seriesControl').classList.add('hidden'); }
+            document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/${type}/${id}`);
             updateLibButtons(id);
         }
 
-        function translatePlot() { window.open(`https://translate.google.com/?sl=en&tl=id&text=${encodeURIComponent(englishPlot)}&op=translate`, '_blank'); }
         function setVid(url) { document.getElementById('videoPlayer').src = url; }
         async function loadEpisodes() {
             const s = document.getElementById('seasonSel').value;
@@ -221,11 +221,11 @@
         }
         function playEp(s, e) { document.getElementById('videoPlayer').src = `https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${e}`; }
         function closeModal() { document.getElementById('movieModal').style.display = 'none'; document.getElementById('videoPlayer').src = ''; document.body.style.overflow = 'auto'; }
-        function setFilter(t, v, el) { resetIcons(); updatePill(el); currentType=v; loadFeed(true); }
-        function setSchedule(v, el) { resetIcons(); updatePill(el); currentSchedule=v; loadFeed(true); }
+        function setFilter(t, v, el) { currentType = v; updatePill(el); loadFeed(true); }
+        function setSchedule(v, el) { currentSchedule = v; updatePill(el); loadFeed(true); }
         function updatePill(el) { el.parentElement.querySelectorAll('.pill').forEach(p=>p.classList.remove('active')); el.classList.add('active'); }
         function toggleFilter(id) { document.querySelectorAll('.filter-dropdown').forEach(x=>x.style.display='none'); document.getElementById(id).style.display='block'; }
-        function setYear(y) { currentYear=y; document.getElementById('yearBtn').innerText=y; closeD(); loadFeed(true); }
+        function setYear(y) { currentYear=y; document.getElementById('yearBtn').innerText=y || 'Tahun'; closeD(); loadFeed(true); }
         function setCountry(c, n) { currentCountry=c; document.getElementById('btnCountry').innerText=n; closeD(); loadFeed(true); }
         function setGenre(g, n) { currentGenre=g; document.getElementById('btnGenre').innerText=n; closeD(); loadFeed(true); }
         function closeD() { document.querySelectorAll('.filter-dropdown').forEach(d=>d.style.display='none'); }
@@ -237,7 +237,6 @@
             idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType});
             localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId);
         }
-
         function updateLibButtons(id) {
             const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id);
             const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id);
@@ -246,20 +245,14 @@
             document.getElementById('btnLikeModal').onclick = () => toggleLib('likes');
             document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks');
         }
-
         async function showLibrary(k, el) {
             const items = JSON.parse(localStorage.getItem(k) || '[]');
             const grid = document.getElementById('feedGrid');
-            resetIcons(); el.classList.replace('fa-regular', 'fa-solid');
             grid.innerHTML = items.length ? '' : '<div class="col-span-3 text-center py-20 opacity-40">Daftar Kosong</div>';
             for (const item of items) {
                 const res = await fetch(`https://api.themoviedb.org/3/${item.type}/${item.id}?api_key=${API_KEY}&language=id-ID`);
                 const m = await res.json(); renderGrid([m]);
             }
-        }
-        function resetIcons() {
-            document.getElementById('navLike').className = 'fa-regular fa-heart text-xl cursor-pointer';
-            document.getElementById('navBook').className = 'fa-regular fa-bookmark text-xl cursor-pointer';
         }
         window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000 && !loading) { page++; loadFeed(false); } };
     </script>
