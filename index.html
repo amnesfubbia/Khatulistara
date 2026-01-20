@@ -31,6 +31,12 @@
         .server-btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; }
         .dl-link-btn { display: block; width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; background: #000; color: #a1a1aa; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #1c1c1c; }
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 300; }
+        
+        .ig-post-content { padding: 0 15px; margin-top: 5px; }
+        .ig-username { font-weight: 700; font-size: 13px; margin-right: 5px; color: #fff; }
+        .ig-caption { font-size: 13px; line-height: 1.4; color: #fff; font-weight: 400; }
+        .ig-hashtags { color: #e0f1ff; display: block; margin-top: 12px; font-size: 13px; word-break: break-word; }
+        .ig-date { color: #a8a8a8; font-size: 11px; margin-top: 8px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -54,7 +60,7 @@
 
         <div class="category-wrapper">
             <div class="pill-grid grid-cols-5">
-                <button class="pill active" onclick="location.reload()">Semua</button>
+                <button class="pill active" onclick="setFilter('type', 'multi', this)">Semua</button>
                 <button class="pill" onclick="setFilter('type', 'movie', this)">Film</button>
                 <button class="pill" onclick="setFilter('type', 'tv', this)">Series</button>
                 <button class="pill" onclick="setFilter('type', 'short', this)">Short</button>
@@ -93,12 +99,20 @@
                 <div class="flex gap-4">
                     <i id="btnLikeModal" class="interaction-icon"></i>
                     <i class="fa-regular fa-comment interaction-icon"></i>
+                    <i class="fa-regular fa-paper-plane interaction-icon"></i>
                 </div>
                 <i id="btnBookModal" class="interaction-icon"></i>
             </div>
-            <div class="px-4">
-                <p id="mDesc" class="text-[13.5px] leading-relaxed text-zinc-200 mb-1"></p>
-                <p id="mTranslateBtn" class="text-[10px] text-zinc-500 font-bold mb-4 cursor-pointer hidden">Lihat Terjemahan...</p>
+            
+            <div class="ig-post-content">
+                <div class="mb-1">
+                    <span class="ig-username">amnesfubbia.xx1</span>
+                    <span id="mDesc" class="ig-caption"></span>
+                </div>
+                <p id="mTranslateBtn" class="text-[11px] text-zinc-500 font-bold mb-2 cursor-pointer hidden">Lihat Terjemahan...</p>
+                <div id="mHashtags" class="ig-hashtags"></div>
+                <div id="mDateDisplay" class="ig-date"></div>
+
                 <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4"><h4 class="text-[9px] font-black text-zinc-400 uppercase">Episode</h4><select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded" onchange="loadEpisodes()"></select></div>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
@@ -124,70 +138,43 @@
         function initFilters() {
             const yD = document.getElementById('yearDropdown');
             yD.innerHTML = '<div class="filter-item reset" onclick="setYear(\'\')">RESET TAHUN</div>';
-            for(let y=2026; y>=1950; y--) yD.innerHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`;
+            for(let y=2026; y>=1900; y--) yD.innerHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`;
+            
             const cD = document.getElementById('countryDropdown');
             cD.innerHTML = '<div class="filter-item reset" onclick="setCountry(\'\',\'Negara\')">RESET NEGARA</div>';
-            [['IN','India'],['TH','Thailand'],['KR','Korea'],['JP','Jepang'],['ID','Indonesia'],['US','USA'],['CN','China']].forEach(c => cD.innerHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`);
+            [['IN','India'],['TH','Thailand'],['KR','Korea'],['JP','Jepang'],['ID','Indonesia'],['US','USA'],['CN','China'],['FR','Prancis'],['ES','Spanyol']].forEach(c => cD.innerHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`);
+            
             const gD = document.getElementById('genreDropdown');
             gD.innerHTML = '<div class="filter-item reset" onclick="setGenre(\'\',\'Genre\')">RESET GENRE</div>';
-            [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Comedy'],[27,'Horror'],[10749,'Romance'],[878,'Sci-Fi']].forEach(g => gD.innerHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`);
+            [
+                [28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Comedy'],[80,'Crime'],[99,'Documentary'],
+                [18,'Drama'],[10751,'Family'],[14,'Fantasy'],[36,'History'],[27,'Horror'],[10402,'Music'],
+                [9648,'Mystery'],[10749,'Romance'],[878,'Sci-Fi'],[10770,'TV Movie'],[53,'Thriller'],[10752,'War'],[37,'Western']
+            ].forEach(g => gD.innerHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`);
         }
 
         async function loadFeed(isNew = true) {
             if(loading) return; loading = true;
             if(isNew) { page = 1; document.getElementById('feedGrid').innerHTML = ''; }
-            
             let params = `api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false`;
-            let endpoint = (currentType === 'tv' || currentType === 'anime') ? 'tv' : 'movie';
-            let queryUrl = `https://api.themoviedb.org/3/discover/${endpoint}?${params}`;
+            let endpoint = 'discover/movie';
+            if(currentType === 'tv' || currentType === 'anime') endpoint = 'discover/tv';
+            let queryUrl = `https://api.themoviedb.org/3/${endpoint}?${params}`;
 
-            // --- PERBAIKAN AKURASI MENU (Trending, Popular, Tayang, Segera) ---
-            if(currentSchedule === 'trending') {
-                queryUrl = `https://api.themoviedb.org/3/trending/${endpoint}/day?${params}`;
-            } else if(currentSchedule === 'popular') {
-                queryUrl = `https://api.themoviedb.org/3/${endpoint}/popular?${params}`;
-            } else if(currentSchedule === 'now_playing') {
-                let sub = (endpoint === 'movie') ? 'now_playing' : 'on_the_air';
-                queryUrl = `https://api.themoviedb.org/3/${endpoint}/${sub}?${params}`;
-            } else if(currentSchedule === 'upcoming') {
-                // TV tidak punya endpoint upcoming resmi yang akurat seperti movie, jadi kita pakai sortir rilis terbaru
-                let sub = (endpoint === 'movie') ? 'upcoming' : 'on_the_air';
-                queryUrl = `https://api.themoviedb.org/3/${endpoint}/${sub}?${params}`;
-            }
+            if(currentSchedule === 'popular') queryUrl += `&sort_by=popularity.desc`;
+            else if(currentSchedule === 'now_playing') queryUrl += `&sort_by=release_date.desc`;
+            else if(currentSchedule === 'upcoming') queryUrl += `&sort_by=primary_release_date.asc`;
+            else queryUrl += `&sort_by=trending.desc`;
 
-            // Filter Anime
-            if(currentType === 'anime') {
-                queryUrl = `https://api.themoviedb.org/3/discover/tv?${params}&with_genres=16&with_original_language=ja&sort_by=popularity.desc`;
-            }
+            if(currentType === 'anime') queryUrl = `https://api.themoviedb.org/3/discover/tv?${params}&with_genres=16&with_original_language=ja&sort_by=popularity.desc`;
+            if(currentType === 'short') queryUrl = `https://api.themoviedb.org/3/discover/movie?${params}&with_runtime.lte=45&with_runtime.gte=2&sort_by=popularity.desc`;
 
-            // Filter Short Movie
-            if(currentType === 'short') {
-                queryUrl = `https://api.themoviedb.org/3/discover/movie?${params}&with_runtime.lte=45&with_runtime.gte=2&sort_by=popularity.desc`;
+            if(currentCountry) {
+                if(currentCountry === 'IN') queryUrl += `&with_origin_country=IN&with_original_language=hi|ta|te|kn|ml`;
+                else queryUrl += `&with_origin_country=${currentCountry}`;
             }
-
-            // Filter Negara, Genre, Tahun (Ditambahkan ke URL discover jika bukan mode trending/popular khusus)
-            if (!queryUrl.includes('trending') && !queryUrl.includes('popular') && !queryUrl.includes('now_playing') && !queryUrl.includes('upcoming')) {
-                if(currentCountry) {
-                    if(currentCountry === 'IN') queryUrl += `&with_origin_country=IN&with_original_language=hi|ta|te|kn|ml`;
-                    else queryUrl += `&with_origin_country=${currentCountry}`;
-                }
-                if(currentGenre) queryUrl += `&with_genres=${currentGenre}`;
-                if(currentYear) queryUrl += (endpoint.includes('tv') ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`);
-            } else {
-                // Jika di mode trending/popular tapi user pilih negara/genre, kita paksa balik ke discover agar filter kerja
-                if(currentCountry || currentGenre || currentYear) {
-                    queryUrl = `https://api.themoviedb.org/3/discover/${endpoint}?${params}`;
-                    if(currentCountry === 'IN') queryUrl += `&with_origin_country=IN&with_original_language=hi|ta|te|kn|ml`;
-                    else if(currentCountry) queryUrl += `&with_origin_country=${currentCountry}`;
-                    if(currentGenre) queryUrl += `&with_genres=${currentGenre}`;
-                    if(currentYear) queryUrl += (endpoint.includes('tv') ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`);
-                    
-                    // Terapkan sortir sesuai menu yang aktif
-                    if(currentSchedule === 'popular') queryUrl += `&sort_by=popularity.desc`;
-                    else if(currentSchedule === 'now_playing') queryUrl += `&sort_by=primary_release_date.desc`;
-                }
-            }
-            
+            if(currentGenre) queryUrl += `&with_genres=${currentGenre}`;
+            if(currentYear) queryUrl += (endpoint.includes('tv') ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`);
             if(searchQuery) queryUrl = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&language=en-US&page=${page}`;
 
             try {
@@ -195,7 +182,6 @@
                 const data = await res.json();
                 renderGrid(data.results || []);
             } catch (e) { console.error(e); }
-            
             loading = false;
         }
 
@@ -221,8 +207,22 @@
             ]);
             const dId = await rId.json(), dEn = await rEn.json();
 
-            document.getElementById('mTitle').innerText = dId.title || dId.name || dEn.title || dEn.name;
+            const title = dId.title || dId.name || dEn.title || dEn.name;
+            document.getElementById('mTitle').innerText = title;
             document.getElementById('mDesc').innerText = dId.overview || dEn.overview || "Sinopsis tidak tersedia.";
+            
+            const releaseDate = dId.release_date || dId.first_air_date || "";
+            const year = releaseDate ? releaseDate.split('-')[0] : "";
+            const genres = (dId.genres || []).slice(0, 2).map(g => "#" + g.name.replace(/\s+/g, '')).join(" ");
+            
+            let categoryLabel = "#LayarLebar";
+            if(type === 'tv') categoryLabel = currentType === 'anime' ? "#Anime" : "#Series";
+            if(currentType === 'short') categoryLabel = "#ShortFilm";
+
+            document.getElementById('mHashtags').innerText = `#${title.replace(/\s+/g, '')} #${year} ${genres} ${categoryLabel}`;
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('mDateDisplay').innerText = releaseDate ? new Date(releaseDate).toLocaleDateString('id-ID', options) : '';
+
             const btnT = document.getElementById('mTranslateBtn');
             btnT.classList.toggle('hidden', dId.overview || !dEn.overview);
             btnT.onclick = () => window.open(`https://translate.google.com/?sl=en&tl=id&text=${encodeURIComponent(dEn.overview)}&op=translate`);
@@ -255,11 +255,7 @@
         }
         function playEp(s, e) { document.getElementById('videoPlayer').src = `https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${e}`; }
         function closeModal() { document.getElementById('movieModal').style.display = 'none'; document.getElementById('videoPlayer').src = ''; document.body.style.overflow = 'auto'; }
-        
-        function setFilter(t, v, el) { 
-            currentType = v; 
-            updatePill(el); loadFeed(true); 
-        }
+        function setFilter(t, v, el) { currentType = v; updatePill(el); loadFeed(true); }
         function setSchedule(v, el) { updatePill(el); currentSchedule=v; loadFeed(true); }
         function updatePill(el) { el.parentElement.querySelectorAll('.pill').forEach(p=>p.classList.remove('active')); el.classList.add('active'); }
         function toggleFilter(id) { document.querySelectorAll('.filter-dropdown').forEach(x=>x.style.display='none'); document.getElementById(id).style.display='block'; }
