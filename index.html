@@ -90,7 +90,10 @@
                 <iframe id="videoPlayer" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
             </div>
             <div class="px-4 py-3 flex justify-between items-center">
-                <div class="flex gap-4"><i id="btnLikeModal" class="interaction-icon"></i><i class="fa-regular fa-comment interaction-icon"></i></div>
+                <div class="flex gap-4">
+                    <i id="btnLikeModal" class="interaction-icon"></i>
+                    <i class="fa-regular fa-comment interaction-icon"></i>
+                </div>
                 <i id="btnBookModal" class="interaction-icon"></i>
             </div>
             <div class="px-4">
@@ -124,7 +127,7 @@
             for(let y=2026; y>=1950; y--) yD.innerHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`;
             const cD = document.getElementById('countryDropdown');
             cD.innerHTML = '<div class="filter-item reset" onclick="setCountry(\'\',\'Negara\')">RESET NEGARA</div>';
-            [['IN','India'],['TH','Thailand'],['KR','Korea'],['JP','Jepang'],['ID','Indonesia'],['US','USA']].forEach(c => cD.innerHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`);
+            [['IN','India'],['TH','Thailand'],['KR','Korea'],['JP','Jepang'],['ID','Indonesia'],['US','USA'],['CN','China']].forEach(c => cD.innerHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`);
             const gD = document.getElementById('genreDropdown');
             gD.innerHTML = '<div class="filter-item reset" onclick="setGenre(\'\',\'Genre\')">RESET GENRE</div>';
             [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Comedy'],[27,'Horror'],[10749,'Romance'],[878,'Sci-Fi']].forEach(g => gD.innerHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`);
@@ -134,40 +137,65 @@
             if(loading) return; loading = true;
             if(isNew) { page = 1; document.getElementById('feedGrid').innerHTML = ''; }
             
-            let endpoint = (currentType === 'tv' || currentType === 'anime') ? 'tv' : 'movie';
             let params = `api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false`;
-            let url = `https://api.themoviedb.org/3/discover/${endpoint}?${params}`;
+            let endpoint = (currentType === 'tv' || currentType === 'anime') ? 'tv' : 'movie';
+            let queryUrl = `https://api.themoviedb.org/3/discover/${endpoint}?${params}`;
 
-            // LOGIKA SCHEDULE AKURAT (Fix)
+            // --- PERBAIKAN AKURASI MENU (Trending, Popular, Tayang, Segera) ---
             if(currentSchedule === 'trending') {
-                url = `https://api.themoviedb.org/3/trending/${endpoint}/day?${params}`;
+                queryUrl = `https://api.themoviedb.org/3/trending/${endpoint}/day?${params}`;
             } else if(currentSchedule === 'popular') {
-                url = `https://api.themoviedb.org/3/${endpoint}/popular?${params}`;
+                queryUrl = `https://api.themoviedb.org/3/${endpoint}/popular?${params}`;
             } else if(currentSchedule === 'now_playing') {
-                url = `https://api.themoviedb.org/3/${endpoint}/${endpoint==='movie'?'now_playing':'on_the_air'}?${params}`;
+                let sub = (endpoint === 'movie') ? 'now_playing' : 'on_the_air';
+                queryUrl = `https://api.themoviedb.org/3/${endpoint}/${sub}?${params}`;
             } else if(currentSchedule === 'upcoming') {
-                url = `https://api.themoviedb.org/3/${endpoint}/${endpoint==='movie'?'upcoming':'on_the_air'}?${params}`;
+                // TV tidak punya endpoint upcoming resmi yang akurat seperti movie, jadi kita pakai sortir rilis terbaru
+                let sub = (endpoint === 'movie') ? 'upcoming' : 'on_the_air';
+                queryUrl = `https://api.themoviedb.org/3/${endpoint}/${sub}?${params}`;
             }
 
-            // FILTER KHUSUS ANIME & SHORT (Fix)
+            // Filter Anime
             if(currentType === 'anime') {
-                url = `https://api.themoviedb.org/3/discover/tv?${params}&with_genres=16&with_original_language=ja&sort_by=popularity.desc`;
-            } else if(currentType === 'short') {
-                url = `https://api.themoviedb.org/3/discover/movie?${params}&with_runtime.lte=45&with_runtime.gte=2&sort_by=popularity.desc`;
+                queryUrl = `https://api.themoviedb.org/3/discover/tv?${params}&with_genres=16&with_original_language=ja&sort_by=popularity.desc`;
             }
 
-            // FILTER NEGARA, GENRE, TAHUN
-            if(currentCountry) url += (currentCountry === 'IN' ? `&with_origin_country=IN&with_original_language=hi|ta|te` : `&with_origin_country=${currentCountry}`);
-            if(currentGenre) url += `&with_genres=${currentGenre}`;
-            if(currentYear) url += (endpoint === 'tv' ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`);
+            // Filter Short Movie
+            if(currentType === 'short') {
+                queryUrl = `https://api.themoviedb.org/3/discover/movie?${params}&with_runtime.lte=45&with_runtime.gte=2&sort_by=popularity.desc`;
+            }
+
+            // Filter Negara, Genre, Tahun (Ditambahkan ke URL discover jika bukan mode trending/popular khusus)
+            if (!queryUrl.includes('trending') && !queryUrl.includes('popular') && !queryUrl.includes('now_playing') && !queryUrl.includes('upcoming')) {
+                if(currentCountry) {
+                    if(currentCountry === 'IN') queryUrl += `&with_origin_country=IN&with_original_language=hi|ta|te|kn|ml`;
+                    else queryUrl += `&with_origin_country=${currentCountry}`;
+                }
+                if(currentGenre) queryUrl += `&with_genres=${currentGenre}`;
+                if(currentYear) queryUrl += (endpoint.includes('tv') ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`);
+            } else {
+                // Jika di mode trending/popular tapi user pilih negara/genre, kita paksa balik ke discover agar filter kerja
+                if(currentCountry || currentGenre || currentYear) {
+                    queryUrl = `https://api.themoviedb.org/3/discover/${endpoint}?${params}`;
+                    if(currentCountry === 'IN') queryUrl += `&with_origin_country=IN&with_original_language=hi|ta|te|kn|ml`;
+                    else if(currentCountry) queryUrl += `&with_origin_country=${currentCountry}`;
+                    if(currentGenre) queryUrl += `&with_genres=${currentGenre}`;
+                    if(currentYear) queryUrl += (endpoint.includes('tv') ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`);
+                    
+                    // Terapkan sortir sesuai menu yang aktif
+                    if(currentSchedule === 'popular') queryUrl += `&sort_by=popularity.desc`;
+                    else if(currentSchedule === 'now_playing') queryUrl += `&sort_by=primary_release_date.desc`;
+                }
+            }
             
-            if(searchQuery) url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&language=en-US&page=${page}`;
+            if(searchQuery) queryUrl = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&language=en-US&page=${page}`;
 
             try {
-                const res = await fetch(url);
+                const res = await fetch(queryUrl);
                 const data = await res.json();
                 renderGrid(data.results || []);
             } catch (e) { console.error(e); }
+            
             loading = false;
         }
 
@@ -186,28 +214,34 @@
             window.currentMediaId = id; window.currentMediaType = type;
             document.getElementById('movieModal').style.display = 'block';
             document.body.style.overflow = 'hidden';
+            
             const [rId, rEn] = await Promise.all([
                 fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos`),
                 fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`)
             ]);
             const dId = await rId.json(), dEn = await rEn.json();
+
             document.getElementById('mTitle').innerText = dId.title || dId.name || dEn.title || dEn.name;
             document.getElementById('mDesc').innerText = dId.overview || dEn.overview || "Sinopsis tidak tersedia.";
             const btnT = document.getElementById('mTranslateBtn');
             btnT.classList.toggle('hidden', dId.overview || !dEn.overview);
             btnT.onclick = () => window.open(`https://translate.google.com/?sl=en&tl=id&text=${encodeURIComponent(dEn.overview)}&op=translate`);
+
             const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])];
             const tr = vids.find(v => v.type === 'Trailer') || vids[0];
             document.getElementById('videoPlayer').src = tr ? `https://www.youtube.com/embed/${tr.key}?autoplay=1&rel=0` : `https://vidrock.net/embed/${type}/${id}${type==='tv'?'/1/1':''}`;
+
             document.getElementById('serverList').innerHTML = `
                 <button class="server-btn bg-white text-black" onclick="setVid('https://vidrock.net/embed/${type}/${id}${type==='tv'?'/1/1':''}')">Server Utama</button>
                 <button class="server-btn" onclick="setVid('https://vidsrc.me/embed/${type}?tmdb=${id}')">Server 2</button>
                 <button class="server-btn col-span-2" onclick="setVid('https://embed.smashystream.com/playere.php?tmdb=${id}')">Server 3</button>`;
+            
             if(type === 'tv') {
                 document.getElementById('seriesControl').classList.remove('hidden');
                 document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join('');
                 loadEpisodes();
             } else { document.getElementById('seriesControl').classList.add('hidden'); }
+            
             document.getElementById('btnDownloadMain').onclick = () => window.open(`https://dl.vidsrc.vip/${type}/${id}`);
             updateLibButtons(id);
         }
@@ -221,8 +255,12 @@
         }
         function playEp(s, e) { document.getElementById('videoPlayer').src = `https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${e}`; }
         function closeModal() { document.getElementById('movieModal').style.display = 'none'; document.getElementById('videoPlayer').src = ''; document.body.style.overflow = 'auto'; }
-        function setFilter(t, v, el) { currentType = v; updatePill(el); loadFeed(true); }
-        function setSchedule(v, el) { currentSchedule = v; updatePill(el); loadFeed(true); }
+        
+        function setFilter(t, v, el) { 
+            currentType = v; 
+            updatePill(el); loadFeed(true); 
+        }
+        function setSchedule(v, el) { updatePill(el); currentSchedule=v; loadFeed(true); }
         function updatePill(el) { el.parentElement.querySelectorAll('.pill').forEach(p=>p.classList.remove('active')); el.classList.add('active'); }
         function toggleFilter(id) { document.querySelectorAll('.filter-dropdown').forEach(x=>x.style.display='none'); document.getElementById(id).style.display='block'; }
         function setYear(y) { currentYear=y; document.getElementById('yearBtn').innerText=y || 'Tahun'; closeD(); loadFeed(true); }
