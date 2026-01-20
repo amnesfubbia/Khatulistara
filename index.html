@@ -12,7 +12,10 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .fixed-header-section { position: fixed; top: 0; width: 100%; z-index: 100; background: #000; border-bottom: 1px solid #1c1c1c; padding-bottom: 10px; }
         .ig-header { padding: 12px 15px 5px 15px; }
-        .ig-logo { font-family: 'DM Sans', sans-serif; font-weight: 700; font-style: italic; font-size: 24px; letter-spacing: -0.8px; text-transform: lowercase; cursor: pointer; }
+        
+        /* Ukuran Logo ala Instagram (Lebih Kecil & Proporsional) */
+        .ig-logo { font-family: 'DM Sans', sans-serif; font-weight: 700; font-style: italic; font-size: 22px; letter-spacing: -0.5px; text-transform: lowercase; cursor: pointer; }
+        
         .search-container { background: #0a0a0a; border-radius: 8px; display: flex; align-items: center; padding: 7px 12px; border: 1px solid #1c1c1c; margin: 0 15px 10px 15px; }
         .search-container input { background: transparent !important; border: none !important; color: white !important; font-size: 13px; width: 100%; outline: none !important; margin-left: 8px; }
         .category-wrapper { padding: 0 15px; }
@@ -29,6 +32,7 @@
         .filter-dropdown { display: none; position: fixed; background: #121212; border: 1px solid #1c1c1c; border-radius: 12px; z-index: 200; width: 150px; max-height: 300px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,1); }
         .filter-item { padding: 12px; font-size: 11px; text-align: center; border-bottom: 1px solid #1c1c1c; color: #bbb; cursor: pointer; }
         .filter-item.reset { color: #ff4d4d; font-weight: 800; }
+        
         .modal-player { display: none; position: fixed; inset: 0; z-index: 400; background: #000; overflow-y: auto; }
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; }
         
@@ -42,16 +46,13 @@
 
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 300; }
         
+        /* Font Content Modal ala Instagram */
         .ig-post-content { padding: 0 15px; margin-top: 5px; }
         .ig-username { font-weight: 700; font-size: 13px; margin-right: 5px; color: #fff; }
-        .ig-caption { font-size: 13px; line-height: 1.4; color: #fff; font-weight: 400; }
-        
-        /* Gaya Selengkapnya */
-        #mDesc { display: inline; }
-        .more-text { color: #a8a8a8; cursor: pointer; font-weight: 500; margin-left: 4px; }
-
-        .ig-hashtags { color: #e0f1ff; display: block; margin-top: 12px; font-size: 13px; word-break: break-word; }
-        .ig-date { color: #a8a8a8; font-size: 11px; margin-top: 8px; text-transform: uppercase; }
+        .ig-caption { font-size: 13px; line-height: 1.5; color: #fff; font-weight: 400; }
+        .toggle-btn { color: #a8a8a8; cursor: pointer; font-weight: 500; margin-left: 4px; font-size: 13px; }
+        .ig-hashtags { color: #e0f1ff; display: block; margin-top: 10px; font-size: 13px; word-break: break-word; }
+        .ig-date { color: #a8a8a8; font-size: 11px; margin-top: 8px; text-transform: uppercase; letter-spacing: 0.2px; }
     </style>
 </head>
 <body>
@@ -60,7 +61,7 @@
         <header class="ig-header flex justify-between items-center">
             <div class="flex items-center" onclick="location.reload()">
                 <h1 class="ig-logo">amnesfubbia <span class="text-white opacity-40 font-normal italic">xx1</span></h1>
-                <i class="fa-solid fa-circle-check text-[#0095f6] ml-1 text-xs"></i>
+                <i class="fa-solid fa-circle-check text-[#0095f6] ml-1 text-[10px]"></i>
             </div>
             <div class="flex gap-4">
                 <i id="navLike" class="fa-regular fa-heart text-xl cursor-pointer" onclick="showLibrary('likes', this)"></i>
@@ -105,7 +106,7 @@
         <div class="max-w-xl mx-auto pb-40">
             <div class="px-4 h-[54px] flex items-center border-b border-zinc-900 sticky top-0 bg-black z-50">
                 <i class="fa-solid fa-chevron-left text-xl cursor-pointer" onclick="closeModal()"></i>
-                <div class="flex-grow text-center text-sm font-bold truncate px-8" id="mTitle"></div>
+                <div class="flex-grow text-center text-[14px] font-bold truncate px-8" id="mTitle"></div>
             </div>
             <div class="aspect-video bg-zinc-900 w-full relative">
                 <iframe id="videoPlayer" class="w-full h-full" allow="autoplay; fullscreen" allowfullscreen></iframe>
@@ -123,7 +124,7 @@
                 <div class="mb-1">
                     <span class="ig-username">amnesfubbia.xx1</span>
                     <span id="mDesc" class="ig-caption"></span>
-                    <span id="mMoreBtn" class="more-text hidden" onclick="expandDesc()">selengkapnya</span>
+                    <span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span>
                 </div>
                 <p id="mTranslateBtn" class="text-[11px] text-zinc-500 font-bold mb-2 cursor-pointer hidden">Lihat Terjemahan...</p>
                 <div id="mHashtags" class="ig-hashtags"></div>
@@ -152,7 +153,9 @@
     <script>
         const API_KEY = 'bfa7df5310c9974f62f26c6789a8c00d';
         let page = 1, loading = false, currentType = 'multi', currentGenre = '', currentYear = '', currentCountry = '', currentSchedule = 'trending', searchQuery = '';
-        let fullDesc = ""; 
+        
+        let isExpanded = false;
+        let globalFullDesc = "";
 
         window.onload = () => { initFilters(); loadFeed(); };
 
@@ -229,19 +232,11 @@
             const title = dId.title || dId.name || dEn.title || dEn.name;
             document.getElementById('mTitle').innerText = title;
             
-            // Logika Instagram Synopsis
-            fullDesc = dId.overview || dEn.overview || "Sinopsis tidak tersedia.";
-            const descEl = document.getElementById('mDesc');
-            const moreBtn = document.getElementById('mMoreBtn');
-            
-            if (fullDesc.length > 90) {
-                descEl.innerText = fullDesc.substring(0, 90) + "...";
-                moreBtn.classList.remove('hidden');
-            } else {
-                descEl.innerText = fullDesc;
-                moreBtn.classList.add('hidden');
-            }
-            
+            // Logika Instagram Synopsis Buka-Tutup
+            globalFullDesc = dId.overview || dEn.overview || "Sinopsis tidak tersedia.";
+            isExpanded = false;
+            renderSynopsis();
+
             const releaseDate = dId.release_date || dId.first_air_date || "";
             const year = releaseDate ? releaseDate.split('-')[0] : "";
             const genresArr = (dId.genres || []).slice(0, 2);
@@ -276,10 +271,28 @@
             updateLibButtons(id);
         }
 
-        // Fungsi klik selengkapnya
-        function expandDesc() {
-            document.getElementById('mDesc').innerText = fullDesc;
-            document.getElementById('mMoreBtn').classList.add('hidden');
+        function renderSynopsis() {
+            const descEl = document.getElementById('mDesc');
+            const toggleBtn = document.getElementById('mToggleBtn');
+            
+            if (globalFullDesc.length > 90) {
+                toggleBtn.classList.remove('hidden');
+                if (isExpanded) {
+                    descEl.innerText = globalFullDesc;
+                    toggleBtn.innerText = "ringkas";
+                } else {
+                    descEl.innerText = globalFullDesc.substring(0, 90) + "...";
+                    toggleBtn.innerText = "selengkapnya";
+                }
+            } else {
+                descEl.innerText = globalFullDesc;
+                toggleBtn.classList.add('hidden');
+            }
+        }
+
+        function handleToggleDesc() {
+            isExpanded = !isExpanded;
+            renderSynopsis();
         }
 
         function playVid(url, el) { document.getElementById('videoPlayer').src = url; highlightBtn(el); }
