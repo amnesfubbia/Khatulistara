@@ -146,7 +146,7 @@
         .toggle-btn { display: block; color: #a8a8a8; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
         .ig-hashtags { color: #e0f1ff; display: block; margin-top: 10px; font-size: 13px; }
         .ig-date { color: #a8a8a8; font-size: 11px; margin-top: 8px; text-transform: uppercase; }
-        #mTranslateBtn { font-size: 12px; color: #0095f6; font-weight: 700; margin-top: 8px; cursor: pointer; }
+        #mTranslateBtn { font-size: 11px; color: #a8a8a8; font-weight: 600; margin-top: 8px; cursor: pointer; } /* Perbaikan warna & font-size mirip IG */
         
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 300; }
     </style>
@@ -262,7 +262,7 @@
                     <span id="mDesc" class="ig-caption"></span>
                     <div class="mt-1"><span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span></div>
                 </div>
-                <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()">Lihat Terjemahan</p>
+                <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()">Lihat terjemahan</p>
                 <div id="mHashtags" class="ig-hashtags"></div>
                 <div id="mDateDisplay" class="ig-date"></div>
                 <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
@@ -300,19 +300,16 @@
             }); 
         };
 
-        // Fungsi Perbaikan Home (Tanpa Reload Splash)
         function backToHome() {
             closeModal(); closeSearch(); closeD();
             currentLibMode = false; currentCastId = ''; searchQuery = '';
             currentType = 'movie'; currentGenre = ''; currentYear = ''; 
             currentCountry = ''; currentSchedule = 'trending'; currentCompany = '';
-            // Reset UI Filter
             document.getElementById('btnCountry').innerText = 'Negara';
             document.getElementById('btnGenre').innerText = 'Genre';
             document.getElementById('yearBtn').innerText = 'Tahun';
             document.querySelectorAll('.btn-ig').forEach(b => b.classList.remove('active'));
             document.getElementById('filterBar').style.display = 'none';
-            // Reset Tab
             switchTab('grid', document.getElementById('tabGrid'));
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
