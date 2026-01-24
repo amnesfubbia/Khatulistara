@@ -11,7 +11,7 @@
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* NETFLIX STYLE SPLASH SCREEN */
+        /* NETFLIX STYLE SPLASH SCREEN - ULTRA PRECISION */
         #splashScreen { 
             position: fixed; 
             inset: 0; 
@@ -30,14 +30,15 @@
             align-items: center; 
             animation: netflixScale 2.2s ease-out forwards;
         }
-        .splash-logo { width: 65px; height: 65px; margin-bottom: 8px; border: none; }
+        .splash-logo { width: 65px; height: 65px; margin-bottom: 0px; border: none; } /* Jarak dihapus agar mepet */
         .splash-title { 
             color: #ffffff; 
-            font-size: 13px; /* Dikecilkan lagi */
+            font-size: 11px; /* Ukuran font diperkecil lagi */
             font-weight: 500; 
-            letter-spacing: 5px; 
+            letter-spacing: 3px; /* Letter spacing disesuaikan agar proporsional */
             text-transform: uppercase; 
             opacity: 0.8; 
+            margin-top: -2px; /* Tarik sedikit ke atas agar makin mepet logo */
         }
         .splash-footer { position: absolute; bottom: 35px; text-align: center; }
         .from-text { font-size: 10px; color: #8e8e8e; letter-spacing: 1px; margin-bottom: 2px; text-transform: lowercase; }
@@ -65,14 +66,13 @@
         
         .profile-info { display: flex; align-items: center; gap: 20px; margin-bottom: 15px; }
         .profile-pic-container { position: relative; width: 68px; height: 68px; }
-        /* Logo diperkecil di dalam bingkai (lewat padding) */
         .profile-pic-logo { 
             width: 68px; height: 68px; 
             border-radius: 50%; border: 1px solid #333; 
             overflow: hidden; display: flex; 
             align-items: center; justify-content: center; 
             background: #000; 
-            padding: 8px; /* Ruang agar logo terlihat kecil di dalam lingkaran */
+            padding: 8px; /* Logo di dalam bingkai tetap kecil */
         }
         .profile-pic-logo img { width: 100%; height: 100%; object-fit: contain; }
         .add-story-btn { position: absolute; bottom: 2px; right: 2px; width: 19px; height: 19px; background: #0095f6; border: 2px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; color: #fff; z-index: 10; }
@@ -307,7 +307,6 @@
             }); 
         };
 
-        // ... Sisa logika JS (Fitur TMDB, Modal, Swipe, Server List, Filter, dsb) tetap utuh ...
         function initSmartSearch() { const inp = document.getElementById('searchInp'); const drop = document.getElementById('smartSearchDropdown'); let timeout = null; inp.addEventListener('input', () => { clearTimeout(timeout); const q = inp.value.trim(); if(q.length < 2) { drop.style.display = 'none'; return; } timeout = setTimeout(async () => { const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(q)}&api_key=${API_KEY}&language=id-ID`); const data = await res.json(); const results = (data.results || []).slice(0, 5); if(results.length) { drop.innerHTML = results.map(m => `<div class="smart-item" onclick="openModal(${m.id}, '${m.media_type || 'movie'}')"><img src="https://image.tmdb.org/t/p/w92${m.poster_path || m.profile_path}"><div class="smart-info"><span class="smart-name">${m.title || m.name}</span><span class="smart-meta">${m.media_type === 'tv' ? 'Series' : 'Film'} • ${m.release_date || m.first_air_date || ''}</span></div></div>`).join(''); drop.style.display = 'block'; } else { drop.style.display = 'none'; } }, 300); }); document.addEventListener('click', (e) => { if(!e.target.closest('.search-input-box')) drop.style.display = 'none'; }); }
         function initHighlights() { const hls = [{n: 'Disney', com: '2|6125|3166|34213', l: 'DSNY', t: 'movie'},{n: 'Pixar', com: '3', l: 'PIXR', t: 'movie'},{n: 'Dreamworks', com: '521|7|1778', l: 'DRMW', t: 'movie'},{n: 'Ghibli', com: '10342', l: 'GHBL', t: 'movie'},{n: 'Anime', g: 16, l: 'ANIM', t: 'movie', c: 'JP'},{n: 'Indonesia', c: 'ID', l: 'INDO', t: 'movie'},{n: 'Korea', c: 'KR', l: 'KOR', t: 'movie'},{n: 'India', c: 'IN', l: 'INDI', t: 'movie'},{n: 'Thailand', c: 'TH', l: 'THAI', t: 'movie'}]; const cont = document.getElementById('highlightList'); hls.forEach(h => { const div = document.createElement('div'); div.className = 'highlight-item'; div.onclick = () => { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentCountry = h.c || ''; currentGenre = h.g || ''; currentCompany = h.com || ''; currentSchedule = 'trending'; currentType = h.t; loadFeed(true); }; div.innerHTML = `<div class="highlight-circle"><span class="hl-logo">${h.l}</span></div><div class="highlight-text">${h.n}</div>`; cont.appendChild(div); }); }
         function initFilters() { const yD = document.getElementById('yearDropdown'); let yearHTML = '<div class="filter-item sticky-reset" onclick="setYear(\'\')">Semua Tahun</div>'; for(let y=2026; y>=1900; y--) yearHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`; yD.innerHTML = yearHTML; const countries = [['ID','Indonesia'],['US','USA'],['KR','Korea Selatan'],['JP','Jepang'],['IN','India'],['TH','Thailand'],['CN','China'],['PH','Filipina'],['GB','Inggris'],['FR','Prancis'],['ES','Spanyol'],['IT','Italia'],['TR','Turki'],['DE','Jerman']]; const cD = document.getElementById('countryDropdown'); let countryHTML = '<div class="filter-item sticky-reset" onclick="setCountry(\'\',\'Negara\')">Semua Negara</div>'; countries.forEach(c => countryHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`); cD.innerHTML = countryHTML; const genres = [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Komedi'],[80,'Crime'],[99,'Dokumenter'],[18,'Drama'],[10751,'Family'],[14,'Fantasy'],[36,'History'],[27,'Horror'],[10402,'Music'],[9648,'Misteri'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller']]; const gD = document.getElementById('genreDropdown'); let genreHTML = '<div class="filter-item sticky-reset" onclick="setGenre(\'\',\'Genre\')">Semua Genre</div>'; genres.forEach(g => genreHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`); gD.innerHTML = genreHTML; }
