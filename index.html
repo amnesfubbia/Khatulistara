@@ -11,14 +11,50 @@
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* PROFESSIONAl SPLASH SCREEN - FIXED SPACING */
-        #splashScreen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .splash-content { display: flex; flex-direction: column; align-items: center; transform: translateY(-30px); }
-        .splash-logo { width: 70px; height: 70px; margin-bottom: 5px; border: none; } /* Jarak mepet ke tulisan */
-        .splash-title { color: #ffffff; font-size: 15px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; opacity: 0.9; }
-        .splash-footer { position: absolute; bottom: 40px; text-align: center; } /* Lebih ke bawah */
-        .from-text { font-size: 11px; color: #8e8e8e; letter-spacing: 1px; margin-bottom: 3px; text-transform: lowercase; }
-        .brand-text { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* NETFLIX STYLE SPLASH SCREEN */
+        #splashScreen { 
+            position: fixed; 
+            inset: 0; 
+            background: #000; 
+            z-index: 9999; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            animation: fadeOutSplash 0.5s ease-in forwards;
+            animation-delay: 2.3s;
+        }
+        .splash-content { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            animation: netflixScale 2.2s ease-out forwards;
+        }
+        .splash-logo { width: 65px; height: 65px; margin-bottom: 8px; border: none; }
+        .splash-title { 
+            color: #ffffff; 
+            font-size: 13px; /* Dikecilkan lagi */
+            font-weight: 500; 
+            letter-spacing: 5px; 
+            text-transform: uppercase; 
+            opacity: 0.8; 
+        }
+        .splash-footer { position: absolute; bottom: 35px; text-align: center; }
+        .from-text { font-size: 10px; color: #8e8e8e; letter-spacing: 1px; margin-bottom: 2px; text-transform: lowercase; }
+        .brand-text { 
+            font-size: 15px; font-weight: 800; letter-spacing: 1.5px; 
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+
+        @keyframes netflixScale {
+            0% { transform: scale(0.85); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: scale(1.1); opacity: 1; }
+        }
+        @keyframes fadeOutSplash {
+            to { opacity: 0; visibility: hidden; }
+        }
 
         /* HEADER & PROFILE */
         .profile-header { padding: 15px 15px 0 15px; background: #000; }
@@ -28,11 +64,18 @@
         .dot-notify { width: 7px; height: 7px; background-color: #ff3b30; border-radius: 50%; display: inline-block; margin-left: 2px; }
         
         .profile-info { display: flex; align-items: center; gap: 20px; margin-bottom: 15px; }
-        .profile-pic-container { position: relative; width: 60px; height: 60px; }
-        /* Logo Profil Dikecilkan Sesuai Request */
-        .profile-pic-logo { width: 56px; height: 56px; border-radius: 50%; border: 1px solid #333; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; }
-        .profile-pic-logo img { width: 100%; height: 100%; object-fit: cover; }
-        .add-story-btn { position: absolute; bottom: 1px; right: 1px; width: 18px; height: 18px; background: #0095f6; border: 2px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: bold; color: #fff; z-index: 10; }
+        .profile-pic-container { position: relative; width: 68px; height: 68px; }
+        /* Logo diperkecil di dalam bingkai (lewat padding) */
+        .profile-pic-logo { 
+            width: 68px; height: 68px; 
+            border-radius: 50%; border: 1px solid #333; 
+            overflow: hidden; display: flex; 
+            align-items: center; justify-content: center; 
+            background: #000; 
+            padding: 8px; /* Ruang agar logo terlihat kecil di dalam lingkaran */
+        }
+        .profile-pic-logo img { width: 100%; height: 100%; object-fit: contain; }
+        .add-story-btn { position: absolute; bottom: 2px; right: 2px; width: 19px; height: 19px; background: #0095f6; border: 2px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; color: #fff; z-index: 10; }
 
         .stats { display: flex; flex-grow: 1; justify-content: space-around; text-align: center; }
         .stat-val { font-weight: 700; font-size: 15px; display: block; }
@@ -103,12 +146,10 @@
         .cast-img-border img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
         .cast-name { font-size: 9px; font-weight: 500; color: #fff; line-height: 1.2; display: block; margin-top: 4px; }
         
-        /* TIPOGRAFI INSTAGRAM */
         .ig-post-content { padding: 0 15px; margin-top: 5px; }
         .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: block; }
         .ig-username { font-weight: 700; font-size: 13px; margin-right: 5px; }
         .ig-caption { font-size: 13px; line-height: 1.4; color: #efefef; }
-        
         .toggle-btn { display: block; color: #a8a8a8; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
         .ig-hashtags { color: #e0f1ff; display: block; margin-top: 10px; font-size: 13px; }
         .ig-date { color: #a8a8a8; font-size: 11px; margin-top: 8px; text-transform: uppercase; }
@@ -251,7 +292,6 @@
     </nav>
 
     <script>
-        // FULL RESTORED JAVASCRIPT LOGIC
         const API_KEY = 'bfa7df5310c9974f62f26c6789a8c00d';
         let page = 1, loading = false, currentType = 'movie', currentGenre = '', currentYear = '', currentCountry = '', currentSchedule = 'trending', searchQuery = '', currentCompany = '', currentLibMode = false, currentCastId = '';
         let isExpanded = false, globalFullDesc = "", globalEnDesc = "", currentIdx = 0, startX = 0;
@@ -260,13 +300,14 @@
             setTimeout(() => {
                 document.getElementById('splashScreen').style.display = 'none';
                 document.getElementById('mainProfile').style.display = 'block';
-            }, 2500);
+            }, 2800);
             initFilters(); initHighlights(); loadFeed(); setupSwipe(); initSmartSearch(); 
             window.addEventListener('scroll', () => { 
                 document.getElementById('backToTop').style.display = window.scrollY > 500 ? 'flex' : 'none'; 
             }); 
         };
 
+        // ... Sisa logika JS (Fitur TMDB, Modal, Swipe, Server List, Filter, dsb) tetap utuh ...
         function initSmartSearch() { const inp = document.getElementById('searchInp'); const drop = document.getElementById('smartSearchDropdown'); let timeout = null; inp.addEventListener('input', () => { clearTimeout(timeout); const q = inp.value.trim(); if(q.length < 2) { drop.style.display = 'none'; return; } timeout = setTimeout(async () => { const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(q)}&api_key=${API_KEY}&language=id-ID`); const data = await res.json(); const results = (data.results || []).slice(0, 5); if(results.length) { drop.innerHTML = results.map(m => `<div class="smart-item" onclick="openModal(${m.id}, '${m.media_type || 'movie'}')"><img src="https://image.tmdb.org/t/p/w92${m.poster_path || m.profile_path}"><div class="smart-info"><span class="smart-name">${m.title || m.name}</span><span class="smart-meta">${m.media_type === 'tv' ? 'Series' : 'Film'} • ${m.release_date || m.first_air_date || ''}</span></div></div>`).join(''); drop.style.display = 'block'; } else { drop.style.display = 'none'; } }, 300); }); document.addEventListener('click', (e) => { if(!e.target.closest('.search-input-box')) drop.style.display = 'none'; }); }
         function initHighlights() { const hls = [{n: 'Disney', com: '2|6125|3166|34213', l: 'DSNY', t: 'movie'},{n: 'Pixar', com: '3', l: 'PIXR', t: 'movie'},{n: 'Dreamworks', com: '521|7|1778', l: 'DRMW', t: 'movie'},{n: 'Ghibli', com: '10342', l: 'GHBL', t: 'movie'},{n: 'Anime', g: 16, l: 'ANIM', t: 'movie', c: 'JP'},{n: 'Indonesia', c: 'ID', l: 'INDO', t: 'movie'},{n: 'Korea', c: 'KR', l: 'KOR', t: 'movie'},{n: 'India', c: 'IN', l: 'INDI', t: 'movie'},{n: 'Thailand', c: 'TH', l: 'THAI', t: 'movie'}]; const cont = document.getElementById('highlightList'); hls.forEach(h => { const div = document.createElement('div'); div.className = 'highlight-item'; div.onclick = () => { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentCountry = h.c || ''; currentGenre = h.g || ''; currentCompany = h.com || ''; currentSchedule = 'trending'; currentType = h.t; loadFeed(true); }; div.innerHTML = `<div class="highlight-circle"><span class="hl-logo">${h.l}</span></div><div class="highlight-text">${h.n}</div>`; cont.appendChild(div); }); }
         function initFilters() { const yD = document.getElementById('yearDropdown'); let yearHTML = '<div class="filter-item sticky-reset" onclick="setYear(\'\')">Semua Tahun</div>'; for(let y=2026; y>=1900; y--) yearHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`; yD.innerHTML = yearHTML; const countries = [['ID','Indonesia'],['US','USA'],['KR','Korea Selatan'],['JP','Jepang'],['IN','India'],['TH','Thailand'],['CN','China'],['PH','Filipina'],['GB','Inggris'],['FR','Prancis'],['ES','Spanyol'],['IT','Italia'],['TR','Turki'],['DE','Jerman']]; const cD = document.getElementById('countryDropdown'); let countryHTML = '<div class="filter-item sticky-reset" onclick="setCountry(\'\',\'Negara\')">Semua Negara</div>'; countries.forEach(c => countryHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`); cD.innerHTML = countryHTML; const genres = [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Komedi'],[80,'Crime'],[99,'Dokumenter'],[18,'Drama'],[10751,'Family'],[14,'Fantasy'],[36,'History'],[27,'Horror'],[10402,'Music'],[9648,'Misteri'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller']]; const gD = document.getElementById('genreDropdown'); let genreHTML = '<div class="filter-item sticky-reset" onclick="setGenre(\'\',\'Genre\')">Semua Genre</div>'; genres.forEach(g => genreHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`); gD.innerHTML = genreHTML; }
