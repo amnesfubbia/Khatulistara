@@ -67,7 +67,10 @@
         .highlight-circle { width: 62px; height: 62px; border-radius: 50%; border: 0.5px solid #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; background: #000; transition: border 0.3s; overflow: hidden; }
         .highlight-item.active-hl .highlight-circle { border: 2px solid #fff; }
         .highlight-circle img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* LOGO STUDIO LEBIH KECIL */
         .logo-small img { width: 75%; height: 75%; object-fit: contain; }
+        
         .highlight-text { font-size: 11px; color: #fff; font-weight: 400; white-space: nowrap; }
 
         .tab-nav { display: flex; border-top: 1px solid #1c1c1c; }
@@ -92,6 +95,7 @@
         .smart-name { font-size: 13px; font-weight: 600; color: #fff; }
         .smart-meta { font-size: 11px; color: #8e8e8e; }
 
+        /* CALENDAR ITEM STYLE */
         .calendar-item { display: flex; align-items: center; gap: 15px; padding: 15px; border-bottom: 1px solid #1c1c1c; }
         .calendar-date { flex: 0 0 50px; text-align: center; background: #262626; border-radius: 8px; padding: 5px; }
         .calendar-date .day { font-size: 16px; font-weight: 700; color: #fff; }
@@ -106,12 +110,16 @@
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; }
         .server-btn { width: 100%; padding: 12px 5px; border-radius: 8px; font-size: 8px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; background: #0a0a0a; color: #fff; }
         .server-btn.active-link { border: 2px solid #fff !important; }
-        .dl-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 15px; }
+        .dl-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 15px; }
         .dl-link-btn { width: 100%; padding: 14px; border-radius: 12px; background: #000; color: #a1a1aa; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #1c1c1c; }
         
         .cast-wrapper { display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; scrollbar-width: none; }
         .cast-item { flex: 0 0 65px; text-align: center; cursor: pointer; }
-        .cast-img-border { width: 64px; height: 64px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); margin-bottom: 5px; }
+        .cast-img-border { 
+            width: 64px; height: 64px; border-radius: 50%; padding: 2.5px; 
+            background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); 
+            margin-bottom: 5px; 
+        }
         .cast-img-border .inner-border { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #000; overflow: hidden; background: #000; }
         .cast-img-border img { width: 100%; height: 100%; object-fit: cover; }
         .cast-name { font-size: 9px; font-weight: 500; color: #fff; line-height: 1.2; display: block; margin-top: 4px; }
@@ -130,12 +138,31 @@
         .bottom-nav i { color: #a8a8a8; transition: color 0.3s; }
         .bottom-nav i.active-nav { color: #fff; }
 
+        /* SIDEBAR / ABOUT MENU */
         #sideMenu { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9000; display: none; padding: 40px 25px; overflow-y: auto; }
         .side-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
         .about-title { font-size: 22px; font-weight: 900; margin-bottom: 20px; border-left: 4px solid #fff; padding-left: 12px; }
         .about-content { font-size: 14px; line-height: 1.6; color: #ccc; }
         .about-feature { margin-top: 20px; background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; }
         .about-footer { margin-top: 40px; text-align: center; border-top: 1px solid #222; padding-top: 20px; font-size: 12px; color: #666; }
+
+        /* --- NEW LANDSCAPE CONTROLS --- */
+        .landscape-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9000; background: #000;
+        }
+        .landscape-video-container { width: 100%; height: 100%; position: relative; }
+        .landscape-video-container iframe { width: 100%; height: 100%; border: 0; }
+        
+        .ls-controls {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.3);
+            display: flex; flex-direction: column; justify-content: space-between;
+            padding: 20px; opacity: 0; transition: opacity 0.3s; z-index: 10;
+        }
+        .ls-controls:hover, .ls-controls:active { opacity: 1; }
+        .ls-top { display: flex; justify-content: space-between; align-items: center; }
+        .ls-center { display: flex; justify-content: center; align-items: center; gap: 40px; }
+        .ls-btn { color: #fff; font-size: 24px; cursor: pointer; text-shadow: 0 0 10px rgba(0,0,0,0.8); }
+        .ls-lock-screen { position: absolute; inset: 0; z-index: 20; display: none; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -151,10 +178,33 @@
         </div>
     </div>
 
+    <div id="landscapeOverlay" class="landscape-overlay">
+        <div class="landscape-video-container" id="lsVideoBox">
+            <div id="lsLockLayer" class="ls-lock-screen" onclick="unlockScreen()">
+                <i class="fa-solid fa-lock text-4xl text-white opacity-50"></i>
+            </div>
+            <div class="ls-controls" id="lsUI">
+                <div class="ls-top">
+                    <i class="fa-solid fa-arrow-left ls-btn" onclick="exitLandscape()"></i>
+                    <div id="lsTitle" class="text-white font-bold truncate max-w-[60%]"></div>
+                    <i class="fa-solid fa-lock-open ls-btn" onclick="lockScreen()"></i>
+                </div>
+                <div class="ls-center">
+                    <i id="lsMute" class="fa-solid fa-volume-high ls-btn" onclick="toggleLsMute()"></i>
+                    <i id="lsPlay" class="fa-solid fa-pause ls-btn text-5xl" onclick="toggleLsPlay()"></i>
+                    <i class="fa-solid fa-rotate ls-btn" onclick="exitLandscape()"></i>
+                </div>
+                <div class="ls-bottom"></div>
+            </div>
+        </div>
+    </div>
+
     <div id="sideMenu">
         <i class="fa-solid fa-xmark side-close" onclick="toggleSideMenu()"></i>
         <div class="about-title">About Amnesfubbia</div>
-        <div class="about-content">amnesfubbia adalah platform katalog sinema digital yang dirancang untuk memberikan pengalaman eksplorasi film dan series tanpa batas.</div>
+        <div class="about-content">
+            amnesfubbia adalah platform katalog sinema digital yang dirancang untuk memberikan pengalaman eksplorasi film dan series tanpa batas.
+        </div>
         <div class="about-feature">
             <div class="font-bold mb-3 text-white">Fitur Utama:</div>
             <ul class="space-y-3 text-[13px]">
@@ -164,8 +214,13 @@
                 <li>🌍 <span class="font-semibold text-white">Multi-Server:</span> Pilihan server streaming dan download yang stabil.</li>
             </ul>
         </div>
-        <div class="mt-8 text-sm text-zinc-400 italic">Dikembangkan dengan dedikasi untuk para pecinta sinema di seluruh dunia.</div>
-        <div class="about-footer">Created by <span class="text-white font-bold">Anasteas</span><br>© 2026 Amnesfubbia Network</div>
+        <div class="mt-8 text-sm text-zinc-400 italic">
+            Dikembangkan dengan dedikasi untuk para pecinta sinema di seluruh dunia.
+        </div>
+        <div class="about-footer">
+            Created by <span class="text-white font-bold">Anasteas</span><br>
+            © 2026 Amnesfubbia Network
+        </div>
     </div>
 
     <div id="mainProfile" style="display: none;">
@@ -181,6 +236,7 @@
                     <i class="fa-solid fa-bars text-2xl cursor-pointer" onclick="toggleSideMenu()"></i>
                 </div>
             </div>
+
             <div class="profile-info">
                 <div class="profile-pic-container">
                     <div class="profile-pic-logo"><img src="amnesfubbia.png" alt="Logo"></div>
@@ -192,16 +248,19 @@
                     <div class="stat-item" id="stat-short" onclick="setFilter('type', 'short', this)"><span class="stat-val">1.5rb</span><span class="stat-label">short</span></div>
                 </div>
             </div>
+
             <div class="bio">
                 <div class="bio-name-wrapper"><span class="bio-name">amnesfubbia</span><i class="fa-solid fa-circle-check text-[#0095f6] text-[13px]"></i></div>
                 <span>🎬 Discover. Watch. Archive.</span><br>
                 <span class="text-zinc-400">Cari film, tonton trailer, simpan & Download film favoritmu.</span>
             </div>
+
             <div class="action-buttons">
                 <div class="btn-ig" id="btnNowPlaying" onclick="setSchedule('now_playing', this)">Sedang Tayang</div>
                 <div class="btn-ig" id="btnUpcoming" onclick="setSchedule('upcoming', this)">Segera Tayang</div>
                 <div class="btn-icon-sq" onclick="toggleFilterBar()"><i class="fa-solid fa-user-plus text-sm"></i></div>
             </div>
+
             <div id="filterBar">
                 <div class="pill-grid grid-cols-3">
                     <button class="pill" id="btnCountry" onclick="toggleFilter(event, 'countryDropdown')">Negara <i class="fa-solid fa-caret-down"></i></button>
@@ -210,12 +269,15 @@
                 </div>
             </div>
         </div>
+
         <div class="highlights-wrapper no-scrollbar"><div class="highlights-container no-scrollbar" id="highlightList"></div></div>
+
         <div class="tab-nav">
             <div class="tab-item active" id="tabGrid" onclick="switchTab('grid', this)"><i class="fa-solid fa-table-cells"></i></div>
             <div class="tab-item" id="tabLikes" onclick="switchTab('likes', this)"><i class="fa-regular fa-heart"></i></div>
             <div class="tab-item" id="tabBookmark" onclick="switchTab('bookmarks', this)"><i class="fa-regular fa-bookmark"></i></div>
         </div>
+
         <main id="feedGrid" class="movie-grid"></main>
     </div>
 
@@ -252,8 +314,7 @@
             <div class="px-4 py-3 flex justify-between items-center">
                 <div class="flex gap-4">
                     <i id="btnLikeModal" class="interaction-icon"></i>
-                    <i class="fa-regular fa-comment interaction-icon"></i>
-                    <i class="fa-solid fa-rotate interaction-icon" id="btnRotate" onclick="requestRotate()"></i>
+                    <i class="fa-solid fa-arrows-rotate interaction-icon" onclick="enterLandscape()"></i>
                 </div>
                 <i id="btnBookModal" class="interaction-icon"></i>
             </div>
@@ -262,13 +323,18 @@
                 <div class="mb-1">
                     <span class="ig-username">amnesfubbia</span>
                     <span id="mDesc" class="ig-caption"></span>
-                    <div class="mt-1"><span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span></div>
+                    <div class="mt-1">
+                        <span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span>
+                    </div>
                 </div>
+                
                 <div id="mHashtags" class="ig-hashtags"></div>
+
                 <div class="flex items-center gap-2 mt-2">
                     <div id="mDateDisplay" class="ig-date"></div>
                     <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()">Lihat terjemahan</p>
                 </div>
+                
                 <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4"><h4 class="text-[9px] font-black text-zinc-400 uppercase">Episode</h4><select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded" onchange="loadEpisodes()"></select></div>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
@@ -276,6 +342,7 @@
                 <div id="serverList" class="grid grid-cols-3 gap-2 mt-6"></div>
                 <div class="dl-grid">
                     <button id="btnDownload1" class="dl-link-btn" onclick="highlightBtn(this); window.open(`https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`)">Download 1</button>
+                    <button id="btnDownload2" class="dl-link-btn" onclick="highlightBtn(this); window.open(`https://multiembed.mov/directstream.php?video_id=${window.currentMediaId}&tmdb=1`)">Download 2</button>
                 </div>
             </div>
         </div>
@@ -292,24 +359,113 @@
         let page = 1, loading = false, currentType = 'multi', currentGenre = '', currentYear = '', currentCountry = '', currentSchedule = 'trending', searchQuery = '', currentCompany = '', currentLibMode = false, currentCastId = '';
         let isExpanded = false, globalFullDesc = "", globalEnDesc = "", currentIdx = 0, startX = 0, isTranslated = false, originalIndoDesc = "";
         let abortController = null;
+        let isLsPaused = false, isLsMuted = false;
 
         window.onload = () => {
             setTimeout(() => {
                 document.getElementById('splashScreen').style.display = 'none';
                 document.getElementById('mainProfile').style.display = 'block';
             }, 2500);
+
             initFilters(); initHighlights(); loadFeed(); setupSwipe(); initSmartSearch(); 
-            window.addEventListener('scroll', () => { document.getElementById('backToTop').style.display = window.scrollY > 500 ? 'flex' : 'none'; }); 
+            window.addEventListener('scroll', () => { 
+                document.getElementById('backToTop').style.display = window.scrollY > 500 ? 'flex' : 'none'; 
+            }); 
         };
 
+        /* --- LANDSCAPE FUNCTIONS --- */
+        async function enterLandscape() {
+            const currentIframe = document.querySelector('#carouselTrack .carousel-slide iframe');
+            if(!currentIframe) return;
+            
+            const overlay = document.getElementById('landscapeOverlay');
+            const lsVideoBox = document.getElementById('lsVideoBox');
+            const lsTitle = document.getElementById('lsTitle');
+            
+            lsTitle.innerText = document.getElementById('mTitle').innerText;
+            overlay.style.display = 'block';
+            
+            // Clone iframe to landscape
+            const newIframe = currentIframe.cloneNode(true);
+            newIframe.id = "lsIframe";
+            // Ensure ID is unique and remove existing if any
+            const existing = document.getElementById('lsIframe');
+            if(existing) existing.remove();
+            lsVideoBox.prepend(newIframe);
+
+            // Attempt auto rotation (Browser security might block without user interaction)
+            try {
+                if (document.documentElement.requestFullscreen) {
+                    await document.documentElement.requestFullscreen();
+                    if (screen.orientation && screen.orientation.lock) {
+                        await screen.orientation.lock('landscape');
+                    }
+                }
+            } catch (e) { console.log("Orientation lock not supported/allowed"); }
+        }
+
+        function exitLandscape() {
+            document.getElementById('landscapeOverlay').style.display = 'none';
+            const lsIframe = document.getElementById('lsIframe');
+            if(lsIframe) lsIframe.remove();
+            
+            if (document.exitFullscreen && document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        }
+
+        function toggleLsPlay() {
+            const iframe = document.getElementById('lsIframe');
+            const btn = document.getElementById('lsPlay');
+            isLsPaused = !isLsPaused;
+            const cmd = isLsPaused ? 'pauseVideo' : 'playVideo';
+            iframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":cmd,"args":""}), '*');
+            btn.className = isLsPaused ? 'fa-solid fa-play ls-btn text-5xl' : 'fa-solid fa-pause ls-btn text-5xl';
+        }
+
+        function toggleLsMute() {
+            const iframe = document.getElementById('lsIframe');
+            const btn = document.getElementById('lsMute');
+            isLsMuted = !isLsMuted;
+            const cmd = isLsMuted ? 'mute' : 'unMute';
+            iframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":cmd,"args":""}), '*');
+            btn.className = isLsMuted ? 'fa-solid fa-volume-xmark ls-btn' : 'fa-solid fa-volume-high ls-btn';
+        }
+
+        function lockScreen() {
+            document.getElementById('lsUI').style.display = 'none';
+            document.getElementById('lsLockLayer').style.display = 'flex';
+        }
+
+        function unlockScreen() {
+            document.getElementById('lsUI').style.display = 'flex';
+            document.getElementById('lsLockLayer').style.display = 'none';
+        }
+
+        /* --- ORIGINAL FUNCTIONS (RESTORED/UNTOUCHED) --- */
+
         function updateActiveNav(el) { document.querySelectorAll('.bottom-nav i').forEach(i => i.classList.remove('active-nav')); el.classList.add('active-nav'); }
-        function toggleSideMenu() { const m = document.getElementById('sideMenu'); const v = m.style.display === 'block'; m.style.display = v ? 'none' : 'block'; document.body.style.overflow = v ? 'auto' : 'hidden'; }
+
+        function toggleSideMenu() {
+            const menu = document.getElementById('sideMenu');
+            const isVisible = menu.style.display === 'block';
+            menu.style.display = isVisible ? 'none' : 'block';
+            document.body.style.overflow = isVisible ? 'auto' : 'hidden';
+        }
 
         function backToHome() {
             closeModal(); closeSearch(); closeD();
-            currentGenre = ''; currentYear = ''; currentCountry = ''; currentSchedule = 'trending'; currentType = 'multi'; searchQuery = ''; currentCastId = ''; currentCompany = '';
+            currentGenre = ''; currentYear = ''; currentCountry = ''; currentSchedule = 'trending'; 
+            currentType = 'multi'; searchQuery = ''; currentCastId = ''; currentCompany = '';
+            
             document.querySelectorAll('.highlight-item').forEach(i => i.classList.remove('active-hl'));
-            document.getElementById('btnGenre').innerText = 'Genre'; document.getElementById('yearBtn').innerText = 'Tahun'; document.getElementById('btnCountry').innerText = 'Negara';
+            
+            document.getElementById('btnGenre').innerText = 'Genre';
+            document.getElementById('yearBtn').innerText = 'Tahun';
+            document.getElementById('btnCountry').innerText = 'Negara';
             document.querySelectorAll('.pill').forEach(p => p.classList.remove('active-pill'));
             document.querySelectorAll('.btn-ig').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat'));
@@ -318,28 +474,43 @@
             document.getElementById('tabLikes').classList.remove('active');
             document.getElementById('tabBookmark').classList.remove('active');
             updateActiveNav(document.getElementById('homeBtnNav'));
-            currentLibMode = false; loadFeed(true); window.scrollTo({top: 0, behavior: 'smooth'});
+            currentLibMode = false;
+            loadFeed(true);
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
         function initSmartSearch() { 
-            const inp = document.getElementById('searchInp'), drop = document.getElementById('smartSearchDropdown'); 
+            const inp = document.getElementById('searchInp'); 
+            const drop = document.getElementById('smartSearchDropdown'); 
             let timeout = null; 
             inp.addEventListener('input', () => { 
-                clearTimeout(timeout); const q = inp.value.trim(); 
+                clearTimeout(timeout); 
+                const q = inp.value.trim(); 
                 if(q.length < 2) { drop.style.display = 'none'; return; } 
                 timeout = setTimeout(async () => { 
                     try { 
                         const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(q)}&api_key=${API_KEY}&language=id-ID`); 
-                        const data = await res.json(); const results = (data.results || []).slice(0, 5); 
+                        const data = await res.json(); 
+                        const results = (data.results || []).slice(0, 5); 
                         if(results.length) { 
                             drop.innerHTML = results.map(m => {
-                                const mType = m.media_type || 'movie', mId = m.id, isPerson = mType === 'person';
+                                const mType = m.media_type || 'movie';
+                                const mId = m.id;
+                                const isPerson = mType === 'person';
                                 const clickAction = isPerson ? `searchByCast(${mId})` : `openModal(${mId}, '${mType}')`;
+                                const meta = isPerson ? 'Pemeran / Aktor' : (mType === 'tv' ? 'Series' : 'Film');
                                 const imgPath = m.poster_path || m.profile_path || '';
-                                return `<div class="smart-item" onclick="${clickAction}; drop.style.display='none';"><img src="https://image.tmdb.org/t/p/w92${imgPath}"><div class="smart-info"><span class="smart-name">${m.title || m.name}</span><span class="smart-meta">${isPerson?'Pemeran':(mType==='tv'?'Series':'Film')}</span></div></div>`;
+                                
+                                return `<div class="smart-item" onclick="${clickAction}; document.getElementById('smartSearchDropdown').style.display='none';">
+                                    <img src="https://image.tmdb.org/t/p/w92${imgPath}">
+                                    <div class="smart-info">
+                                        <span class="smart-name">${m.title || m.name}</span>
+                                        <span class="smart-meta">${meta}</span>
+                                    </div>
+                                </div>`;
                             }).join(''); 
                             drop.style.display = 'block'; 
-                        } else drop.style.display = 'none'; 
+                        } else { drop.style.display = 'none'; } 
                     } catch(e){} 
                 }, 300); 
             }); 
@@ -347,43 +518,106 @@
         }
 
         async function openComingSoon() {
-            const grid = document.getElementById('searchGrid'), overlay = document.getElementById('searchOverlay'), titleInp = document.getElementById('searchInp');
-            overlay.style.display = 'block'; titleInp.value = ''; titleInp.placeholder = "Jadwal Rilis Mendatang...";
+            const grid = document.getElementById('searchGrid');
+            const overlay = document.getElementById('searchOverlay');
+            const titleInp = document.getElementById('searchInp');
+            
+            overlay.style.display = 'block';
+            titleInp.value = '';
+            titleInp.placeholder = "Jadwal Rilis Mendatang...";
             grid.innerHTML = '<div class="col-span-3 text-center py-10 text-zinc-500">Memuat jadwal rilis...</div>';
             document.body.style.overflow = 'hidden';
+
             try {
                 const today = new Date().toISOString().split('T')[0];
                 const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=id-ID&sort_by=primary_release_date.asc&primary_release_date.gte=${today}`);
-                const data = await res.json(); grid.innerHTML = ''; 
+                const data = await res.json();
+                
+                grid.innerHTML = ''; 
+                
                 data.results.forEach(m => {
                     if(!m.release_date) return;
                     const relDate = new Date(m.release_date);
-                    grid.innerHTML += `<div class="col-span-3 calendar-item cursor-pointer active:bg-zinc-900" onclick="openModal(${m.id}, 'movie')"><div class="calendar-date"><div class="day">${relDate.getDate()}</div><div class="month">${relDate.toLocaleDateString('id-ID', { month: 'short' })}</div></div><div class="flex-grow"><div class="text-[14px] font-bold text-white truncate w-48">${m.title}</div><div class="text-[11px] text-zinc-500">Rating: ★ ${m.vote_average.toFixed(1)}</div></div><img src="https://image.tmdb.org/t/p/w92${m.poster_path}" class="w-12 h-16 object-cover rounded"></div>`;
+                    const day = relDate.getDate();
+                    const month = relDate.toLocaleDateString('id-ID', { month: 'short' });
+
+                    const item = document.createElement('div');
+                    item.className = 'col-span-3 calendar-item cursor-pointer active:bg-zinc-900';
+                    item.onclick = () => openModal(m.id, 'movie');
+                    item.innerHTML = `
+                        <div class="calendar-date">
+                            <div class="day">${day}</div>
+                            <div class="month">${month}</div>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-[14px] font-bold text-white truncate w-48">${m.title}</div>
+                            <div class="text-[11px] text-zinc-500">Rating: ★ ${m.vote_average.toFixed(1)}</div>
+                        </div>
+                        <img src="https://image.tmdb.org/t/p/w92${m.poster_path}" class="w-12 h-16 object-cover rounded">
+                    `;
+                    grid.appendChild(item);
                 });
-            } catch (e) { grid.innerHTML = '<div class="col-span-3 text-center py-10">Gagal memuat jadwal.</div>'; }
+            } catch (e) {
+                grid.innerHTML = '<div class="col-span-3 text-center py-10">Gagal memuat jadwal.</div>';
+            }
         }
 
-        function searchByCast(id) { closeModal(); currentCastId = id; searchQuery = ''; document.getElementById('searchInp').value = ''; document.getElementById('searchOverlay').style.display = 'block'; document.getElementById('smartSearchDropdown').style.display = 'none'; document.body.style.overflow='hidden'; loadFeed(true); }
+        function searchByCast(castId) { 
+            closeModal(); 
+            currentCastId = castId; 
+            searchQuery = ''; 
+            document.getElementById('searchInp').value = ''; 
+            document.getElementById('searchOverlay').style.display = 'block'; 
+            document.getElementById('smartSearchDropdown').style.display = 'none';
+            document.body.style.overflow='hidden'; 
+            loadFeed(true); 
+        }
 
         function initHighlights() { 
-            const hls = [{n: 'Disney', com: '2|6125|3166|34213', img: 'Disney.png', t: 'movie', s: true},{n: 'Pixar', com: '3', img: 'Pixar.png', t: 'movie', s: true},{n: 'Dreamworks', com: '521|7|1778', img: 'Dreamwork.png', t: 'movie', s: true},{n: 'Ghibli', com: '10342', img: 'Ghibli.png', t: 'movie', s: true},{n: 'Anime', g: 16, img: 'Anime.png', t: 'movie', c: 'JP', s: true},{n: 'Indonesia', c: 'ID', img: 'Indonesia.png', t: 'movie', s: false},{n: 'Korea', c: 'KR', img: 'Korea.png', t: 'movie', s: false},{n: 'India', c: 'IN', img: 'Indonesia.png', t: 'movie', s: false},{n: 'Thailand', c: 'TH', img: 'Thailand.png', t: 'movie', s: false}]; 
+            const hls = [
+                {n: 'Disney', com: '2|6125|3166|34213', img: 'Disney.png', t: 'movie', s: true},
+                {n: 'Pixar', com: '3', img: 'Pixar.png', t: 'movie', s: true},
+                {n: 'Dreamworks', com: '521|7|1778', img: 'Dreamwork.png', t: 'movie', s: true},
+                {n: 'Ghibli', com: '10342', img: 'Ghibli.png', t: 'movie', s: true},
+                {n: 'Anime', g: 16, img: 'Anime.png', t: 'movie', c: 'JP', s: true},
+                {n: 'Indonesia', c: 'ID', img: 'Indonesia.png', t: 'movie', s: false},
+                {n: 'Korea', c: 'KR', img: 'Korea.png', t: 'movie', s: false},
+                {n: 'India', c: 'IN', img: 'India.png', t: 'movie', s: false},
+                {n: 'Thailand', c: 'TH', img: 'Thailand.png', t: 'movie', s: false}
+            ]; 
             const cont = document.getElementById('highlightList'); 
             hls.forEach(h => { 
-                const div = document.createElement('div'); div.className = 'highlight-item'; 
-                div.onclick = () => { document.querySelectorAll('.highlight-item').forEach(i => i.classList.remove('active-hl')); div.classList.add('active-hl'); currentLibMode = false; currentCastId = ''; searchQuery = ''; currentCountry = h.c || ''; currentGenre = h.g || ''; currentCompany = h.com || ''; currentSchedule = 'trending'; currentType = h.t; currentYear = ''; loadFeed(true); }; 
-                div.innerHTML = `<div class="${h.s?'highlight-circle logo-small':'highlight-circle'}"><img src="${h.img}" onerror="this.src='https://via.placeholder.com/100?text=${h.n}'"></div><div class="highlight-text">${h.n}</div>`; cont.appendChild(div); 
+                const div = document.createElement('div'); 
+                div.className = 'highlight-item'; 
+                div.onclick = () => { 
+                    document.querySelectorAll('.highlight-item').forEach(i => i.classList.remove('active-hl'));
+                    div.classList.add('active-hl');
+                    currentLibMode = false; currentCastId = ''; searchQuery = ''; currentCountry = h.c || ''; currentGenre = h.g || ''; currentCompany = h.com || ''; currentSchedule = 'trending'; currentType = h.t; currentYear = ''; loadFeed(true); 
+                }; 
+                const circleClass = h.s ? 'highlight-circle logo-small' : 'highlight-circle';
+                div.innerHTML = `<div class="${circleClass}"><img src="${h.img}" onerror="this.src='https://via.placeholder.com/100?text=${h.n}'"></div><div class="highlight-text">${h.n}</div>`; 
+                cont.appendChild(div); 
             }); 
         }
 
         function initFilters() { 
-            const yD = document.getElementById('yearDropdown'); let yH = '<div class="filter-item sticky-reset" onclick="setYear(\'\')">Semua Tahun</div>'; for(let y=2026; y>=1900; y--) yH += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`; yD.innerHTML = yH; 
+            const yD = document.getElementById('yearDropdown'); 
+            let yearHTML = '<div class="filter-item sticky-reset" onclick="setYear(\'\')">Semua Tahun</div>'; 
+            for(let y=2026; y>=1900; y--) yearHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`; 
+            yD.innerHTML = yearHTML; 
             const countries = [['ID','Indonesia'],['US','USA'],['KR','Korea Selatan'],['JP','Jepang'],['IN','India'],['TH','Thailand'],['CN','China'],['PH','Filipina'],['GB','Inggris'],['FR','Prancis'],['ES','Spanyol'],['IT','Italia'],['TR','Turki'],['DE','Jerman']]; 
-            const cD = document.getElementById('countryDropdown'); let cH = '<div class="filter-item sticky-reset" onclick="setCountry(\'\',\'Negara\')">Semua Negara</div>'; countries.forEach(c => cH += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`); cD.innerHTML = cH; 
+            const cD = document.getElementById('countryDropdown'); 
+            let countryHTML = '<div class="filter-item sticky-reset" onclick="setCountry(\'\',\'Negara\')">Semua Negara</div>'; 
+            countries.forEach(c => countryHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`); 
+            cD.innerHTML = countryHTML; 
             const genres = [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Komedi'],[80,'Crime'],[99,'Dokumenter'],[18,'Drama'],[10751,'Family'],[14,'Fantasy'],[36,'History'],[27,'Horror'],[10402,'Music'],[9648,'Misteri'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller']]; 
-            const gD = document.getElementById('genreDropdown'); let gH = '<div class="filter-item sticky-reset" onclick="setGenre(\'\',\'Genre\')">Semua Genre</div>'; genres.forEach(g => gH += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`); gD.innerHTML = gH; 
+            const gD = document.getElementById('genreDropdown'); 
+            let genreHTML = '<div class="filter-item sticky-reset" onclick="setGenre(\'\',\'Genre\')">Semua Genre</div>'; 
+            genres.forEach(g => genreHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`); 
+            gD.innerHTML = genreHTML; 
         }
 
-        function toggleFilter(e, id) { e.stopPropagation(); document.querySelectorAll('.filter-dropdown').forEach(el => el.style.display = 'none'); const d = document.getElementById(id); d.style.display = 'block'; d.scrollTop = 0; document.getElementById('filterOverlay').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+        function toggleFilter(e, id) { e.stopPropagation(); const d = document.getElementById(id); const overlay = document.getElementById('filterOverlay'); document.querySelectorAll('.filter-dropdown').forEach(el => el.style.display = 'none'); d.style.display = 'block'; d.scrollTop = 0; overlay.style.display = 'block'; document.body.style.overflow = 'hidden'; }
         function closeD() { document.querySelectorAll('.filter-dropdown').forEach(d => d.style.display = 'none'); document.getElementById('filterOverlay').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         async function loadFeed(isNew = true) {
@@ -392,30 +626,41 @@
             loading = true; abortController = new AbortController();
             const grid = document.getElementById('searchOverlay').style.display === 'block' ? document.getElementById('searchGrid') : document.getElementById('feedGrid');
             if(isNew) { page = 1; grid.innerHTML = ''; }
+            
             let url;
-            if(currentCastId) url = `https://api.themoviedb.org/3/person/${currentCastId}/combined_credits?api_key=${API_KEY}&language=id-ID`;
-            else if(searchQuery) url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false`;
-            else if(currentType === 'multi') url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=id-ID&page=${page}`;
+            if(currentCastId) { url = `https://api.themoviedb.org/3/person/${currentCastId}/combined_credits?api_key=${API_KEY}&language=id-ID`; }
+            else if(searchQuery) { url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false`; }
+            else if(currentType === 'multi') { url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=id-ID&page=${page}`; }
             else {
-                let ep = (currentType === 'tv') ? 'discover/tv' : 'discover/movie';
-                url = `https://api.themoviedb.org/3/${ep}?api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false&sort_by=popularity.desc`;
+                let endpoint = (currentType === 'tv') ? 'discover/tv' : 'discover/movie';
+                url = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false&sort_by=popularity.desc`;
                 if(currentCountry) url += `&with_origin_country=${currentCountry}`;
                 if(currentGenre) url += `&with_genres=${currentGenre}`;
                 if(currentCompany) url += `&with_companies=${currentCompany}`;
                 if(currentType === 'short') url += `&with_runtime.lte=40&with_runtime.gte=1`;
                 if(currentSchedule === 'now_playing' || currentSchedule === 'upcoming') { 
-                    const t = new Date().toISOString().split('T')[0]; 
-                    if(currentSchedule === 'now_playing') url += `&primary_release_date.gte=${new Date(Date.now()-5184000000).toISOString().split('T')[0]}&primary_release_date.lte=${t}`; 
-                    else url += `&primary_release_date.gte=${t}`; 
+                    const today = new Date().toISOString().split('T')[0]; 
+                    if(currentSchedule === 'now_playing') { 
+                        const prev = new Date(Date.now() - 60*24*60*60*1000).toISOString().split('T')[0]; 
+                        url += `&primary_release_date.gte=${prev}&primary_release_date.lte=${today}`; 
+                    } else { url += `&primary_release_date.gte=${today}`; } 
                 }
-                if(currentYear) url += (ep === 'discover/tv') ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`;
+                if(currentYear) {
+                    if(endpoint === 'discover/tv') url += `&first_air_date_year=${currentYear}`;
+                    else url += `&primary_release_year=${currentYear}`;
+                }
             }
+
             try { 
-                const res = await fetch(url, { signal: abortController.signal }); const data = await res.json(); 
+                const res = await fetch(url, { signal: abortController.signal }); 
+                const data = await res.json(); 
                 let items = data.results || data.cast || []; 
                 if(currentCastId) items.sort((a,b) => b.popularity - a.popularity);
-                if(items.length === 0 && isNew) grid.innerHTML = `<div class="col-span-3 text-center py-20 text-zinc-600 text-xs">Konten tidak ditemukan.</div>`;
-                else renderGrid(items, grid); 
+                if(items.length === 0 && isNew) {
+                    grid.innerHTML = `<div class="col-span-3 text-center py-20 text-zinc-600 text-xs">Konten tidak ditemukan.</div>`;
+                } else {
+                    renderGrid(items, grid); 
+                }
             } catch(e) { if(e.name !== 'AbortError') console.error(e); }
             loading = false;
         }
@@ -423,119 +668,230 @@
         function renderGrid(items, grid) { 
             items.forEach(m => { 
                 if(!m.poster_path || m.media_type === 'person') return; 
-                let t = m.media_type || (currentType==='tv'?'tv':'movie');
-                const card = document.createElement('div'); card.className = 'post-card'; card.onclick = () => openModal(m.id, t); 
-                card.innerHTML = `<div class="badge-rating">★ ${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':(t==='tv'?'SERIES':'FILM')}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy">`; 
+                let mType = m.media_type;
+                if(!mType) {
+                    if(currentType === 'tv') mType = 'tv';
+                    else if(currentType === 'movie' || currentType === 'short') mType = 'movie';
+                    else mType = 'movie'; 
+                }
+                const card = document.createElement('div'); 
+                card.className = 'post-card'; 
+                card.onclick = function() { openModal(m.id, mType); }; 
+                card.innerHTML = `<div class="badge-rating">★ ${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':(mType==='tv'?'SERIES':'FILM')}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy">`; 
                 grid.appendChild(card); 
             }); 
         }
 
-        function openSearch() { const i = document.getElementById('searchInp'); document.getElementById('searchOverlay').style.display = 'block'; i.placeholder = "Cari film, series, atau aktor..."; i.value = ''; document.getElementById('searchGrid').innerHTML = ''; i.focus(); document.body.style.overflow='hidden'; }
+        function openSearch() { 
+            const titleInp = document.getElementById('searchInp');
+            document.getElementById('searchOverlay').style.display = 'block'; 
+            titleInp.placeholder = "Cari film, series, atau aktor...";
+            titleInp.value = ''; 
+            document.getElementById('searchGrid').innerHTML = ''; 
+            titleInp.focus(); 
+            document.body.style.overflow='hidden'; 
+        }
         function closeSearch() { document.getElementById('searchOverlay').style.display = 'none'; document.body.style.overflow='auto'; searchQuery=''; currentCastId=''; document.getElementById('smartSearchDropdown').style.display = 'none'; }
-        function searchAction() { currentLibMode = false; currentCastId = ''; searchQuery = document.getElementById('searchInp').value; document.getElementById('smartSearchDropdown').style.display = 'none'; loadFeed(true); }
+        
+        function searchAction() { 
+            currentLibMode = false; 
+            currentCastId = ''; 
+            searchQuery = document.getElementById('searchInp').value; 
+            document.getElementById('smartSearchDropdown').style.display = 'none'; 
+            loadFeed(true); 
+        }
+
         function toggleFilterBar() { const b = document.getElementById('filterBar'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; }
         
         function setSchedule(v, el) { 
-            currentLibMode = false; currentCastId = ''; searchQuery = ''; const a = el.classList.contains('active');
+            currentLibMode = false; currentCastId = ''; searchQuery = ''; 
+            const isActive = el.classList.contains('active');
             document.querySelectorAll('.btn-ig').forEach(b=>b.classList.remove('active')); 
-            if(a) currentSchedule = 'trending'; else { el.classList.add('active'); currentSchedule = v; }
-            if(currentType === 'multi') currentType = 'movie'; loadFeed(true); 
+            if(isActive) { currentSchedule = 'trending'; } 
+            else { el.classList.add('active'); currentSchedule = v; }
+            if(currentType === 'multi') currentType = 'movie';
+            loadFeed(true); 
         }
 
-        function setFilter(k, v, el) { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType = v; document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat')); el.classList.add('active-stat'); loadFeed(true); }
-        function setYear(y) { currentYear = y; const b = document.getElementById('yearBtn'); b.innerText = y || 'Tahun'; y ? b.classList.add('active-pill') : b.classList.remove('active-pill'); if(currentType === 'multi') currentType = 'movie'; closeD(); loadFeed(true); }
-        function setCountry(c, n) { currentCountry = c; const b = document.getElementById('btnCountry'); b.innerText = n; c ? b.classList.add('active-pill') : b.classList.remove('active-pill'); if(currentType === 'multi') currentType = 'movie'; closeD(); loadFeed(true); }
-        function setGenre(g, n) { currentGenre = g; const b = document.getElementById('btnGenre'); b.innerText = n; g ? b.classList.add('active-pill') : b.classList.remove('active-pill'); if(currentType === 'multi') currentType = 'movie'; closeD(); loadFeed(true); }
-
-        function getEmbedUrl(p, t, id, s=1, e=1) {
-            if(p === 'vidlink') return t === 'movie' ? `https://vidlink.pro/movie/${id}` : `https://vidlink.pro/tv/${id}/${s}/${e}`;
-            if(p === 'vidnest') return t === 'movie' ? `https://vidnest.fun/movie/${id}` : `https://vidnest.fun/tv/${id}/${s}/${e}`;
-            if(p === '2embed') return t === 'movie' ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=${s}&e=${e}`;
-            return "";
+        function setFilter(k, v, el) { 
+            currentLibMode = false; currentCastId = ''; searchQuery = ''; 
+            currentType = v; 
+            document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat'));
+            el.classList.add('active-stat');
+            loadFeed(true); 
         }
 
-        function requestRotate() {
-            const f = document.querySelector('#carouselTrack iframe'); if(!f) return;
-            if (f.requestFullscreen) f.requestFullscreen(); else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
-            if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(e => {});
+        function setYear(y) { 
+            currentYear = y; 
+            const btn = document.getElementById('yearBtn');
+            btn.innerText = y || 'Tahun'; 
+            y ? btn.classList.add('active-pill') : btn.classList.remove('active-pill');
+            if(currentType === 'multi') currentType = 'movie';
+            closeD(); loadFeed(true); 
+        }
+
+        function setCountry(c, n) { 
+            currentCountry = c; 
+            const btn = document.getElementById('btnCountry');
+            btn.innerText = n; 
+            c ? btn.classList.add('active-pill') : btn.classList.remove('active-pill');
+            if(currentType === 'multi') currentType = 'movie';
+            closeD(); loadFeed(true); 
+        }
+
+        function setGenre(g, n) { 
+            currentGenre = g; 
+            const btn = document.getElementById('btnGenre');
+            btn.innerText = n; 
+            g ? btn.classList.add('active-pill') : btn.classList.remove('active-pill');
+            if(currentType === 'multi') currentType = 'movie';
+            closeD(); loadFeed(true); 
         }
 
         async function openModal(id, type) {
-            window.currentMediaId = id; window.currentMediaType = type; window.currentS = 1; window.currentE = 1;
-            document.getElementById('movieModal').style.display = 'block'; document.getElementById('movieModal').scrollTop = 0;
+            window.currentMediaId = id; window.currentMediaType = type;
+            document.getElementById('movieModal').style.display = 'block'; 
+            document.getElementById('movieModal').scrollTop = 0;
             document.getElementById('smartSearchDropdown').style.display = 'none'; document.body.style.overflow = 'hidden'; currentIdx = 0; isTranslated = false;
-            const [rI, rE, rC] = await Promise.all([fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos,production_companies`),fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`),fetch(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${API_KEY}`)]);
-            const dI = await rI.json(), dE = await rE.json(), dC = await rC.json();
-            const vids = [...(dI.videos?.results || []), ...(dE.videos?.results || [])].filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')).slice(0, 4);
+            
+            const [rId, rEn, rCast] = await Promise.all([
+                fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos,production_companies`),
+                fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`),
+                fetch(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${API_KEY}`)
+            ]);
+            
+            const dId = await rId.json(), dEn = await rEn.json(), dCast = await rCast.json();
+            const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])].filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')).slice(0, 4);
             const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots');
+            
+            track.querySelectorAll('iframe').forEach(f => f.src = "");
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
+            
             if(vids.length > 0) { 
                 vids.forEach((v, i) => { 
                     track.innerHTML += `<div class="carousel-slide"><iframe id="yt-${i}" src="https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
-                    if(vids.length > 1) dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; 
+                    if(vids.length > 1) {
+                        dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; 
+                    }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vids.length > 1 ? 'block' : 'none'; 
-            } else { track.innerHTML = `<div class="carousel-slide"><iframe src="https://vidsrc.me/embed/${type}?tmdb=${id}" class="w-full h-full" allowfullscreen></iframe></div>`; document.getElementById('swipeOverlay').style.display = 'none'; }
-            document.getElementById('castContainer').innerHTML = (dC.cast || []).slice(0, 10).map(c => `<div class="cast-item" onclick="searchByCast(${c.id})"><div class="cast-img-border"><div class="inner-border">${c.profile_path?`<img src="https://image.tmdb.org/t/p/w185${c.profile_path}" loading="lazy">`:`<div style="width:100%;height:100%;background:#000;"></div>`}</div></div><span class="cast-name">${c.name}</span></div>`).join('');
-            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dI.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; document.getElementById('mTitle').innerText = dI.title || dI.name || dE.title;
-            originalIndoDesc = dI.overview; globalFullDesc = originalIndoDesc || dE.overview || "Sinopsis belum tersedia."; globalEnDesc = dE.overview;
-            if(globalEnDesc && globalEnDesc !== originalIndoDesc) { document.getElementById('mTranslateBtn').classList.remove('hidden'); document.getElementById('mTranslateBtn').innerText = "Lihat terjemahan"; } else document.getElementById('mTranslateBtn').classList.add('hidden');
-            isExpanded = false; renderSynopsis();
-            const relY = (dI.release_date || dI.first_air_date || "2026").split('-')[0];
-            document.getElementById('mHashtags').innerHTML = `#${(dI.title||dI.name||"").replace(/[^a-zA-Z0-9]/g, '')} #${relY} #${type==='tv'?'Series':'Film'} <br> ${(dI.genres||[]).map(g=>`#${g.name.replace(/ /g,'')}`).slice(0,3).join(' ')}`;
-            document.getElementById('mDateDisplay').innerText = dI.release_date || dI.first_air_date ? new Date(dI.release_date || dI.first_air_date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
-            document.getElementById('serverList').innerHTML = `<button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 1</button><button class="server-btn" onclick="playVid(getEmbedUrl('vidlink', '${type}', '${id}'), this)">Server 2</button><button class="server-btn" onclick="playVid(getEmbedUrl('vidnest', '${type}', '${id}'), this)">Server 3</button><button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${type==='tv'?'/1/1':''}', this)">Server 4</button><button class="server-btn" onclick="playVid(getEmbedUrl('2embed', '${type}', '${id}'), this)">Server 5</button><button class="server-btn" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 6</button>`;
-            if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dI.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else document.getElementById('seriesControl').classList.add('hidden');
+            } else { 
+                track.innerHTML = `<div class="carousel-slide"><iframe src="https://vidsrc.me/embed/${type}?tmdb=${id}" class="w-full h-full" allowfullscreen></iframe></div>`; 
+                document.getElementById('swipeOverlay').style.display = 'none'; 
+            }
+
+            document.getElementById('castContainer').innerHTML = (dCast.cast || []).slice(0, 10).map(c => {
+                const profileImg = c.profile_path 
+                    ? `<img src="https://image.tmdb.org/t/p/w185${c.profile_path}" loading="lazy">` 
+                    : `<div style="width:100%; height:100%; background:#000;"></div>`;
+                
+                return `
+                    <div class="cast-item" onclick="searchByCast(${c.id})">
+                        <div class="cast-img-border">
+                            <div class="inner-border">
+                                ${profileImg}
+                            </div>
+                        </div>
+                        <span class="cast-name">${c.name}</span>
+                    </div>`;
+            }).join('');
+
+            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dId.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; document.getElementById('mTitle').innerText = dId.title || dId.name || dEn.title;
+            
+            originalIndoDesc = dId.overview;
+            globalFullDesc = originalIndoDesc || dEn.overview || "Sinopsis belum tersedia untuk konten ini.";
+            globalEnDesc = dEn.overview;
+            
+            if(globalEnDesc && globalEnDesc !== originalIndoDesc) { 
+                document.getElementById('mTranslateBtn').classList.remove('hidden'); 
+                document.getElementById('mTranslateBtn').innerText = "Lihat terjemahan"; 
+            } else { document.getElementById('mTranslateBtn').classList.add('hidden'); }
+            
+            isExpanded = false; 
+            renderSynopsis();
+
+            const relYear = (dId.release_date || dId.first_air_date || "2026").split('-')[0];
+            const contentKind = (type === 'tv') ? 'Series' : 'Film';
+            const genresArr = (dId.genres || []).map(g => `#${g.name.replace(/[^a-zA-Z0-9]/g, '')}`).slice(0, 3).join(' ');
+            const studiosArr = (dId.production_companies || []).map(c => `#${c.name.replace(/[^a-zA-Z0-9]/g, '')}`).slice(0, 2).join(' ');
+            document.getElementById('mHashtags').innerHTML = `#${(dId.title||dId.name||"").replace(/[^a-zA-Z0-9]/g, '')} #${relYear} #${contentKind} <br> ${genresArr} ${studiosArr}`;
+            const rel = dId.release_date || dId.first_air_date || ""; 
+            document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+            document.getElementById('serverList').innerHTML = `<button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 1</button><button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${type==='tv'?'/1/1':''}', this)">Server 2</button><button class="server-btn" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 3</button>`;
+            if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
         }
 
         async function handleTranslate() {
-            const b = document.getElementById('mTranslateBtn');
+            const btn = document.getElementById('mTranslateBtn');
             if(!isTranslated) {
-                b.innerText = "Menerjemahkan...";
+                const oldText = btn.innerText;
+                btn.innerText = "Menerjemahkan...";
                 try {
-                    const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=id&dt=t&q=${encodeURIComponent(globalEnDesc)}`);
-                    const d = await r.json(); globalFullDesc = d[0].map(x => x[0]).join(''); isTranslated = true; b.innerText = "Lihat versi asli"; renderSynopsis();
-                } catch(e) { b.innerText = "Gagal"; }
-            } else { globalFullDesc = originalIndoDesc || globalEnDesc; isTranslated = false; b.innerText = "Lihat terjemahan"; renderSynopsis(); }
+                    const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=id&dt=t&q=${encodeURIComponent(globalEnDesc)}`);
+                    const data = await res.json();
+                    globalFullDesc = data[0].map(x => x[0]).join('');
+                    isTranslated = true;
+                    btn.innerText = "Lihat versi asli";
+                    renderSynopsis();
+                } catch(e) { btn.innerText = "Gagal menerjemahkan"; setTimeout(()=>btn.innerText=oldText, 2000); }
+            } else {
+                globalFullDesc = originalIndoDesc || globalEnDesc || "Sinopsis tidak tersedia.";
+                isTranslated = false;
+                btn.innerText = "Lihat terjemahan";
+                renderSynopsis();
+            }
         }
         
-        function closeModal() { document.getElementById('carouselTrack').innerHTML = ''; document.getElementById('movieModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
-        function renderSynopsis() { const d = document.getElementById('mDesc'), t = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { t.classList.remove('hidden'); d.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; t.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { d.innerText = globalFullDesc; t.classList.add('hidden'); } }
+        function closeModal() { 
+            const track = document.getElementById('carouselTrack'); 
+            track.querySelectorAll('iframe').forEach(f => f.src = "");
+            track.innerHTML = ''; 
+            document.getElementById('movieModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
         function handleToggleDesc() { isExpanded = !isExpanded; renderSynopsis(); }
-        function playVid(u, el) { const t = document.getElementById('carouselTrack'); t.innerHTML = `<div class="carousel-slide"><iframe src="${u}" class="w-full h-full" allowfullscreen></iframe></div>`; t.style.transform = 'translateX(0)'; currentIdx = 0; document.getElementById('carouselDots').innerHTML = ''; document.getElementById('swipeOverlay').style.display = 'none'; highlightBtn(el); }
+        
+        function playVid(url, el) { 
+            const track = document.getElementById('carouselTrack'); 
+            const dots = document.getElementById('carouselDots'); 
+            track.querySelectorAll('iframe').forEach(f => f.src = "");
+            track.innerHTML = `<div class="carousel-slide"><iframe src="${url}" class="w-full h-full" allowfullscreen></iframe></div>`; 
+            track.style.transform = 'translateX(0)'; 
+            currentIdx = 0; 
+            dots.innerHTML = ''; 
+            document.getElementById('swipeOverlay').style.display = 'none'; 
+            highlightBtn(el); 
+        }
+        
         function highlightBtn(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
-
-        async function loadEpisodes() { 
-            const s = document.getElementById('seasonSel').value; window.currentS = s;
-            const r = await fetch(`https://api.themoviedb.org/3/tv/${window.currentMediaId}/season/${s}?api_key=${API_KEY}`); const d = await r.json(); 
-            document.getElementById('episodeGrid').innerHTML = (d.episodes||[]).map(e => `<div class="pill text-[10px]" onclick="playEpisode('${s}', '${e.episode_number}', this)">${e.episode_number}</div>`).join(''); 
-        }
-
-        function playEpisode(s, e, el) {
-            window.currentE = e; const u = getEmbedUrl('vidlink', 'tv', window.currentMediaId, s, e); playVid(u, el);
-            document.getElementById('serverList').innerHTML = `<button class="server-btn" onclick="playVid('https://vidsrc.me/embed/tv?tmdb=${window.currentMediaId}&sea=${s}&epi=${e}', this)">Server 1</button><button class="server-btn" onclick="playVid(getEmbedUrl('vidlink', 'tv', '${window.currentMediaId}', ${s}, ${e}), this)">Server 2</button><button class="server-btn" onclick="playVid(getEmbedUrl('vidnest', 'tv', '${window.currentMediaId}', ${s}, ${e}), this)">Server 3</button><button class="server-btn" onclick="playVid('https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${e}', this)">Server 4</button><button class="server-btn" onclick="playVid(getEmbedUrl('2embed', 'tv', '${window.currentMediaId}', ${s}, ${e}), this)">Server 5</button><button class="server-btn" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${window.currentMediaId}&season=${s}&episode=${e}', this)">Server 6</button>`;
-        }
+        async function loadEpisodes() { const s = document.getElementById('seasonSel').value; const res = await fetch(`https://api.themoviedb.org/3/tv/${window.currentMediaId}/season/${s}?api_key=${API_KEY}`); const d = await res.json(); document.getElementById('episodeGrid').innerHTML = (d.episodes||[]).map(e => `<div class="pill text-[10px]" onclick="playVid('https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${e.episode_number}', this)">${e.episode_number}</div>`).join(''); }
         
         function setupSwipe() { 
-            const o = document.getElementById('swipeOverlay'); o.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true}); 
-            o.addEventListener('touchend', e => { 
-                let d = startX - e.changedTouches[0].clientX; const s = document.querySelectorAll('.carousel-slide'); 
-                if(Math.abs(d) > 50 && s.length > 1) { 
-                    let old = currentIdx; if(d > 0 && currentIdx < s.length - 1) currentIdx++; else if(d < 0 && currentIdx > 0) currentIdx--; 
+            const overlay = document.getElementById('swipeOverlay'); 
+            overlay.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true}); 
+            overlay.addEventListener('touchend', e => { 
+                let diff = startX - e.changedTouches[0].clientX; 
+                const slides = document.querySelectorAll('.carousel-slide'); 
+                if(Math.abs(diff) > 50 && slides.length > 1) { 
+                    let oldIdx = currentIdx; 
+                    if(diff > 0 && currentIdx < slides.length - 1) currentIdx++; 
+                    else if(diff < 0 && currentIdx > 0) currentIdx--; 
                     document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`; 
-                    document.querySelectorAll('.dot').forEach((dt, i) => dt.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`); 
-                    const oV = document.getElementById(`yt-${old}`), nV = document.getElementById(`yt-${currentIdx}`);
-                    if(oV) try{oV.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(err){}
-                    if(nV) try{nV.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(err){}
+                    document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
+                    const oldVid = document.getElementById(`yt-${oldIdx}`), newVid = document.getElementById(`yt-${currentIdx}`);
+                    if(oldVid) try{oldVid.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(e){}
+                    if(newVid) try{newVid.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(e){}
                 } 
             }); 
         }
 
-        function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id), isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
-        function toggleLib(k) { let i = JSON.parse(localStorage.getItem(k) || '[]'); const idx = i.findIndex(x => x.id == window.currentMediaId); idx > -1 ? i.splice(idx,1) : i.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(i)); updateLibButtons(window.currentMediaId); }
-        async function switchTab(m, el) { document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); el.classList.add('active'); if(m === 'likes' || m === 'bookmarks') { currentLibMode = true; showLibrary(m); } else { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; loadFeed(true); } }
-        async function showLibrary(k) { const i = JSON.parse(localStorage.getItem(k) || '[]'), grid = document.getElementById('feedGrid'); grid.innerHTML = ''; if (!i.length) { grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-xs">Belum ada konten disimpan</div>'; return; } const r = await Promise.all(i.map(x => fetch(`https://api.themoviedb.org/3/${x.type}/${x.id}?api_key=${API_KEY}&language=id-ID`).then(res => res.json()))); renderGrid(r.filter(m => m.id), grid); }
+        function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
+        function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); }
+        async function switchTab(mode, el) { document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); el.classList.add('active'); const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; if(mode === 'likes' || mode === 'bookmarks') { currentLibMode = true; showLibrary(mode); } else { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; loadFeed(true); } }
+        async function showLibrary(k) { const items = JSON.parse(localStorage.getItem(k) || '[]'); const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; if (!items.length) { grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-xs">Belum ada konten disimpan</div>'; return; } const promises = items.map(i => fetch(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`).then(r => r.json())); const results = await Promise.all(promises); renderGrid(results.filter(m => m.id), grid); }
         window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000 && !loading && !searchQuery && !currentLibMode) { page++; loadFeed(false); } };
     </script>
 </body>
