@@ -154,17 +154,20 @@
             position: absolute; inset: 0; background: rgba(0,0,0,0.2);
             display: flex; flex-direction: column; justify-content: space-between;
             padding: 30px; opacity: 1; z-index: 100000;
-            pointer-events: none; /* Klik tembus ke video jika tidak kena tombol */
+            pointer-events: none;
         }
-        .ls-controls > * { pointer-events: auto; } /* Tombol tetap bisa diklik */
+        .ls-controls > * { pointer-events: auto; }
         
         .ls-top { display: flex; justify-content: space-between; align-items: center; }
         .ls-center { display: flex; justify-content: center; align-items: center; gap: 60px; }
         .ls-btn { color: #fff; font-size: 24px; cursor: pointer; text-shadow: 0 0 10px rgba(0,0,0,0.8); transition: transform 0.2s; }
         .ls-btn:active { transform: scale(1.2); }
-        .ls-lock-screen { position: absolute; inset: 0; z-index: 110000; display: none; align-items: center; justify-content: center; background: transparent; }
         
-        .landscape-active #movieModal { visibility: hidden; } /* Sembunyikan modal asli di belakang */
+        /* LOCK SCREEN STYLE PERBAIKAN: Tombol Gembok di sisi kiri bawah */
+        .ls-lock-screen { position: absolute; inset: 0; z-index: 110000; display: none; align-items: flex-end; justify-content: flex-start; padding: 30px; background: transparent; }
+        .ls-lock-screen i { cursor: pointer; text-shadow: 0 0 15px rgba(0,0,0,1); }
+        
+        .landscape-active #movieModal { visibility: hidden; }
     </style>
 </head>
 <body>
@@ -183,8 +186,8 @@
     <div id="landscapeOverlay" class="landscape-overlay">
         <div id="lsVideoWrapper" style="width:100%; height:100%;"></div>
         
-        <div id="lsLockLayer" class="ls-lock-screen" onclick="unlockScreen()">
-            <i class="fa-solid fa-lock text-5xl text-white opacity-40"></i>
+        <div id="lsLockLayer" class="ls-lock-screen">
+             <i class="fa-solid fa-lock text-3xl text-white opacity-60" onclick="unlockScreen()"></i>
         </div>
 
         <div class="ls-controls" id="lsUI">
@@ -328,10 +331,10 @@
             </div>
             <div class="px-4 py-3 flex justify-between items-center">
                 <div class="flex gap-4">
-                    <i id="btnLikeModal" class="interaction-icon"></i>
+                    <i id="btnLikeModal" class="interaction-icon" onclick="toggleLib('likes')"></i>
                     <i class="fa-solid fa-arrows-rotate interaction-icon" onclick="enterLandscape()"></i>
                 </div>
-                <i id="btnBookModal" class="interaction-icon"></i>
+                <i id="btnBookModal" class="interaction-icon" onclick="toggleLib('bookmarks')"></i>
             </div>
             <div class="ig-post-content">
                 <span id="mLikeDisplay" class="ig-likes-count"></span>
@@ -386,7 +389,6 @@
                 document.getElementById('backToTop').style.display = window.scrollY > 500 ? 'flex' : 'none'; 
             }); 
 
-            // Listener untuk mencegah keluar mode landscape jika layar diklik
             document.addEventListener('fullscreenchange', () => {
                 if (!document.fullscreenElement && document.body.classList.contains('landscape-active')) {
                     exitLandscape();
@@ -403,11 +405,18 @@
 
             if(!currentIframe) return;
 
-            // Salin iframe ke overlay landscape agar tidak hilang
             videoWrapper.innerHTML = '';
             const newIframe = currentIframe.cloneNode(true);
             newIframe.style.width = '100%';
             newIframe.style.height = '100%';
+            
+            // Tambahkan enablejsapi=1 agar bisa dikontrol
+            let src = newIframe.src;
+            if(!src.includes('enablejsapi=1')) {
+                src += (src.includes('?') ? '&' : '?') + 'enablejsapi=1';
+                newIframe.src = src;
+            }
+
             videoWrapper.appendChild(newIframe);
 
             document.getElementById('lsTitle').innerText = document.getElementById('mTitle').innerText;
@@ -427,7 +436,7 @@
         function exitLandscape() {
             document.body.classList.remove('landscape-active');
             document.getElementById('landscapeOverlay').style.display = 'none';
-            document.getElementById('lsVideoWrapper').innerHTML = ''; // Bersihkan agar tidak double suara
+            document.getElementById('lsVideoWrapper').innerHTML = ''; 
             
             if (document.exitFullscreen && document.fullscreenElement) {
                 document.exitFullscreen();
@@ -437,21 +446,38 @@
             }
         }
 
+        // PERBAIKAN: Pause Video sekaligus Audio dengan PostMessage API
         function toggleLsPlay() {
             const iframe = document.querySelector('#lsVideoWrapper iframe');
             const btn = document.getElementById('lsPlay');
+            if(!iframe) return;
+
             isLsPaused = !isLsPaused;
-            const cmd = isLsPaused ? 'pauseVideo' : 'playVideo';
-            iframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":cmd,"args":""}), '*');
+            
+            // Gunakan API YouTube (pauseVideo/playVideo)
+            const command = isLsPaused ? 'pauseVideo' : 'playVideo';
+            iframe.contentWindow.postMessage(JSON.stringify({
+                "event": "command",
+                "func": command,
+                "args": ""
+            }), '*');
+
             btn.className = isLsPaused ? 'fa-solid fa-play ls-btn text-7xl' : 'fa-solid fa-pause ls-btn text-7xl';
         }
 
         function toggleLsMute() {
             const iframe = document.querySelector('#lsVideoWrapper iframe');
             const btn = document.getElementById('lsMute');
+            if(!iframe) return;
+
             isLsMuted = !isLsMuted;
-            const cmd = isLsMuted ? 'mute' : 'unMute';
-            iframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":cmd,"args":""}), '*');
+            const command = isLsMuted ? 'mute' : 'unMute';
+            iframe.contentWindow.postMessage(JSON.stringify({
+                "event": "command",
+                "func": command,
+                "args": ""
+            }), '*');
+
             btn.className = isLsMuted ? 'fa-solid fa-volume-xmark ls-btn' : 'fa-solid fa-volume-high ls-btn';
         }
 
@@ -670,9 +696,23 @@
             document.getElementById('castContainer').innerHTML = (dCast.cast || []).slice(0, 10).map(c => `<div class="cast-item" onclick="searchByCast(${c.id})"><div class="cast-img-border"><div class="inner-border"><img src="https://image.tmdb.org/t/p/w185${c.profile_path}" onerror="this.src='amnesfubbia.png'"></div></div><span class="cast-name">${c.name}</span></div>`).join('');
             document.getElementById('mTitle').innerText = dId.title || dId.name;
             globalFullDesc = dId.overview || dEn.overview || "Sinopsis belum tersedia.";
+            
+            // Tambahkan Rating & Info Like
+            document.getElementById('mLikeDisplay').innerText = `Dilihat oleh ${dId.popularity.toFixed(0)} orang`;
+            document.getElementById('mDateDisplay').innerText = dId.release_date || dId.first_air_date || "";
+
+            isExpanded = false;
             renderSynopsis();
+            
             document.getElementById('serverList').innerHTML = `<button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 1</button><button class="server-btn" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}', this)">Server 2</button>`;
-            if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
+            
+            if(type === 'tv') { 
+                document.getElementById('seriesControl').classList.remove('hidden'); 
+                document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); 
+                loadEpisodes(); 
+            } else { 
+                document.getElementById('seriesControl').classList.add('hidden'); 
+            }
             updateLibButtons(id);
         }
 
@@ -683,9 +723,26 @@
             if(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
         }
 
-        function renderSynopsis() { const d = document.getElementById('mDesc'); d.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; document.getElementById('mToggleBtn').innerText = isExpanded ? "ringkas" : "selengkapnya"; }
+        function renderSynopsis() { 
+            const d = document.getElementById('mDesc'); 
+            const btn = document.getElementById('mToggleBtn');
+            if(globalFullDesc.length > 90) {
+                d.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; 
+                btn.classList.remove('hidden');
+                btn.innerText = isExpanded ? "ringkas" : "selengkapnya"; 
+            } else {
+                d.innerText = globalFullDesc;
+                btn.classList.add('hidden');
+            }
+        }
+
         function handleToggleDesc() { isExpanded = !isExpanded; renderSynopsis(); }
-        function closeModal() { document.getElementById('carouselTrack').innerHTML = ''; document.getElementById('movieModal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+        
+        function closeModal() { 
+            document.getElementById('carouselTrack').innerHTML = ''; 
+            document.getElementById('movieModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto'; 
+        }
         
         async function loadEpisodes() { 
             const s = document.getElementById('seasonSel').value; 
@@ -709,11 +766,52 @@
             }); 
         }
 
-        function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; }
-        function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); }
-        async function switchTab(mode, el) { document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); el.classList.add('active'); if(mode === 'grid') loadFeed(true); else showLibrary(mode); }
-        async function showLibrary(k) { const items = JSON.parse(localStorage.getItem(k) || '[]'); const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; for(let i of items) { const res = await fetch(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`); const m = await res.json(); renderGrid([m], grid); } }
-        window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !loading && !searchQuery) { page++; loadFeed(false); } };
+        function updateLibButtons(id) { 
+            const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); 
+            const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); 
+            document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; 
+            document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; 
+        }
+
+        function toggleLib(k) { 
+            let items = JSON.parse(localStorage.getItem(k) || '[]'); 
+            const idx = items.findIndex(x => x.id == window.currentMediaId); 
+            idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); 
+            localStorage.setItem(k, JSON.stringify(items)); 
+            updateLibButtons(window.currentMediaId); 
+        }
+
+        async function switchTab(mode, el) { 
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); 
+            el.classList.add('active'); 
+            if(mode === 'grid') {
+                loadFeed(true);
+            } else {
+                showLibrary(mode);
+            }
+        }
+
+        async function showLibrary(k) { 
+            const items = JSON.parse(localStorage.getItem(k) || '[]'); 
+            const grid = document.getElementById('feedGrid'); 
+            grid.innerHTML = ''; 
+            if(items.length === 0) {
+                grid.innerHTML = `<div class="col-span-3 text-center py-20 text-zinc-600">Belum ada koleksi.</div>`;
+                return;
+            }
+            for(let i of items) { 
+                const res = await fetch(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`); 
+                const m = await res.json(); 
+                renderGrid([m], grid); 
+            } 
+        }
+
+        window.onscroll = () => { 
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !loading && !searchQuery) { 
+                page++; 
+                loadFeed(false); 
+            } 
+        };
     </script>
 </body>
 </html>
