@@ -171,8 +171,19 @@
             background: rgba(0,0,0,0.5); border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
             cursor: pointer; 
         }
+
+        .lock-indicator {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.6); padding: 20px; border-radius: 50%; color: #fff;
+            font-size: 40px; display: none; z-index: 12000; pointer-events: none;
+            animation: lockFade 0.8s ease-out;
+        }
+        @keyframes lockFade {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
         
-        /* Fix modal overflow in landscape */
         .landscape-active #movieModal { overflow: hidden !important; visibility: hidden; }
         #mainVideoArea { aspect-ratio: 16/9; width: 100%; background: #000; position: relative; }
         #mainVideoArea iframe { border: none; }
@@ -192,6 +203,7 @@
     </div>
 
     <div id="landscapeOverlay" class="landscape-overlay" onclick="toggleLsUI()">
+        <div id="lockIndicator" class="lock-indicator"><i class="fa-solid fa-lock"></i></div>
         <div id="lsLockLayer" class="ls-lock-screen" onclick="event.stopPropagation(); unlockScreen()">
             <i class="fa-solid fa-lock text-2xl text-white opacity-80"></i>
         </div>
@@ -418,7 +430,6 @@
             document.body.classList.add('landscape-active');
             overlay.style.display = 'block';
             
-            // Move the video container into the landscape overlay to ensure it's on top
             overlay.insertBefore(videoArea, overlay.firstChild);
             
             showLsUI();
@@ -434,30 +445,35 @@
                 if (screen.orientation && screen.orientation.lock) {
                     await screen.orientation.lock('landscape').catch(() => {});
                 }
-            } catch (e) { console.warn("Fullscreen/Orientation lock failed:", e); }
+            } catch (e) { console.warn("Fullscreen error:", e); }
         }
 
-        function exitLandscape(isPopState = false) {
+        async function exitLandscape(isPopState = false) {
             document.body.classList.remove('landscape-active');
             const overlay = document.getElementById('landscapeOverlay');
             const videoArea = document.getElementById('mainVideoArea');
-            const carouselDots = document.getElementById('carouselDots');
             
             overlay.style.display = 'none';
+            document.getElementById('lsLockLayer').style.display = 'none';
             
-            // Put the video area back where it belongs in the modal
             const swipeOverlay = document.getElementById('swipeOverlay');
-            swipeOverlay.parentNode.insertBefore(videoArea, swipeOverlay.nextSibling);
+            if (swipeOverlay && swipeOverlay.parentNode) {
+                swipeOverlay.parentNode.insertBefore(videoArea, swipeOverlay.nextSibling);
+            }
 
-            if (document.exitFullscreen) {
-                document.exitFullscreen().catch(() => {});
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen().catch(() => {});
-            }
-            
-            if (screen.orientation && screen.orientation.unlock) {
-                screen.orientation.unlock();
-            }
+            try {
+                if (document.exitFullscreen) {
+                    await document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    await document.webkitExitFullscreen().catch(() => {});
+                }
+                
+                if (screen.orientation && screen.orientation.lock) {
+                    await screen.orientation.lock('portrait').catch(() => {});
+                } else if (screen.orientation && screen.orientation.unlock) {
+                    screen.orientation.unlock();
+                }
+            } catch (e) { console.warn("Orientation error:", e); }
             
             if (!isPopState && window.history.state?.view === 'landscape') {
                 window.history.back();
@@ -465,7 +481,15 @@
         }
 
         function toggleLsUI() {
-            if(document.getElementById('lsLockLayer').style.display === 'flex') return;
+            const lockLayer = document.getElementById('lsLockLayer');
+            const indicator = document.getElementById('lockIndicator');
+
+            if(lockLayer.style.display === 'flex') {
+                indicator.style.display = 'block';
+                setTimeout(() => { indicator.style.display = 'none'; }, 800);
+                return; 
+            }
+            
             const ui = document.getElementById('lsUI');
             if(ui.classList.contains('visible')) {
                 ui.classList.remove('visible');
@@ -478,7 +502,9 @@
             const ui = document.getElementById('lsUI');
             ui.classList.add('visible');
             clearTimeout(lsControlTimer);
-            lsControlTimer = setTimeout(() => ui.classList.remove('visible'), 3000);
+            lsControlTimer = setTimeout(() => {
+                ui.classList.remove('visible');
+            }, 3000);
         }
 
         function toggleLsPlay() {
