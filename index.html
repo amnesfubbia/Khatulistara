@@ -23,6 +23,7 @@
         @keyframes splashScale { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         @keyframes fadeIn { to { opacity: 1; } }
 
+        /* HEADER & PROFILE */
         .profile-header { padding: 15px 15px 0 15px; background: #000; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .ig-logo-wrapper { display: flex; align-items: center; gap: 4px; position: relative; cursor: pointer; }
@@ -61,6 +62,7 @@
         #filterOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9400; }
         .filter-item { padding: 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #262626; color: #eee; cursor: pointer; }
 
+        /* HIGHLIGHTS */
         .highlights-wrapper { padding: 0 15px 15px 15px; border-bottom: 1px solid #1c1c1c; }
         .highlights-container { display: flex; gap: 18px; overflow-x: auto; }
         .highlight-item { flex: 0 0 62px; text-align: center; cursor: pointer; }
@@ -68,21 +70,22 @@
         .highlight-item:active .highlight-circle { transform: scale(0.9); }
         .highlight-item.active-hl .highlight-circle { border: 2px solid #fff; }
         .highlight-circle img { width: 100%; height: 100%; object-fit: cover; }
-        
         .logo-small img { width: 75%; height: 75%; object-fit: contain; }
-        
         .highlight-text { font-size: 11px; color: #fff; font-weight: 400; white-space: nowrap; }
 
+        /* NAVIGATION TABS */
         .tab-nav { display: flex; border-top: 1px solid #1c1c1c; }
         .tab-item { flex: 1; text-align: center; padding: 12px 0; color: #a8a8a8; cursor: pointer; font-size: 18px; }
         .tab-item.active { color: #fff; border-bottom: 1px solid #fff; }
 
+        /* GRID */
         .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-bottom: 80px; }
         .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; cursor: pointer; }
         .post-card img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
         .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(255,255,255,0.9); color: #000; }
         .badge-type { position: absolute; top: 6px; right: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(0,0,0,0.7); color: #fff; text-transform: uppercase; border: 0.5px solid rgba(255,255,255,0.3); }
 
+        /* SEARCH OVERLAY */
         #searchOverlay { display: none; position: fixed; inset: 0; background: #000; z-index: 4500; overflow-y: auto; }
         .search-header { position: sticky; top: 0; background: #000; display: flex; align-items: center; padding: 10px 15px; gap: 10px; border-bottom: 1px solid #1c1c1c; z-index: 100; }
         .search-input-box { flex-grow: 1; background: #262626; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; position: relative; }
@@ -102,7 +105,9 @@
 
         #backToTop { position: fixed; bottom: 85px; right: 20px; background: rgba(255,255,255,0.3); width: 42px; height: 42px; border-radius: 50%; display: none; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
 
+        /* MODAL PLAYER */
         .modal-player { display: none; position: fixed; inset: 0; z-index: 8000; background: #000; overflow-y: auto; }
+        #modalScrollTop { max-width: 100%; margin: 0 auto; }
         .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); width: 100%; height: 100%; }
         .carousel-slide { min-width: 100%; height: 100%; position: relative; background: #000; }
         .swipe-overlay { position: absolute; inset: 0; z-index: 10; background: transparent; }
@@ -116,25 +121,22 @@
         
         .cast-wrapper { display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; scrollbar-width: none; }
         .cast-item { flex: 0 0 65px; text-align: center; cursor: pointer; }
-        .cast-img-border { 
-            width: 64px; height: 64px; border-radius: 50%; padding: 2.5px; 
-            background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); 
-            margin-bottom: 5px; 
-        }
+        .cast-img-border { width: 64px; height: 64px; border-radius: 50%; padding: 2.5px; background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); margin-bottom: 5px; }
         .cast-img-border .inner-border { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #000; overflow: hidden; background: #000; }
         .cast-img-border img { width: 100%; height: 100%; object-fit: cover; }
         .cast-name { font-size: 9px; font-weight: 500; color: #fff; line-height: 1.2; display: block; margin-top: 4px; }
         
+        /* IG POST STYLE CONTENT */
         .ig-post-content { padding: 0 15px; margin-top: 5px; }
         .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: block; }
         .ig-username { font-weight: 700; font-size: 13px; margin-right: 8px; }
         .ig-caption { font-size: 13px; line-height: 1.4; color: #efefef; }
-        
         .toggle-btn { display: block; color: #a8a8a8; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
-        #mTranslateBtn { font-size: 11px; color: #fff; font-weight: 700; cursor: pointer; display: inline-block; }
+        #mTranslateBtn { font-size: 11px; color: #fff; font-weight: 700; cursor: pointer; display: inline-block; margin-left: 8px; }
         .ig-hashtags { color: #e0f1ff; display: block; margin-top: 10px; font-size: 13px; line-height: 1.5; }
         .ig-date { color: #a8a8a8; font-size: 11px; text-transform: uppercase; }
         
+        /* BOTTOM NAV */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 300; }
         .bottom-nav i { color: #a8a8a8; transition: color 0.3s; }
         .bottom-nav i.active-nav { color: #fff; }
@@ -163,6 +165,7 @@
         .ls-btn:active { transform: scale(1.1); }
         .ls-btn.text-5xl { font-size: 40px; } 
         
+        /* LOCK SCREEN STYLE */
         .ls-lock-screen { 
             position: absolute; top: 20px; right: 20px; 
             z-index: 11000; display: none; padding: 12px;
@@ -170,11 +173,12 @@
             cursor: pointer; align-items: center; justify-content: center; width: 48px; height: 48px;
         }
         
+        /* ADJUSTMENT FOR LANDSCAPE */
         .landscape-active #movieModal { overflow: hidden !important; }
         .landscape-active #modalScrollTop { height: 100vh; max-width: 100%; padding: 0; }
         .landscape-active .carousel-slide { height: 100vh; }
         .landscape-active #mainVideoArea { height: 100vh !important; }
-        #mainVideoArea { aspect-ratio: 16/9; width: 100%; background: #000; }
+        #mainVideoArea { aspect-ratio: 16/9; width: 100%; background: #000; position: relative; }
     </style>
 </head>
 <body>
@@ -315,7 +319,7 @@
             
             <div id="castContainer" class="cast-wrapper px-4 no-scrollbar"></div>
             
-            <div class="relative overflow-hidden" id="mainVideoArea">
+            <div id="mainVideoArea">
                 <div class="swipe-overlay" id="swipeOverlay"></div>
                 <div class="carousel-track" id="carouselTrack"></div>
                 <div id="carouselDots" class="flex justify-center gap-2 py-3 absolute bottom-0 w-full z-20"></div>
@@ -341,7 +345,7 @@
                 
                 <div id="mHashtags" class="ig-hashtags"></div>
 
-                <div class="flex items-center gap-2 mt-2">
+                <div class="flex items-center mt-2">
                     <div id="mDateDisplay" class="ig-date"></div>
                     <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()">Lihat terjemahan</p>
                 </div>
@@ -394,21 +398,25 @@
             }); 
         };
 
-        // HANDLE BACK BUTTON
+        // --- BACK BUTTON LOGIC ---
         window.onpopstate = function(event) {
-            if (document.getElementById('landscapeOverlay').style.display === 'block') {
+            const landscapeOverlay = document.getElementById('landscapeOverlay');
+            const movieModal = document.getElementById('movieModal');
+            const searchOverlay = document.getElementById('searchOverlay');
+            const sideMenu = document.getElementById('sideMenu');
+
+            if (landscapeOverlay.style.display === 'block') {
                 exitLandscape(null, true);
-            } else if (document.getElementById('movieModal').style.display === 'block') {
+            } else if (movieModal.style.display === 'block') {
                 closeModal(true);
-            } else if (document.getElementById('searchOverlay').style.display === 'block') {
+            } else if (searchOverlay.style.display === 'block') {
                 closeSearch(true);
-            } else if (document.getElementById('sideMenu').style.display === 'block') {
+            } else if (sideMenu.style.display === 'block') {
                 toggleSideMenu(true);
             }
         };
 
         // --- LANDSCAPE LOGIC ---
-
         async function enterLandscape() {
             const overlay = document.getElementById('landscapeOverlay');
             const lsTitle = document.getElementById('lsTitle');
@@ -421,7 +429,7 @@
             overlay.style.display = 'block';
             
             const videoArea = document.getElementById('mainVideoArea');
-            document.getElementById('landscapeOverlay').appendChild(videoArea);
+            overlay.appendChild(videoArea);
             
             isLocked = false;
             document.getElementById('lsLockLayer').style.display = 'none';
@@ -526,8 +534,7 @@
             showLsUI();
         }
 
-        // --- CORE LOGIC ---
-
+        // --- CORE FUNCTIONS ---
         function updateActiveNav(el) { document.querySelectorAll('.bottom-nav i').forEach(i => i.classList.remove('active-nav')); el.classList.add('active-nav'); }
 
         function toggleSideMenu(isPopState = false) {
@@ -773,6 +780,12 @@
             
             isExpanded = false; renderSynopsis();
             
+            // HASHTAGS & LIKES COUNT
+            document.getElementById('mLikeDisplay').innerText = `${(dId.vote_count || 0).toLocaleString()} suka`;
+            const genres = (dId.genres || []).map(g => `#${g.name.replace(/\s+/g, '')}`).join(' ');
+            document.getElementById('mHashtags').innerText = genres;
+            document.getElementById('mDateDisplay').innerText = dId.release_date || dId.first_air_date || '';
+
             document.getElementById('serverList').innerHTML = `
                 <button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 1</button>
                 <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 2</button>
@@ -805,7 +818,7 @@
             track.querySelectorAll('iframe').forEach(f => f.src = ""); 
             document.getElementById('movieModal').style.display = 'none'; 
             document.body.style.overflow = 'auto'; 
-            if(!isPopState) history.back();
+            if(!isPopState && history.state?.view === 'modal') history.back();
         }
 
         function renderSynopsis() { const d = document.getElementById('mDesc'); d.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; document.getElementById('mToggleBtn').classList.toggle('hidden', globalFullDesc.length < 90); }
@@ -844,9 +857,13 @@
 
         function updateLibButtons(id) {
             const likes = JSON.parse(localStorage.getItem('likes') || '[]');
+            const books = JSON.parse(localStorage.getItem('bookmarks') || '[]');
             const isL = likes.some(x => x.id == id);
+            const isB = books.some(x => x.id == id);
             document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon';
             document.getElementById('btnLikeModal').onclick = () => toggleLib('likes');
+            document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon';
+            document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks');
         }
 
         function toggleLib(k) {
@@ -860,17 +877,20 @@
         async function switchTab(mode, el) { 
             document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); 
             el.classList.add('active'); 
-            if(mode !== 'grid') showLibrary(mode); else loadFeed(true);
+            if(mode !== 'grid') { currentLibMode = true; showLibrary(mode); } else { currentLibMode = false; loadFeed(true); }
         }
 
         async function showLibrary(k) {
             const items = JSON.parse(localStorage.getItem(k) || '[]');
             const grid = document.getElementById('feedGrid');
             grid.innerHTML = '';
+            if(items.length === 0) { grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-sm">Belum ada koleksi.</div>'; return; }
             for(let i of items) {
-                const res = await fetch(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`);
-                const data = await res.json();
-                renderGrid([data], grid);
+                try {
+                    const res = await fetch(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`);
+                    const data = await res.json();
+                    renderGrid([data], grid);
+                } catch(e){}
             }
         }
 
