@@ -2,13 +2,13 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>amnesfubbia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
         /* LOGO & SPLASH */
@@ -103,8 +103,8 @@
         #backToTop { position: fixed; bottom: 85px; right: 20px; background: rgba(255,255,255,0.3); width: 42px; height: 42px; border-radius: 50%; display: none; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
 
         .modal-player { display: none; position: fixed; inset: 0; z-index: 8000; background: #000; overflow-y: auto; }
-        .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); width: 100%; height: 100%; }
-        .carousel-slide { min-width: 100%; height: 100%; position: relative; background: #000; }
+        .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); width: 100%; }
+        .carousel-slide { min-width: 100%; aspect-ratio: 16/9; position: relative; background: #000; }
         .swipe-overlay { position: absolute; inset: 0; z-index: 10; background: transparent; }
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; transition: transform 0.1s; }
         .interaction-icon:active { transform: scale(1.2); }
@@ -147,53 +147,36 @@
         .about-feature { margin-top: 20px; background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; }
         .about-footer { margin-top: 40px; text-align: center; border-top: 1px solid #222; padding-top: 20px; font-size: 12px; color: #666; }
 
-        /* --- LANDSCAPE CONTROLS --- */
+        /* --- NEW LANDSCAPE CONTROLS --- */
         .landscape-overlay {
-            display: none; position: fixed; inset: 0; z-index: 9999; background: #000;
+            display: none; position: fixed; inset: 0; z-index: 9500; background: #000;
         }
         .landscape-video-container { width: 100%; height: 100%; position: relative; }
         
         .ls-controls {
-            position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 50%, rgba(0,0,0,0.8) 100%);
+            position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 50%, rgba(0,0,0,0.7) 100%);
             display: flex; flex-direction: column; justify-content: space-between;
-            padding: 20px; opacity: 0; transition: opacity 0.3s; z-index: 10000; pointer-events: none;
+            padding: 30px; opacity: 0; transition: opacity 0.3s; z-index: 10000; pointer-events: none;
         }
         .ls-controls.visible { opacity: 1; pointer-events: auto; }
-        .ls-top { width: 100%; display: flex; justify-content: space-between; align-items: center; }
-        .ls-center { display: flex; justify-content: center; align-items: center; gap: 60px; }
-        .ls-btn { color: #fff; font-size: 20px; cursor: pointer; text-shadow: 0 0 10px rgba(0,0,0,0.9); transition: transform 0.1s; }
+        .ls-top { display: flex; justify-content: space-between; align-items: center; }
+        .ls-center { display: flex; justify-content: center; align-items: center; gap: 80px; }
+        .ls-btn { color: #fff; font-size: 28px; cursor: pointer; text-shadow: 0 0 15px rgba(0,0,0,0.9); transition: transform 0.1s; }
         .ls-btn:active { transform: scale(1.1); }
-        .ls-btn.text-5xl { font-size: 40px; } 
+        .ls-lock-screen { position: absolute; inset: 0; z-index: 11000; display: none; align-items: flex-start; justify-content: flex-end; padding: 30px; background: rgba(0,0,0,0.01); pointer-events: auto; }
         
-        .ls-lock-screen { 
-            position: absolute; top: 20px; right: 20px; 
-            z-index: 11000; display: none; padding: 12px;
-            background: rgba(0,0,0,0.5); border-radius: 50%; border: 1px solid rgba(255,255,255,0.2);
-            cursor: pointer; 
-        }
-
-        .lock-indicator {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.6); padding: 20px; border-radius: 50%; color: #fff;
-            font-size: 40px; display: none; z-index: 12000; pointer-events: none;
-            animation: lockFade 0.8s ease-out;
-        }
-        @keyframes lockFade {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
-        }
-        
-        .landscape-active #movieModal { overflow: hidden !important; visibility: hidden; }
-        #mainVideoArea { aspect-ratio: 16/9; width: 100%; background: #000; position: relative; }
-        #mainVideoArea iframe { border: none; }
+        /* Landscape Mode Overrides */
+        .landscape-active #movieModal { overflow: hidden !important; }
+        .landscape-active #modalScrollTop { height: 100vh; max-width: 100%; padding: 0; }
+        .landscape-active .carousel-slide { height: 100vh; }
+        .landscape-active #mainVideoArea { height: 100vh !important; }
     </style>
 </head>
 <body>
 
     <div id="splashScreen">
         <div class="splash-content">
-            <img src="amnesfubbia.png" class="splash-logo" alt="Logo" onerror="this.src='https://via.placeholder.com/80?text=A'">
+            <img src="amnesfubbia.png" class="splash-logo" alt="Logo">
             <div class="splash-name">amnesfubbia</div>
         </div>
         <div class="splash-footer">
@@ -203,22 +186,21 @@
     </div>
 
     <div id="landscapeOverlay" class="landscape-overlay" onclick="toggleLsUI()">
-        <div id="lockIndicator" class="lock-indicator"><i class="fa-solid fa-lock"></i></div>
-        <div id="lsLockLayer" class="ls-lock-screen" onclick="event.stopPropagation(); unlockScreen()">
-            <i class="fa-solid fa-lock text-2xl text-white opacity-80"></i>
+        <div id="lsLockLayer" class="ls-lock-screen" style="display:none">
+            <i class="fa-solid fa-lock ls-btn text-white opacity-40" onclick="event.stopPropagation(); unlockScreen()"></i>
         </div>
         <div class="ls-controls" id="lsUI">
             <div class="ls-top">
-                <i class="fa-solid fa-arrow-left ls-btn" onclick="event.stopPropagation(); exitLandscape()"></i>
-                <div id="lsTitle" class="text-white font-bold truncate max-w-[60%] text-[12px]"></div>
+                <i class="fa-solid fa-arrow-left ls-btn" onclick="event.stopPropagation(); handleLsBack()"></i>
+                <div id="lsTitle" class="text-white font-bold truncate max-w-[60%] text-sm"></div>
                 <i class="fa-solid fa-lock-open ls-btn" onclick="event.stopPropagation(); lockScreen()"></i>
             </div>
             <div class="ls-center">
                 <i id="lsMute" class="fa-solid fa-volume-high ls-btn" onclick="event.stopPropagation(); toggleLsMute()"></i>
-                <i id="lsPlay" class="fa-solid fa-pause ls-btn text-5xl" onclick="event.stopPropagation(); toggleLsPlay()"></i>
-                <i class="fa-solid fa-expand ls-btn" onclick="event.stopPropagation(); exitLandscape()"></i>
+                <i id="lsPlay" class="fa-solid fa-pause ls-btn text-6xl" onclick="event.stopPropagation(); toggleLsPlay()"></i>
+                <i class="fa-solid fa-expand ls-btn" onclick="event.stopPropagation(); handleLsBack()"></i>
             </div>
-            <div class="ls-bottom text-center text-[9px] text-zinc-400">Tap untuk menyembunyikan kontrol</div>
+            <div class="ls-bottom text-center text-[10px] text-zinc-400">Tap untuk menyembunyikan kontrol</div>
         </div>
     </div>
 
@@ -259,7 +241,7 @@
 
             <div class="profile-info">
                 <div class="profile-pic-container">
-                    <div class="profile-pic-logo"><img src="amnesfubbia.png" alt="Logo" onerror="this.src='https://via.placeholder.com/74?text=A'"></div>
+                    <div class="profile-pic-logo"><img src="amnesfubbia.png" alt="Logo"></div>
                     <div class="add-story-btn"><i class="fa-solid fa-plus"></i></div>
                 </div>
                 <div class="stats">
@@ -331,7 +313,7 @@
             <div class="relative overflow-hidden" id="mainVideoArea">
                 <div class="swipe-overlay" id="swipeOverlay"></div>
                 <div class="carousel-track" id="carouselTrack"></div>
-                <div id="carouselDots" class="flex justify-center gap-2 py-3 absolute bottom-0 w-full z-20"></div>
+                <div id="carouselDots" class="flex justify-center gap-2 py-3"></div>
             </div>
 
             <div class="px-4 py-3 flex justify-between items-center">
@@ -370,7 +352,7 @@
                 <div id="serverList" class="grid grid-cols-4 gap-2 mt-6"></div>
                 
                 <div class="dl-grid">
-                    <button id="btnDownload1" class="dl-link-btn">Download</button>
+                    <button id="btnDownload1" class="dl-link-btn" onclick="window.open(`https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`)">Download</button>
                 </div>
             </div>
         </div>
@@ -382,19 +364,14 @@
         <i class="fa-regular fa-bookmark cursor-pointer text-xl" onclick="updateActiveNav(this); switchTab('bookmarks', document.getElementById('tabBookmark'))"></i>
     </nav>
 
-    
-
     <script>
         const API_KEY = 'bfa7df5310c9974f62f26c6789a8c00d';
         let page = 1, loading = false, currentType = 'multi', currentGenre = '', currentYear = '', currentCountry = '', currentSchedule = 'trending', searchQuery = '', currentCompany = '', currentLibMode = false, currentCastId = '';
         let isExpanded = false, globalFullDesc = "", globalEnDesc = "", currentIdx = 0, startX = 0, isTranslated = false, originalIndoDesc = "";
         let abortController = null;
         let isLsPaused = false, isLsMuted = false, lsControlTimer;
-        let isStreamingMode = false;
 
         window.onload = () => {
-            history.replaceState({view: 'home'}, "");
-            
             setTimeout(() => {
                 document.getElementById('splashScreen').style.display = 'none';
                 document.getElementById('mainProfile').style.display = 'block';
@@ -406,31 +383,32 @@
             }); 
         };
 
+        /* --- HP BACK BUTTON SYSTEM --- */
         window.addEventListener('popstate', function(event) {
             if (document.getElementById('landscapeOverlay').style.display === 'block') {
-                exitLandscape(true);
+                // Jangan panggil history.back() lagi di sini, panggil fungsi bersihnya saja
+                closeLandscapeSilently();
             } else if (document.getElementById('movieModal').style.display === 'block') {
-                closeModal(true);
+                closeModal();
             } else if (document.getElementById('searchOverlay').style.display === 'block') {
-                closeSearch(true);
+                closeSearch();
             } else if (document.getElementById('sideMenu').style.display === 'block') {
-                toggleSideMenu(true);
+                toggleSideMenu();
             }
         });
 
+        /* --- LANDSCAPE CONTROLS LOGIC --- */
         async function enterLandscape() {
             const overlay = document.getElementById('landscapeOverlay');
-            const videoArea = document.getElementById('mainVideoArea');
             const lsTitle = document.getElementById('lsTitle');
-            const lsPlayBtn = document.getElementById('lsPlay');
             
             lsTitle.innerText = document.getElementById('mTitle').innerText;
-            lsPlayBtn.style.display = isStreamingMode ? 'none' : 'block';
-            
             document.body.classList.add('landscape-active');
             overlay.style.display = 'block';
             
-            overlay.insertBefore(videoArea, overlay.firstChild);
+            // Move video area to landscape overlay
+            const videoArea = document.getElementById('mainVideoArea');
+            document.getElementById('landscapeOverlay').appendChild(videoArea);
             
             showLsUI();
             history.pushState({view: 'landscape'}, "");
@@ -438,58 +416,50 @@
             try {
                 if (document.documentElement.requestFullscreen) {
                     await document.documentElement.requestFullscreen();
-                } else if (document.documentElement.webkitRequestFullscreen) {
-                    await document.documentElement.webkitRequestFullscreen();
+                    if (screen.orientation && screen.orientation.lock) {
+                        await screen.orientation.lock('landscape').catch(() => {});
+                    }
                 }
-                
-                if (screen.orientation && screen.orientation.lock) {
-                    await screen.orientation.lock('landscape').catch(() => {});
-                }
-            } catch (e) { console.warn("Fullscreen error:", e); }
+            } catch (e) {}
         }
 
-        async function exitLandscape(isPopState = false) {
-            document.body.classList.remove('landscape-active');
-            const overlay = document.getElementById('landscapeOverlay');
-            const videoArea = document.getElementById('mainVideoArea');
-            
-            overlay.style.display = 'none';
-            document.getElementById('lsLockLayer').style.display = 'none';
-            
-            const swipeOverlay = document.getElementById('swipeOverlay');
-            if (swipeOverlay && swipeOverlay.parentNode) {
-                swipeOverlay.parentNode.insertBefore(videoArea, swipeOverlay.nextSibling);
+        // Fungsi baru untuk tombol back di layar (UI) agar sinkron dengan back fisik
+        function handleLsBack() {
+            if (window.history.state && window.history.state.view === 'landscape') {
+                window.history.back(); // Biarkan popstate yang menangani penutupan
+            } else {
+                exitLandscape(); // Fallback jika state hilang
             }
+        }
 
-            try {
-                if (document.exitFullscreen) {
-                    await document.exitFullscreen().catch(() => {});
-                } else if (document.webkitExitFullscreen) {
-                    await document.webkitExitFullscreen().catch(() => {});
-                }
-                
-                if (screen.orientation && screen.orientation.lock) {
-                    await screen.orientation.lock('portrait').catch(() => {});
-                } else if (screen.orientation && screen.orientation.unlock) {
-                    screen.orientation.unlock();
-                }
-            } catch (e) { console.warn("Orientation error:", e); }
+        // Fungsi khusus untuk keluar dari mode landscape tanpa mengganggu history stack
+        function closeLandscapeSilently() {
+            document.body.classList.remove('landscape-active');
+            document.getElementById('landscapeOverlay').style.display = 'none';
             
-            if (!isPopState && window.history.state?.view === 'landscape') {
+            // Move video area back to modal sinopsis
+            const videoArea = document.getElementById('mainVideoArea');
+            const castContainer = document.getElementById('castContainer');
+            castContainer.after(videoArea);
+
+            if (document.exitFullscreen && document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        }
+
+        function exitLandscape() {
+            closeLandscapeSilently();
+            // Cek jika memang harus mundur history (untuk tombol UI)
+            if (window.history.state && window.history.state.view === 'landscape') {
                 window.history.back();
             }
         }
 
         function toggleLsUI() {
-            const lockLayer = document.getElementById('lsLockLayer');
-            const indicator = document.getElementById('lockIndicator');
-
-            if(lockLayer.style.display === 'flex') {
-                indicator.style.display = 'block';
-                setTimeout(() => { indicator.style.display = 'none'; }, 800);
-                return; 
-            }
-            
+            if(document.getElementById('lsLockLayer').style.display === 'flex') return;
             const ui = document.getElementById('lsUI');
             if(ui.classList.contains('visible')) {
                 ui.classList.remove('visible');
@@ -503,12 +473,13 @@
             ui.classList.add('visible');
             clearTimeout(lsControlTimer);
             lsControlTimer = setTimeout(() => {
-                ui.classList.remove('visible');
+                if(document.getElementById('lsLockLayer').style.display !== 'flex') {
+                    ui.classList.remove('visible');
+                }
             }, 3000);
         }
 
         function toggleLsPlay() {
-            if(isStreamingMode) return;
             const iframes = document.querySelectorAll('#carouselTrack iframe');
             const currentIframe = iframes[currentIdx];
             const btn = document.getElementById('lsPlay');
@@ -517,7 +488,7 @@
             const cmd = isLsPaused ? 'pauseVideo' : 'playVideo';
             
             currentIframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":cmd,"args":""}), '*');
-            btn.className = isLsPaused ? 'fa-solid fa-play ls-btn text-5xl' : 'fa-solid fa-pause ls-btn text-5xl';
+            btn.className = isLsPaused ? 'fa-solid fa-play ls-btn text-6xl' : 'fa-solid fa-pause ls-btn text-6xl';
             showLsUI();
         }
 
@@ -527,10 +498,9 @@
             const btn = document.getElementById('lsMute');
             
             isLsMuted = !isLsMuted;
-            if(!isStreamingMode) {
-                const cmd = isLsMuted ? 'mute' : 'unMute';
-                currentIframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":cmd,"args":""}), '*');
-            }
+            const cmd = isLsMuted ? 'mute' : 'unMute';
+            
+            currentIframe.contentWindow.postMessage(JSON.stringify({"event":"command","func":cmd,"args":""}), '*');
             btn.className = isLsMuted ? 'fa-solid fa-volume-xmark ls-btn' : 'fa-solid fa-volume-high ls-btn';
             showLsUI();
         }
@@ -545,14 +515,15 @@
             showLsUI();
         }
 
+        /* --- CORE LOGIC --- */
         function updateActiveNav(el) { document.querySelectorAll('.bottom-nav i').forEach(i => i.classList.remove('active-nav')); el.classList.add('active-nav'); }
 
-        function toggleSideMenu(isPopState = false) {
+        function toggleSideMenu() {
             const menu = document.getElementById('sideMenu');
             const isVisible = menu.style.display === 'block';
             menu.style.display = isVisible ? 'none' : 'block';
             document.body.style.overflow = isVisible ? 'auto' : 'hidden';
-            if (!isVisible && !isPopState) history.pushState({view: 'menu'}, "");
+            if (!isVisible) history.pushState({view: 'menu'}, "");
         }
 
         function backToHome() {
@@ -662,9 +633,9 @@
 
         function initHighlights() { 
             const hls = [
-                {n: 'Disney', com: '2', img: 'Disney.png', t: 'movie', s: true},
+                {n: 'Disney', com: '2|6125|3166|34213', img: 'Disney.png', t: 'movie', s: true},
                 {n: 'Pixar', com: '3', img: 'Pixar.png', t: 'movie', s: true},
-                {n: 'Dreamworks', com: '521', img: 'Dreamwork.png', t: 'movie', s: true},
+                {n: 'Dreamworks', com: '521|778', img: 'Dreamwork.png', t: 'movie', s: true},
                 {n: 'Ghibli', com: '10342', img: 'Ghibli.png', t: 'movie', s: true},
                 {n: 'Anime', g: 16, img: 'Anime.png', t: 'movie', c: 'JP', s: true},
                 {n: 'Indonesia', c: 'ID', img: 'Indonesia.png', t: 'movie', s: false},
@@ -765,7 +736,7 @@
         }
 
         function openSearch() { document.getElementById('searchOverlay').style.display = 'block'; document.getElementById('searchInp').focus(); document.body.style.overflow='hidden'; history.pushState({view: 'search'}, ""); }
-        function closeSearch(isPopState = false) { document.getElementById('searchOverlay').style.display = 'none'; document.body.style.overflow='auto'; searchQuery=''; currentCastId=''; document.getElementById('smartSearchDropdown').style.display = 'none'; if(!isPopState && window.history.state?.view === 'search') window.history.back(); }
+        function closeSearch() { document.getElementById('searchOverlay').style.display = 'none'; document.body.style.overflow='auto'; searchQuery=''; currentCastId=''; document.getElementById('smartSearchDropdown').style.display = 'none'; }
         
         function searchAction() { currentLibMode = false; currentCastId = ''; searchQuery = document.getElementById('searchInp').value; document.getElementById('smartSearchDropdown').style.display = 'none'; loadFeed(true); }
 
@@ -823,38 +794,30 @@
             document.getElementById('movieModal').scrollTop = 0;
             document.getElementById('smartSearchDropdown').style.display = 'none'; document.body.style.overflow = 'hidden'; currentIdx = 0; isTranslated = false;
             
-            isStreamingMode = false;
-            
-            if (history.state?.view !== 'modal') {
-                history.pushState({view: 'modal'}, "");
-            }
-
-            const origin = window.location.origin;
+            history.pushState({view: 'modal'}, "");
 
             const [rId, rEn, rCast] = await Promise.all([
-                fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos`),
+                fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos,production_companies`),
                 fetch(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US&append_to_response=videos`),
                 fetch(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${API_KEY}`)
             ]);
             
             const dId = await rId.json(), dEn = await rEn.json(), dCast = await rCast.json();
-            const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])]
-                .filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'))
-                .slice(0, 4);
-            
+            const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])].filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')).slice(0, 4);
             const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots');
+            
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             
             if(vids.length > 0) { 
                 vids.forEach((v, i) => { 
-                    track.innerHTML += `<div class="carousel-slide"><iframe id="yt-${i}" src="https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&origin=${origin}" class="w-full h-full" allow="autoplay; fullscreen" referrerpolicy="origin"></iframe></div>`; 
+                    track.innerHTML += `<div class="carousel-slide"><iframe id="yt-${i}" src="https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
                     if(vids.length > 1) {
                         dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; 
                     }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vids.length > 1 ? 'block' : 'none'; 
             } else { 
-                track.innerHTML = `<div class="carousel-slide"><iframe src="https://vidsrc.me/embed/${type}?tmdb=${id}" class="w-full h-full" allowfullscreen referrerpolicy="origin"></iframe></div>`; 
+                track.innerHTML = `<div class="carousel-slide"><iframe src="https://vidsrc.me/embed/${type}?tmdb=${id}" class="w-full h-full" allowfullscreen></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none'; 
             }
 
@@ -863,20 +826,11 @@
                 return `<div class="cast-item" onclick="searchByCast(${c.id})"><div class="cast-img-border"><div class="inner-border">${profileImg}</div></div><span class="cast-name">${c.name}</span></div>`;
             }).join('');
 
-            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dId.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; 
-            document.getElementById('mTitle').innerText = dId.title || dId.name || dEn.title;
-            
+            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dId.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; document.getElementById('mTitle').innerText = dId.title || dId.name || dEn.title;
             originalIndoDesc = dId.overview;
             globalFullDesc = originalIndoDesc || dEn.overview || "Sinopsis belum tersedia untuk konten ini.";
             globalEnDesc = dEn.overview;
-            
-            if(globalEnDesc && globalEnDesc !== originalIndoDesc && globalEnDesc.trim() !== "") { 
-                document.getElementById('mTranslateBtn').classList.remove('hidden'); 
-                document.getElementById('mTranslateBtn').innerText = "Lihat terjemahan"; 
-            } else { 
-                document.getElementById('mTranslateBtn').classList.add('hidden'); 
-            }
-            
+            if(globalEnDesc && globalEnDesc !== originalIndoDesc) { document.getElementById('mTranslateBtn').classList.remove('hidden'); document.getElementById('mTranslateBtn').innerText = "Lihat terjemahan"; } else { document.getElementById('mTranslateBtn').classList.add('hidden'); }
             isExpanded = false; renderSynopsis();
 
             const relYear = (dId.release_date || dId.first_air_date || "2026").split('-')[0];
@@ -897,15 +851,7 @@
                 <button class="server-btn" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}', this)">Server 8</button>
             `;
 
-            document.getElementById('btnDownload1').onclick = () => window.open(`https://dl.vidsrc.vip/${type}/${id}`);
-
-            if(type === 'tv') { 
-                document.getElementById('seriesControl').classList.remove('hidden'); 
-                document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); 
-                loadEpisodes(); 
-            } else { 
-                document.getElementById('seriesControl').classList.add('hidden'); 
-            }
+            if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
         }
 
@@ -925,30 +871,27 @@
             }
         }
         
-        function closeModal(isPopState = false) { 
+        function closeModal() { 
             const track = document.getElementById('carouselTrack'); 
             track.querySelectorAll('iframe').forEach(f => f.src = ""); 
             track.innerHTML = ''; 
             document.getElementById('movieModal').style.display = 'none'; 
             document.body.style.overflow = 'auto'; 
-            if(document.body.classList.contains('landscape-active')) exitLandscape(isPopState);
-            if(!isPopState && window.history.state?.view === 'modal') window.history.back();
+            if(document.body.classList.contains('landscape-active')) closeLandscapeSilently();
         }
 
         function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
         function handleToggleDesc() { isExpanded = !isExpanded; renderSynopsis(); }
         
         function playVid(url, el) { 
-            isStreamingMode = true;
             const track = document.getElementById('carouselTrack'); 
             const dots = document.getElementById('carouselDots'); 
-            const origin = window.location.origin;
-            const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&origin=${origin}` : `${url}?enablejsapi=1&origin=${origin}`;
+            const finalUrl = url.includes('?') ? `${url}&enablejsapi=1` : `${url}?enablejsapi=1`;
             
-            track.innerHTML = `<div class="carousel-slide"><iframe src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay" referrerpolicy="origin"></iframe></div>`; 
+            track.querySelectorAll('iframe').forEach(f => f.src = "");
+            track.innerHTML = `<div class="carousel-slide"><iframe src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
             track.style.transform = 'translateX(0)'; currentIdx = 0; dots.innerHTML = ''; 
-            document.getElementById('swipeOverlay').style.display = 'none'; 
-            if(el) highlightBtn(el); 
+            document.getElementById('swipeOverlay').style.display = 'none'; highlightBtn(el); 
         }
         
         function highlightBtn(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
