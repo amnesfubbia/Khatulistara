@@ -836,9 +836,17 @@
             ]);
             
             const dId = await rId.json(), dEn = await rEn.json(), dCast = await rCast.json();
-            const vids = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])].filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser')).slice(0, 4);
-            const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots');
             
+            // FILTER VIDEO: Hanya ambil yang bukan bertuliskan "Private Video" atau metadata rusak di judulnya
+            const allVideos = [...(dId.videos?.results || []), ...(dEn.videos?.results || [])];
+            const vids = allVideos.filter(v => 
+                v.site === 'YouTube' && 
+                (v.type === 'Trailer' || v.type === 'Teaser') && 
+                !v.name.toLowerCase().includes('private') &&
+                !v.name.toLowerCase().includes('deleted')
+            ).slice(0, 4);
+
+            const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots');
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             
             if(vids.length > 0) { 
@@ -850,6 +858,7 @@
                 }); 
                 document.getElementById('swipeOverlay').style.display = vids.length > 1 ? 'block' : 'none'; 
             } else { 
+                // JIKA TIDAK ADA TRAILER VALID, LANGSUNG KE PLAYER SERVER 1 (PENGGANTI TRAILER)
                 const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
                 track.innerHTML = `<div class="carousel-slide"><iframe src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none'; 
@@ -886,9 +895,7 @@
                 <button class="server-btn" onclick="playVid('https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}', this)">Server 9</button>
                 <button class="server-btn" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 10</button>
                 <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 11</button>
-                <button class="server-btn" onclick="playVid('https://vidfast.pro/embed/${type}/${id}${seriesSuffix}', this)">Server 12</button>
-                <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 13</button>
-                <button class="server-btn" onclick="playVid('https://vidnest.fun/embed/${type}/${id}${seriesSuffix}', this)">Server 14</button>
+                <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 12</button>
             `;
 
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
