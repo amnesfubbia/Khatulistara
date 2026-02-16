@@ -904,7 +904,7 @@
                 <button class="server-btn" onclick="playVid('https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1', this)">Server 3</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 4</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?'?s=1&e=1':''}', this)">Server 5</button>
-                <button class="server-btn" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}&lang=id', this)">Server 6</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}', this)">Server 6</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.net/embed/${type}/${id}${seriesSuffix}', this)">Server 7</button>
                 <button class="server-btn" onclick="playVid('https://moviesapi.club/${type}/${id}${seriesSuffix}', this)">Server 8</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}', this)">Server 9</button>
@@ -912,10 +912,28 @@
                 <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 11</button>
                 <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 12</button>
                 <button class="server-btn" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 13</button>
-                <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 14 (Indo)</button>
-                <button class="server-btn" onclick="playVid('https://vipstream.tv/embed/${type}/${id}${seriesSuffix}', this)">Server 15</button>
-                <button class="server-btn" onclick="playVid('https://autoembed.to/embed/${type}/${id}${seriesSuffix}', this)">Server 16</button>
-                <button class="server-btn" onclick="playVid('https://vidsrc.pro/embed/${type}/${id}${seriesSuffix}&lang=id', this)">Server 17</button>
+                <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 14</button>
+                <button class="server-btn" onclick="playVid('https://gdriveplayer.to/embed2.php?tmdb=${id}', this)">Server 15</button>
+                <button class="server-btn" onclick="playVid('https://frembed.live/api/film.php?id=${id}', this)">Server 16</button>
+                <button class="server-btn" onclick="playVid('https://huhu.to/tmdb/${type}/${id}', this)">Server 17</button>
+                <button class="server-btn" onclick="playVid('https://movieapi.win/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
+                <button class="server-btn" onclick="playVid('https://databasegdriveplayer.xyz/player.php?tmdb=${id}', this)">Server 19</button>
+                <button class="server-btn" onclick="playVid('https://adminhihi.top/v/${id}', this)">Server 20</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.stream/embed/${type}/${id}${seriesSuffix}', this)">Server 21</button>
+                <button class="server-btn" onclick="playVid('https://streamdb.net/embed/${type}/${id}${seriesSuffix}', this)">Server 22</button>
+                <button class="server-btn" onclick="playVid('https://hdv.fun/embed/${type}/${id}${seriesSuffix}', this)">Server 23</button>
+                <button class="server-btn" onclick="playVid('https://blackvid.space/embed/${type}/${id}${seriesSuffix}', this)">Server 24</button>
+                <button class="server-btn" onclick="playVid('https://autoembed.io/embed/${type}/${id}${seriesSuffix}', this)">Server 25</button>
+                <button class="server-btn" onclick="playVid('https://auracloud.moe/embed/${type}/${id}${seriesSuffix}', this)">Server 26</button>
+                <button class="server-btn" onclick="playVid('https://embed.su/embed/${type}/${id}', this)">Server 27</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.vip/embed/${type}/${id}', this)">Server 28</button>
+                <button class="server-btn" onclick="playVid('https://vidlink.pro/${type}/${id}', this)">Server 29</button>
+                <button class="server-btn" onclick="playVid('https://embed.warezcdn.link/${type}/${id}', this)">Server 30</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.cc/v3/embed/${type}/${id}', this)">Server 31</button>
+                <button class="server-btn" onclick="playVid('https://superembed.stream/video/${type}/${id}', this)">Server 32</button>
+                <button class="server-btn" onclick="playVid('https://moviesapi.club/${type}/${id}', this)">Server 33</button>
+                <button class="server-btn" onclick="playVid('https://embed.stream/embed/${type}/${id}', this)">Server 34</button>
+                <button class="server-btn" onclick="playVid('https://nekoembed.com/embed/${type}/${id}', this)">Server 35</button>
             `;
 
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
