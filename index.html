@@ -161,7 +161,7 @@
         }
         .ls-controls.visible { opacity: 1; pointer-events: auto; }
         .ls-top { display: flex; justify-content: space-between; align-items: center; }
-        .ls-center { display: flex; justify(center); align-items: center; gap: 80px; }
+        .ls-center { display: flex; justify-content: center; align-items: center; gap: 80px; }
         .ls-btn { color: #fff; font-size: 28px; cursor: pointer; text-shadow: 0 0 15px rgba(0,0,0,0.9); transition: transform 0.1s; }
         .ls-btn:active { transform: scale(1.1); }
         .ls-lock-screen { position: absolute; inset: 0; z-index: 11000; display: none; align-items: flex-start; justify-content: flex-end; padding: 30px; background: rgba(0,0,0,0.01); pointer-events: auto; }
@@ -830,8 +830,6 @@
         async function openModal(id, type) {
             window.currentMediaId = id; window.currentMediaType = type;
             const seriesSuffix = (type === 'tv') ? '/1/1' : ''; 
-            const defaultStream = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
-            
             document.getElementById('movieModal').style.display = 'block'; 
             document.getElementById('movieModal').scrollTop = 0;
             document.getElementById('smartSearchDropdown').style.display = 'none'; document.body.style.overflow = 'hidden'; currentIdx = 0; isTranslated = false;
@@ -858,49 +856,33 @@
                 document.getElementById('mTranslateBtn').classList.add('hidden');
             }
             
-            // PRIORITY LOGIC: Filter YouTube and Vimeo (Trailer or Teaser)
-            const videoResults = dId.videos?.results || [];
-            let vids = videoResults.filter(v => 
-                (v.site === 'YouTube' || v.site === 'Vimeo') && 
+            // FILTER VIDEO: Hanya Trailer/Teaser resmi, hindari Shorts dan Reaksi
+            const vids = (dId.videos?.results || []).filter(v => 
+                v.site === 'YouTube' && 
                 (v.type === 'Trailer' || v.type === 'Teaser') && 
+                !v.name.toLowerCase().includes('reaction') &&
+                !v.name.toLowerCase().includes('fan') &&
+                !v.name.toLowerCase().includes('short') &&
+                !v.name.toLowerCase().includes('cinema') &&
                 !v.name.toLowerCase().includes('private') &&
                 !v.name.toLowerCase().includes('deleted')
-            );
-
-            // Sort by priority: YouTube Trailer > Vimeo Trailer > YouTube Teaser > Vimeo Teaser
-            vids.sort((a, b) => {
-                const priority = (v) => {
-                    let score = 0;
-                    if(v.site === 'YouTube') score += 2;
-                    if(v.type === 'Trailer') score += 1;
-                    return score;
-                };
-                return priority(b) - priority(a);
-            });
-
-            vids = vids.slice(0, 5);
+            ).slice(0, 5);
 
             const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots');
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             
             if(vids.length > 0) { 
                 vids.forEach((v, i) => { 
-                    let videoUrl = "";
-                    if(v.site === 'YouTube') {
-                        videoUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&mute=0`;
-                    } else if(v.site === 'Vimeo') {
-                        videoUrl = `https://player.vimeo.com/video/${v.key}?autoplay=${i===0?1:0}&muted=0`;
-                    }
-
-                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${videoUrl}" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
+                    track.innerHTML += `<div class="carousel-slide"><iframe id="yt-${i}" src="https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&mute=0" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
                     if(vids.length > 1) {
                         dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; 
                     }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vids.length > 1 ? 'block' : 'none'; 
             } else { 
-                // FALLBACK: Jika tidak ada trailer YouTube/Vimeo, langsung ke Server 1
-                track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${defaultStream}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
+                // LOGIKA FALLBACK: Langsung ke Server 1 jika YT tidak ada/bermasalah
+                const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
+                track.innerHTML = `<div class="carousel-slide"><iframe src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none'; 
             }
 
@@ -943,9 +925,6 @@
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidnest.fun/movie/${id}', this)">Server 18</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 19</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidfast.pro/movie/${id}', this)">Server 20</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://dorawatch.net/embed/${type}/${id}${seriesSuffix}', this)">Server 21</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://hyrax.to/embed/${type}/${id}${seriesSuffix}', this)">Server 22</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.vimeo.com/video/${id}', this)">Server 23</button>
             `;
 
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
@@ -1030,7 +1009,7 @@
                     else if(diff < 0 && currentIdx > 0) currentIdx--; 
                     document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`; 
                     document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
-                    const oldVid = document.getElementById(`vid-${oldIdx}`), newVid = document.getElementById(`vid-${currentIdx}`);
+                    const oldVid = document.getElementById(`yt-${oldIdx}`), newVid = document.getElementById(`yt-${currentIdx}`);
                     if(oldVid) try{oldVid.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(e){}
                     if(newVid) try{newVid.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(e){}
                 } 
