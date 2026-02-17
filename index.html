@@ -856,31 +856,41 @@
                 document.getElementById('mTranslateBtn').classList.add('hidden');
             }
             
-            // FILTER VIDEO: Hanya Trailer/Teaser resmi, hindari Shorts dan Reaksi
-            const vids = (dId.videos?.results || []).filter(v => 
-                v.site === 'YouTube' && 
+            // FILTER VIDEO: UTAMAKAN TRAILER/TEASER, HAPUS PRIVATE/ERROR
+            const allVideos = (dId.videos?.results || []).filter(v => 
                 (v.type === 'Trailer' || v.type === 'Teaser') && 
-                !v.name.toLowerCase().includes('reaction') &&
-                !v.name.toLowerCase().includes('fan') &&
-                !v.name.toLowerCase().includes('short') &&
-                !v.name.toLowerCase().includes('cinema') &&
                 !v.name.toLowerCase().includes('private') &&
-                !v.name.toLowerCase().includes('deleted')
-            ).slice(0, 5);
+                !v.name.toLowerCase().includes('deleted') &&
+                !v.name.toLowerCase().includes('behind the scenes')
+            );
 
             const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots');
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             
-            if(vids.length > 0) { 
-                vids.forEach((v, i) => { 
-                    track.innerHTML += `<div class="carousel-slide"><iframe id="yt-${i}" src="https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&mute=0" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
-                    if(vids.length > 1) {
+            // LOGIKA PEMANGGILAN VIDEO: PRIORITASKAN VIMEO
+            let vidsToDisplay = [];
+            const vimeoVids = allVideos.filter(v => v.site === 'Vimeo');
+            const youtubeVids = allVideos.filter(v => v.site === 'YouTube');
+            
+            // Gabungkan Vimeo di depan, lalu YouTube
+            vidsToDisplay = [...vimeoVids, ...youtubeVids].slice(0, 5);
+
+            if(vidsToDisplay.length > 0) { 
+                vidsToDisplay.forEach((v, i) => { 
+                    let embedUrl = "";
+                    if(v.site === 'Vimeo') {
+                        embedUrl = `https://player.vimeo.com/video/${v.key}?autoplay=${i===0?1:0}&muted=0`;
+                    } else if(v.site === 'YouTube') {
+                        embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&mute=0`;
+                    }
+                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
+                    if(vidsToDisplay.length > 1) {
                         dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; 
                     }
                 }); 
-                document.getElementById('swipeOverlay').style.display = vids.length > 1 ? 'block' : 'none'; 
+                document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
             } else { 
-                // LOGIKA FALLBACK: Langsung ke Server 1 jika YT tidak ada/bermasalah
+                // FALLBACK KE SERVER 1 JIKA TIDAK ADA YOUTUBE/VIMEO
                 const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
                 track.innerHTML = `<div class="carousel-slide"><iframe src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none'; 
@@ -1009,7 +1019,7 @@
                     else if(diff < 0 && currentIdx > 0) currentIdx--; 
                     document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`; 
                     document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
-                    const oldVid = document.getElementById(`yt-${oldIdx}`), newVid = document.getElementById(`yt-${currentIdx}`);
+                    const oldVid = document.getElementById(`vid-${oldIdx}`), newVid = document.getElementById(`vid-${currentIdx}`);
                     if(oldVid) try{oldVid.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(e){}
                     if(newVid) try{newVid.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(e){}
                 } 
