@@ -101,6 +101,7 @@
         .calendar-poster { flex: 0 0 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; background: #111; border: 1px solid #222; }
         .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .cal-title { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.2; }
+        .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .cal-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #8e8e8e; }
         .cal-genre-pill { padding: 2px 8px; background: #1c1c1c; border-radius: 100px; color: #ccc; font-size: 9px; font-weight: 600; }
         .cal-rating { color: #ffca28; font-weight: 700; font-size: 11px; }
@@ -109,8 +110,11 @@
         .sticky-wrapper { position: sticky; top: 54px; z-index: 90; background: #000; }
         .date-strip { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: #000; border-bottom: 1px solid #111; }
         .date-chip { flex: 0 0 55px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 14px; background: #111; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
-        .date-chip.active-date { background: #fff; border-color: #fff; }
-        .date-chip.active-date span { color: #000 !important; }
+        
+        /* MODIFIKASI: Hanya border putih saat aktif */
+        .date-chip.active-date { background: #111; border-color: #fff; }
+        .date-chip.active-date span { color: #fff !important; }
+
         .date-chip .d-day { font-size: 18px; font-weight: 800; color: #fff; }
         .date-chip .d-month { font-size: 10px; font-weight: 600; color: #8e8e8e; text-transform: uppercase; }
 
@@ -126,8 +130,9 @@
         .server-btn:active { background: #1c1c1c; }
         .server-btn.active-link { border: 2px solid #fff !important; background: rgba(255,255,255,0.1); }
         
-        .dl-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 15px; margin-bottom: 5px; }
-        .dl-link-btn { width: 100%; padding: 14px; border-radius: 12px; background: #000; color: #fff; font-size: 12px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #333; cursor: pointer; }
+        /* Merapatkan jarak di area download dan server */
+        .dl-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 8px; margin-bottom: 2px; }
+        .dl-link-btn { width: 100%; padding: 12px; border-radius: 12px; background: #000; color: #fff; font-size: 12px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #333; cursor: pointer; }
         
         .cast-wrapper { display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; scrollbar-width: none; }
         .cast-item { flex: 0 0 65px; text-align: center; cursor: pointer; }
@@ -141,13 +146,16 @@
         .cast-name { font-size: 9px; font-weight: 500; color: #fff; line-height: 1.2; display: block; margin-top: 4px; }
         
         .ig-post-content { padding: 0 15px; margin-top: 5px; }
-        .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: block; }
+        /* Sticky Suka - dirapatkan lebarnya */
+        .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: inline-block; padding-right: 5px; }
         .ig-username { font-weight: 700; font-size: 13px; margin-right: 8px; }
         .ig-caption { font-size: 13px; line-height: 1.4; color: #efefef; }
         
         .toggle-btn { display: block; color: #a8a8a8; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
         #mTranslateBtn { font-size: 11px; color: #fff; font-weight: 700; cursor: pointer; display: inline-block; }
-        .ig-hashtags { color: #e0f1ff; display: block; margin-top: 10px; font-size: 13px; line-height: 1.5; }
+        
+        /* Merapatkan hashtag dengan caption/selengkapnya */
+        .ig-hashtags { color: #e0f1ff; display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; }
         .ig-date { color: #a8a8a8; font-size: 11px; text-transform: uppercase; }
         
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 9000; }
@@ -184,8 +192,9 @@
         /* Landscape Mode Overrides */
         .landscape-active #movieModal { overflow: hidden !important; }
         .landscape-active #modalScrollTop { height: 100vh; max-width: 100%; padding: 0; }
-        .landscape-active .carousel-slide { height: 100vh; }
-        .landscape-active #mainVideoArea { height: 100vh !important; }
+        .landscape-active .carousel-slide { height: 100vh; width: 100vw; }
+        .landscape-active #mainVideoArea { height: 100vh !important; width: 100vw !important; aspect-ratio: auto !important; }
+        .landscape-active #mainVideoArea iframe { height: 100vh !important; width: 100vw !important; }
 
         /* --- NEW ACTOR PROFILE MODAL STYLE (Premium Instagram Aesthetic) --- */
         .actor-modal { display: none; position: fixed; inset: 0; z-index: 8500; background: #000; overflow-y: auto; }
@@ -385,7 +394,7 @@
                     <i id="btnBookModal" class="interaction-icon"></i>
                 </div>
                 
-                <div class="px-4 bg-black pb-2">
+                <div class="px-4 bg-black pb-1">
                     <span id="mLikeDisplay" class="ig-likes-count"></span>
                 </div>
             </div>
@@ -401,12 +410,12 @@
                 
                 <div id="mHashtags" class="ig-hashtags"></div>
 
-                <div class="flex items-center gap-2 mt-2">
+                <div class="flex items-center gap-2 mt-1.5">
                     <div id="mDateDisplay" class="ig-date"></div>
                     <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()">Lihat terjemahan</p>
                 </div>
                 
-                <div id="seriesControl" class="hidden mt-6 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
+                <div id="seriesControl" class="hidden mt-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4">
                         <h4 class="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Episode List</h4>
                         <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded border border-zinc-700 outline-none" onchange="loadEpisodes()"></select>
@@ -414,7 +423,7 @@
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
 
-                <div id="serverList" class="grid grid-cols-4 gap-2 mt-6"></div>
+                <div id="serverList" class="grid grid-cols-4 gap-2 mt-4"></div>
                 
                 <div class="dl-grid">
                     <button id="btnDownload1" class="dl-link-btn" onclick="window.open(`https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`)">Download</button>
@@ -526,7 +535,7 @@
             overlay.style.display = 'block';
             
             const videoArea = document.getElementById('mainVideoArea');
-            document.getElementById('landscapeOverlay').appendChild(videoArea);
+            overlay.appendChild(videoArea);
             
             showLsUI();
             history.pushState({view: 'landscape'}, "");
@@ -534,14 +543,20 @@
             try {
                 if (document.documentElement.requestFullscreen) {
                     await document.documentElement.requestFullscreen();
-                    if (screen.orientation && screen.orientation.lock) {
-                        await screen.orientation.lock('landscape').catch(() => {});
-                    }
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    await document.documentElement.webkitRequestFullscreen();
                 }
-            } catch (e) {}
+                
+                if (screen.orientation && screen.orientation.lock) {
+                    await screen.orientation.lock('landscape').catch(() => {});
+                }
+            } catch (e) {
+                console.log("Orientation lock failed, basic landscape used.");
+            }
         }
 
         function handleLsBack() {
+            // Kita panggil history.back() agar popstate terpanggil dan menjalankan closeLandscapeSilently()
             window.history.back();
         }
 
@@ -549,13 +564,22 @@
             document.body.classList.remove('landscape-active');
             document.getElementById('landscapeOverlay').style.display = 'none';
             
+            // KEMBALIKAN VIDEO AREA KE MODAL PORTRAIT SECARA PAKSA
             const videoArea = document.getElementById('mainVideoArea');
+            const modalHeader = document.querySelector('#movieModal .sticky');
             const castContainer = document.getElementById('castContainer');
-            if(castContainer) castContainer.after(videoArea);
+            
+            if (modalHeader && videoArea && castContainer) {
+                // Video area harus diletakkan setelah castContainer
+                castContainer.after(videoArea);
+            }
 
             if (document.exitFullscreen && document.fullscreenElement) {
                 document.exitFullscreen();
+            } else if (document.webkitExitFullscreen && document.webkitFullscreenElement) {
+                document.webkitExitFullscreen();
             }
+
             if (screen.orientation && screen.orientation.unlock) {
                 screen.orientation.unlock();
             }
@@ -609,15 +633,31 @@
 
         /* --- FITUR: PROFIL AKTOR MENDETAIL (Updated Instagram Style) --- */
         async function openActorProfile(actorId) {
+            // Hentikan video yang sedang diputar di modal film
             const track = document.getElementById('carouselTrack');
             if(track) {
                 track.querySelectorAll('iframe').forEach(f => f.src = "");
             }
 
+            // RISET KONTEN MODAL SEBELUM DITAMPILKAN (MENCEGAH DELAY GAMBAR LAMA)
+            document.getElementById('actorPic').src = "";
+            document.getElementById('actorName').innerText = "Memuat...";
+            document.getElementById('actorHeaderTitle').innerText = "";
+            document.getElementById('actorFilmGrid').innerHTML = "";
+            document.getElementById('statKarya').innerText = "0";
+            document.getElementById('statPop').innerText = "0";
+            document.getElementById('statUsia').innerText = "0";
+            document.getElementById('actorOrigin').innerHTML = "";
+            document.getElementById('actorBirth').innerText = "";
+
             const actorModal = document.getElementById('actorModal');
             actorModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            history.pushState({view: 'actor'}, "");
+            
+            // Push state hanya jika belum dalam state actor
+            if (!window.history.state || window.history.state.view !== 'actor') {
+                history.pushState({view: 'actor'}, "");
+            }
 
             try {
                 const details = await fetchWithCache(`https://api.themoviedb.org/3/person/${actorId}?api_key=${API_KEY}&language=id-ID`);
@@ -649,6 +689,7 @@
                     const mType = m.media_type || 'movie';
                     const card = document.createElement('div');
                     card.className = 'post-card';
+                    // FIX: Fungsi klik untuk membuka modal film
                     card.onclick = () => { 
                         openModal(m.id, mType); 
                     };
@@ -665,10 +706,9 @@
 
         function closeActorModal() {
             document.getElementById('actorModal').style.display = 'none';
-            if (document.getElementById('movieModal').style.display === 'block') {
-                const currentId = window.currentMediaId;
-                const currentType = window.currentMediaType;
-                if(currentId) openModal(currentId, currentType);
+            // Jika modal film masih terbuka di belakangnya, jangan kembalikan overflow ke auto
+            if (document.getElementById('movieModal').style.display !== 'block') {
+                document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = 'auto';
             }
@@ -966,7 +1006,7 @@
             document.getElementById('searchOverlay').style.display = 'block'; 
             document.getElementById('searchInp').focus(); 
             document.body.style.overflow='hidden'; 
-            updateActiveNav(document.getElementById('searchBtnNav'));
+            updateActiveNav(document.getElementById('homeBtnNav'));
             history.pushState({view: 'search'}, ""); 
         }
 
@@ -1038,6 +1078,12 @@
         }
 
         async function openModal(id, type) {
+            // FIX: Tutup modal aktor jika terbuka saat klik film baru
+            const actorModal = document.getElementById('actorModal');
+            if (actorModal.style.display === 'block') {
+                actorModal.style.display = 'none';
+            }
+
             window.currentMediaId = id; window.currentMediaType = type;
             const seriesSuffix = (type === 'tv') ? '/1/1' : ''; 
             
@@ -1047,7 +1093,14 @@
             document.getElementById('mDateDisplay').innerText = "";
             document.getElementById('mHashtags').innerHTML = "";
             document.getElementById('castContainer').innerHTML = "";
-            document.getElementById('carouselTrack').innerHTML = "";
+            
+            // Hentikan video lama sebelum memuat yang baru
+            const track = document.getElementById('carouselTrack');
+            if(track) {
+                track.querySelectorAll('iframe').forEach(f => f.src = "");
+                track.innerHTML = "";
+            }
+            
             document.getElementById('carouselDots').innerHTML = "";
             document.getElementById('serverList').innerHTML = "";
             document.getElementById('mToggleBtn').classList.add('hidden');
@@ -1096,9 +1149,12 @@
                 !v.name.toLowerCase().includes('shorts') 
             );
 
-            const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots');
+            const dots = document.getElementById('carouselDots');
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             
+            // LOGIKA FALLBACK TRAILER:
+            // Jika ada video di YouTube, tampilkan.
+            // Jika tidak ada YouTube, cek Vimeo (biasanya di database API lain, tapi di sini kita prioritaskan vidsrc sebagai ultimate fallback)
             let vidsToDisplay = allVideos.sort((a, b) => (a.type === 'Trailer' ? -1 : 1)).slice(0, 5);
 
             if(vidsToDisplay.length > 0) { 
@@ -1111,8 +1167,9 @@
                 }); 
                 document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
             } else { 
-                const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
-                track.innerHTML = `<div class="carousel-slide"><iframe src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
+                // FALLBACK: JIKA TIDAK ADA TRAILER YOUTUBE, LANGSUNG MUAT VIDSRC.CC SEBAGAI PLAYER UTAMA (AUTO PLAY)
+                const fallbackUrl = `https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}${type==='tv'?'?s=1&e=1':''}`;
+                track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none'; 
             }
 
@@ -1135,25 +1192,26 @@
             const rel = dId.release_date || dId.first_air_date || ""; 
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
+            // RE-ORDER SERVER LIST
             document.getElementById('serverList').innerHTML = `
-                <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 1</button>
-                <button class="server-btn" onclick="playVid('https://vidlink.pro/${type}/${id}${seriesSuffix}', this)">Server 2</button>
-                <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 3</button>
-                <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 4</button>
-                <button class="server-btn" onclick="playVid('https://vidfast.pro/movie/${id}', this)">Server 5</button>
-                <button class="server-btn" onclick="playVid('https://111movies.com/movie/${id}', this)">Server 6</button>
-                <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 7</button>
-                <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}', this)">Server 8</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}', this)">Server 1</button>
+                <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 2</button>
+                <button class="server-btn" onclick="playVid('https://vidlink.pro/${type}/${id}${seriesSuffix}', this)">Server 3</button>
+                <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 4</button>
+                <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 5</button>
+                <button class="server-btn" onclick="playVid('https://vidfast.pro/movie/${id}', this)">Server 6</button>
+                <button class="server-btn" onclick="playVid('https://111movies.com/movie/${id}', this)">Server 7</button>
+                <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 8</button>
                 <button class="server-btn" onclick="playVid('https://moviesapi.club/${type}/${id}${seriesSuffix}', this)">Server 9</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?'?s=1&e=1':''}', this)">Server 10</button>
                 <button class="server-btn" onclick="playVid('https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1', this)">Server 11</button>
                 <button class="server-btn" onclick="playVid('https://www.2embed.cc/embed/${id}', this)">Server 12</button>
-                <button class="server-btn" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}', this)">Server 13</button>
-                <button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 14</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.net/embed/${type}/${id}${seriesSuffix}', this)">Server 15</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}', this)">Server 16</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidnest.fun/movie/${id}', this)">Server 17</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
+                <button class="server-btn" onclick="playVid('https://vidnest.fun/movie/${id}', this)">Server 13</button>
+                <button class="server-btn" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 14</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}', this)">Server 15</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 16</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.net/embed/${type}/${id}${seriesSuffix}', this)">Server 17</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
             `;
@@ -1207,17 +1265,12 @@
         function playVid(url, el) { 
             const track = document.getElementById('carouselTrack'); 
             const dots = document.getElementById('carouselDots'); 
-            const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&mute=0` : `${url}?enablejsapi=1&mute=0`;
+            const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&mute=0&autoplay=1` : `${url}?enablejsapi=1&mute=0&autoplay=1`;
             
             track.querySelectorAll('iframe').forEach(f => f.src = "");
             track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
             track.style.transform = 'translateX(0)'; currentIdx = 0; dots.innerHTML = ''; 
             document.getElementById('swipeOverlay').style.display = 'none'; highlightBtn(el); 
-
-            const frame = document.getElementById('player-frame');
-            frame.onerror = () => {
-                frame.src = `https://vidsrc.me/embed/${window.currentMediaType}?tmdb=${window.currentMediaId}`;
-            };
         }
         
         function highlightBtn(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
