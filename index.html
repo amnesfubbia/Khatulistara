@@ -522,6 +522,9 @@
             // Tutup Side Menu jika aktif
             else if (document.getElementById('sideMenu').style.display === 'block') {
                 toggleSideMenu();
+            } else {
+                // Jika tidak ada modal yang terbuka, pastikan body bisa discroll
+                document.body.style.overflow = 'auto';
             }
         });
 
@@ -556,7 +559,6 @@
         }
 
         function handleLsBack() {
-            // Kita panggil history.back() agar popstate terpanggil dan menjalankan closeLandscapeSilently()
             window.history.back();
         }
 
@@ -566,11 +568,9 @@
             
             // KEMBALIKAN VIDEO AREA KE MODAL PORTRAIT SECARA PAKSA
             const videoArea = document.getElementById('mainVideoArea');
-            const modalHeader = document.querySelector('#movieModal .sticky');
             const castContainer = document.getElementById('castContainer');
             
-            if (modalHeader && videoArea && castContainer) {
-                // Video area harus diletakkan setelah castContainer
+            if (videoArea && castContainer) {
                 castContainer.after(videoArea);
             }
 
@@ -582,6 +582,12 @@
 
             if (screen.orientation && screen.orientation.unlock) {
                 screen.orientation.unlock();
+            }
+            // Pastikan overflow kembali sesuai kondisi modal film
+            if(document.getElementById('movieModal').style.display === 'block') {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
             }
         }
 
@@ -633,13 +639,11 @@
 
         /* --- FITUR: PROFIL AKTOR MENDETAIL (Updated Instagram Style) --- */
         async function openActorProfile(actorId) {
-            // Hentikan video yang sedang diputar di modal film
             const track = document.getElementById('carouselTrack');
             if(track) {
                 track.querySelectorAll('iframe').forEach(f => f.src = "");
             }
 
-            // RISET KONTEN MODAL SEBELUM DITAMPILKAN (MENCEGAH DELAY GAMBAR LAMA)
             document.getElementById('actorPic').src = "";
             document.getElementById('actorName').innerText = "Memuat...";
             document.getElementById('actorHeaderTitle').innerText = "";
@@ -654,7 +658,6 @@
             actorModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
-            // Push state hanya jika belum dalam state actor
             if (!window.history.state || window.history.state.view !== 'actor') {
                 history.pushState({view: 'actor'}, "");
             }
@@ -689,7 +692,6 @@
                     const mType = m.media_type || 'movie';
                     const card = document.createElement('div');
                     card.className = 'post-card';
-                    // FIX: Fungsi klik untuk membuka modal film
                     card.onclick = () => { 
                         openModal(m.id, mType); 
                     };
@@ -706,8 +708,7 @@
 
         function closeActorModal() {
             document.getElementById('actorModal').style.display = 'none';
-            // Jika modal film masih terbuka di belakangnya, jangan kembalikan overflow ke auto
-            if (document.getElementById('movieModal').style.display !== 'block') {
+            if (document.getElementById('movieModal').style.display === 'block') {
                 document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = 'auto';
@@ -739,7 +740,16 @@
         }
 
         function backToHome() {
-            closeModal(); closeSearch(); closeD(); closeActorModal();
+            // FIX: Tutup semua modal secara eksplisit
+            closeModal(); 
+            closeSearch(); 
+            closeD(); 
+            closeActorModal();
+            if(document.getElementById('landscapeOverlay').style.display === 'block') closeLandscapeSilently();
+            
+            // FIX: Kembalikan scroll body
+            document.body.style.overflow = 'auto';
+
             currentGenre = ''; currentYear = ''; currentCountry = ''; currentSchedule = 'trending'; 
             currentType = 'multi'; searchQuery = ''; currentCastId = ''; currentCompany = '';
             
@@ -1078,7 +1088,6 @@
         }
 
         async function openModal(id, type) {
-            // FIX: Tutup modal aktor jika terbuka saat klik film baru
             const actorModal = document.getElementById('actorModal');
             if (actorModal.style.display === 'block') {
                 actorModal.style.display = 'none';
@@ -1094,7 +1103,6 @@
             document.getElementById('mHashtags').innerHTML = "";
             document.getElementById('castContainer').innerHTML = "";
             
-            // Hentikan video lama sebelum memuat yang baru
             const track = document.getElementById('carouselTrack');
             if(track) {
                 track.querySelectorAll('iframe').forEach(f => f.src = "");
@@ -1114,7 +1122,6 @@
             currentIdx = 0; 
             isTranslated = false;
             
-            // Push state baru jika belum ada state modal
             if (!window.history.state || window.history.state.view !== 'modal') {
                 history.pushState({view: 'modal'}, "");
             }
@@ -1151,7 +1158,6 @@
             const dots = document.getElementById('carouselDots');
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             
-            // Logika Fallback: YouTube -> Vimeo -> Vidsrc
             let youtubeVids = allVideos.filter(v => v.site === 'YouTube').sort((a, b) => (a.type === 'Trailer' ? -1 : 1)).slice(0, 5);
             let vimeoVids = allVideos.filter(v => v.site === 'Vimeo').slice(0, 5);
 
@@ -1171,7 +1177,6 @@
                 });
                 document.getElementById('swipeOverlay').style.display = vimeoVids.length > 1 ? 'block' : 'none';
             } else { 
-                // FALLBACK: JIKA TIDAK ADA TRAILER YOUTUBE MAUPUN VIMEO, LANGSUNG MUAT VIDSRC.CC
                 const fallbackUrl = `https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}${type==='tv'?'?s=1&e=1':''}`;
                 track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none'; 
@@ -1196,7 +1201,6 @@
             const rel = dId.release_date || dId.first_air_date || ""; 
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
-            // Server List yang sudah diurutkan sesuai permintaan
             document.getElementById('serverList').innerHTML = `
                 <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}', this)">Server 1</button>
                 <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 2</button>
