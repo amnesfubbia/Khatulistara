@@ -896,7 +896,7 @@
             const translateBtn = document.getElementById('mTranslateBtn');
             if (originalIndoDesc.trim() !== "") {
                 globalFullDesc = originalIndoDesc;
-                translateBtn.innerText = "Lihat versi asli (EN)";
+                translateBtn.innerText = "Lihat versi asli";
                 translateBtn.classList.remove('hidden');
             } else {
                 globalFullDesc = globalEnDesc || "Sinopsis belum tersedia.";
@@ -982,10 +982,10 @@
                 // KASUS: ADA INDO DAN INGGRIS (Toggle antar bahasa)
                 if (globalFullDesc === originalIndoDesc) {
                     globalFullDesc = globalEnDesc;
-                    btn.innerText = "Lihat versi Indonesia";
+                    btn.innerText = "Lihat versi asli";
                 } else {
                     globalFullDesc = originalIndoDesc;
-                    btn.innerText = "Lihat versi asli (EN)";
+                    btn.innerText = "Lihat versi asli";
                 }
             } else if (!originalIndoDesc && globalEnDesc) {
                 // KASUS: HANYA ADA INGGRIS (Gunakan Google Translate)
