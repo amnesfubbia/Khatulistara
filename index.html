@@ -191,12 +191,12 @@
         .actor-modal { display: none; position: fixed; inset: 0; z-index: 8500; background: #000; overflow-y: auto; }
         
         .actor-header-premium {
-            display: flex; align-items: center; gap: 20px; padding: 25px 20px 15px;
+            display: flex; align-items: center; gap: 15px; padding: 25px 15px 15px;
         }
         .actor-pic-wrapper {
-            position: relative; width: 86px; height: 86px;
+            position: relative; width: 80px; height: 80px;
             background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            border-radius: 50%; padding: 2.5px;
+            border-radius: 50%; padding: 2.5px; flex-shrink: 0;
         }
         .actor-pic-inner {
             width: 100%; height: 100%; border-radius: 50%; border: 3px solid #000; overflow: hidden; background: #111;
@@ -204,11 +204,11 @@
         .actor-profile-img { width: 100%; height: 100%; object-fit: cover; }
         
         .actor-stats-row {
-            flex-grow: 1; display: flex; justify-content: space-between; text-align: center;
+            flex-grow: 1; display: flex; justify-content: space-around; text-align: center; gap: 5px;
         }
         .actor-stat-col { display: flex; flex-direction: column; gap: 1px; }
-        .actor-stat-num { font-size: 16px; font-weight: 800; color: #fff; line-height: 1; }
-        .actor-stat-lbl { font-size: 12px; color: #8e8e8e; font-weight: 400; line-height: 1; }
+        .actor-stat-num { font-size: 15px; font-weight: 800; color: #fff; line-height: 1; }
+        .actor-stat-lbl { font-size: 11px; color: #8e8e8e; font-weight: 400; line-height: 1; }
 
         .actor-bio-premium { padding: 0 20px 20px; }
         .actor-name-premium { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 2px; }
@@ -605,6 +605,7 @@
 
         /* --- FITUR: PROFIL AKTOR MENDETAIL (Updated Instagram Style) --- */
         async function openActorProfile(actorId) {
+            // Hentikan video aktif sebelum pindah modal
             const track = document.getElementById('carouselTrack');
             if(track) {
                 track.querySelectorAll('iframe').forEach(f => f.src = "");
@@ -650,7 +651,11 @@
                     const mType = m.media_type || 'movie';
                     const card = document.createElement('div');
                     card.className = 'post-card';
-                    card.onclick = () => { openModal(m.id, mType); };
+                    // FIX: POSTER FILM BISA DIKLIK DAN MASUK MODAL FILM
+                    card.onclick = () => { 
+                        closeActorModal();
+                        openModal(m.id, mType); 
+                    };
                     card.innerHTML = `
                         <div class="badge-rating">★ ${(m.vote_average||0).toFixed(1)}</div>
                         <div class="badge-type">${mType === 'tv' ? 'tv' : 'movie'}</div>
@@ -664,7 +669,12 @@
 
         function closeActorModal() {
             document.getElementById('actorModal').style.display = 'none';
-            if (document.getElementById('movieModal').style.display !== 'block') {
+            if (document.getElementById('movieModal').style.display === 'block') {
+                // Saat kembali dari aktor ke modal film, muat ulang trailer agar muncul
+                const currentId = window.currentMediaId;
+                const currentType = window.currentMediaType;
+                if(currentId) openModal(currentId, currentType);
+            } else {
                 document.body.style.overflow = 'auto';
             }
         }
@@ -1192,6 +1202,7 @@
             document.getElementById('movieModal').style.display = 'none'; 
             document.body.style.overflow = 'auto'; 
             if(document.body.classList.contains('landscape-active')) closeLandscapeSilently();
+            window.currentMediaId = null; // Reset current media
         }
 
         function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
