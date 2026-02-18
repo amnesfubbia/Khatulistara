@@ -191,7 +191,7 @@
         .actor-modal { display: none; position: fixed; inset: 0; z-index: 8500; background: #000; overflow-y: auto; }
         
         .actor-header-premium {
-            display: flex; align-items: center; gap: 25px; padding: 25px 20px 15px;
+            display: flex; align-items: center; gap: 20px; padding: 25px 20px 15px;
         }
         .actor-pic-wrapper {
             position: relative; width: 86px; height: 86px;
@@ -206,13 +206,13 @@
         .actor-stats-row {
             flex-grow: 1; display: flex; justify-content: space-between; text-align: center;
         }
-        .actor-stat-col { display: flex; flex-direction: column; }
-        .actor-stat-num { font-size: 16px; font-weight: 800; color: #fff; }
-        .actor-stat-lbl { font-size: 12px; color: #8e8e8e; font-weight: 400; }
+        .actor-stat-col { display: flex; flex-direction: column; gap: 1px; }
+        .actor-stat-num { font-size: 16px; font-weight: 800; color: #fff; line-height: 1; }
+        .actor-stat-lbl { font-size: 12px; color: #8e8e8e; font-weight: 400; line-height: 1; }
 
         .actor-bio-premium { padding: 0 20px 20px; }
         .actor-name-premium { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 2px; }
-        .actor-origin-premium { font-size: 13px; color: #8e8e8e; margin-bottom: 4px; }
+        .actor-origin-premium { font-size: 13px; color: #8e8e8e; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
         .actor-birth-premium { font-size: 13px; color: #efefef; line-height: 1.4; }
 
         .actor-film-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-bottom: 80px; }
@@ -310,7 +310,7 @@
 
             <div class="bio">
                 <div class="bio-name-wrapper"><span class="bio-name">amnesfubbia</span><i class="fa-solid fa-circle-check text-[#0095f6] text-[13px]"></i></div>
-                <span>🎬 Discover. Watch. Archive.</span><br>
+                <span><i class="ph ph-film-slate mr-1"></i> Discover. Watch. Archive.</span><br>
                 <span class="text-zinc-400">Jelajahi, simpan & tonton trailer movie favoritmu.</span>
             </div>
 
@@ -625,7 +625,7 @@
                 document.getElementById('actorHeaderTitle').innerText = details.name;
 
                 // Hitung Usia
-                let age = 'N/A';
+                let age = '0';
                 if(details.birthday) {
                     const birthDate = new Date(details.birthday);
                     const diff = Date.now() - birthDate.getTime();
@@ -638,7 +638,7 @@
                 document.getElementById('statUsia').innerText = age;
 
                 // Set Bio Text
-                document.getElementById('actorOrigin').innerText = details.place_of_birth ? `📍 ${details.place_of_birth}` : '';
+                document.getElementById('actorOrigin').innerHTML = details.place_of_birth ? `<i class="ph ph-map-pin"></i> ${details.place_of_birth}` : '';
                 document.getElementById('actorBirth').innerText = details.birthday ? `Born: ${new Date(details.birthday).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}` : '';
 
                 // Set Filmografi Grid (with Rating & Type Badges)
@@ -1124,13 +1124,7 @@
             const contentKind = (type === 'tv') ? 'tv' : 'movie';
             const genresArr = (dId.genres || []).map(g => `#${g.name.replace(/[^a-zA-Z0-9]/g, '')}`).slice(0, 3).join(' ');
             
-            const companies = (dId.production_companies || []).slice(0, 2);
-            let studioHTML = "";
-            companies.forEach(com => {
-                studioHTML += `<span class="bg-zinc-800 px-2 py-1 rounded text-[10px] mr-1 cursor-pointer hover:bg-white hover:text-black transition" onclick="searchByStudio(${com.id}, '${com.name}')">${com.name}</span>`;
-            });
-
-            document.getElementById('mHashtags').innerHTML = `${studioHTML} <br><br> #${(dId.title||dId.name||"").replace(/[^a-zA-Z0-9]/g, '')} #${relYear} #${contentKind} <br> ${genresArr}`;
+            document.getElementById('mHashtags').innerHTML = `<br> #${(dId.title||dId.name||"").replace(/[^a-zA-Z0-9]/g, '')} #${relYear} #${contentKind} <br> ${genresArr}`;
             
             const rel = dId.release_date || dId.first_air_date || ""; 
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
