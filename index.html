@@ -490,17 +490,28 @@
             }); 
         };
 
-        /* --- HP BACK BUTTON SYSTEM --- */
+        /* --- HP BACK BUTTON SYSTEM (FIXED) --- */
         window.addEventListener('popstate', function(event) {
+            const state = event.state;
+            
+            // Tutup Landscape dulu jika aktif
             if (document.getElementById('landscapeOverlay').style.display === 'block') {
                 closeLandscapeSilently();
-            } else if (document.getElementById('actorModal').style.display === 'block') {
+            } 
+            // Tutup Modal Aktor jika aktif
+            else if (document.getElementById('actorModal').style.display === 'block') {
                 closeActorModal();
-            } else if (document.getElementById('movieModal').style.display === 'block') {
+            } 
+            // Tutup Modal Film jika aktif
+            else if (document.getElementById('movieModal').style.display === 'block') {
                 closeModal();
-            } else if (document.getElementById('searchOverlay').style.display === 'block') {
+            } 
+            // Tutup Search jika aktif
+            else if (document.getElementById('searchOverlay').style.display === 'block') {
                 closeSearch();
-            } else if (document.getElementById('sideMenu').style.display === 'block') {
+            } 
+            // Tutup Side Menu jika aktif
+            else if (document.getElementById('sideMenu').style.display === 'block') {
                 toggleSideMenu();
             }
         });
@@ -531,11 +542,7 @@
         }
 
         function handleLsBack() {
-            if (window.history.state && window.history.state.view === 'landscape') {
-                window.history.back();
-            } else {
-                exitLandscape();
-            }
+            window.history.back();
         }
 
         function closeLandscapeSilently() {
@@ -544,7 +551,7 @@
             
             const videoArea = document.getElementById('mainVideoArea');
             const castContainer = document.getElementById('castContainer');
-            castContainer.after(videoArea);
+            if(castContainer) castContainer.after(videoArea);
 
             if (document.exitFullscreen && document.fullscreenElement) {
                 document.exitFullscreen();
@@ -555,10 +562,7 @@
         }
 
         function exitLandscape() {
-            closeLandscapeSilently();
-            if (window.history.state && window.history.state.view === 'landscape') {
-                window.history.back();
-            }
+            window.history.back();
         }
 
         function toggleLsUI() {
@@ -605,7 +609,6 @@
 
         /* --- FITUR: PROFIL AKTOR MENDETAIL (Updated Instagram Style) --- */
         async function openActorProfile(actorId) {
-            // Hentikan video aktif sebelum pindah modal
             const track = document.getElementById('carouselTrack');
             if(track) {
                 track.querySelectorAll('iframe').forEach(f => f.src = "");
@@ -620,12 +623,10 @@
                 const details = await fetchWithCache(`https://api.themoviedb.org/3/person/${actorId}?api_key=${API_KEY}&language=id-ID`);
                 const credits = await fetchWithCache(`https://api.themoviedb.org/3/person/${actorId}/combined_credits?api_key=${API_KEY}&language=id-ID`);
 
-                // Set Foto & Nama Header
                 document.getElementById('actorPic').src = details.profile_path ? `https://image.tmdb.org/t/p/w500${details.profile_path}` : 'amnesfubbia.png';
                 document.getElementById('actorName').innerText = details.name;
                 document.getElementById('actorHeaderTitle').innerText = details.name;
 
-                // Hitung Usia
                 let age = '0';
                 if(details.birthday) {
                     const birthDate = new Date(details.birthday);
@@ -633,16 +634,13 @@
                     age = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
                 }
 
-                // Set Stats
                 document.getElementById('statKarya').innerText = (credits.cast || []).length;
                 document.getElementById('statPop').innerText = Math.floor(details.popularity || 0);
                 document.getElementById('statUsia').innerText = age;
 
-                // Set Bio Text
                 document.getElementById('actorOrigin').innerHTML = details.place_of_birth ? `<i class="ph ph-map-pin"></i> ${details.place_of_birth}` : '';
                 document.getElementById('actorBirth').innerText = details.birthday ? `Born: ${new Date(details.birthday).toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})}` : '';
 
-                // Set Filmografi Grid (with Rating & Type Badges)
                 const filmGrid = document.getElementById('actorFilmGrid');
                 filmGrid.innerHTML = "";
                 const sortedFilms = (credits.cast || []).sort((a,b) => b.popularity - a.popularity);
@@ -651,9 +649,7 @@
                     const mType = m.media_type || 'movie';
                     const card = document.createElement('div');
                     card.className = 'post-card';
-                    // FIX: POSTER FILM BISA DIKLIK DAN MASUK MODAL FILM
                     card.onclick = () => { 
-                        closeActorModal();
                         openModal(m.id, mType); 
                     };
                     card.innerHTML = `
@@ -670,7 +666,6 @@
         function closeActorModal() {
             document.getElementById('actorModal').style.display = 'none';
             if (document.getElementById('movieModal').style.display === 'block') {
-                // Saat kembali dari aktor ke modal film, muat ulang trailer agar muncul
                 const currentId = window.currentMediaId;
                 const currentType = window.currentMediaType;
                 if(currentId) openModal(currentId, currentType);
@@ -1066,6 +1061,7 @@
             currentIdx = 0; 
             isTranslated = false;
             
+            // Push state baru jika belum ada state modal
             if (!window.history.state || window.history.state.view !== 'modal') {
                 history.pushState({view: 'modal'}, "");
             }
@@ -1202,7 +1198,7 @@
             document.getElementById('movieModal').style.display = 'none'; 
             document.body.style.overflow = 'auto'; 
             if(document.body.classList.contains('landscape-active')) closeLandscapeSilently();
-            window.currentMediaId = null; // Reset current media
+            window.currentMediaId = null; 
         }
 
         function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
