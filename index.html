@@ -1140,23 +1140,26 @@
                 // JIKA YOUTUBE TIDAK ADA, CARI DAILYMOTION
                 const titleQuery = dId.title || dId.name;
                 const releaseYear = (dId.release_date || dId.first_air_date || "").split('-')[0];
-                const dmSearchUrl = `https://api.dailymotion.com/videos?fields=id&search=${encodeURIComponent(titleQuery + ' ' + releaseYear + ' official trailer')}&limit=1`;
+                // Memperketat query Dailymotion dengan "Official Trailer" agar lebih akurat
+                const dmSearchUrl = `https://api.dailymotion.com/videos?fields=id&search=${encodeURIComponent(titleQuery + ' ' + releaseYear + ' Official Trailer')}&limit=1`;
                 
                 try {
                     const dmRes = await fetch(dmSearchUrl);
                     const dmData = await dmRes.json();
                     
                     if(dmData.list && dmData.list.length > 0) {
-                        // SET DAILYMOTION: Autoplay=1 dan Mute=0 (tanpa mute)
+                        // JIKA DAILYMOTION ADA - Ditambahkan autoplay=1 dan mute=0
                         const dmId = dmData.list[0].id;
                         track.innerHTML = `<div class="carousel-slide"><iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=1&mute=0" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`;
                         document.getElementById('swipeOverlay').style.display = 'none';
                     } else {
+                        // JIKA DAILYMOTION JUGA TIDAK ADA, LANGSUNG PEMUTAR FILM (Server 2)
                         const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
                         track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                         document.getElementById('swipeOverlay').style.display = 'none';
                     }
                 } catch(e) {
+                    // FALLBACK JIKA FETCH DAILYMOTION ERROR
                     const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
                     track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                     document.getElementById('swipeOverlay').style.display = 'none';
