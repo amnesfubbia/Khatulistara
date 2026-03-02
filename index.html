@@ -96,6 +96,7 @@
         .smart-name { font-size: 13px; font-weight: 600; color: #fff; }
         .smart-meta { font-size: 11px; color: #8e8e8e; }
 
+        /* --- UPDATED CALENDAR STYLE --- */
         .calendar-item { display: flex; align-items: center; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #111; }
         .calendar-poster { flex: 0 0 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; background: #111; border: 1px solid #222; }
         .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
@@ -104,10 +105,12 @@
         .cal-genre-pill { padding: 2px 8px; background: #1c1c1c; border-radius: 100px; color: #ccc; font-size: 9px; font-weight: 600; }
         .cal-rating { color: #ffca28; font-weight: 700; font-size: 11px; }
         
+        /* Sticky Date Strip Fix */
         .sticky-wrapper { position: sticky; top: 54px; z-index: 90; background: #000; }
         .date-strip { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: #000; border-bottom: 1px solid #111; }
         .date-chip { flex: 0 0 55px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 14px; background: #111; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         
+        /* MODIFIKASI: Hanya border putih saat aktif */
         .date-chip.active-date { background: #111; border-color: #fff; }
         .date-chip.active-date span { color: #fff !important; }
 
@@ -122,13 +125,15 @@
         .swipe-overlay { position: absolute; inset: 0; z-index: 10; background: transparent; }
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; transition: transform 0.1s; }
         .interaction-icon:active { transform: scale(1.2); }
-
-        .server-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 4px 0; scrollbar-width: none; }
-        .server-wrapper::-webkit-scrollbar { display: none; }
-        .server-btn { flex: 0 0 100px; padding: 12px 5px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; background: #0a0a0a; color: #fff; transition: all 0.2s; }
+        
+        /* SERVER LIST SCROLL HORIZONTAL */
+        .server-scroll-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; scrollbar-width: none; }
+        .server-scroll-wrapper::-webkit-scrollbar { display: none; }
+        .server-btn { flex: 0 0 auto; min-width: 90px; padding: 10px 15px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; background: #0a0a0a; color: #fff; transition: all 0.2s; }
         .server-btn:active { background: #1c1c1c; }
         .server-btn.active-link { border: 2px solid #fff !important; background: rgba(255,255,255,0.1); }
         
+        /* Merapatkan jarak di area download dan server */
         .dl-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 8px; margin-bottom: 2px; }
         .dl-link-btn { width: 100%; padding: 12px; border-radius: 12px; background: #000; color: #fff; font-size: 12px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #333; cursor: pointer; }
         
@@ -144,6 +149,7 @@
         .cast-name { font-size: 9px; font-weight: 500; color: #fff; line-height: 1.2; display: block; margin-top: 4px; }
         
         .ig-post-content { padding: 0 15px; margin-top: 5px; }
+        /* Sticky Suka - dirapatkan lebarnya */
         .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: inline-block; padding-right: 5px; }
         .ig-username { font-weight: 700; font-size: 13px; margin-right: 8px; }
         .ig-caption { font-size: 13px; line-height: 1.4; color: #efefef; }
@@ -151,6 +157,7 @@
         .toggle-btn { display: block; color: #a8a8a8; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
         #mTranslateBtn { font-size: 11px; color: #fff; font-weight: 700; cursor: pointer; display: inline-block; }
         
+        /* Merapatkan hashtag dengan caption/selengkapnya */
         .ig-hashtags { color: #e0f1ff; display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; }
         .ig-date { color: #a8a8a8; font-size: 11px; text-transform: uppercase; }
         
@@ -158,14 +165,17 @@
         .bottom-nav i { color: #a8a8a8; transition: color 0.3s; }
         .bottom-nav i.active-nav { color: #fff; }
 
+        /* SIDEBAR / ABOUT MENU - UPDATED WITH GLASSMORPHISM */
         #sideMenu { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9500; display: none; padding: 40px 25px; overflow-y: auto; }
         .side-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
         .about-title { font-size: 22px; font-weight: 900; margin-bottom: 20px; border-left: 4px solid #fff; padding-left: 12px; }
         .about-content { font-size: 14px; line-height: 1.6; color: #ccc; }
+        /* Glass Card Style for Features */
         .about-feature { margin-top: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .about-footer { margin-top: 40px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; font-size: 12px; color: #666; }
         .feature-icon { font-size: 18px; color: #fff; width: 24px; text-align: center; }
 
+        /* --- NEW LANDSCAPE CONTROLS --- */
         .landscape-overlay {
             display: none; position: fixed; inset: 0; z-index: 9900; background: #000;
         }
@@ -182,11 +192,13 @@
         .ls-btn:active { transform: scale(1.1); }
         .ls-lock-screen { position: absolute; inset: 0; z-index: 11000; display: none; align-items: flex-start; justify-content: flex-end; padding: 30px; background: rgba(0,0,0,0.01); pointer-events: auto; }
         
+        /* Landscape Mode Overrides */
         .landscape-active #movieModal { overflow: hidden !important; }
         .landscape-active #modalScrollTop { height: 100vh; max-width: 100%; padding: 0; }
         .landscape-active .carousel-slide { height: 100vh; }
         .landscape-active #mainVideoArea { height: 100vh !important; }
 
+        /* --- NEW ACTOR PROFILE MODAL STYLE (Premium Instagram Aesthetic) --- */
         .actor-modal { display: none; position: fixed; inset: 0; z-index: 8500; background: #000; overflow-y: auto; }
         
         .actor-header-premium {
@@ -413,7 +425,7 @@
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
 
-                <div id="serverList" class="server-wrapper mt-4"></div>
+                <div id="serverList" class="server-scroll-wrapper mt-4 px-4"></div>
                 
                 <div class="dl-grid">
                     <button id="btnDownload1" class="dl-link-btn" onclick="window.open(`https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`)">Download</button>
@@ -493,13 +505,17 @@
         window.addEventListener('popstate', function(event) {
             if (document.getElementById('landscapeOverlay').style.display === 'block') {
                 closeLandscapeSilently();
-            } else if (document.getElementById('actorModal').style.display === 'block') {
+            } 
+            else if (document.getElementById('actorModal').style.display === 'block') {
                 closeActorModal();
-            } else if (document.getElementById('movieModal').style.display === 'block') {
+            } 
+            else if (document.getElementById('movieModal').style.display === 'block') {
                 closeModal();
-            } else if (document.getElementById('searchOverlay').style.display === 'block') {
+            } 
+            else if (document.getElementById('searchOverlay').style.display === 'block') {
                 closeSearch();
-            } else if (document.getElementById('sideMenu').style.display === 'block') {
+            } 
+            else if (document.getElementById('sideMenu').style.display === 'block') {
                 toggleSideMenu();
             }
         });
@@ -511,7 +527,7 @@
             document.body.classList.add('landscape-active');
             overlay.style.display = 'block';
             const videoArea = document.getElementById('mainVideoArea');
-            overlay.appendChild(videoArea);
+            overlay.appendChild(videoArea); 
             showLsUI();
             if (!window.history.state || window.history.state.view !== 'landscape') {
                 history.pushState({view: 'landscape'}, "");
@@ -533,15 +549,15 @@
             document.getElementById('landscapeOverlay').style.display = 'none';
             const videoArea = document.getElementById('mainVideoArea');
             const castContainer = document.getElementById('castContainer');
-            if(castContainer && videoArea) castContainer.after(videoArea);
-            if (document.exitFullscreen && document.fullscreenElement) document.exitFullscreen();
-            if (screen.orientation && screen.orientation.unlock) screen.orientation.unlock();
+            if(castContainer && videoArea) { castContainer.after(videoArea); }
+            if (document.exitFullscreen && document.fullscreenElement) { document.exitFullscreen(); }
+            if (screen.orientation && screen.orientation.unlock) { screen.orientation.unlock(); }
         }
 
         function toggleLsUI() {
             if(document.getElementById('lsLockLayer').style.display === 'flex') return;
             const ui = document.getElementById('lsUI');
-            ui.classList.contains('visible') ? ui.classList.remove('visible') : showLsUI();
+            if(ui.classList.contains('visible')) { ui.classList.remove('visible'); } else { showLsUI(); }
         }
 
         function showLsUI() {
@@ -549,7 +565,7 @@
             ui.classList.add('visible');
             clearTimeout(lsControlTimer);
             lsControlTimer = setTimeout(() => {
-                if(document.getElementById('lsLockLayer').style.display !== 'flex') ui.classList.remove('visible');
+                if(document.getElementById('lsLockLayer').style.display !== 'flex') { ui.classList.remove('visible'); }
             }, 3000);
         }
 
@@ -580,7 +596,9 @@
             const actorModal = document.getElementById('actorModal');
             actorModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            if (!window.history.state || window.history.state.view !== 'actor') history.pushState({view: 'actor'}, "");
+            if (!window.history.state || window.history.state.view !== 'actor') {
+                history.pushState({view: 'actor'}, "");
+            }
             try {
                 const details = await fetchWithCache(`https://api.themoviedb.org/3/person/${actorId}?api_key=${API_KEY}&language=id-ID`);
                 const credits = await fetchWithCache(`https://api.themoviedb.org/3/person/${actorId}/combined_credits?api_key=${API_KEY}&language=id-ID`);
@@ -617,13 +635,13 @@
             if (document.getElementById('movieModal').style.display === 'block') {
                 const frames = document.querySelectorAll('#carouselTrack iframe');
                 frames.forEach((f, i) => { if (lastTrailerSources[i]) f.src = lastTrailerSources[i]; });
-            } else {
-                document.body.style.overflow = 'auto';
-            }
+            } else { document.body.style.overflow = 'auto'; }
         }
 
         function searchByStudio(studioId, studioName) {
-            closeModal(); currentCompany = studioId; currentType = 'movie'; 
+            closeModal();
+            currentCompany = studioId;
+            currentType = 'movie'; 
             document.getElementById('btnGenre').innerHTML = studioName + ' <i class="fa-solid fa-caret-down"></i>';
             document.getElementById('btnGenre').classList.add('active-pill');
             loadFeed(true);
@@ -639,7 +657,9 @@
             const isVisible = menu.style.display === 'block';
             menu.style.display = isVisible ? 'none' : 'block';
             document.body.style.overflow = isVisible ? 'auto' : 'hidden';
-            if (!isVisible && (!window.history.state || window.history.state.view !== 'menu')) history.pushState({view: 'menu'}, "");
+            if (!isVisible && (!window.history.state || window.history.state.view !== 'menu')) {
+                history.pushState({view: 'menu'}, "");
+            }
         }
 
         function backToHome() {
@@ -647,9 +667,12 @@
             currentGenre = ''; currentYear = ''; currentCountry = ''; currentSchedule = 'trending'; 
             currentType = 'multi'; searchQuery = ''; currentCastId = ''; currentCompany = '';
             document.querySelectorAll('.highlight-item').forEach(i => i.classList.remove('active-hl'));
-            document.getElementById('btnCountry').innerHTML = 'Negara <i class="fa-solid fa-caret-down"></i>';
-            document.getElementById('btnGenre').innerHTML = 'Genre <i class="fa-solid fa-caret-down"></i>';
-            document.getElementById('yearBtn').innerHTML = 'Tahun <i class="fa-solid fa-caret-down"></i>';
+            const btnCountry = document.getElementById('btnCountry');
+            const btnGenre = document.getElementById('btnGenre');
+            const btnYear = document.getElementById('yearBtn');
+            btnCountry.innerHTML = 'Negara <i class="fa-solid fa-caret-down"></i>';
+            btnGenre.innerHTML = 'Genre <i class="fa-solid fa-caret-down"></i>';
+            btnYear.innerHTML = 'Tahun <i class="fa-solid fa-caret-down"></i>';
             document.querySelectorAll('.pill').forEach(p => p.classList.remove('active-pill'));
             document.querySelectorAll('.btn-ig').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat'));
@@ -673,17 +696,23 @@
                 if(q.length < 2) { drop.style.display = 'none'; return; } 
                 timeout = setTimeout(async () => { 
                     try { 
-                        const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(q)}&api_key=${API_KEY}&language=id-ID`); 
+                        const res = await fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(q)}&api_key=${API_KEY}`); 
                         const data = await res.json(); 
                         const results = (data.results || []).slice(0, 5); 
                         if(results.length) { 
                             drop.innerHTML = results.map(m => {
                                 const mType = m.media_type || 'movie';
-                                const clickAction = mType === 'person' ? `openActorProfile(${m.id})` : `openModal(${m.id}, '${mType}')`;
+                                const mId = m.id;
+                                const isPerson = mType === 'person';
+                                const clickAction = isPerson ? `openActorProfile(${mId})` : `openModal(${mId}, '${mType}')`;
+                                const meta = isPerson ? 'Pemeran / Aktor' : (mType === 'tv' ? 'tv' : 'movie');
                                 const imgPath = m.poster_path || m.profile_path || '';
                                 return `<div class="smart-item" onclick="${clickAction}; document.getElementById('smartSearchDropdown').style.display='none';">
                                     <img src="https://image.tmdb.org/t/p/w92${imgPath}" onerror="this.src='https://via.placeholder.com/35x50?text=?'">
-                                    <div class="smart-info"><span class="smart-name">${m.title || m.name}</span><span class="smart-meta">${mType === 'person' ? 'Pemeran' : mType}</span></div>
+                                    <div class="smart-info">
+                                        <span class="smart-name">${m.title || m.name}</span>
+                                        <span class="smart-meta">${meta}</span>
+                                    </div>
                                 </div>`;
                             }).join(''); 
                             drop.style.display = 'block'; 
@@ -695,17 +724,25 @@
         }
 
         async function openComingSoon() {
-            const grid = document.getElementById('searchGrid'), overlay = document.getElementById('searchOverlay'), calendarHeader = document.getElementById('calendarHeader');
-            overlay.style.display = 'block'; calendarHeader.classList.remove('hidden'); document.body.style.overflow = 'hidden';
-            if (!window.history.state || window.history.state.view !== 'search') history.pushState({view: 'search'}, "");
+            const grid = document.getElementById('searchGrid');
+            const overlay = document.getElementById('searchOverlay');
+            const calendarHeader = document.getElementById('calendarHeader');
+            overlay.style.display = 'block';
+            calendarHeader.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            if (!window.history.state || window.history.state.view !== 'search') {
+                history.pushState({view: 'search'}, "");
+            }
             let dateStripHTML = '<div class="date-strip no-scrollbar">';
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
             for(let i=0; i<14; i++) {
                 let d = new Date(); d.setDate(d.getDate() + i);
-                dateStripHTML += `<div class="date-chip ${i===0?'active-date':''}" onclick="filterByDate('${d.toISOString().split('T')[0]}', this)"><span class="d-month">${months[d.getMonth()]}</span><span class="d-day">${d.getDate()}</span></div>`;
+                let active = i === 0 ? 'active-date' : '';
+                dateStripHTML += `<div class="date-chip ${active}" onclick="filterByDate('${d.toISOString().split('T')[0]}', this)"><span class="d-month">${months[d.getMonth()]}</span><span class="d-day">${d.getDate()}</span></div>`;
             }
             dateStripHTML += '</div>';
-            calendarHeader.innerHTML = dateStripHTML; grid.innerHTML = '<div id="calendarList" class="col-span-3"></div>';
+            calendarHeader.innerHTML = dateStripHTML;
+            grid.innerHTML = '<div id="calendarList" class="col-span-3"></div>';
             filterByDate(new Date().toISOString().split('T')[0]);
         }
 
@@ -716,7 +753,7 @@
             try {
                 const res = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=id-ID&sort_by=popularity.desc&primary_release_date.gte=${dateStr}&primary_release_date.lte=${dateStr}`);
                 const data = await res.json();
-                if(!data.results.length) { list.innerHTML = '<div class="text-center py-20 text-zinc-600 text-xs">Tidak ada jadwal rilis hari ini.</div>'; return; }
+                if(data.results.length === 0) { list.innerHTML = '<div class="text-center py-20 text-zinc-600 text-xs">Tidak ada jadwal rilis hari ini.</div>'; return; }
                 list.innerHTML = '';
                 const gRes = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=id-ID`);
                 const gData = await gRes.json();
@@ -726,19 +763,17 @@
                     const item = document.createElement('div');
                     item.className = 'calendar-item active:bg-zinc-900';
                     item.onclick = () => openModal(m.id, 'movie');
-                    item.innerHTML = `<div class="calendar-poster"><img src="https://image.tmdb.org/t/p/w185${m.poster_path}" onerror="this.src='https://via.placeholder.com/185x278?text=No+Poster'" class="w-full h-full object-cover"></div><div class="calendar-info"><div class="cal-title">${m.title}</div><div class="cal-meta"><span class="cal-rating">★ ${m.vote_average.toFixed(1)}</span><span class="text-zinc-600">•</span><span>${m.release_date.split('-')[0]}</span></div><div class="flex gap-1 mt-1">${genres}</div></div><i class="fa-solid fa-chevron-right text-zinc-800 text-xs"></i>`;
+                    item.innerHTML = `<div class="calendar-poster"><img src="https://image.tmdb.org/t/p/w185${m.poster_path}" onerror="this.src='https://via.placeholder.com/185x278?text=No+Poster'" class="w-full h-full object-cover" loading="lazy"></div><div class="calendar-info"><div class="cal-title">${m.title}</div><div class="cal-meta"><span class="cal-rating">★ ${m.vote_average.toFixed(1)}</span><span class="text-zinc-600">•</span><span>${m.release_date.split('-')[0]}</span></div><div class="flex gap-1 mt-1">${genres}</div></div><i class="fa-solid fa-chevron-right text-zinc-800 text-xs"></i>`;
                     list.appendChild(item);
                 });
             } catch (e) { list.innerHTML = '<div class="text-center py-10">Gagal memuat data.</div>'; }
         }
 
         function searchByCast(castId) { 
-            closeModal(); currentCastId = castId; searchQuery = ''; 
-            document.getElementById('searchInp').value = ''; 
-            document.getElementById('searchOverlay').style.display = 'block'; 
-            document.getElementById('smartSearchDropdown').style.display = 'none';
+            closeModal(); currentCastId = castId; searchQuery = ''; document.getElementById('searchInp').value = ''; 
+            document.getElementById('searchOverlay').style.display = 'block'; document.getElementById('smartSearchDropdown').style.display = 'none';
             document.body.style.overflow='hidden'; 
-            if (!window.history.state || window.history.state.view !== 'search') history.pushState({view: 'search'}, "");
+            if (!window.history.state || window.history.state.view !== 'search') { history.pushState({view: 'search'}, ""); }
             loadFeed(true); 
         }
 
@@ -756,13 +791,15 @@
             ]; 
             const cont = document.getElementById('highlightList'); 
             hls.forEach(h => { 
-                const div = document.createElement('div'); div.className = 'highlight-item'; 
+                const div = document.createElement('div'); 
+                div.className = 'highlight-item'; 
                 div.onclick = () => { 
                     document.querySelectorAll('.highlight-item').forEach(i => i.classList.remove('active-hl'));
                     div.classList.add('active-hl');
                     currentLibMode = false; currentCastId = ''; searchQuery = ''; currentCountry = h.c || ''; currentGenre = h.g || ''; currentCompany = h.com || ''; currentSchedule = 'trending'; currentType = h.t; currentYear = ''; loadFeed(true); 
                 }; 
-                div.innerHTML = `<div class="${h.s ? 'highlight-circle logo-small' : 'highlight-circle'}"><img src="${h.img}" onerror="this.src='https://via.placeholder.com/100?text=${h.n}'"></div><div class="highlight-text">${h.n}</div>`; 
+                const circleClass = h.s ? 'highlight-circle logo-small' : 'highlight-circle';
+                div.innerHTML = `<div class="${circleClass}"><img src="${h.img}" onerror="this.src='https://via.placeholder.com/100?text=${h.n}'"></div><div class="highlight-text">${h.n}</div>`; 
                 cont.appendChild(div); 
             }); 
         }
@@ -784,7 +821,7 @@
             gD.innerHTML = genreHTML; 
         }
 
-        function toggleFilter(e, id) { e.stopPropagation(); const d = document.getElementById(id), overlay = document.getElementById('filterOverlay'); document.querySelectorAll('.filter-dropdown').forEach(el => el.style.display = 'none'); d.style.display = 'block'; d.scrollTop = 0; overlay.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+        function toggleFilter(e, id) { e.stopPropagation(); const d = document.getElementById(id); const overlay = document.getElementById('filterOverlay'); document.querySelectorAll('.filter-dropdown').forEach(el => el.style.display = 'none'); d.style.display = 'block'; d.scrollTop = 0; overlay.style.display = 'block'; document.body.style.overflow = 'hidden'; }
         function closeD() { document.querySelectorAll('.filter-dropdown').forEach(d => d.style.display = 'none'); document.getElementById('filterOverlay').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         async function loadFeed(isNew = true) {
@@ -794,31 +831,35 @@
             const grid = document.getElementById('searchOverlay').style.display === 'block' ? document.getElementById('searchGrid') : document.getElementById('feedGrid');
             if(isNew) { page = 1; grid.innerHTML = ''; }
             let url;
-            if(currentCastId) url = `https://api.themoviedb.org/3/person/${currentCastId}/combined_credits?api_key=${API_KEY}&language=id-ID`;
-            else if(searchQuery) url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false&region=ID|IN|TH|PH|US`;
-            else if(currentType === 'multi') url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=id-ID&page=${page}`;
+            if(currentCastId) { url = `https://api.themoviedb.org/3/person/${currentCastId}/combined_credits?api_key=${API_KEY}&language=id-ID`; }
+            // PERBAIKAN: Hapus language id-ID agar pencarian Sultan & Alone muncul dari semua bahasa
+            else if(searchQuery) { url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&page=${page}&include_adult=false`; }
+            else if(currentType === 'multi') { url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=id-ID&page=${page}`; }
             else {
                 let endpoint = (currentType === 'tv') ? 'discover/tv' : 'discover/movie';
                 url = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false&sort_by=popularity.desc`;
                 if(currentCountry) url += `&with_origin_country=${currentCountry}`;
                 if(currentGenre) url += `&with_genres=${currentGenre}`;
                 if(currentCompany) url += `&with_companies=${currentCompany}`;
-                if(currentType === 'short') url += `&with_runtime.lte=20&with_runtime.gte=1&vote_count.lte=5000`; 
+                if(currentType === 'short') { url += `&with_runtime.lte=20&with_runtime.gte=1&vote_count.lte=5000`; }
                 if(currentSchedule === 'now_playing' || currentSchedule === 'upcoming') { 
                     const today = new Date().toISOString().split('T')[0]; 
                     if(currentSchedule === 'now_playing') { 
                         const prev = new Date(Date.now() - 60*24*60*60*1000).toISOString().split('T')[0]; 
                         url += `&primary_release_date.gte=${prev}&primary_release_date.lte=${today}`; 
-                    } else url += `&primary_release_date.gte=${today}`; 
+                    } else { url += `&primary_release_date.gte=${today}`; } 
                 }
-                if(currentYear) url += endpoint === 'discover/tv' ? `&first_air_date_year=${currentYear}` : `&primary_release_year=${currentYear}`;
+                if(currentYear) {
+                    if(endpoint === 'discover/tv') url += `&first_air_date_year=${currentYear}`;
+                    else url += `&primary_release_year=${currentYear}`;
+                }
             }
             try { 
                 const data = await fetchWithCache(url); 
                 let items = data.results || data.cast || []; 
                 if(currentCastId) items.sort((a,b) => b.popularity - a.popularity);
-                if(!items.length && isNew) grid.innerHTML = `<div class="col-span-3 text-center py-20 text-zinc-600 text-xs">Konten tidak ditemukan.</div>`; 
-                else renderGrid(items, grid); 
+                if(items.length === 0 && isNew) { grid.innerHTML = `<div class="col-span-3 text-center py-20 text-zinc-600 text-xs">Konten tidak ditemukan.</div>`; } 
+                else { renderGrid(items, grid); }
             } catch(e) { if(e.name !== 'AbortError') console.error(e); }
             loading = false;
         }
@@ -826,241 +867,256 @@
         function renderGrid(items, grid) { 
             items.forEach(m => { 
                 if(!m.poster_path || m.media_type === 'person') return; 
-                let mType = m.media_type || (currentType === 'tv' ? 'tv' : 'movie');
-                const card = document.createElement('div'); card.className = 'post-card'; card.onclick = () => openModal(m.id, mType); 
-                card.innerHTML = `<div class="badge-rating">★ ${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':mType}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy" onload="this.style.opacity=1" style="opacity:0">`; 
+                let mType = m.media_type;
+                if(!mType) { if(currentType === 'tv') mType = 'tv'; else mType = 'movie'; }
+                const card = document.createElement('div'); 
+                card.className = 'post-card'; 
+                card.onclick = function() { openModal(m.id, mType); }; 
+                card.innerHTML = `<div class="badge-rating">★ ${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':(mType==='tv'?'tv':'movie')}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy" onload="this.style.opacity=1" style="opacity:0">`; 
                 grid.appendChild(card); 
             }); 
         }
 
         function openSearch() { 
             closeModal(); closeD(); closeActorModal(); if(document.getElementById('sideMenu').style.display === 'block') toggleSideMenu();
-            document.querySelector('.search-header').style.display = 'flex'; document.getElementById('searchGrid').innerHTML = ''; 
-            document.getElementById('searchOverlay').style.display = 'block'; document.getElementById('searchInp').focus(); document.body.style.overflow='hidden'; 
-            updateActiveNav(document.getElementById('searchBtnNav')); if (!window.history.state || window.history.state.view !== 'search') history.pushState({view: 'search'}, "");
+            document.querySelector('.search-header').style.display = 'flex';
+            document.getElementById('searchGrid').innerHTML = ''; 
+            document.getElementById('searchOverlay').style.display = 'block'; 
+            document.getElementById('searchInp').focus(); 
+            document.body.style.overflow='hidden'; 
+            updateActiveNav(document.getElementById('searchBtnNav'));
+            if (!window.history.state || window.history.state.view !== 'search') { history.pushState({view: 'search'}, ""); }
         }
 
         function closeSearch() { 
-            document.getElementById('searchOverlay').style.display = 'none'; document.getElementById('calendarHeader').classList.add('hidden'); document.body.style.overflow='auto'; 
-            searchQuery=''; currentCastId=''; document.getElementById('searchInp').value = ''; document.getElementById('smartSearchDropdown').style.display = 'none'; updateActiveNav(document.getElementById('homeBtnNav'));
+            document.getElementById('searchOverlay').style.display = 'none'; 
+            document.getElementById('calendarHeader').classList.add('hidden');
+            document.body.style.overflow='auto'; 
+            searchQuery=''; currentCastId=''; document.getElementById('searchInp').value = '';
+            document.getElementById('smartSearchDropdown').style.display = 'none'; 
+            updateActiveNav(document.getElementById('homeBtnNav'));
         }
         
-        function searchAction() { currentLibMode = false; currentCastId = ''; searchQuery = document.getElementById('searchInp').value; document.getElementById('calendarHeader').classList.add('hidden'); document.getElementById('smartSearchDropdown').style.display = 'none'; loadFeed(true); }
+        function searchAction() { 
+            currentLibMode = false; currentCastId = ''; searchQuery = document.getElementById('searchInp').value; 
+            document.getElementById('calendarHeader').classList.add('hidden');
+            document.getElementById('smartSearchDropdown').style.display = 'none'; 
+            loadFeed(true); 
+        }
+
         function toggleFilterBar() { const b = document.getElementById('filterBar'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; }
         
         function setSchedule(v, el) { 
             currentLibMode = false; currentCastId = ''; searchQuery = ''; 
-            const isActive = el.classList.contains('active'); document.querySelectorAll('.btn-ig').forEach(b=>b.classList.remove('active')); 
-            isActive ? currentSchedule = 'trending' : (el.classList.add('active'), currentSchedule = v);
-            if(currentType === 'multi') currentType = 'movie'; loadFeed(true); 
+            const isActive = el.classList.contains('active');
+            document.querySelectorAll('.btn-ig').forEach(b=>b.classList.remove('active')); 
+            if(isActive) { currentSchedule = 'trending'; } 
+            else { el.classList.add('active'); currentSchedule = v; }
+            if(currentType === 'multi') currentType = 'movie';
+            loadFeed(true); 
         }
 
-        function setFilter(k, v, el) { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType = v; document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat')); el.classList.add('active-stat'); loadFeed(true); }
-        function setYear(y) { currentYear = y; const btn = document.getElementById('yearBtn'); btn.innerHTML = (y || 'Tahun') + ' <i class="fa-solid fa-caret-down"></i>'; y ? btn.classList.add('active-pill') : btn.classList.remove('active-pill'); if(currentType === 'multi') currentType = 'movie'; closeD(); loadFeed(true); }
-        function setCountry(c, n) { currentCountry = c; const btn = document.getElementById('btnCountry'); btn.innerHTML = n + ' <i class="fa-solid fa-caret-down"></i>'; c ? btn.classList.add('active-pill') : btn.classList.remove('active-pill'); if(currentType === 'multi') currentType = 'movie'; closeD(); loadFeed(true); }
-        function setGenre(g, n) { currentGenre = g; const btn = document.getElementById('btnGenre'); btn.innerHTML = n + ' <i class="fa-solid fa-caret-down"></i>'; g ? btn.classList.add('active-pill') : btn.classList.remove('active-pill'); if(currentType === 'multi') currentType = 'movie'; closeD(); loadFeed(true); }
+        function setFilter(k, v, el) { 
+            currentLibMode = false; currentCastId = ''; searchQuery = ''; 
+            currentType = v; 
+            document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat'));
+            el.classList.add('active-stat');
+            loadFeed(true); 
+        }
+
+        function setYear(y) { 
+            currentYear = y; 
+            const btn = document.getElementById('yearBtn');
+            btn.innerHTML = (y || 'Tahun') + ' <i class="fa-solid fa-caret-down"></i>'; 
+            y ? btn.classList.add('active-pill') : btn.classList.remove('active-pill');
+            if(currentType === 'multi') currentType = 'movie';
+            closeD(); loadFeed(true); 
+        }
+
+        function setCountry(c, n) { 
+            currentCountry = c; 
+            const btn = document.getElementById('btnCountry');
+            btn.innerHTML = n + ' <i class="fa-solid fa-caret-down"></i>'; 
+            c ? btn.classList.add('active-pill') : btn.classList.remove('active-pill');
+            if(currentType === 'multi') currentType = 'movie';
+            closeD(); loadFeed(true); 
+        }
+
+        function setGenre(g, n) { 
+            currentGenre = g; 
+            const btn = document.getElementById('btnGenre');
+            btn.innerHTML = n + ' <i class="fa-solid fa-caret-down"></i>'; 
+            g ? btn.classList.add('active-pill') : btn.classList.remove('active-pill');
+            if(currentType === 'multi') currentType = 'movie';
+            closeD(); loadFeed(true); 
+        }
 
         async function openModal(id, type) {
             const actorModal = document.getElementById('actorModal');
             if (actorModal.style.display === 'block') actorModal.style.display = 'none';
             window.currentMediaId = id; window.currentMediaType = type;
             const seriesSuffix = (type === 'tv') ? '/1/1' : ''; 
-            
-            document.getElementById('mTitle').innerText = "Memuat..."; 
-            document.getElementById('mDesc').innerText = ""; 
-            document.getElementById('mLikeDisplay').innerText = ""; 
-            document.getElementById('mDateDisplay').innerText = ""; 
-            document.getElementById('mHashtags').innerHTML = ""; 
+            document.getElementById('mTitle').innerText = "Memuat...";
+            document.getElementById('mDesc').innerText = "";
+            document.getElementById('mLikeDisplay').innerText = "";
+            document.getElementById('mDateDisplay').innerText = "";
+            document.getElementById('mHashtags').innerHTML = "";
             document.getElementById('castContainer').innerHTML = "";
-            const track = document.getElementById('carouselTrack'); 
+            const track = document.getElementById('carouselTrack');
             if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ""; }
-            document.getElementById('carouselDots').innerHTML = ""; 
-            document.getElementById('serverList').innerHTML = ""; 
-            document.getElementById('mToggleBtn').classList.add('hidden'); 
-            document.getElementById('mTranslateBtn').classList.add('hidden'); 
+            document.getElementById('carouselDots').innerHTML = "";
+            document.getElementById('serverList').innerHTML = "";
+            document.getElementById('mToggleBtn').classList.add('hidden');
+            document.getElementById('mTranslateBtn').classList.add('hidden');
             document.getElementById('seriesControl').classList.add('hidden');
-            
             document.getElementById('movieModal').style.display = 'block'; 
-            document.getElementById('movieModal').scrollTop = 0; 
+            document.getElementById('movieModal').scrollTop = 0;
             document.getElementById('smartSearchDropdown').style.display = 'none'; 
             document.body.style.overflow = 'hidden'; 
-            
             currentIdx = 0; isTranslated = false;
-            if (!window.history.state || window.history.state.view !== 'modal') history.pushState({view: 'modal'}, "");
-            
+            if (!window.history.state || window.history.state.view !== 'modal') { history.pushState({view: 'modal'}, ""); }
             const [dId, dEn, dCast, dExt] = await Promise.all([
-                fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos`),
+                fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos,production_companies&include_video_language=en,id,hi,th,ko,ja,null`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${API_KEY}`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/external_ids?api_key=${API_KEY}`)
             ]);
-            
             currentImdbId = dExt.imdb_id || ""; 
-            originalIndoDesc = dId.overview || ""; 
+            originalIndoDesc = dId.overview || "";
             globalEnDesc = dEn.overview || "";
             const translateBtn = document.getElementById('mTranslateBtn');
-            
-            if (originalIndoDesc.trim() !== "") { 
-                globalFullDesc = originalIndoDesc; 
-                translateBtn.innerText = "Lihat versi asli"; 
-                translateBtn.classList.remove('hidden'); 
-            } else { 
-                globalFullDesc = globalEnDesc || "Sinopsis belum tersedia."; 
-                translateBtn.innerText = "Lihat terjemahan"; 
-                if(globalEnDesc) translateBtn.classList.remove('hidden'); 
-            }
-            
-            // LOGIKA URUTAN: CARI TRAILER YOUTUBE DULU
-            let allVideos = (dId.videos?.results || []).filter(v => v.site === 'YouTube');
-            let trailers = allVideos.filter(v => v.type === 'Trailer' && v.official);
-            if(trailers.length === 0) trailers = allVideos.filter(v => v.type === 'Trailer');
-            if(trailers.length === 0) trailers = allVideos.filter(v => (v.type === 'Teaser' || v.type === 'Clip' || v.type === 'Featurette'));
-            
-            const dots = document.getElementById('carouselDots'); 
-            track.innerHTML = ''; 
-            dots.innerHTML = '';
-
-            if(trailers.length > 0) { 
-                let vidsToDisplay = trailers.slice(0, 5);
+            if (originalIndoDesc.trim() !== "") { globalFullDesc = originalIndoDesc; translateBtn.innerText = "Lihat versi asli"; translateBtn.classList.remove('hidden'); } else { globalFullDesc = globalEnDesc || "Sinopsis belum tersedia."; translateBtn.innerText = "Lihat terjemahan"; if(globalEnDesc) translateBtn.classList.remove('hidden'); }
+            const allVideos = (dId.videos?.results || []).filter(v => (v.type === 'Trailer' || v.type === 'Teaser') && v.official === true && v.site === 'YouTube' && !v.name.toLowerCase().includes('shorts'));
+            const dots = document.getElementById('carouselDots');
+            track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
+            if(allVideos.length > 0) { 
+                let vidsToDisplay = allVideos.sort((a, b) => (a.type === 'Trailer' ? -1 : 1)).slice(0, 5);
                 vidsToDisplay.forEach((v, i) => { 
-                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
-                    if(vidsToDisplay.length > 1) dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; 
+                    const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
+                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
+                    if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
             } else { 
-                // FALLBACK KE SERVER 2 (Vidlink) JIKA TIDAK ADA TRAILER
-                const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
-                track.innerHTML = `<div class="carousel-slide"><iframe src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
-                document.getElementById('swipeOverlay').style.display = 'none';
+                const titleQuery = dId.title || dId.name;
+                const releaseYear = (dId.release_date || dId.first_air_date || "").split('-')[0];
+                const dmSearchUrl = `https://api.dailymotion.com/videos?fields=id,title,verified&search=${encodeURIComponent(titleQuery + ' ' + releaseYear + ' Official Trailer')}&sort=relevance&limit=10`;
+                try {
+                    const dmRes = await fetch(dmSearchUrl);
+                    const dmData = await dmRes.json();
+                    let foundVideoId = null;
+                    if(dmData.list && dmData.list.length > 0) {
+                        const bestMatch = dmData.list.find(v => {
+                            const lowTitle = v.title.toLowerCase(); const lowTarget = titleQuery.toLowerCase();
+                            return lowTitle.includes(lowTarget) && (lowTitle.includes('trailer') || lowTitle.includes('teaser'));
+                        });
+                        foundVideoId = bestMatch ? bestMatch.id : (dmData.list[0].verified ? dmData.list[0].id : null);
+                    }
+                    if(foundVideoId) { track.innerHTML = `<div class="carousel-slide"><iframe src="https://www.dailymotion.com/embed/video/${foundVideoId}?autoplay=1&mute=0" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; } 
+                    else { const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`; track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; }
+                    document.getElementById('swipeOverlay').style.display = 'none';
+                } catch(e) {
+                    const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`; track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
+                    document.getElementById('swipeOverlay').style.display = 'none';
+                }
             }
-
             document.getElementById('castContainer').innerHTML = (dCast.cast || []).slice(0, 10).map(c => {
-                const profileImg = c.profile_path ? `<img src="https://image.tmdb.org/t/p/w185${c.profile_path}" loading="lazy" class="rounded-full">` : `<div style="width:100%;height:100%;background:#222;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-user"></i></div>`;
+                const profileImg = c.profile_path ? `<img src="https://image.tmdb.org/t/p/w185${c.profile_path}" loading="lazy" class="rounded-full">` : `<div style="width:100%; height:100%; background:#222; display:flex; align-items:center; justify-content:center; color:#555;"><i class="fa-solid fa-user"></i></div>`;
                 return `<div class="cast-item" onclick="openActorProfile(${c.id})"><div class="cast-img-border"><div class="inner-border">${profileImg}</div></div><span class="cast-name">${c.name}</span></div>`;
             }).join('');
-
-            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dId.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; 
-            document.getElementById('mTitle').innerText = dId.title || dId.name;
-            isExpanded = false; 
-            renderSynopsis();
-            
+            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dId.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; document.getElementById('mTitle').innerText = dId.title || dId.name;
+            isExpanded = false; renderSynopsis();
             const relYear = (dId.release_date || dId.first_air_date || "2026").split('-')[0];
-            const genresArr = (dId.genres || []).map(g => `#${g.name.replace(/\s/g, '')}`).slice(0, 3).join(' ');
-            document.getElementById('mHashtags').innerHTML = `<br> #${(dId.title||dId.name||"").replace(/\s/g, '')} #${relYear} #${type} <br> ${genresArr}`;
+            const contentKind = (type === 'tv') ? 'tv' : 'movie';
+            const genresArr = (dId.genres || []).map(g => `#${g.name.replace(/[^a-zA-Z0-9]/g, '')}`).slice(0, 3).join(' ');
+            document.getElementById('mHashtags').innerHTML = `<br> #${(dId.title||dId.name||"").replace(/[^a-zA-Z0-9]/g, '')} #${relYear} #${contentKind} <br> ${genresArr}`;
             const rel = dId.release_date || dId.first_air_date || ""; 
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
-            const servers = [
-                {n:'Server 1', u:`https://player.videasy.net/movie/${id}`},
-                {n:'Server 2', u:`https://vidlink.pro/${type}/${id}${seriesSuffix}`},
-                {n:'Server 3', u:`https://vidrock.net/embed/${type}/${id}${seriesSuffix}`},
-                {n:'Server 4', u:`https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`},
-                {n:'Server 5', u:`https://vidfast.pro/movie/${id}`},
-                {n:'Server 6', u:`https://111movies.com/movie/${id}`},
-                {n:'Server 7', u:`https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`},
-                {n:'Server 8', u:`https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}`},
-                {n:'Server 9', u:`https://moviesapi.club/${type}/${id}${seriesSuffix}`},
-                {n:'Server 10', u:`https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?'?s=1&e=1':''}`},
-                {n:'Server 11', u:`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`},
-                {n:'Server 12', u:`https://www.2embed.cc/embed/${id}`},
-                {n:'Server 13', u:`https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}`},
-                {n:'Server 14', u:`https://vidsrc.me/embed/${type}?tmdb=${id}`},
-                {n:'Server 15', u:`https://vidsrc.net/embed/${type}/${id}${seriesSuffix}`},
-                {n:'Server 16', u:`https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}`},
-                {n:'Server 17', u:`https://vidnest.fun/movie/${id}`},
-                {n:'Server 18', u:`https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}`},
-                {n:'Server 19', u:`https://warezcdn.site/filme/${id}`},
-                {n:'Server 20', u:`https://embed.smashystream.com/playere.php?tmdb=${id}`}
-            ];
-            document.getElementById('serverList').innerHTML = servers.map(s => `<button class="server-btn" onclick="playVid('${s.u}', this)">${s.n}</button>`).join('');
-            if(type === 'tv') { 
-                document.getElementById('seriesControl').classList.remove('hidden'); 
-                document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); 
-                loadEpisodes(); 
-            }
+            // Server List Buttons
+            document.getElementById('serverList').innerHTML = `
+                <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 1</button>
+                <button class="server-btn" onclick="playVid('https://vidlink.pro/${type}/${id}${seriesSuffix}', this)">Server 2</button>
+                <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 3</button>
+                <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 4</button>
+                <button class="server-btn" onclick="playVid('https://vidfast.pro/movie/${id}', this)">Server 5</button>
+                <button class="server-btn" onclick="playVid('https://111movies.com/movie/${id}', this)">Server 6</button>
+                <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 7</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}', this)">Server 8</button>
+                <button class="server-btn" onclick="playVid('https://moviesapi.club/${type}/${id}${seriesSuffix}', this)">Server 9</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?'?s=1&e=1':''}', this)">Server 10</button>
+                <button class="server-btn" onclick="playVid('https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1', this)">Server 11</button>
+                <button class="server-btn" onclick="playVid('https://www.2embed.cc/embed/${id}', this)">Server 12</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}', this)">Server 13</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 14</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.net/embed/${type}/${id}${seriesSuffix}', this)">Server 15</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}', this)">Server 16</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidnest.fun/movie/${id}', this)">Server 17</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
+            `;
+            if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
         }
 
         async function handleTranslate() {
             const btn = document.getElementById('mTranslateBtn');
-            if (originalIndoDesc && globalEnDesc) {
-                globalFullDesc = globalFullDesc === originalIndoDesc ? globalEnDesc : originalIndoDesc;
-                btn.innerText = (globalFullDesc === originalIndoDesc) ? "Lihat versi asli" : "Lihat terjemahan";
-            } else if (!originalIndoDesc && globalEnDesc) {
+            if (originalIndoDesc && globalEnDesc) { if (globalFullDesc === originalIndoDesc) { globalFullDesc = globalEnDesc; btn.innerText = "Lihat versi asli"; } else { globalFullDesc = originalIndoDesc; btn.innerText = "Lihat versi asli"; } } 
+            else if (!originalIndoDesc && globalEnDesc) {
                 if(!isTranslated) {
-                    btn.innerText = "Menerjemahkan...";
-                    try {
-                        const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=id&dt=t&q=${encodeURIComponent(globalEnDesc)}`);
-                        const data = await res.json();
-                        globalFullDesc = data[0].map(x => x[0]).join('');
-                        isTranslated = true; btn.innerText = "Lihat versi asli";
-                    } catch(e) { btn.innerText = "Gagal menerjemahkan"; }
+                    const oldText = btn.innerText; btn.innerText = "Menerjemahkan...";
+                    try { const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=id&dt=t&q=${encodeURIComponent(globalEnDesc)}`); const data = await res.json(); globalFullDesc = data[0].map(x => x[0]).join(''); isTranslated = true; btn.innerText = "Lihat versi asli"; } 
+                    catch(e) { btn.innerText = "Gagal menerjemahkan"; setTimeout(()=>btn.innerText=oldText, 2000); }
                 } else { globalFullDesc = globalEnDesc; isTranslated = false; btn.innerText = "Lihat terjemahan"; }
             }
             renderSynopsis();
         }
         
-        function closeModal() { 
-            const track = document.getElementById('carouselTrack'); 
-            if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ''; }
-            document.getElementById('movieModal').style.display = 'none'; 
-            document.body.style.overflow = 'auto'; 
-            if(document.body.classList.contains('landscape-active')) closeLandscapeSilently();
-            window.currentMediaId = null; 
-        }
-
+        function closeModal() { const track = document.getElementById('carouselTrack'); if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ''; } document.getElementById('movieModal').style.display = 'none'; document.body.style.overflow = 'auto'; if(document.body.classList.contains('landscape-active')) closeLandscapeSilently(); window.currentMediaId = null; }
         function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
         function handleToggleDesc() { isExpanded = !isExpanded; renderSynopsis(); }
         
         function playVid(url, el) { 
-            const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots'); 
+            const track = document.getElementById('carouselTrack'); const dots = document.getElementById('carouselDots'); const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&mute=0` : `${url}?enablejsapi=1&mute=0`;
             track.querySelectorAll('iframe').forEach(f => f.src = "");
-            track.innerHTML = `<div class="carousel-slide"><iframe src="${url}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
-            track.style.transform = 'translateX(0)'; 
-            currentIdx = 0; 
-            dots.innerHTML = ''; 
-            document.getElementById('swipeOverlay').style.display = 'none'; 
-            highlightBtn(el); 
+            track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
+            track.style.transform = 'translateX(0)'; currentIdx = 0; dots.innerHTML = ''; 
+            document.getElementById('swipeOverlay').style.display = 'none'; highlightBtn(el); 
+            const frame = document.getElementById('player-frame'); frame.onerror = () => { frame.src = `https://vidsrc.me/embed/${window.currentMediaType}?tmdb=${window.currentMediaId}`; };
         }
         
         function highlightBtn(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
-        
         async function loadEpisodes() { 
             const s = document.getElementById('seasonSel').value; 
             const data = await fetchWithCache(`https://api.themoviedb.org/3/tv/${window.currentMediaId}/season/${s}?api_key=${API_KEY}`); 
-            document.getElementById('episodeGrid').innerHTML = (data.episodes || []).map(e => `<div class="pill text-[10px] flex flex-col items-center justify-center gap-1 min-h-[45px]" onclick="playVid('https://vidsrc.me/embed/tv?tmdb=${window.currentMediaId}&s=${s}&e=${e.episode_number}', this)"><span class="font-bold">${e.episode_number}</span></div>`).join(''); 
+            const episodes = data.episodes || [];
+            document.getElementById('episodeGrid').innerHTML = episodes.map((e, index) => { const epNum = e.episode_number; return `<div class="pill text-[10px] flex flex-col items-center justify-center gap-1 min-h-[45px]" onclick="playVid('https://vidsrc.me/embed/tv?tmdb=${window.currentMediaId}&s=${s}&e=${epNum}', this)"><span class="font-bold">${epNum}</span></div>`; }).join(''); 
         }
         
         function setupSwipe() { 
-            const overlay = document.getElementById('swipeOverlay'); 
-            overlay.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive:true}); 
+            const overlay = document.getElementById('swipeOverlay'); overlay.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true}); 
             overlay.addEventListener('touchend', e => { 
                 let diff = startX - e.changedTouches[0].clientX; const slides = document.querySelectorAll('.carousel-slide'); 
                 if(Math.abs(diff) > 50 && slides.length > 1) { 
-                    let oldIdx = currentIdx; 
-                    if(diff > 0 && currentIdx < slides.length - 1) currentIdx++; else if(diff < 0 && currentIdx > 0) currentIdx--; 
+                    let oldIdx = currentIdx; if(diff > 0 && currentIdx < slides.length - 1) currentIdx++; else if(diff < 0 && currentIdx > 0) currentIdx--; 
                     document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`; 
-                    document.querySelectorAll('.dot').forEach((d, i) => d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`); 
+                    document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
                     const oldVid = document.getElementById(`vid-${oldIdx}`), newVid = document.getElementById(`vid-${currentIdx}`);
                     if(oldVid) try{oldVid.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(e){}
                     if(newVid) try{newVid.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(e){}
                 } 
             }); 
         }
-
-        function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id), isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
+        function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
         function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); }
-        
         async function switchTab(mode, el) { 
-            closeModal(); closeSearch(); closeActorModal();
-            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); 
-            updateActiveNav(mode === 'bookmarks' ? document.getElementById('bookmarkBtnNav') : document.getElementById('homeBtnNav'));
+            closeModal(); closeSearch(); closeActorModal(); document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); 
+            if(mode === 'bookmarks') updateActiveNav(document.getElementById('bookmarkBtnNav')); else updateActiveNav(document.getElementById('homeBtnNav'));
             const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; 
-            if(mode === 'likes' || mode === 'bookmarks') { currentLibMode = true; showLibrary(mode); } 
-            else { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; loadFeed(true); } 
+            if(mode === 'likes' || mode === 'bookmarks') { currentLibMode = true; showLibrary(mode); } else { currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; loadFeed(true); } 
         }
-
-        async function showLibrary(k) { const items = JSON.parse(localStorage.getItem(k) || '[]'); const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; if (!items.length) { grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-xs">Belum ada konten disimpan</div>'; return; } const promises = items.map(i => fetchWithCache(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`)); const results = await Promise.all(promises); renderGrid(results.filter(m => m.id), grid); }
+        async function showLibrary(k) { const items = JSON.parse(localStorage.getItem(k) || '[]'); const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; if (!items.length) { grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-xs">Belum ada konten disimpan</div>'; return; } const promises = items.map(i => fetchWithCache(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`).then(r => r)); const results = await Promise.all(promises); renderGrid(results.filter(m => m.id), grid); }
         window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000 && !loading && !searchQuery && !currentLibMode) { page++; loadFeed(false); } };
     </script>
 </body>
