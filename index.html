@@ -832,7 +832,7 @@
             if(isNew) { page = 1; grid.innerHTML = ''; }
             let url;
             if(currentCastId) { url = `https://api.themoviedb.org/3/person/${currentCastId}/combined_credits?api_key=${API_KEY}&language=id-ID`; }
-            // PERBAIKAN: Hapus language id-ID agar pencarian Sultan & Alone muncul dari semua bahasa
+            /* FIXED: Menghapus language id-ID di pencarian global agar alfabet asli terbaca */
             else if(searchQuery) { url = `https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(searchQuery)}&api_key=${API_KEY}&page=${page}&include_adult=false`; }
             else if(currentType === 'multi') { url = `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&language=id-ID&page=${page}`; }
             else {
@@ -975,8 +975,9 @@
             document.body.style.overflow = 'hidden'; 
             currentIdx = 0; isTranslated = false;
             if (!window.history.state || window.history.state.view !== 'modal') { history.pushState({view: 'modal'}, ""); }
+            /* FIXED: append_to_response videos kini mencakup berbagai bahasa trailer */
             const [dId, dEn, dCast, dExt] = await Promise.all([
-                fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos,production_companies&include_video_language=en,id,hi,th,ko,ja,null`),
+                fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos,production_companies&include_video_language=en,id,hi,th,ko,ja,ru,null`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${API_KEY}`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/external_ids?api_key=${API_KEY}`)
