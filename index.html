@@ -96,7 +96,6 @@
         .smart-name { font-size: 13px; font-weight: 600; color: #fff; }
         .smart-meta { font-size: 11px; color: #8e8e8e; }
 
-        /* --- UPDATED CALENDAR STYLE --- */
         .calendar-item { display: flex; align-items: center; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #111; }
         .calendar-poster { flex: 0 0 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; background: #111; border: 1px solid #222; }
         .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
@@ -105,12 +104,10 @@
         .cal-genre-pill { padding: 2px 8px; background: #1c1c1c; border-radius: 100px; color: #ccc; font-size: 9px; font-weight: 600; }
         .cal-rating { color: #ffca28; font-weight: 700; font-size: 11px; }
         
-        /* Sticky Date Strip Fix */
         .sticky-wrapper { position: sticky; top: 54px; z-index: 90; background: #000; }
         .date-strip { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: #000; border-bottom: 1px solid #111; }
         .date-chip { flex: 0 0 55px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 14px; background: #111; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
         
-        /* MODIFIKASI: Hanya border putih saat aktif */
         .date-chip.active-date { background: #111; border-color: #fff; }
         .date-chip.active-date span { color: #fff !important; }
 
@@ -126,14 +123,12 @@
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; transition: transform 0.1s; }
         .interaction-icon:active { transform: scale(1.2); }
 
-        /* MODIFIKASI: Server list scroll ke samping */
         .server-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 4px 0; scrollbar-width: none; }
         .server-wrapper::-webkit-scrollbar { display: none; }
         .server-btn { flex: 0 0 100px; padding: 12px 5px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; background: #0a0a0a; color: #fff; transition: all 0.2s; }
         .server-btn:active { background: #1c1c1c; }
         .server-btn.active-link { border: 2px solid #fff !important; background: rgba(255,255,255,0.1); }
         
-        /* Merapatkan jarak di area download dan server */
         .dl-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 8px; margin-bottom: 2px; }
         .dl-link-btn { width: 100%; padding: 12px; border-radius: 12px; background: #000; color: #fff; font-size: 12px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #333; cursor: pointer; }
         
@@ -149,7 +144,6 @@
         .cast-name { font-size: 9px; font-weight: 500; color: #fff; line-height: 1.2; display: block; margin-top: 4px; }
         
         .ig-post-content { padding: 0 15px; margin-top: 5px; }
-        /* Sticky Suka - dirapatkan lebarnya */
         .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: inline-block; padding-right: 5px; }
         .ig-username { font-weight: 700; font-size: 13px; margin-right: 8px; }
         .ig-caption { font-size: 13px; line-height: 1.4; color: #efefef; }
@@ -157,7 +151,6 @@
         .toggle-btn { display: block; color: #a8a8a8; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
         #mTranslateBtn { font-size: 11px; color: #fff; font-weight: 700; cursor: pointer; display: inline-block; }
         
-        /* Merapatkan hashtag dengan caption/selengkapnya */
         .ig-hashtags { color: #e0f1ff; display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; }
         .ig-date { color: #a8a8a8; font-size: 11px; text-transform: uppercase; }
         
@@ -165,17 +158,14 @@
         .bottom-nav i { color: #a8a8a8; transition: color 0.3s; }
         .bottom-nav i.active-nav { color: #fff; }
 
-        /* SIDEBAR / ABOUT MENU - UPDATED WITH GLASSMORPHISM */
         #sideMenu { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9500; display: none; padding: 40px 25px; overflow-y: auto; }
         .side-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
         .about-title { font-size: 22px; font-weight: 900; margin-bottom: 20px; border-left: 4px solid #fff; padding-left: 12px; }
         .about-content { font-size: 14px; line-height: 1.6; color: #ccc; }
-        /* Glass Card Style for Features */
         .about-feature { margin-top: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .about-footer { margin-top: 40px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; font-size: 12px; color: #666; }
         .feature-icon { font-size: 18px; color: #fff; width: 24px; text-align: center; }
 
-        /* --- NEW LANDSCAPE CONTROLS --- */
         .landscape-overlay {
             display: none; position: fixed; inset: 0; z-index: 9900; background: #000;
         }
@@ -192,13 +182,11 @@
         .ls-btn:active { transform: scale(1.1); }
         .ls-lock-screen { position: absolute; inset: 0; z-index: 11000; display: none; align-items: flex-start; justify-content: flex-end; padding: 30px; background: rgba(0,0,0,0.01); pointer-events: auto; }
         
-        /* Landscape Mode Overrides */
         .landscape-active #movieModal { overflow: hidden !important; }
         .landscape-active #modalScrollTop { height: 100vh; max-width: 100%; padding: 0; }
         .landscape-active .carousel-slide { height: 100vh; }
         .landscape-active #mainVideoArea { height: 100vh !important; }
 
-        /* --- NEW ACTOR PROFILE MODAL STYLE (Premium Instagram Aesthetic) --- */
         .actor-modal { display: none; position: fixed; inset: 0; z-index: 8500; background: #000; overflow-y: auto; }
         
         .actor-header-premium {
@@ -877,39 +865,70 @@
             if (actorModal.style.display === 'block') actorModal.style.display = 'none';
             window.currentMediaId = id; window.currentMediaType = type;
             const seriesSuffix = (type === 'tv') ? '/1/1' : ''; 
-            document.getElementById('mTitle').innerText = "Memuat..."; document.getElementById('mDesc').innerText = ""; document.getElementById('mLikeDisplay').innerText = ""; document.getElementById('mDateDisplay').innerText = ""; document.getElementById('mHashtags').innerHTML = ""; document.getElementById('castContainer').innerHTML = "";
-            const track = document.getElementById('carouselTrack'); if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ""; }
-            document.getElementById('carouselDots').innerHTML = ""; document.getElementById('serverList').innerHTML = ""; document.getElementById('mToggleBtn').classList.add('hidden'); document.getElementById('mTranslateBtn').classList.add('hidden'); document.getElementById('seriesControl').classList.add('hidden');
-            document.getElementById('movieModal').style.display = 'block'; document.getElementById('movieModal').scrollTop = 0; document.getElementById('smartSearchDropdown').style.display = 'none'; document.body.style.overflow = 'hidden'; 
+            
+            document.getElementById('mTitle').innerText = "Memuat..."; 
+            document.getElementById('mDesc').innerText = ""; 
+            document.getElementById('mLikeDisplay').innerText = ""; 
+            document.getElementById('mDateDisplay').innerText = ""; 
+            document.getElementById('mHashtags').innerHTML = ""; 
+            document.getElementById('castContainer').innerHTML = "";
+            const track = document.getElementById('carouselTrack'); 
+            if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ""; }
+            document.getElementById('carouselDots').innerHTML = ""; 
+            document.getElementById('serverList').innerHTML = ""; 
+            document.getElementById('mToggleBtn').classList.add('hidden'); 
+            document.getElementById('mTranslateBtn').classList.add('hidden'); 
+            document.getElementById('seriesControl').classList.add('hidden');
+            
+            document.getElementById('movieModal').style.display = 'block'; 
+            document.getElementById('movieModal').scrollTop = 0; 
+            document.getElementById('smartSearchDropdown').style.display = 'none'; 
+            document.body.style.overflow = 'hidden'; 
+            
             currentIdx = 0; isTranslated = false;
             if (!window.history.state || window.history.state.view !== 'modal') history.pushState({view: 'modal'}, "");
+            
             const [dId, dEn, dCast, dExt] = await Promise.all([
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${API_KEY}`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/external_ids?api_key=${API_KEY}`)
             ]);
-            currentImdbId = dExt.imdb_id || ""; originalIndoDesc = dId.overview || ""; globalEnDesc = dEn.overview || "";
-            const translateBtn = document.getElementById('mTranslateBtn');
-            if (originalIndoDesc.trim() !== "") { globalFullDesc = originalIndoDesc; translateBtn.innerText = "Lihat versi asli"; translateBtn.classList.remove('hidden'); }
-            else { globalFullDesc = globalEnDesc || "Sinopsis belum tersedia."; translateBtn.innerText = "Lihat terjemahan"; if(globalEnDesc) translateBtn.classList.remove('hidden'); }
             
+            currentImdbId = dExt.imdb_id || ""; 
+            originalIndoDesc = dId.overview || ""; 
+            globalEnDesc = dEn.overview || "";
+            const translateBtn = document.getElementById('mTranslateBtn');
+            
+            if (originalIndoDesc.trim() !== "") { 
+                globalFullDesc = originalIndoDesc; 
+                translateBtn.innerText = "Lihat versi asli"; 
+                translateBtn.classList.remove('hidden'); 
+            } else { 
+                globalFullDesc = globalEnDesc || "Sinopsis belum tersedia."; 
+                translateBtn.innerText = "Lihat terjemahan"; 
+                if(globalEnDesc) translateBtn.classList.remove('hidden'); 
+            }
+            
+            // LOGIKA URUTAN: CARI TRAILER YOUTUBE DULU
             let allVideos = (dId.videos?.results || []).filter(v => v.site === 'YouTube');
             let trailers = allVideos.filter(v => v.type === 'Trailer' && v.official);
             if(trailers.length === 0) trailers = allVideos.filter(v => v.type === 'Trailer');
             if(trailers.length === 0) trailers = allVideos.filter(v => (v.type === 'Teaser' || v.type === 'Clip' || v.type === 'Featurette'));
             
-            const dots = document.getElementById('carouselDots'); track.innerHTML = ''; dots.innerHTML = '';
+            const dots = document.getElementById('carouselDots'); 
+            track.innerHTML = ''; 
+            dots.innerHTML = '';
+
             if(trailers.length > 0) { 
                 let vidsToDisplay = trailers.slice(0, 5);
                 vidsToDisplay.forEach((v, i) => { 
-                    // Perbaikan: Tambahkan autoplay=1 untuk video pertama di carousel
                     track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
                     if(vidsToDisplay.length > 1) dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; 
                 }); 
                 document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
             } else { 
-                // Jika tidak ada trailer sama sekali, baru tampilkan player alternatif tapi tetap di area carousel
+                // FALLBACK KE SERVER 2 (Vidlink) JIKA TIDAK ADA TRAILER
                 const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
                 track.innerHTML = `<div class="carousel-slide"><iframe src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none';
@@ -919,12 +938,17 @@
                 const profileImg = c.profile_path ? `<img src="https://image.tmdb.org/t/p/w185${c.profile_path}" loading="lazy" class="rounded-full">` : `<div style="width:100%;height:100%;background:#222;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-user"></i></div>`;
                 return `<div class="cast-item" onclick="openActorProfile(${c.id})"><div class="cast-img-border"><div class="inner-border">${profileImg}</div></div><span class="cast-name">${c.name}</span></div>`;
             }).join('');
-            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dId.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; document.getElementById('mTitle').innerText = dId.title || dId.name;
-            isExpanded = false; renderSynopsis();
+
+            document.getElementById('mLikeDisplay').innerText = `${Math.floor((dId.vote_average || 0) * 1234).toLocaleString('id-ID')} suka`; 
+            document.getElementById('mTitle').innerText = dId.title || dId.name;
+            isExpanded = false; 
+            renderSynopsis();
+            
             const relYear = (dId.release_date || dId.first_air_date || "2026").split('-')[0];
             const genresArr = (dId.genres || []).map(g => `#${g.name.replace(/\s/g, '')}`).slice(0, 3).join(' ');
             document.getElementById('mHashtags').innerHTML = `<br> #${(dId.title||dId.name||"").replace(/\s/g, '')} #${relYear} #${type} <br> ${genresArr}`;
-            const rel = dId.release_date || dId.first_air_date || ""; document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+            const rel = dId.release_date || dId.first_air_date || ""; 
+            document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
             const servers = [
                 {n:'Server 1', u:`https://player.videasy.net/movie/${id}`},
@@ -949,7 +973,11 @@
                 {n:'Server 20', u:`https://embed.smashystream.com/playere.php?tmdb=${id}`}
             ];
             document.getElementById('serverList').innerHTML = servers.map(s => `<button class="server-btn" onclick="playVid('${s.u}', this)">${s.n}</button>`).join('');
-            if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); }
+            if(type === 'tv') { 
+                document.getElementById('seriesControl').classList.remove('hidden'); 
+                document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); 
+                loadEpisodes(); 
+            }
             updateLibButtons(id);
         }
 
@@ -957,7 +985,7 @@
             const btn = document.getElementById('mTranslateBtn');
             if (originalIndoDesc && globalEnDesc) {
                 globalFullDesc = globalFullDesc === originalIndoDesc ? globalEnDesc : originalIndoDesc;
-                btn.innerText = "Lihat versi asli";
+                btn.innerText = (globalFullDesc === originalIndoDesc) ? "Lihat versi asli" : "Lihat terjemahan";
             } else if (!originalIndoDesc && globalEnDesc) {
                 if(!isTranslated) {
                     btn.innerText = "Menerjemahkan...";
@@ -973,8 +1001,10 @@
         }
         
         function closeModal() { 
-            const track = document.getElementById('carouselTrack'); if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ''; }
-            document.getElementById('movieModal').style.display = 'none'; document.body.style.overflow = 'auto'; 
+            const track = document.getElementById('carouselTrack'); 
+            if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ''; }
+            document.getElementById('movieModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto'; 
             if(document.body.classList.contains('landscape-active')) closeLandscapeSilently();
             window.currentMediaId = null; 
         }
@@ -986,8 +1016,11 @@
             const track = document.getElementById('carouselTrack'), dots = document.getElementById('carouselDots'); 
             track.querySelectorAll('iframe').forEach(f => f.src = "");
             track.innerHTML = `<div class="carousel-slide"><iframe src="${url}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
-            track.style.transform = 'translateX(0)'; currentIdx = 0; dots.innerHTML = ''; 
-            document.getElementById('swipeOverlay').style.display = 'none'; highlightBtn(el); 
+            track.style.transform = 'translateX(0)'; 
+            currentIdx = 0; 
+            dots.innerHTML = ''; 
+            document.getElementById('swipeOverlay').style.display = 'none'; 
+            highlightBtn(el); 
         }
         
         function highlightBtn(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
