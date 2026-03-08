@@ -101,6 +101,7 @@
         .calendar-poster { flex: 0 0 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; background: #111; border: 1px solid #222; }
         .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .cal-title { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.2; }
+        .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .cal-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #8e8e8e; }
         .cal-genre-pill { padding: 2px 8px; background: #1c1c1c; border-radius: 100px; color: #ccc; font-size: 9px; font-weight: 600; }
         .cal-rating { color: #ffca28; font-weight: 700; font-size: 11px; }
@@ -420,7 +421,7 @@
                 <div id="seriesControl" class="hidden mt-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4">
                         <h4 class="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Episode List</h4>
-                        <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded border border-zinc-700 outline-none" onchange="loadEpisodes()"></select>
+                        <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded border border-zinc-700 Karena-none" onchange="loadEpisodes()"></select>
                     </div>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
@@ -1012,12 +1013,13 @@
                 await handleTrailerError();
             }
 
-            // PERBAIKAN: Mencari Trailer Dailymotion berdasarkan judul yang spesifik
             try {
                 const qName = dId.title || dId.name;
-                const dailyRes = await fetch(`https://api.dailymotion.com/videos?search=${encodeURIComponent(qName + ' official trailer')}&fields=id,title&limit=5`);
+                const qYear = (dId.release_date || dId.first_air_date || "").split('-')[0];
+                const searchQueryDaily = encodeURIComponent(`${qName} ${qYear} official trailer`);
+                const dailyRes = await fetch(`https://api.dailymotion.com/videos?search=${searchQueryDaily}&fields=id,title&limit=1`);
                 const dailyData = await dailyRes.json();
-                // Mencari video yang paling mendekati judul asli agar akurat
+                
                 if (dailyData.list && dailyData.list.length > 0) {
                     currentDailymotionId = dailyData.list[0].id;
                 } else {
@@ -1043,7 +1045,7 @@
                 <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 2</button>
                 <button class="server-btn" onclick="playVid('https://vidlink.pro/${type}/${id}${seriesSuffix}', this)">Server 3</button>
                 <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 4</button>
-                <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 5</button>
+                <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 5</button>
                 <button class="server-btn" onclick="playVid('https://vidfast.pro/movie/${id}', this)">Server 6</button>
                 <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 7</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}', this)">Server 8</button>
@@ -1060,6 +1062,8 @@
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/embed/video/${currentDailymotionId}', this, true)">Server 21</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.vimeo.com/video/search?q=${encodeURIComponent(dId.title || dId.name)}', this)">Server 22</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1', this)">Server 23</button>
             `;
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
@@ -1086,9 +1090,7 @@
             const track = document.getElementById('carouselTrack'); 
             const dots = document.getElementById('carouselDots'); 
             
-            // PERBAIKAN: Jika Server 21 (Dailymotion) diklik tapi ID kosong, arahkan otomatis ke Server 1
             if(isDailymotion && !currentDailymotionId) {
-                console.log("No Dailymotion ID found, redirection to Server 1");
                 const srv1 = document.getElementById('srv1');
                 if(srv1) srv1.click();
                 return;
@@ -1107,13 +1109,12 @@
             document.getElementById('swipeOverlay').style.display = 'none'; 
             highlightBtn(el); 
 
-            // Fallback timeout untuk Server 21 (Dailymotion)
             if(isDailymotion) {
-                const checkLoad = setTimeout(() => {
+                setTimeout(() => {
                     const frame = document.getElementById('player-frame');
-                    // Jika iframe masih kosong atau gagal, balik ke Server 1
                     if(!frame || frame.src.includes('undefined')) {
-                        document.getElementById('srv1').click();
+                        const srv1 = document.getElementById('srv1');
+                        if(srv1) srv1.click();
                     }
                 }, 3000);
             }
