@@ -489,6 +489,7 @@
         let isLsPaused = false, isLsMuted = false, lsControlTimer;
         let currentImdbId = ""; 
         let lastTrailerSources = []; 
+        let currentDailymotionId = ""; // Menyimpan ID Dailymotion
 
         window.onload = () => {
             setTimeout(() => {
@@ -786,7 +787,7 @@
                 {n: 'Anime', g: 16, img: 'Anime.png', t: 'movie', c: 'JP', s: true},
                 {n: 'Indonesia', c: 'ID', img: 'Indonesia.png', t: 'movie', s: false},
                 {n: 'Korea', c: 'KR', img: 'Korea.png', t: 'movie', s: false},
-                {n: 'India', c: 'IN', img: 'India.png', t: 'movie', s: false},
+                {n: 'India', c: 'IN', img: 'Indonesia.png', t: 'movie', s: false},
                 {n: 'Thailand', c: 'TH', img: 'Thailand.png', t: 'movie', s: false}
             ]; 
             const cont = document.getElementById('highlightList'); 
@@ -1011,6 +1012,19 @@
                 await handleTrailerError();
             }
 
+            // PERBAIKAN: Mencari Trailer Dailymotion berdasarkan judul yang spesifik
+            try {
+                const qName = dId.title || dId.name;
+                const dailyRes = await fetch(`https://api.dailymotion.com/videos?search=${encodeURIComponent(qName + ' official trailer')}&fields=id,title&limit=5`);
+                const dailyData = await dailyRes.json();
+                // Mencari video yang paling mendekati judul asli agar akurat
+                if (dailyData.list && dailyData.list.length > 0) {
+                    currentDailymotionId = dailyData.list[0].id;
+                } else {
+                    currentDailymotionId = "";
+                }
+            } catch(e) { currentDailymotionId = ""; }
+
             document.getElementById('castContainer').innerHTML = (dCast.cast || []).slice(0, 10).map(c => {
                 const profileImg = c.profile_path ? `<img src="https://image.tmdb.org/t/p/w185${c.profile_path}" loading="lazy" class="rounded-full">` : `<div style="width:100%; height:100%; background:#222; display:flex; align-items:center; justify-content:center; color:#555;"><i class="fa-solid fa-user"></i></div>`;
                 return `<div class="cast-item" onclick="openActorProfile(${c.id})"><div class="cast-img-border"><div class="inner-border">${profileImg}</div></div><span class="cast-name">${c.name}</span></div>`;
@@ -1045,7 +1059,7 @@
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/video/${id}', this, true)">Server 21</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/embed/video/${currentDailymotionId}', this, true)">Server 21</button>
             `;
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
@@ -1071,6 +1085,15 @@
         function playVid(url, el, isDailymotion = false) { 
             const track = document.getElementById('carouselTrack'); 
             const dots = document.getElementById('carouselDots'); 
+            
+            // PERBAIKAN: Jika Server 21 (Dailymotion) diklik tapi ID kosong, arahkan otomatis ke Server 1
+            if(isDailymotion && !currentDailymotionId) {
+                console.log("No Dailymotion ID found, redirection to Server 1");
+                const srv1 = document.getElementById('srv1');
+                if(srv1) srv1.click();
+                return;
+            }
+
             const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&autoplay=1&mute=0` : `${url}?enablejsapi=1&autoplay=1&mute=0`;
             
             track.querySelectorAll('iframe').forEach(f => f.src = "");
@@ -1084,16 +1107,15 @@
             document.getElementById('swipeOverlay').style.display = 'none'; 
             highlightBtn(el); 
 
-            const frame = document.getElementById('player-frame');
-            
-            // Fallback System: Jika server 21 (Dailymotion) atau server lain gagal dalam 5 detik, balik ke Server 1
+            // Fallback timeout untuk Server 21 (Dailymotion)
             if(isDailymotion) {
                 const checkLoad = setTimeout(() => {
-                    console.log("Server 21 timeout, switching to Server 1...");
-                    document.getElementById('srv1').click();
-                }, 5000);
-
-                frame.onload = () => clearTimeout(checkLoad);
+                    const frame = document.getElementById('player-frame');
+                    // Jika iframe masih kosong atau gagal, balik ke Server 1
+                    if(!frame || frame.src.includes('undefined')) {
+                        document.getElementById('srv1').click();
+                    }
+                }, 3000);
             }
         }
         
