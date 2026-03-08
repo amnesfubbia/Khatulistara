@@ -1045,7 +1045,7 @@
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/search/${id}', this, true)">Server 21</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/video/${id}', this, true)">Server 21</button>
             `;
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
@@ -1086,26 +1086,14 @@
 
             const frame = document.getElementById('player-frame');
             
-            // Logic Fallback Khusus jika server gagal muat
-            frame.onerror = () => {
-                console.log("Error loading server, falling back to Server 1...");
-                const srv1 = document.getElementById('srv1');
-                if(srv1) srv1.click();
-            };
-
-            // Tambahan listener untuk Dailymotion (Server 21) karena terkadang tidak trigger onerror secara native
+            // Fallback System: Jika server 21 (Dailymotion) atau server lain gagal dalam 5 detik, balik ke Server 1
             if(isDailymotion) {
-                setTimeout(() => {
-                    try {
-                        // Cek sederhana jika iframe kosong atau tidak bisa diakses kontennya setelah delay
-                        if (!frame.contentWindow || frame.src.includes('about:blank')) {
-                             const srv1 = document.getElementById('srv1');
-                             if(srv1) srv1.click();
-                        }
-                    } catch (e) {
-                        // Jika cross-origin error diabaikan, itu tandanya konten kemungkinan besar terload
-                    }
+                const checkLoad = setTimeout(() => {
+                    console.log("Server 21 timeout, switching to Server 1...");
+                    document.getElementById('srv1').click();
                 }, 5000);
+
+                frame.onload = () => clearTimeout(checkLoad);
             }
         }
         
