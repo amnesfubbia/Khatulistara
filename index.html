@@ -1025,7 +1025,7 @@
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
             document.getElementById('serverList').innerHTML = `
-                <button class="server-btn" onclick="playVid('https://111movies.com/movie/${id}', this)">Server 1</button>
+                <button class="server-btn" id="srv1" onclick="playVid('https://111movies.com/movie/${id}', this)">Server 1</button>
                 <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 2</button>
                 <button class="server-btn" onclick="playVid('https://vidlink.pro/${type}/${id}${seriesSuffix}', this)">Server 3</button>
                 <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 4</button>
@@ -1045,7 +1045,7 @@
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
                 <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/search/${id}', this)">Server 21</button>
+                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/search/${id}', this, true)">Server 21</button>
             `;
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
@@ -1068,13 +1068,44 @@
         function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
         function handleToggleDesc() { isExpanded = !isExpanded; renderSynopsis(); }
         
-        function playVid(url, el) { 
-            const track = document.getElementById('carouselTrack'); const dots = document.getElementById('carouselDots'); const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&mute=0` : `${url}?enablejsapi=1&mute=0`;
+        function playVid(url, el, isDailymotion = false) { 
+            const track = document.getElementById('carouselTrack'); 
+            const dots = document.getElementById('carouselDots'); 
+            const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&mute=0` : `${url}?enablejsapi=1&mute=0`;
+            
             track.querySelectorAll('iframe').forEach(f => f.src = "");
-            track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
-            track.style.transform = 'translateX(0)'; currentIdx = 0; dots.innerHTML = ''; 
-            document.getElementById('swipeOverlay').style.display = 'none'; highlightBtn(el); 
-            const frame = document.getElementById('player-frame'); frame.onerror = () => { frame.src = `https://vidsrc.me/embed/${window.currentMediaType}?tmdb=${window.currentMediaId}`; };
+            track.innerHTML = `<div class="carousel-slide">
+                <iframe id="player-frame" src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe>
+            </div>`; 
+            
+            track.style.transform = 'translateX(0)'; 
+            currentIdx = 0; 
+            dots.innerHTML = ''; 
+            document.getElementById('swipeOverlay').style.display = 'none'; 
+            highlightBtn(el); 
+
+            const frame = document.getElementById('player-frame');
+            
+            // Logic Fallback Khusus Server 21 (Dailymotion) atau Error Umum
+            frame.onerror = () => {
+                console.log("Error loading server, falling back to Server 1...");
+                const srv1 = document.getElementById('srv1');
+                if(srv1) srv1.click();
+            };
+
+            // Tambahan listener untuk Dailymotion karena terkadang tidak trigger onerror
+            if(isDailymotion) {
+                setTimeout(() => {
+                    try {
+                        if (!frame.contentWindow || frame.contentWindow.length === 0) {
+                             const srv1 = document.getElementById('srv1');
+                             if(srv1) srv1.click();
+                        }
+                    } catch (e) {
+                        // Jika cross-origin error, kita biarkan saja karena biasanya sudah terload
+                    }
+                }, 5000);
+            }
         }
         
         function highlightBtn(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
