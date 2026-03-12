@@ -390,9 +390,10 @@
                 </div>
 
                 <div class="px-4 py-3 flex justify-between items-center bg-black">
-                    <div class="flex gap-4">
+                    <div class="flex gap-4 items-center">
                         <i id="btnLikeModal" class="interaction-icon"></i>
-                        <i class="fa-solid fa-expand interaction-icon" onclick="enterLandscape()"></i>
+                        <i class="fa-regular fa-comment interaction-icon" onclick="enterLandscape()"></i>
+                        <i class="fa-regular fa-paper-plane interaction-icon -rotate-[20deg] text-[20px]" onclick="replayTrailer()"></i>
                     </div>
                     <i id="btnBookModal" class="interaction-icon"></i>
                 </div>
@@ -429,7 +430,7 @@
                 <div id="serverList" class="server-scroll-wrapper mt-4 px-4"></div>
                 
                 <div class="dl-grid">
-                    <button id="btnDownload1" class="dl-link-btn" onclick="window.open(`https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`)">Download</button>
+                    <button id="btnDownload1" class="dl-link-btn" onclick="handleDownload()">Download</button>
                 </div>
             </div>
         </div>
@@ -504,6 +505,17 @@
             }); 
         };
 
+        // --- PENANGANAN DOWNLOAD ---
+        function handleDownload() {
+            if(window.currentMediaId && window.currentMediaType) {
+                const downloadUrl = `https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`;
+                window.open(downloadUrl, '_blank');
+            } else {
+                alert("ID Media tidak ditemukan.");
+            }
+        }
+
+        // --- PENANGANAN BACK BERTAHAP (POPSTATE) ---
         window.addEventListener('popstate', function(event) {
             if (document.getElementById('landscapeOverlay').style.display === 'block') {
                 closeLandscapeSilently();
@@ -594,7 +606,14 @@
         async function openActorProfile(actorId) {
             lastTrailerSources = [];
             const frames = document.querySelectorAll('#carouselTrack iframe');
-            frames.forEach(f => { lastTrailerSources.push(f.src); f.src = ""; });
+            
+            // --- OPTIMASI MEMORY: Remove iframe sepenuhnya ---
+            frames.forEach(f => { 
+                lastTrailerSources.push(f.src); 
+                f.src = ""; 
+                f.remove(); 
+            });
+
             const actorModal = document.getElementById('actorModal');
             actorModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
@@ -635,8 +654,16 @@
         function closeActorModal() {
             document.getElementById('actorModal').style.display = 'none';
             if (document.getElementById('movieModal').style.display === 'block') {
-                const frames = document.querySelectorAll('#carouselTrack iframe');
-                frames.forEach((f, i) => { if (lastTrailerSources[i]) f.src = lastTrailerSources[i]; });
+                const track = document.getElementById('carouselTrack');
+                track.innerHTML = ""; // Bersihkan kontainer
+                lastTrailerSources.forEach((src, i) => { 
+                    if (src) {
+                        const slide = document.createElement('div');
+                        slide.className = 'carousel-slide';
+                        slide.innerHTML = `<iframe id="vid-${i}" src="${src}" class="w-full h-full" allow="autoplay; fullscreen"></iframe>`;
+                        track.appendChild(slide);
+                    }
+                });
             } else { document.body.style.overflow = 'auto'; }
         }
 
@@ -664,6 +691,7 @@
             }
         }
 
+        // --- BACK TO HOME: Langsung Lompat Kembali ---
         function backToHome() {
             closeModal(); closeSearch(); closeD(); closeActorModal();
             currentGenre = ''; currentYear = ''; currentCountry = ''; currentSchedule = 'trending'; 
@@ -686,6 +714,8 @@
             currentLibMode = false;
             loadFeed(true);
             window.scrollTo({top: 0, behavior: 'smooth'});
+            // Reset History agar tidak menumpuk saat menekan Home/Tab
+            history.pushState(null, "", window.location.pathname);
         }
 
         function initSmartSearch() { 
@@ -788,7 +818,7 @@
                 {n: 'Anime', g: 16, img: 'Anime.png', t: 'movie', c: 'JP', s: true},
                 {n: 'Indonesia', c: 'ID', img: 'Indonesia.png', t: 'movie', s: false},
                 {n: 'Korea', c: 'KR', img: 'Korea.png', t: 'movie', s: false},
-                {n: 'India', c: 'IN', img: 'Indonesia.png', t: 'movie', s: false},
+                {n: 'India', c: 'IN', img: 'India.png', t: 'movie', s: false},
                 {n: 'Thailand', c: 'TH', img: 'Thailand.png', t: 'movie', s: false}
             ]; 
             const cont = document.getElementById('highlightList'); 
@@ -952,6 +982,43 @@
             closeD(); loadFeed(true); 
         }
 
+        async function replayTrailer() {
+            if(!window.currentMediaId || !window.currentMediaType) return;
+            const type = window.currentMediaType;
+            const id = window.currentMediaId;
+            const seriesSuffix = (type === 'tv') ? '/1/1' : ''; 
+            const track = document.getElementById('carouselTrack');
+            const dots = document.getElementById('carouselDots');
+            
+            // --- OPTIMASI MEMORY: Hapus iframe lama ---
+            track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); });
+            track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
+            currentIdx = 0;
+            document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link'));
+            try {
+                const dId = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos&include_video_language=en,id,hi,th,ko,ja,ru,null`);
+                const allVideos = (dId.videos?.results || []).filter(v => v.site === 'YouTube' && v.official === true && (v.type === 'Trailer' || v.type === 'Teaser')).sort((a, b) => (a.type === 'Trailer' ? -1 : 1));
+                if(allVideos.length > 0) {
+                    let vidsToDisplay = allVideos.slice(0, 5);
+                    // Lazy Load: Simpan URL tapi hanya muat yang pertama
+                    vidsToDisplay.forEach((v, i) => {
+                        const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
+                        const slide = document.createElement('div');
+                        slide.className = 'carousel-slide';
+                        // Hanya muat iframe jika index 0
+                        slide.innerHTML = `<iframe id="vid-${i}" data-src="${embedUrl}" src="${i===0?embedUrl:''}" class="w-full h-full" allow="autoplay; fullscreen"></iframe>`;
+                        track.appendChild(slide);
+                        if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
+                    });
+                    document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
+                } else {
+                    const fallbackUrl = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
+                    track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`;
+                    document.getElementById('swipeOverlay').style.display = 'none';
+                }
+            } catch(e) { console.error(e); }
+        }
+
         async function openModal(id, type) {
             const actorModal = document.getElementById('actorModal');
             if (actorModal.style.display === 'block') actorModal.style.display = 'none';
@@ -963,8 +1030,14 @@
             document.getElementById('mDateDisplay').innerText = "";
             document.getElementById('mHashtags').innerHTML = "";
             document.getElementById('castContainer').innerHTML = "";
+            
+            // --- OPTIMASI MEMORY: Remove iframe sepenuhnya ---
             const track = document.getElementById('carouselTrack');
-            if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ""; }
+            if(track) { 
+                track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); }); 
+                track.innerHTML = ""; 
+            }
+            
             document.getElementById('carouselDots').innerHTML = "";
             document.getElementById('serverList').innerHTML = "";
             document.getElementById('mToggleBtn').classList.add('hidden');
@@ -992,7 +1065,7 @@
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
 
             const handleTrailerError = async () => {
-                const fallbackUrl = `https://vidlink.pro/${type}/${id}${seriesSuffix}`; 
+                const fallbackUrl = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`; 
                 track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none';
             };
@@ -1005,7 +1078,8 @@
                 let vidsToDisplay = allVideos.slice(0, 5);
                 vidsToDisplay.forEach((v, i) => { 
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
-                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen" onerror="handleTrailerError()"></iframe></div>`; 
+                    // Lazy Load: iframe di-render tapi src diisi hanya jika i === 0
+                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" data-src="${embedUrl}" src="${i===0?embedUrl:''}" class="w-full h-full" allow="autoplay; fullscreen" onerror="handleTrailerError()"></iframe></div>`; 
                     if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
@@ -1041,29 +1115,27 @@
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
             document.getElementById('serverList').innerHTML = `
-                <button class="server-btn" id="srv1" onclick="playVid('https://111movies.com/movie/${id}', this)">Server 1</button>
-                <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 2</button>
+                <button class="server-btn" id="srv1" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 1</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}', this)">Server 2</button>
                 <button class="server-btn" onclick="playVid('https://vidlink.pro/${type}/${id}${seriesSuffix}', this)">Server 3</button>
-                <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 4</button>
-                <button class="server-btn" onclick="playVid('https://vidrock.net/embed/${type}/${id}${seriesSuffix}', this)">Server 5</button>
-                <button class="server-btn" onclick="playVid('https://vidfast.pro/movie/${id}', this)">Server 6</button>
-                <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 7</button>
-                <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}', this)">Server 8</button>
+                <button class="server-btn" onclick="playVid('https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}', this)">Server 4</button>
+                <button class="server-btn" onclick="playVid('https://111movies.com/movie/${id}', this)">Server 5</button>
+                <button class="server-btn" onclick="playVid('https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}', this)">Server 6</button>
+                <button class="server-btn" onclick="playVid('https://player.videasy.net/movie/${id}', this)">Server 7</button>
+                <button class="server-btn" onclick="playVid('https://vidfast.pro/movie/${id}', this)">Server 8</button>
                 <button class="server-btn" onclick="playVid('https://moviesapi.club/${type}/${id}${seriesSuffix}', this)">Server 9</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?'?s=1&e=1':''}', this)">Server 10</button>
                 <button class="server-btn" onclick="playVid('https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1', this)">Server 11</button>
                 <button class="server-btn" onclick="playVid('https://www.2embed.cc/embed/${id}', this)">Server 12</button>
                 <button class="server-btn" onclick="playVid('https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}', this)">Server 13</button>
-                <button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}', this)">Server 14</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.net/embed/${type}/${id}${seriesSuffix}', this)">Server 15</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}', this)">Server 16</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://vidnest.fun/movie/${id}', this)">Server 17</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}${seriesSuffix}', this)">Server 18</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://www.dailymotion.com/embed/video/${currentDailymotionId}', this, true)">Server 21</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://player.vimeo.com/video/search?q=${encodeURIComponent(dId.title || dId.name)}', this)">Server 22</button>
-                <button class="server-btn" style="background:#1a1a1a; border-color:#333;" onclick="playVid('https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1', this)">Server 23</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.me/embed/${type}?tmdb=${id}${seriesSuffix}', this)">Server 14</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.net/embed/${type}/${id}${seriesSuffix}', this)">Server 15</button>
+                <button class="server-btn" onclick="playVid('https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}', this)">Server 16</button>
+                <button class="server-btn" onclick="playVid('https://vidnest.fun/movie/${id}', this)">Server 17</button>
+                <button class="server-btn" onclick="playVid('https://player.autoembed.cc/embed/${type}/${id}', this)">Server 18</button>
+                <button class="server-btn" onclick="playVid('https://warezcdn.site/filme/${id}', this)">Server 19</button>
+                <button class="server-btn" onclick="playVid('https://embed.smashystream.com/playere.php?tmdb=${id}', this)">Server 20</button>
+                <button class="server-btn" onclick="playVid('https://www.dailymotion.com/embed/video/${currentDailymotionId}', this, true)">Server 21</button>
             `;
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
@@ -1082,7 +1154,19 @@
             renderSynopsis();
         }
         
-        function closeModal() { const track = document.getElementById('carouselTrack'); if(track) { track.querySelectorAll('iframe').forEach(f => f.src = ""); track.innerHTML = ''; } document.getElementById('movieModal').style.display = 'none'; document.body.style.overflow = 'auto'; if(document.body.classList.contains('landscape-active')) closeLandscapeSilently(); window.currentMediaId = null; }
+        function closeModal() { 
+            // --- OPTIMASI MEMORY: Remove iframe sepenuhnya ---
+            const track = document.getElementById('carouselTrack'); 
+            if(track) { 
+                track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); }); 
+                track.innerHTML = ''; 
+            } 
+            document.getElementById('movieModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto'; 
+            if(document.body.classList.contains('landscape-active')) closeLandscapeSilently(); 
+            window.currentMediaId = null; 
+        }
+
         function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
         function handleToggleDesc() { isExpanded = !isExpanded; renderSynopsis(); }
         
@@ -1098,7 +1182,8 @@
 
             const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&autoplay=1&mute=0` : `${url}?enablejsapi=1&autoplay=1&mute=0`;
             
-            track.querySelectorAll('iframe').forEach(f => f.src = "");
+            // --- OPTIMASI MEMORY: Remove iframe lama sebelum ganti baru ---
+            track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); });
             track.innerHTML = `<div class="carousel-slide">
                 <iframe id="player-frame" src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe>
             </div>`; 
@@ -1121,11 +1206,21 @@
         }
         
         function highlightBtn(el) { document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link')); el.classList.add('active-link'); }
+        
+        // --- UPDATED loadEpisodes: Ditambahkan indikator border putih pada tombol yang dipilih ---
         async function loadEpisodes() { 
             const s = document.getElementById('seasonSel').value; 
             const data = await fetchWithCache(`https://api.themoviedb.org/3/tv/${window.currentMediaId}/season/${s}?api_key=${API_KEY}`); 
             const episodes = data.episodes || [];
-            document.getElementById('episodeGrid').innerHTML = episodes.map((e, index) => { const epNum = e.episode_number; return `<div class="pill text-[10px] flex flex-col items-center justify-center gap-1 min-h-[45px]" onclick="playVid('https://vidsrc.me/embed/tv?tmdb=${window.currentMediaId}&s=${s}&e=${epNum}', this)"><span class="font-bold">${epNum}</span></div>`; }).join(''); 
+            document.getElementById('episodeGrid').innerHTML = episodes.map((e) => { 
+                const epNum = e.episode_number; 
+                const targetUrl = `https://vidrock.net/embed/tv/${window.currentMediaId}/${s}/${epNum}`;
+                return `
+                    <div class="pill text-[10px] flex flex-col items-center justify-center gap-1 min-h-[45px] ep-btn" 
+                         onclick="playVid('${targetUrl}', this); document.querySelectorAll('.ep-btn').forEach(b=>b.classList.remove('active-pill')); this.classList.add('active-pill');">
+                        <span class="font-bold">${epNum}</span>
+                    </div>`; 
+            }).join(''); 
         }
         
         function setupSwipe() { 
@@ -1136,9 +1231,19 @@
                     let oldIdx = currentIdx; if(diff > 0 && currentIdx < slides.length - 1) currentIdx++; else if(diff < 0 && currentIdx > 0) currentIdx--; 
                     document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`; 
                     document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
+                    
                     const oldVid = document.getElementById(`vid-${oldIdx}`), newVid = document.getElementById(`vid-${currentIdx}`);
-                    if(oldVid) try{oldVid.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(e){}
-                    if(newVid) try{newVid.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(e){}
+                    
+                    // --- OPTIMASI MEMORY: Lazy Loading & Cleanup Carousel ---
+                    if(oldVid) { 
+                        oldVid.src = ""; // Stop video lama
+                    }
+                    if(newVid) {
+                        // Muat src hanya saat slide aktif
+                        if(!newVid.src || newVid.src === "") {
+                            newVid.src = newVid.getAttribute('data-src');
+                        }
+                    }
                 } 
             }); 
         }
