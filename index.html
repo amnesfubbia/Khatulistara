@@ -1000,14 +1000,9 @@
                 const allVideos = (dId.videos?.results || []).filter(v => v.site === 'YouTube' && v.official === true && (v.type === 'Trailer' || v.type === 'Teaser')).sort((a, b) => (a.type === 'Trailer' ? -1 : 1));
                 if(allVideos.length > 0) {
                     let vidsToDisplay = allVideos.slice(0, 5);
-                    // Lazy Load: Simpan URL tapi hanya muat yang pertama
                     vidsToDisplay.forEach((v, i) => {
                         const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
-                        const slide = document.createElement('div');
-                        slide.className = 'carousel-slide';
-                        // Hanya muat iframe jika index 0
-                        slide.innerHTML = `<iframe id="vid-${i}" data-src="${embedUrl}" src="${i===0?embedUrl:''}" class="w-full h-full" allow="autoplay; fullscreen"></iframe>`;
-                        track.appendChild(slide);
+                        track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`;
                         if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                     });
                     document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
@@ -1078,8 +1073,7 @@
                 let vidsToDisplay = allVideos.slice(0, 5);
                 vidsToDisplay.forEach((v, i) => { 
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
-                    // Lazy Load: iframe di-render tapi src diisi hanya jika i === 0
-                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" data-src="${embedUrl}" src="${i===0?embedUrl:''}" class="w-full h-full" allow="autoplay; fullscreen" onerror="handleTrailerError()"></iframe></div>`; 
+                    track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen" onerror="handleTrailerError()"></iframe></div>`; 
                     if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
@@ -1231,19 +1225,9 @@
                     let oldIdx = currentIdx; if(diff > 0 && currentIdx < slides.length - 1) currentIdx++; else if(diff < 0 && currentIdx > 0) currentIdx--; 
                     document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`; 
                     document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
-                    
                     const oldVid = document.getElementById(`vid-${oldIdx}`), newVid = document.getElementById(`vid-${currentIdx}`);
-                    
-                    // --- OPTIMASI MEMORY: Lazy Loading & Cleanup Carousel ---
-                    if(oldVid) { 
-                        oldVid.src = ""; // Stop video lama
-                    }
-                    if(newVid) {
-                        // Muat src hanya saat slide aktif
-                        if(!newVid.src || newVid.src === "") {
-                            newVid.src = newVid.getAttribute('data-src');
-                        }
-                    }
+                    if(oldVid) try{oldVid.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(e){}
+                    if(newVid) try{newVid.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(e){}
                 } 
             }); 
         }
