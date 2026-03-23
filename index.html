@@ -9,8 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
+        /* BASE THEME ONSTREAM: BLACK & GREEN */
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        /* Fix Horizontal Scroll & Safari Smoothness */
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -webkit-overflow-scrolling: touch; }
         
         /* LOGO & SPLASH */
         #splashScreen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -19,7 +22,8 @@
         .splash-name { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.5px; opacity: 0; animation: fadeIn 0.5s ease forwards; animation-delay: 0.4s; }
         .splash-footer { position: absolute; bottom: 40px; text-align: center; opacity: 0; animation: fadeIn 0.5s ease forwards; animation-delay: 0.8s; }
         .from-text { font-size: 12px; color: #8e8e8e; letter-spacing: 1px; margin-bottom: 5px; }
-        .brand-text { font-size: 14px; font-weight: 700; letter-spacing: 2px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* Aksen Hijau OnStream pada Splash */
+        .brand-text { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: #00ff6a; }
 
         @keyframes splashScale { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         @keyframes fadeIn { to { opacity: 1; } }
@@ -27,66 +31,72 @@
         .profile-header { padding: 15px 15px 0 15px; background: #000; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .ig-logo-wrapper { display: flex; align-items: center; gap: 4px; position: relative; cursor: pointer; }
-        .ig-logo { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -1px; }
-        .dot-notify { width: 7px; height: 7px; background-color: #ff3b30; border-radius: 50%; display: inline-block; margin-left: 2px; }
+        .ig-logo { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -1px; color: #00ff6a; }
+        .dot-notify { width: 7px; height: 7px; background-color: #00ff6a; border-radius: 50%; display: inline-block; margin-left: 2px; }
         
         .profile-info { display: flex; align-items: center; gap: 28px; margin-bottom: 15px; }
         .profile-pic-container { position: relative; width: 78px; height: 78px; }
-        .profile-pic-logo { width: 74px; height: 74px; border-radius: 50%; border: 1px solid #262626; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; padding: 12px; }
+        .profile-pic-logo { width: 74px; height: 74px; border-radius: 50%; border: 1.5px solid #00ff6a; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #000; padding: 12px; }
         .profile-pic-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
-        .add-story-btn { position: absolute; bottom: 2px; right: 2px; width: 22px; height: 22px; background: #0095f6; border: 2.5px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #fff; z-index: 10; }
+        /* Green Add Story Button */
+        .add-story-btn { position: absolute; bottom: 2px; right: 2px; width: 22px; height: 22px; background: #00ff6a; border: 2.5px solid #000; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #000; z-index: 10; }
 
         .stats { display: flex; flex-grow: 1; justify-content: space-between; text-align: center; padding-right: 10px; }
         .stat-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; color: #8e8e8e; }
         .stat-val { font-weight: 700; font-size: 16px; color: #fff; line-height: 1; margin-bottom: 2px; }
         .stat-label { font-size: 13px; font-weight: 400; line-height: 1; }
-        .stat-item.active-stat { color: #fff; }
+        .stat-item.active-stat .stat-val { color: #00ff6a; }
+        .stat-item.active-stat .stat-label { color: #fff; }
         
         .bio { font-size: 13px; line-height: 1.4; margin-bottom: 15px; margin-top: -8px; }
         .bio-name-wrapper { display: flex; align-items: center; gap: 4px; margin-bottom: 2px; }
         .bio-name { font-weight: 700; font-size: 13px; display: inline-block; }
 
         .action-buttons { display: flex; gap: 6px; margin-bottom: 15px; }
-        .btn-ig { flex: 1; background: #262626; border-radius: 8px; padding: 7px; font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; color: #fff; transition: background 0.2s; }
-        .btn-ig.active { background: #363636; border: 1px solid #555; }
-        .btn-icon-sq { width: 34px; background: #262626; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-ig { flex: 1; background: #1a1a1a; border-radius: 8px; padding: 7px; font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; color: #fff; transition: background 0.2s; border: 1px solid #333; }
+        /* Green Active State */
+        .btn-ig.active { background: #00ff6a; color: #000; border: 1px solid #00ff6a; }
+        .btn-icon-sq { width: 34px; background: #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #333; }
 
         #filterBar { display: none; margin-bottom: 15px; }
         .pill-grid { display: grid; gap: 6px; }
-        .pill { background: transparent; border: 1px solid #1c1c1c; color: #fff; padding: 7px 0; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; cursor: pointer; }
-        .pill.active-pill { border: 1px solid #fff; background: rgba(255,255,255,0.05); }
+        .pill { background: transparent; border: 1px solid #333; color: #fff; padding: 7px 0; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; text-align: center; cursor: pointer; }
+        .pill.active-pill { border: 1px solid #00ff6a; background: rgba(0,255,106,0.1); color: #00ff6a; }
         
-        .filter-dropdown { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #121212; border-radius: 20px 20px 0 0; z-index: 9500; max-height: 60vh; overflow-y: auto; border-top: 1px solid #333; padding-bottom: 20px; animation: slideUp 0.3s ease-out; overscroll-behavior: contain; }
+        .filter-dropdown { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #0f0f0f; border-radius: 20px 20px 0 0; z-index: 9500; max-height: 60vh; overflow-y: auto; border-top: 1px solid #333; padding-bottom: 20px; animation: slideUp 0.3s ease-out; overscroll-behavior: contain; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        .sticky-reset { position: sticky; top: 0; background: #1c1c1c; z-index: 10; font-weight: 800 !important; color: #fff !important; border-bottom: 2px solid #333; }
-        #filterOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9400; }
-        .filter-item { padding: 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #262626; color: #eee; cursor: pointer; }
+        .sticky-reset { position: sticky; top: 0; background: #1c1c1c; z-index: 10; font-weight: 800 !important; color: #00ff6a !important; border-bottom: 2px solid #333; }
+        #filterOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9400; }
+        .filter-item { padding: 16px; font-size: 14px; text-align: center; border-bottom: 1px solid #1a1a1a; color: #eee; cursor: pointer; }
 
-        .highlights-wrapper { padding: 0 15px 15px 15px; border-bottom: 1px solid #1c1c1c; }
-        .highlights-container { display: flex; gap: 18px; overflow-x: auto; }
+        .highlights-wrapper { padding: 0 15px 15px 15px; border-bottom: 1px solid #1a1a1a; }
+        .highlights-container { display: flex; gap: 18px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .highlight-item { flex: 0 0 62px; text-align: center; cursor: pointer; }
-        .highlight-circle { width: 62px; height: 62px; border-radius: 50%; border: 0.5px solid #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; background: #000; transition: transform 0.2s, border 0.3s; overflow: hidden; }
+        .highlight-circle { width: 62px; height: 62px; border-radius: 50%; border: 1.5px solid #333; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; background: #000; transition: transform 0.2s, border 0.3s; overflow: hidden; }
         .highlight-item:active .highlight-circle { transform: scale(0.9); }
-        .highlight-item.active-hl .highlight-circle { border: 2px solid #fff; }
+        /* Green Circle for Active Highlights */
+        .highlight-item.active-hl .highlight-circle { border: 2px solid #00ff6a; }
         .highlight-circle img { width: 100%; height: 100%; object-fit: cover; }
         
         .logo-small img { width: 75%; height: 75%; object-fit: contain; }
         
         .highlight-text { font-size: 11px; color: #fff; font-weight: 400; white-space: nowrap; }
 
-        .tab-nav { display: flex; border-top: 1px solid #1c1c1c; }
+        .tab-nav { display: flex; border-top: 1px solid #1a1a1a; }
         .tab-item { flex: 1; text-align: center; padding: 12px 0; color: #a8a8a8; cursor: pointer; font-size: 18px; }
-        .tab-item.active { color: #fff; border-bottom: 1px solid #fff; }
+        /* Green Tab Indicator */
+        .tab-item.active { color: #00ff6a; border-bottom: 1.5px solid #00ff6a; }
 
-        .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-bottom: 80px; }
+        .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-bottom: 80px; background: #000; }
         .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; cursor: pointer; }
         .post-card img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
-        .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(255,255,255,0.9); color: #000; }
+        /* Green Rating Badge */
+        .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: #00ff6a; color: #000; }
         .badge-type { position: absolute; top: 6px; right: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(0,0,0,0.7); color: #fff; text-transform: uppercase; border: 0.5px solid rgba(255,255,255,0.3); }
 
         #searchOverlay { display: none; position: fixed; inset: 0; background: #000; z-index: 4500; overflow-y: auto; }
-        .search-header { position: sticky; top: 0; background: #000; display: flex; align-items: center; padding: 10px 15px; gap: 10px; border-bottom: 1px solid #1c1c1c; z-index: 100; }
-        .search-input-box { flex-grow: 1; background: #262626; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; position: relative; }
+        .search-header { position: sticky; top: 0; background: #000; display: flex; align-items: center; padding: 10px 15px; gap: 10px; border-bottom: 1px solid #1a1a1a; z-index: 100; }
+        .search-input-box { flex-grow: 1; background: #1a1a1a; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; position: relative; border: 1px solid #333; }
         .search-input-box input { background: transparent !important; border: none; outline: none; color: #fff !important; font-size: 14px; width: 100%; margin-left: 8px; }
         
         #smartSearchDropdown { position: absolute; top: 100%; left: 0; right: 0; background: #1a1a1a; border-radius: 0 0 10px 10px; border: 1px solid #333; border-top: none; display: none; z-index: 500; max-height: 300px; overflow-y: auto; }
@@ -94,31 +104,29 @@
         .smart-item img { width: 35px; height: 50px; object-fit: cover; border-radius: 4px; }
         .smart-item info { display: flex; flex-direction: column; }
         .smart-name { font-size: 13px; font-weight: 600; color: #fff; }
-        .smart-meta { font-size: 11px; color: #8e8e8e; }
+        .smart-meta { font-size: 11px; color: #00ff6a; }
 
         /* --- UPDATED CALENDAR STYLE --- */
         .calendar-item { display: flex; align-items: center; gap: 15px; padding: 12px 15px; border-bottom: 1px solid #111; }
         .calendar-poster { flex: 0 0 85px; aspect-ratio: 2/3; border-radius: 12px; overflow: hidden; background: #111; border: 1px solid #222; }
         .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .cal-title { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.2; }
-        .calendar-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
         .cal-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #8e8e8e; }
-        .cal-genre-pill { padding: 2px 8px; background: #1c1c1c; border-radius: 100px; color: #ccc; font-size: 9px; font-weight: 600; }
-        .cal-rating { color: #ffca28; font-weight: 700; font-size: 11px; }
+        .cal-genre-pill { padding: 2px 8px; background: #1a1a1a; border-radius: 100px; color: #00ff6a; font-size: 9px; font-weight: 600; border: 0.5px solid rgba(0,255,106,0.3); }
+        .cal-rating { color: #00ff6a; font-weight: 700; font-size: 11px; }
         
         /* Sticky Date Strip Fix */
         .sticky-wrapper { position: sticky; top: 54px; z-index: 90; background: #000; }
-        .date-strip { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: #000; border-bottom: 1px solid #111; }
-        .date-chip { flex: 0 0 55px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 14px; background: #111; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+        .date-strip { display: flex; overflow-x: auto; gap: 10px; padding: 15px; background: #000; border-bottom: 1px solid #111; -webkit-overflow-scrolling: touch; }
+        .date-chip { flex: 0 0 55px; height: 65px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 14px; background: #111; cursor: pointer; transition: all 0.2s; border: 1px solid #333; }
         
-        /* MODIFIKASI: Hanya border putih saat aktif */
-        .date-chip.active-date { background: #111; border-color: #fff; }
-        .date-chip.active-date span { color: #fff !important; }
+        .date-chip.active-date { background: #00ff6a; border-color: #00ff6a; }
+        .date-chip.active-date span { color: #000 !important; }
 
         .date-chip .d-day { font-size: 18px; font-weight: 800; color: #fff; }
         .date-chip .d-month { font-size: 10px; font-weight: 600; color: #8e8e8e; text-transform: uppercase; }
 
-        #backToTop { position: fixed; bottom: 85px; right: 20px; background: rgba(255,255,255,0.3); width: 42px; height: 42px; border-radius: 50%; display: none; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+        #backToTop { position: fixed; bottom: 85px; right: 20px; background: #00ff6a; width: 42px; height: 42px; border-radius: 50%; display: none; align-items: center; justify-content: center; z-index: 100; border: 1px solid #00ff6a; color: #000; }
 
         .modal-player { display: none; position: fixed; inset: 0; z-index: 8000; background: #000; overflow-y: auto; }
         .carousel-track { display: flex; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); width: 100%; }
@@ -127,22 +135,27 @@
         .interaction-icon { font-size: 24px; cursor: pointer; color: #fff; transition: transform 0.1s; }
         .interaction-icon:active { transform: scale(1.2); }
         
-        /* SERVER LIST SCROLL HORIZONTAL */
-        .server-scroll-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; scrollbar-width: none; }
+        /* SERVER LIST SCROLL HORIZONTAL - DIPERKECIL */
+        .server-scroll-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .server-scroll-wrapper::-webkit-scrollbar { display: none; }
-        .server-btn { flex: 0 0 auto; min-width: 90px; padding: 10px 15px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; border: 1px solid #1c1c1c; text-align: center; cursor: pointer; background: #0a0a0a; color: #fff; transition: all 0.2s; }
-        .server-btn:active { background: #1c1c1c; }
-        .server-btn.active-link { border: 2px solid #fff !important; background: rgba(255,255,255,0.1); }
+        .server-btn { flex: 0 0 auto; min-width: 75px; padding: 7px 12px; border-radius: 8px; font-size: 9px; font-weight: 800; text-transform: uppercase; border: 1px solid #333; text-align: center; cursor: pointer; background: #1a1a1a; color: #fff; transition: all 0.2s; }
+        .server-btn:active { background: #00ff6a; color: #000; }
+        .server-btn.active-link { border: 1.5px solid #00ff6a !important; color: #00ff6a; background: rgba(0,255,106,0.1); }
         
-        /* Merapatkan jarak di area download dan server */
-        .dl-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 8px; margin-bottom: 2px; }
-        .dl-link-btn { width: 100%; padding: 12px; border-radius: 12px; background: #000; color: #fff; font-size: 12px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #333; cursor: pointer; }
+        /* DOWNLOAD & TRAILER GRID - DIPERKECIL */
+        .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; margin-bottom: 2px; }
+        /* Green Download Button */
+        .dl-link-btn { width: 100%; padding: 10px; border-radius: 12px; background: #00ff6a; color: #000; font-size: 11px; font-weight: 800; text-transform: uppercase; text-align: center; border: 1px solid #00ff6a; cursor: pointer; }
         
-        .cast-wrapper { display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; scrollbar-width: none; }
+        /* PENYELARASAN WARNA TOMBOL TRAILER */
+        .btn-trailer-special { background: #1a1a1a; color: #fff; border: 1px solid #333; }
+
+        .cast-wrapper { display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
         .cast-item { flex: 0 0 65px; text-align: center; cursor: pointer; }
+        /* Cast Image Green Border */
         .cast-img-border { 
             width: 64px; height: 64px; border-radius: 50%; padding: 2.5px; 
-            background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); 
+            background: #00ff6a; 
             margin-bottom: 5px; 
         }
         .cast-img-border .inner-border { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #000; overflow: hidden; background: #000; }
@@ -150,38 +163,37 @@
         .cast-name { font-size: 9px; font-weight: 500; color: #fff; line-height: 1.2; display: block; margin-top: 4px; }
         
         .ig-post-content { padding: 0 15px; margin-top: 5px; }
-        /* Sticky Suka - dirapatkan lebarnya */
-        .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: inline-block; padding-right: 5px; }
-        .ig-username { font-weight: 700; font-size: 13px; margin-right: 8px; }
+        .ig-likes-count { font-weight: 700; font-size: 13px; margin-bottom: 5px; display: inline-block; padding-right: 5px; color: #00ff6a; }
+        .ig-username { font-weight: 700; font-size: 13px; margin-right: 8px; color: #00ff6a; }
         .ig-caption { font-size: 13px; line-height: 1.4; color: #efefef; }
         
-        .toggle-btn { display: block; color: #a8a8a8; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
-        #mTranslateBtn { font-size: 11px; color: #fff; font-weight: 700; cursor: pointer; display: inline-block; }
+        .toggle-btn { display: block; color: #00ff6a; cursor: pointer; font-size: 13px; margin-top: 4px; font-weight: 500; }
+        #mTranslateBtn { font-size: 11px; color: #00ff6a; font-weight: 700; cursor: pointer; display: inline-block; }
         
-        /* Merapatkan hashtag dengan caption/selengkapnya */
-        .ig-hashtags { color: #e0f1ff; display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; }
-        .ig-date { color: #a8a8a8; font-size: 11px; text-transform: uppercase; }
+        .ig-hashtags { color: #00ff6a; display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; opacity: 0.8; }
+        .ig-date { color: #8e8e8e; font-size: 11px; text-transform: uppercase; }
         
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 9000; }
-        .bottom-nav i { color: #a8a8a8; transition: color 0.3s; }
-        .bottom-nav i.active-nav { color: #fff; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; padding: 12px 0; z-index: 9000; }
+        .bottom-nav i { color: #8e8e8e; transition: color 0.3s; }
+        /* Green Navigation Active */
+        .bottom-nav i.active-nav { color: #00ff6a; }
 
-        /* SIDEBAR / ABOUT MENU - UPDATED WITH GLASSMORPHISM */
-        #sideMenu { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9500; display: none; padding: 40px 25px; overflow-y: auto; }
-        .side-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
-        .about-title { font-size: 22px; font-weight: 900; margin-bottom: 20px; border-left: 4px solid #fff; padding-left: 12px; }
+        /* LOADING SPINNER FOR IFRAME */
+        .iframe-loader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #000; z-index: 5; }
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(0,255,106,0.1); border-top-color: #00ff6a; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #sideMenu { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 9500; display: none; padding: 40px 25px; overflow-y: auto; }
+        .side-close { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; color: #00ff6a; }
+        .about-title { font-size: 22px; font-weight: 900; margin-bottom: 20px; border-left: 4px solid #00ff6a; padding-left: 12px; color: #fff; }
         .about-content { font-size: 14px; line-height: 1.6; color: #ccc; }
-        /* Glass Card Style for Features */
-        .about-feature { margin-top: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-        .about-footer { margin-top: 40px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; font-size: 12px; color: #666; }
-        .feature-icon { font-size: 18px; color: #fff; width: 24px; text-align: center; }
+        .about-feature { margin-top: 20px; background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .about-footer { margin-top: 40px; text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 20px; font-size: 12px; color: #666; }
+        .feature-icon { font-size: 18px; color: #00ff6a; width: 24px; text-align: center; }
 
-        /* --- NEW LANDSCAPE CONTROLS --- */
-        .landscape-overlay {
-            display: none; position: fixed; inset: 0; z-index: 9900; background: #000;
-        }
+        /* --- LANDSCAPE --- */
+        .landscape-overlay { display: none; position: fixed; inset: 0; z-index: 9900; background: #000; }
         .landscape-video-container { width: 100%; height: 100%; position: relative; }
-        
         .ls-controls {
             position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 50%, rgba(0,0,0,0.7) 100%);
             display: flex; flex-direction: column; justify-content: space-between;
@@ -189,57 +201,46 @@
         }
         .ls-controls.visible { opacity: 1; pointer-events: auto; }
         .ls-top { display: flex; justify-content: space-between; align-items: center; }
-        .ls-btn { color: #fff; font-size: 28px; cursor: pointer; text-shadow: 0 0 15px rgba(0,0,0,0.9); transition: transform 0.1s; }
+        .ls-btn { color: #00ff6a; font-size: 28px; cursor: pointer; text-shadow: 0 0 15px rgba(0,0,0,0.9); transition: transform 0.1s; }
         .ls-btn:active { transform: scale(1.1); }
         .ls-lock-screen { position: absolute; inset: 0; z-index: 11000; display: none; align-items: flex-start; justify-content: flex-end; padding: 30px; background: rgba(0,0,0,0.01); pointer-events: auto; }
         
-        /* Landscape Mode Overrides */
         .landscape-active #movieModal { overflow: hidden !important; }
         .landscape-active #modalScrollTop { height: 100vh; max-width: 100%; padding: 0; }
         .landscape-active .carousel-slide { height: 100vh; }
         .landscape-active #mainVideoArea { height: 100vh !important; }
 
-        /* --- NEW ACTOR PROFILE MODAL STYLE (Premium Instagram Aesthetic) --- */
+        /* --- ACTOR MODAL --- */
         .actor-modal { display: none; position: fixed; inset: 0; z-index: 8500; background: #000; overflow-y: auto; }
-        
-        .actor-header-premium {
-            display: flex; align-items: center; gap: 15px; padding: 25px 15px 15px;
-        }
-        .actor-pic-wrapper {
-            position: relative; width: 80px; height: 80px;
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            border-radius: 50%; padding: 2.5px; flex-shrink: 0;
-        }
-        .actor-pic-inner {
-            width: 100%; height: 100%; border-radius: 50%; border: 3px solid #000; overflow: hidden; background: #111;
-        }
+        .actor-header-premium { display: flex; align-items: center; gap: 15px; padding: 25px 15px 15px; }
+        .actor-pic-wrapper { position: relative; width: 80px; height: 80px; background: #00ff6a; border-radius: 50%; padding: 2.5px; flex-shrink: 0; }
+        .actor-pic-inner { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #000; overflow: hidden; background: #111; }
         .actor-profile-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .actor-stats-row {
-            flex-grow: 1; display: flex; justify-content: space-around; text-align: center; gap: 5px;
-        }
+        .actor-stats-row { flex-grow: 1; display: flex; justify-content: space-around; text-align: center; gap: 5px; }
         .actor-stat-col { display: flex; flex-direction: column; gap: 1px; }
-        .actor-stat-num { font-size: 15px; font-weight: 800; color: #fff; line-height: 1; }
+        .actor-stat-num { font-size: 15px; font-weight: 800; color: #00ff6a; line-height: 1; }
         .actor-stat-lbl { font-size: 11px; color: #8e8e8e; font-weight: 400; line-height: 1; }
-
         .actor-bio-premium { padding: 0 20px 20px; }
         .actor-name-premium { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 2px; }
         .actor-origin-premium { font-size: 13px; color: #8e8e8e; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
         .actor-birth-premium { font-size: 13px; color: #efefef; line-height: 1.4; }
-
         .actor-film-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-bottom: 80px; }
-        .actor-section-title { 
-            padding: 12px; font-size: 13px; font-weight: 700; color: #fff; 
-            border-top: 1px solid #1c1c1c; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
+        .actor-section-title { padding: 12px; font-size: 13px; font-weight: 700; color: #00ff6a; border-top: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-        /* --- SOUNDTRACK STYLE --- */
+        /* --- SOUNDTRACK --- */
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .animate-spin-slow { animation: spin-slow 3s linear infinite; }
-        #soundtrackModal { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10,10,10,0.98); backdrop-filter: blur(30px); border-radius: 24px 24px 0 0; z-index: 9600; max-height: 70vh; overflow-y: auto; border-top: 1px solid #222; animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
-        
-        /* Audio Preview Styles */
-        .audio-player-mini { width: 100%; height: 25px; margin-top: 8px; outline: none; }
+        #soundtrackModal { 
+            display: none; position: fixed; bottom: 0; left: 0; right: 0; 
+            background: #0f0f0f; border-radius: 28px 28px 0 0; z-index: 9600; 
+            max-height: 75vh; overflow-y: auto; border-top: 1px solid #333; 
+            animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+            padding-bottom: 40px;
+        }
+        .audio-player-mini { width: 100%; height: 32px; margin-top: 10px; outline: none; filter: invert(72%) sepia(99%) saturate(415%) hue-rotate(100deg) brightness(100%) contrast(100%); }
+        .music-card { background: #1a1a1a; padding: 14px; border-radius: 20px; border: 1px solid #333; transition: all 0.2s; }
+        .music-card:active { background: #00ff6a; transform: scale(0.98); }
+        .music-card:active .text-white, .music-card:active .text-zinc-500 { color: #000 !important; }
     </style>
 </head>
 <body>
@@ -297,7 +298,7 @@
             </ul>
         </div>
         <div class="about-footer">
-            Created by <span class="text-white font-bold">Anasteas</span><br>
+            Created by <span class="text-[#00ff6a] font-bold">Anasteas</span><br>
             © 2026 Amnesfubbia Network
         </div>
     </div>
@@ -307,7 +308,7 @@
             <div class="top-bar">
                 <div class="ig-logo-wrapper" onclick="backToHome()">
                     <h1 class="ig-logo">amnesfubbia</h1>
-                    <i class="fa-solid fa-chevron-down text-[10px] ml-0.5"></i>
+                    <i class="fa-solid fa-chevron-down text-[10px] ml-0.5 text-[#00ff6a]"></i>
                     <span class="dot-notify"></span>
                 </div>
                 <div class="flex gap-5">
@@ -329,15 +330,15 @@
             </div>
 
             <div class="bio">
-                <div class="bio-name-wrapper"><span class="bio-name">amnesfubbia</span><i class="fa-solid fa-circle-check text-[#0095f6] text-[13px]"></i></div>
-                <span><i class="ph ph-film-slate mr-1"></i> Discover. Watch. Archive.</span><br>
+                <div class="bio-name-wrapper"><span class="bio-name">amnesfubbia</span><i class="fa-solid fa-circle-check text-[#00ff6a] text-[13px]"></i></div>
+                <span><i class="ph ph-film-slate mr-1 text-[#00ff6a]"></i> Discover. Watch. Archive.</span><br>
                 <span class="text-zinc-400">Jelajahi, simpan & tonton trailer movie favoritmu.</span>
             </div>
 
             <div class="action-buttons">
                 <div class="btn-ig" id="btnNowPlaying" onclick="setSchedule('now_playing', this)">Sedang Tayang</div>
                 <div class="btn-ig" id="btnUpcoming" onclick="setSchedule('upcoming', this)">Segera Tayang</div>
-                <div class="btn-icon-sq" onclick="toggleFilterBar()"><i class="fa-solid fa-sliders text-sm"></i></div>
+                <div class="btn-icon-sq" onclick="toggleFilterBar()"><i class="fa-solid fa-sliders text-sm text-[#00ff6a]"></i></div>
             </div>
 
             <div id="filterBar">
@@ -362,7 +363,7 @@
 
     <div id="searchOverlay">
         <div class="search-header">
-            <i class="fa-solid fa-arrow-left text-xl text-white" onclick="closeSearch()"></i>
+            <i class="fa-solid fa-arrow-left text-xl text-[#00ff6a]" onclick="closeSearch()"></i>
             <div class="search-input-box">
                 <i class="fa-solid fa-magnifying-glass text-zinc-500 text-xs"></i>
                 <input type="text" id="searchInp" autocomplete="off" placeholder="Cari movie, tv, atau aktor..." onkeydown="if(event.key==='Enter') searchAction()">
@@ -382,13 +383,12 @@
     <div id="yearDropdown" class="filter-dropdown no-scrollbar"></div>
 
     <div id="soundtrackModal" class="no-scrollbar">
-        <div class="w-12 h-1 bg-zinc-800 rounded-full mx-auto mt-3 mb-5"></div>
+        <div class="w-12 h-1 bg-zinc-800 rounded-full mx-auto mt-3 mb-6"></div>
         <div class="px-5">
-            <h3 class="text-[11px] font-black uppercase tracking-[3px] mb-6 flex items-center gap-2 text-zinc-400">
-                Soundtrack List
+            <h3 class="text-[10px] font-black uppercase tracking-[4px] mb-8 text-center text-[#00ff6a]">
+                Official Soundtrack
             </h3>
-            <div id="musicList" class="space-y-4 pb-12">
-                </div>
+            <div id="musicList" class="space-y-3 pb-12"></div>
         </div>
     </div>
 
@@ -396,13 +396,14 @@
         <div id="modalScrollTop" class="max-w-xl mx-auto pb-20">
             <div class="sticky top-0 bg-black z-[100] border-b border-zinc-900">
                 <div class="px-4 h-[54px] flex items-center">
-                    <i class="fa-solid fa-chevron-left text-xl cursor-pointer" onclick="closeModal()"></i>
-                    <div class="flex-grow text-center text-[14px] font-bold truncate px-8" id="mTitle"></div>
+                    <i class="fa-solid fa-chevron-left text-xl cursor-pointer text-[#00ff6a]" onclick="closeModal()"></i>
+                    <div class="flex-grow text-center text-[14px] font-bold truncate px-8 text-white" id="mTitle"></div>
                 </div>
                 
                 <div id="castContainer" class="cast-wrapper px-4 no-scrollbar"></div>
                 
                 <div class="relative overflow-hidden" id="mainVideoArea">
+                    <div id="videoLoader" class="iframe-loader hidden"><div class="spinner"></div></div>
                     <div class="swipe-overlay" id="swipeOverlay"></div>
                     <div class="carousel-track" id="carouselTrack"></div>
                     <div id="carouselDots" class="flex justify-center gap-2 py-2"></div>
@@ -419,7 +420,7 @@
                 
                 <div class="px-4 bg-black pb-1 flex justify-between items-end">
                     <span id="mLikeDisplay" class="ig-likes-count"></span>
-                    <span class="text-[11px] font-bold text-white cursor-pointer mb-[5px] uppercase tracking-tighter" onclick="openSoundtrack()">Soundtrack</span>
+                    <span class="text-[11px] font-bold text-[#00ff6a] cursor-pointer mb-[5px] uppercase tracking-tighter" onclick="openSoundtrack()">Soundtrack</span>
                 </div>
             </div>
             
@@ -439,10 +440,10 @@
                     <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()">Lihat terjemahan</p>
                 </div>
                 
-                <div id="seriesControl" class="hidden mt-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
+                <div id="seriesControl" class="hidden mt-4 p-4 bg-[#0a0a0a] rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4">
                         <h4 class="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Episode List</h4>
-                        <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded border border-zinc-700 Karena-none" onchange="loadEpisodes()"></select>
+                        <select id="seasonSel" class="bg-zinc-900 text-white text-[10px] px-2 py-1 rounded border border-zinc-700 appearance-none" onchange="loadEpisodes()"></select>
                     </div>
                     <div id="episodeGrid" class="grid grid-cols-5 gap-2"></div>
                 </div>
@@ -451,6 +452,7 @@
                 
                 <div class="dl-grid">
                     <button id="btnDownload1" class="dl-link-btn" onclick="handleDownload()">Download</button>
+                    <button id="btnTrailerDailymotion" class="dl-link-btn btn-trailer-special" onclick="changeServer(21, this)">Trailer</button>
                 </div>
             </div>
         </div>
@@ -458,7 +460,7 @@
 
     <div id="actorModal" class="actor-modal">
         <div class="sticky top-0 bg-black z-[100] border-b border-zinc-900 px-4 h-[54px] flex items-center">
-            <i class="fa-solid fa-chevron-left text-xl cursor-pointer" onclick="closeActorModal()"></i>
+            <i class="fa-solid fa-chevron-left text-xl cursor-pointer text-[#00ff6a]" onclick="closeActorModal()"></i>
             <div class="flex-grow text-center text-[14px] font-black uppercase tracking-tighter" id="actorHeaderTitle"></div>
         </div>
         
@@ -511,10 +513,9 @@
         let isLsPaused = false, isLsMuted = false, lsControlTimer;
         let currentImdbId = ""; 
         let lastTrailerSources = []; 
-        let currentDailymotionId = ""; // Menyimpan ID Dailymotion
+        let currentDailymotionId = ""; 
         
-        // GLOBAL STATE UNTUK TV SERIES
-        let activeServerIdx = 1; // Default server 1
+        let activeServerIdx = 1;
         let activeEpisode = 1;
         let activeSeason = 1;
 
@@ -532,12 +533,12 @@
 
         // --- SOUNDTRACK LOGIC ---
         async function openSoundtrack() {
-            // Hentikan video trailer agar suara tidak tabrakan
             document.querySelectorAll('#carouselTrack iframe').forEach(iframe => {
-                const src = iframe.src;
-                iframe.src = src; // Reload iframe atau gunakan postMessage untuk pause
                 try {
                     iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                    if (iframe.src.includes("autoplay=1")) {
+                        iframe.src = iframe.src.replace("autoplay=1", "autoplay=0");
+                    }
                 } catch(e) {}
             });
 
@@ -546,51 +547,68 @@
             const overlay = document.getElementById('filterOverlay');
             const sheet = document.getElementById('soundtrackModal');
 
-            listCont.innerHTML = '<div class="text-center py-10 text-zinc-500 text-[10px] tracking-widest uppercase">Mencari playlist...</div>';
+            listCont.innerHTML = '<div class="text-center py-10 text-zinc-600 text-[10px] tracking-widest uppercase animate-pulse">Scanning tracklist...</div>';
             sheet.style.display = 'block';
             overlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            
+            history.pushState({view: 'soundtrack'}, "");
 
             try {
-                // Menggunakan Deezer API sebagai alternatif gratis dan tanpa login
-                const response = await fetch(`https://api.deezer.com/search?q=${encodeURIComponent(title + " soundtrack")}&limit=12&output=jsonp`, { mode: 'no-cors' });
-                // Karena CORS pada Deezer API di client-side murni agak sulit, kita gunakan proxy atau itunes dengan audio preview terintegrasi
                 const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(title + " soundtrack")}&entity=song&limit=15`);
                 const data = await res.json();
 
                 if (data.results.length === 0) {
-                    listCont.innerHTML = '<div class="text-center py-10 text-zinc-600 text-[10px] uppercase">Soundtrack tidak ditemukan.</div>';
+                    listCont.innerHTML = '<div class="text-center py-20 text-zinc-700 text-[10px] uppercase tracking-widest">No soundtrack tracks found.</div>';
                     return;
                 }
 
                 listCont.innerHTML = data.results.map(song => `
-                    <div class="bg-zinc-900/40 p-3 rounded-2xl border border-zinc-800/50">
+                    <div class="music-card">
                         <div class="flex items-center gap-4">
-                            <img src="${song.artworkUrl100}" class="w-12 h-12 rounded-lg shadow-2xl">
+                            <div class="relative flex-shrink-0 group">
+                                <img src="${song.artworkUrl100}" class="w-14 h-14 rounded-xl shadow-lg brightness-75">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <i class="fa-solid fa-music text-[10px] text-white/20"></i>
+                                </div>
+                            </div>
                             <div class="flex-grow overflow-hidden">
-                                <div class="text-[13px] font-bold text-white truncate">${song.trackName}</div>
-                                <div class="text-[10px] text-zinc-500 font-medium truncate uppercase tracking-wider">${song.artistName}</div>
+                                <div class="text-[14px] font-bold text-white truncate mb-0.5">${song.trackName}</div>
+                                <div class="text-[11px] text-zinc-500 font-bold truncate uppercase tracking-tighter">${song.artistName}</div>
                             </div>
                         </div>
-                        <audio controls class="audio-player-mini" src="${song.previewUrl}"></audio>
+                        <audio controls class="audio-player-mini" onplay="stopOtherAudios(this)" src="${song.previewUrl}"></audio>
                     </div>
                 `).join('');
 
             } catch (error) {
-                listCont.innerHTML = '<div class="text-center py-10 text-red-500 text-[10px] uppercase">Gagal memuat musik.</div>';
+                listCont.innerHTML = '<div class="text-center py-10 text-red-900 text-[10px] uppercase">Failed to retrieve audio.</div>';
             }
+        }
+
+        function stopOtherAudios(currentAudio) {
+            const allAudios = document.querySelectorAll('.audio-player-mini');
+            allAudios.forEach(audio => {
+                if (audio !== currentAudio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
         }
 
         function closeSoundtrack() {
             document.getElementById('soundtrackModal').style.display = 'none';
-            // Stop semua audio saat modal ditutup
             document.querySelectorAll('.audio-player-mini').forEach(a => a.pause());
+            if (document.getElementById('movieModal').style.display === 'block') {
+                replayTrailer();
+            }
             if (document.getElementById('movieModal').style.display !== 'block') {
                 document.body.style.overflow = 'auto';
+            } else {
+                document.getElementById('filterOverlay').style.display = 'none';
             }
         }
 
-        // --- PENANGANAN DOWNLOAD ---
         function handleDownload() {
             if(window.currentMediaId && window.currentMediaType) {
                 const downloadUrl = `https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`;
@@ -600,7 +618,6 @@
             }
         }
 
-        // --- PENANGANAN BACK BERTAHAP (POPSTATE) ---
         window.addEventListener('popstate', function(event) {
             if (document.getElementById('landscapeOverlay').style.display === 'block') {
                 closeLandscapeSilently();
@@ -631,9 +648,9 @@
             const videoArea = document.getElementById('mainVideoArea');
             overlay.appendChild(videoArea); 
             showLsUI();
-            if (!window.history.state || window.history.state.view !== 'landscape') {
-                history.pushState({view: 'landscape'}, "");
-            }
+            
+            history.pushState({view: 'landscape'}, "");
+
             try {
                 if (document.documentElement.requestFullscreen) {
                     await document.documentElement.requestFullscreen();
@@ -694,8 +711,6 @@
         async function openActorProfile(actorId) {
             lastTrailerSources = [];
             const frames = document.querySelectorAll('#carouselTrack iframe');
-            
-            // --- OPTIMASI MEMORY: Remove iframe sepenuhnya ---
             frames.forEach(f => { 
                 lastTrailerSources.push(f.src); 
                 f.src = ""; 
@@ -705,9 +720,9 @@
             const actorModal = document.getElementById('actorModal');
             actorModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            if (!window.history.state || window.history.state.view !== 'actor') {
-                history.pushState({view: 'actor'}, "");
-            }
+            
+            history.pushState({view: 'actor'}, "");
+
             try {
                 const details = await fetchWithCache(`https://api.themoviedb.org/3/person/${actorId}?api_key=${API_KEY}&language=id-ID`);
                 const credits = await fetchWithCache(`https://api.themoviedb.org/3/person/${actorId}/combined_credits?api_key=${API_KEY}&language=id-ID`);
@@ -743,7 +758,7 @@
             document.getElementById('actorModal').style.display = 'none';
             if (document.getElementById('movieModal').style.display === 'block') {
                 const track = document.getElementById('carouselTrack');
-                track.innerHTML = ""; // Bersihkan kontainer
+                track.innerHTML = "";
                 lastTrailerSources.forEach((src, i) => { 
                     if (src) {
                         const slide = document.createElement('div');
@@ -774,12 +789,11 @@
             const isVisible = menu.style.display === 'block';
             menu.style.display = isVisible ? 'none' : 'block';
             document.body.style.overflow = isVisible ? 'auto' : 'hidden';
-            if (!isVisible && (!window.history.state || window.history.state.view !== 'menu')) {
+            if (!isVisible) {
                 history.pushState({view: 'menu'}, "");
             }
         }
 
-        // --- BACK TO HOME: Langsung Lompat Kembali ---
         function backToHome() {
             closeModal(); closeSearch(); closeD(); closeActorModal();
             currentGenre = ''; currentYear = ''; currentCountry = ''; currentSchedule = 'trending'; 
@@ -802,7 +816,6 @@
             currentLibMode = false;
             loadFeed(true);
             window.scrollTo({top: 0, behavior: 'smooth'});
-            // Reset History agar tidak menumpuk saat menekan Home/Tab
             history.pushState(null, "", window.location.pathname);
         }
 
@@ -850,9 +863,9 @@
             overlay.style.display = 'block';
             calendarHeader.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            if (!window.history.state || window.history.state.view !== 'search') {
-                history.pushState({view: 'search'}, "");
-            }
+            
+            history.pushState({view: 'search'}, "");
+
             let dateStripHTML = '<div class="date-strip no-scrollbar">';
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
             for(let i=0; i<14; i++) {
@@ -893,7 +906,7 @@
             closeModal(); currentCastId = castId; searchQuery = ''; document.getElementById('searchInp').value = ''; 
             document.getElementById('searchOverlay').style.display = 'block'; document.getElementById('smartSearchDropdown').style.display = 'none';
             document.body.style.overflow='hidden'; 
-            if (!window.history.state || window.history.state.view !== 'search') { history.pushState({view: 'search'}, ""); }
+            history.pushState({view: 'search'}, "");
             loadFeed(true); 
         }
 
@@ -1004,7 +1017,7 @@
             document.getElementById('searchInp').focus(); 
             document.body.style.overflow='hidden'; 
             updateActiveNav(document.getElementById('homeBtnNav'));
-            if (!window.history.state || window.history.state.view !== 'search') { history.pushState({view: 'search'}, ""); }
+            history.pushState({view: 'search'}, "");
         }
 
         function closeSearch() { 
@@ -1078,7 +1091,6 @@
             const track = document.getElementById('carouselTrack');
             const dots = document.getElementById('carouselDots');
             
-            // --- OPTIMASI MEMORY: Hapus iframe lama ---
             track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); });
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             currentIdx = 0;
@@ -1095,7 +1107,7 @@
                     });
                     document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
                 } else {
-                    const fallbackUrl = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
+                    const fallbackUrl = buildEmbedUrl(type, id, 1, 1, 1);
                     track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`;
                     document.getElementById('swipeOverlay').style.display = 'none';
                 }
@@ -1107,7 +1119,6 @@
             if (actorModal.style.display === 'block') actorModal.style.display = 'none';
             window.currentMediaId = id; window.currentMediaType = type;
             
-            // Reset Global State for TV
             activeServerIdx = 1;
             activeEpisode = 1;
             activeSeason = 1;
@@ -1120,7 +1131,6 @@
             document.getElementById('mHashtags').innerHTML = "";
             document.getElementById('castContainer').innerHTML = "";
             
-            // --- OPTIMASI MEMORY: Remove iframe sepenuhnya ---
             const track = document.getElementById('carouselTrack');
             if(track) { 
                 track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); }); 
@@ -1137,7 +1147,9 @@
             document.getElementById('smartSearchDropdown').style.display = 'none'; 
             document.body.style.overflow = 'hidden'; 
             currentIdx = 0; isTranslated = false;
-            if (!window.history.state || window.history.state.view !== 'modal') { history.pushState({view: 'modal'}, ""); }
+            
+            history.pushState({view: 'modal'}, "");
+
             const [dId, dEn, dCast, dExt] = await Promise.all([
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos,production_companies&include_video_language=en,id,hi,th,ko,ja,ru,null`),
                 fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=en-US`),
@@ -1154,7 +1166,7 @@
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
 
             const handleTrailerError = async () => {
-                const fallbackUrl = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`; 
+                const fallbackUrl = buildEmbedUrl(type, id, 1, 1, 1); 
                 track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe></div>`; 
                 document.getElementById('swipeOverlay').style.display = 'none';
             };
@@ -1168,7 +1180,8 @@
                 vidsToDisplay.forEach((v, i) => { 
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
                     track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen" onerror="handleTrailerError()"></iframe></div>`; 
-                    if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
+                    if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
+                    if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-[#00ff6a]':'bg-zinc-700'}"></div>`; }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
             } else { 
@@ -1202,30 +1215,12 @@
             const rel = dId.release_date || dId.first_air_date || ""; 
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
-            // SETUP SERVER LIST BUTTONS
-            document.getElementById('serverList').innerHTML = `
-                <button class="server-btn active-link" onclick="changeServer(1, this)">Server 1</button>
-                <button class="server-btn" onclick="changeServer(2, this)">Server 2</button>
-                <button class="server-btn" onclick="changeServer(3, this)">Server 3</button>
-                <button class="server-btn" onclick="changeServer(4, this)">Server 4</button>
-                <button class="server-btn" onclick="changeServer(5, this)">Server 5</button>
-                <button class="server-btn" onclick="changeServer(6, this)">Server 6</button>
-                <button class="server-btn" onclick="changeServer(7, this)">Server 7</button>
-                <button class="server-btn" onclick="changeServer(8, this)">Server 8</button>
-                <button class="server-btn" onclick="changeServer(9, this)">Server 9</button>
-                <button class="server-btn" onclick="changeServer(10, this)">Server 10</button>
-                <button class="server-btn" onclick="changeServer(11, this)">Server 11</button>
-                <button class="server-btn" onclick="changeServer(12, this)">Server 12</button>
-                <button class="server-btn" onclick="changeServer(13, this)">Server 13</button>
-                <button class="server-btn" onclick="changeServer(14, this)">Server 14</button>
-                <button class="server-btn" onclick="changeServer(15, this)">Server 15</button>
-                <button class="server-btn" onclick="changeServer(16, this)">Server 16</button>
-                <button class="server-btn" onclick="changeServer(17, this)">Server 17</button>
-                <button class="server-btn" onclick="changeServer(18, this)">Server 18</button>
-                <button class="server-btn" onclick="changeServer(19, this)">Server 19</button>
-                <button class="server-btn" onclick="changeServer(20, this)">Server 20</button>
-                <button class="server-btn" onclick="changeServer(21, this)">Server 21</button>
-            `;
+            let serverButtonsHTML = '';
+            for(let i=1; i<=20; i++) {
+                serverButtonsHTML += `<button class="server-btn ${i===1?'active-link':''}" onclick="changeServer(${i}, this)">Server ${i}</button>`;
+            }
+            document.getElementById('serverList').innerHTML = serverButtonsHTML;
+
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
             updateLibButtons(id);
         }
@@ -1244,7 +1239,6 @@
         }
         
         function closeModal() { 
-            // --- OPTIMASI MEMORY: Remove iframe sepenuhnya ---
             const track = document.getElementById('carouselTrack'); 
             if(track) { 
                 track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); }); 
@@ -1259,74 +1253,82 @@
         function renderSynopsis() { const descEl = document.getElementById('mDesc'), toggleBtn = document.getElementById('mToggleBtn'); if (globalFullDesc.length > 90) { toggleBtn.classList.remove('hidden'); descEl.innerText = isExpanded ? globalFullDesc : globalFullDesc.substring(0, 90) + "..."; toggleBtn.innerText = isExpanded ? "ringkas" : "selengkapnya"; } else { descEl.innerText = globalFullDesc; toggleBtn.classList.add('hidden'); } }
         function handleToggleDesc() { isExpanded = !isExpanded; renderSynopsis(); }
         
-        // --- PERBAIKAN: Fungsi PlayVid yang lebih dinamis ---
         function playVid(url, el) { 
             const track = document.getElementById('carouselTrack'); 
             const dots = document.getElementById('carouselDots'); 
+            const loader = document.getElementById('videoLoader');
             
+            loader.classList.remove('hidden');
             const finalUrl = url.includes('?') ? `${url}&enablejsapi=1&autoplay=1&mute=0` : `${url}?enablejsapi=1&autoplay=1&mute=0`;
-            
             track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); });
-            track.innerHTML = `<div class="carousel-slide">
-                <iframe id="player-frame" src="${finalUrl}" class="w-full h-full" allowfullscreen allow="autoplay"></iframe>
-            </div>`; 
             
+            const newIframe = document.createElement('iframe');
+            newIframe.id = "player-frame";
+            newIframe.src = finalUrl;
+            newIframe.className = "w-full h-full";
+            newIframe.allowFullscreen = true;
+            newIframe.allow = "autoplay";
+            
+            newIframe.onload = () => { loader.classList.add('hidden'); };
+            
+            track.innerHTML = '';
+            const slide = document.createElement('div');
+            slide.className = 'carousel-slide';
+            slide.appendChild(newIframe);
+            track.appendChild(slide);
+
             track.style.transform = 'translateX(0)'; 
             currentIdx = 0; 
             dots.innerHTML = ''; 
             document.getElementById('swipeOverlay').style.display = 'none'; 
         }
         
-        // --- PERBAIKAN: Fungsi ganti server tanpa reset episode ---
         function changeServer(srvIdx, el) {
             activeServerIdx = srvIdx;
             document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link'));
-            el.classList.add('active-link');
-            
-            // Build URL berdasarkan server dan episode aktif
+            if(srvIdx !== 21) el.classList.add('active-link');
             const url = buildEmbedUrl(window.currentMediaType, window.currentMediaId, activeSeason, activeEpisode, activeServerIdx);
             playVid(url);
         }
 
-        // --- PERBAIKAN: Fungsi ganti episode tanpa reset server ---
         function changeEpisode(epNum, el) {
             activeEpisode = epNum;
             document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active-pill'));
             el.classList.add('active-pill');
-            
             const url = buildEmbedUrl(window.currentMediaType, window.currentMediaId, activeSeason, activeEpisode, activeServerIdx);
             playVid(url);
         }
 
-        // --- FUNGSI HELPER: Membangun URL Embed berdasarkan Server ---
         function buildEmbedUrl(type, id, s, e, srv) {
             const seriesSuffix = (type === 'tv') ? `/${s}/${e}` : '';
             const tvParam = (type === 'tv') ? `?s=${s}&e=${e}` : '';
             
+            let url = "";
             switch(srv) {
-                case 1: return `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
-                case 2: return `https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`;
-                case 3: return `https://vidlink.pro/${type}/${id}${seriesSuffix}`;
-                case 4: return `https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}${type==='tv'?`?s=${s}&e=${e}`:''}`;
-                case 5: return `https://111movies.com/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`;
-                case 6: return `https://player.videasy.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`;
-                case 7: return `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`;
-                case 8: return `https://vidfast.pro/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`;
-                case 9: return `https://moviesapi.club/${type}/${id}${seriesSuffix}`;
-                case 10: return `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`;
-                case 11: return `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`;
-                case 12: return `https://www.2embed.cc/embed${type==='tv'?'tv':''}/${id}${type==='tv'?`&s=${s}&e=${e}`:''}`;
-                case 13: return `https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}`;
-                case 14: return `https://vidsrc.me/embed/${type}?tmdb=${id}${seriesSuffix}`;
-                case 15: return `https://vidsrc.net/embed/${type}/${id}${seriesSuffix}`;
-                case 16: return `https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}`;
-                case 17: return `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`;
-                case 18: return `https://player.autoembed.cc/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`;
-                case 19: return `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`;
-                case 20: return `https://embed.smashystream.com/playere.php?tmdb=${id}${type==='tv'?`&season=${s}&episode=${e}`:''}`;
-                case 21: return `https://www.dailymotion.com/embed/video/${currentDailymotionId}`;
-                default: return `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
+                case 1: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`; break;
+                case 2: url = `https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`; break;
+                case 3: url = `https://vidlink.pro/${type}/${id}${seriesSuffix}`; break;
+                case 4: url = `https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
+                case 5: url = `https://111movies.com/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 6: url = `https://player.videasy.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 7: url = `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`; break;
+                case 8: url = `https://vidfast.pro/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 9: url = `https://moviesapi.club/${type}/${id}${seriesSuffix}`; break;
+                case 10: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
+                case 11: url = `https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 12: url = `https://www.2embed.cc/embed${type==='tv'?'tv':''}/${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 13: url = `https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}`; break;
+                case 14: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${seriesSuffix}`; break;
+                case 15: url = `https://vidsrc.net/embed/${type}/${id}${seriesSuffix}`; break;
+                case 16: url = `https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}`; break;
+                case 17: url = `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 18: url = `https://player.autoembed.cc/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 19: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 20: url = `https://embed.smashystream.com/playere.php?tmdb=${id}${type==='tv'?`&season=${s}&episode=${e}`:''}`; break;
+                case 21: url = `https://www.dailymotion.com/embed/video/${currentDailymotionId}`; break;
+                default: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
             }
+            return url.replace("http://", "https://");
         }
 
         async function loadEpisodes() { 
@@ -1336,11 +1338,7 @@
             document.getElementById('episodeGrid').innerHTML = episodes.map((e) => { 
                 const epNum = e.episode_number; 
                 const isActive = (epNum == activeEpisode) ? 'active-pill' : '';
-                return `
-                    <div class="pill text-[10px] flex flex-col items-center justify-center gap-1 min-h-[45px] ep-btn ${isActive}" 
-                         onclick="changeEpisode(${epNum}, this)">
-                        <span class="font-bold">${epNum}</span>
-                    </div>`; 
+                return `<div class="pill text-[10px] flex flex-col items-center justify-center gap-1 min-h-[45px] ep-btn ${isActive}" onclick="changeEpisode(${epNum}, this)"><span class="font-bold">${epNum}</span></div>`; 
             }).join(''); 
         }
         
@@ -1351,14 +1349,14 @@
                 if(Math.abs(diff) > 50 && slides.length > 1) { 
                     let oldIdx = currentIdx; if(diff > 0 && currentIdx < slides.length - 1) currentIdx++; else if(diff < 0 && currentIdx > 0) currentIdx--; 
                     document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`; 
-                    document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`; }); 
+                    document.querySelectorAll('.dot').forEach((d, i) => { d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-[#00ff6a]':'bg-zinc-700'}`; }); 
                     const oldVid = document.getElementById(`vid-${oldIdx}`), newVid = document.getElementById(`vid-${currentIdx}`);
                     if(oldVid) try{oldVid.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');}catch(e){}
                     if(newVid) try{newVid.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');}catch(e){}
                 } 
             }); 
         }
-        function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
+        function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-[#00ff6a] interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
         function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); }
         async function switchTab(mode, el) { 
             closeModal(); closeSearch(); closeActorModal(); document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); if(el) el.classList.add('active'); 
