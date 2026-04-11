@@ -16,179 +16,8 @@
             --text: #fff; --text2: #efefef; --text3: #8e8e8e; --text4: #555;
             --card: #111; --card2: #1a1a1a;
         }
-        body.light-theme {
-            --bg: #f2f2f7; --bg2: #fff; --bg3: #fff; --bg4: #f2f2f7;
-            --border: #e5e5ea; --border2: #d1d1d6;
-            --text: #000; --text2: #1c1c1e; --text3: #6c6c70; --text4: #aeaeb2;
-            --card: #fff; --card2: #f2f2f7;
-        }
         body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; transition: background-color 0.3s, color 0.3s; }
 
-        /* Light theme targeted overrides */
-        body.light-theme .modal-player,
-        body.light-theme #actorModal,
-        body.light-theme #tvModal,
-        body.light-theme #sideMenu,
-        body.light-theme #searchOverlay,
-        body.light-theme #soundtrackModal,
-        body.light-theme .filter-dropdown { background: var(--bg) !important; }
-
-        body.light-theme .profile-header,
-        body.light-theme .highlights-wrapper,
-        body.light-theme .tab-nav { background: var(--bg2) !important; }
-
-        body.light-theme .top-bar,
-        body.light-theme .bio,
-        body.light-theme .action-buttons { background: var(--bg2); }
-
-        body.light-theme .btn-ig { background: #e5e5ea !important; color: #000 !important; }
-        body.light-theme .btn-ig.active { background: #d1d1d6 !important; border-color: #aeaeb2 !important; }
-        body.light-theme .btn-icon-sq { background: #e5e5ea !important; color: #000 !important; }
-
-        body.light-theme .movie-grid,
-        body.light-theme #feedGrid { background: var(--bg); }
-
-        body.light-theme .post-card { background: #e5e5ea; }
-        body.light-theme .badge-rating { background: rgba(0,0,0,0.75) !important; color: #fff !important; }
-        body.light-theme .badge-type { background: rgba(0,0,0,0.6) !important; color: #fff !important; }
-
-        body.light-theme .ig-logo { color: #000; }
-        body.light-theme .stat-val { color: #000; }
-        body.light-theme .stat-label { color: #6c6c70; }
-        body.light-theme .bio-name { color: #000; }
-        body.light-theme .ig-caption { color: #1c1c1e; }
-        body.light-theme .ig-hashtags { color: #007aff; }
-        body.light-theme .ig-date { color: #8e8e93; }
-
-        body.light-theme .bottom-nav { background: rgba(242,242,247,0.95) !important; border-top-color: #e5e5ea !important; }
-        body.light-theme .bottom-nav i { color: #8e8e93; }
-        body.light-theme .bottom-nav i.active-nav { color: #000; }
-
-        body.light-theme .tab-item { color: #8e8e93; }
-        body.light-theme .tab-item.active { color: #000; border-bottom-color: #000; }
-        body.light-theme .tab-nav { border-top-color: #e5e5ea; }
-
-        body.light-theme .highlight-circle { border-color: #e5e5ea; background: #fff; }
-        body.light-theme .highlight-text { color: #000; }
-        body.light-theme .highlights-wrapper { border-bottom-color: #e5e5ea; }
-
-        body.light-theme .pill { border-color: #d1d1d6; color: #000; }
-        body.light-theme .pill.active-pill { border-color: #000; background: rgba(0,0,0,0.05); }
-
-        body.light-theme .search-header { background: var(--bg) !important; border-bottom-color: #e5e5ea; }
-        body.light-theme .search-input-box { background: #e5e5ea; }
-        body.light-theme .search-input-box input { color: #000 !important; }
-
-        body.light-theme #smartSearchDropdown { background: #fff; border-color: #e5e5ea; }
-        body.light-theme .smart-item { border-bottom-color: #f2f2f7; }
-        body.light-theme .smart-name { color: #000; }
-        body.light-theme .smart-meta { color: #8e8e93; }
-
-        body.light-theme .modal-player .sticky { background: rgba(255,255,255,0.95) !important; border-bottom-color: #e5e5ea !important; }
-        body.light-theme #mTitle { color: #000; }
-        body.light-theme .interaction-icon { color: #000; }
-        body.light-theme .ig-likes-count { color: #000; }
-        body.light-theme .ig-username { color: #000; }
-        body.light-theme .toggle-btn { color: #8e8e93; }
-        body.light-theme #mTranslateBtn { color: #007aff; }
-
-        body.light-theme .server-btn { background: #f2f2f7; color: #000; border-color: #e5e5ea; }
-        body.light-theme .server-btn.active-link { background: rgba(0,0,0,0.08) !important; border-color: #000 !important; }
-        body.light-theme .dl-link-btn { background: #fff; color: #000; border-color: #e5e5ea; }
-
-        body.light-theme .about-topbar { background: rgba(242,242,247,0.92) !important; border-bottom-color: #e5e5ea; }
-        body.light-theme .about-topbar-title { color: #000; }
-        body.light-theme .about-close-btn { color: #000; }
-        body.light-theme .about-app-name { color: #000; }
-        body.light-theme .about-app-tagline { color: #6c6c70; }
-        body.light-theme .about-version-badge { background: #e5e5ea; border-color: #d1d1d6; color: #6c6c70; }
-        body.light-theme .about-stat-card { background: #fff; border-color: #e5e5ea; }
-        body.light-theme .about-stat-num { color: #000; }
-        body.light-theme .about-stat-lbl { color: #6c6c70; }
-        body.light-theme .about-section-label { color: #8e8e93; }
-        body.light-theme .about-feature-row { background: #fff; border-bottom-color: #f2f2f7; }
-        body.light-theme .about-feat-title { color: #000; }
-        body.light-theme .about-feat-desc { color: #6c6c70; }
-        body.light-theme .about-info-row { background: #fff; }
-        body.light-theme .about-info-label { color: #000; }
-        body.light-theme .about-info-value { color: #6c6c70; }
-        body.light-theme .about-link-row { background: #fff; }
-        body.light-theme .about-link-label { color: #000; }
-        body.light-theme .about-credits-made { color: #8e8e93; }
-        body.light-theme .about-credits-by { color: #000; }
-        body.light-theme .about-credits-copy { color: #aeaeb2; }
-
-        body.light-theme .actor-topbar { background: rgba(242,242,247,0.92) !important; border-bottom-color: #e5e5ea; }
-        body.light-theme .actor-cover { background: #e5e5ea; }
-        body.light-theme .actor-cover-name { color: #000; }
-        body.light-theme .actor-stats-bar { border-bottom-color: #e5e5ea; }
-        body.light-theme .actor-stat-num { color: #000; }
-        body.light-theme .actor-stat-lbl { color: #6c6c70; }
-        body.light-theme .actor-stat-divider { background: #e5e5ea; }
-        body.light-theme .actor-btn-msg { background: #e5e5ea; color: #000; }
-        body.light-theme .actor-btn-sq { background: #e5e5ea; color: #000; }
-        body.light-theme .actor-bio-name { color: #000; }
-        body.light-theme .actor-bio-text { color: #1c1c1e; }
-        body.light-theme .actor-bio-meta { color: #8e8e93; }
-        body.light-theme .actor-highlights-wrapper { border-bottom-color: #e5e5ea; }
-        body.light-theme .actor-hl-circle { border-color: #e5e5ea; background: #fff; }
-        body.light-theme .actor-hl-label { color: #000; }
-        body.light-theme .actor-tab-nav { background: #fff; border-top-color: #e5e5ea; }
-        body.light-theme .actor-tab-item { color: #8e8e93; }
-        body.light-theme .actor-tab-item.active { color: #000; border-bottom-color: #000; }
-
-        body.light-theme .tv-topbar { background: rgba(242,242,247,0.92) !important; border-bottom-color: #e5e5ea; }
-        body.light-theme .tv-topbar-title { color: #000; }
-        body.light-theme .tv-search-box { background: #e5e5ea; border-color: #d1d1d6; }
-        body.light-theme .tv-search-box input { color: #000; }
-        body.light-theme .tv-category-label { color: #8e8e93; }
-        body.light-theme .tv-ch-card { background: #fff; border-color: #e5e5ea; }
-        body.light-theme .tv-ch-logo-box { background: #f2f2f7; color: #000; }
-        body.light-theme .tv-ch-name { color: #6c6c70; }
-        body.light-theme .tv-now-bar { background: #fff; border-bottom-color: #f2f2f7; }
-        body.light-theme .tv-now-show { color: #000; }
-        body.light-theme .tv-now-time { color: #8e8e93; }
-        body.light-theme .tv-now-next-show { color: #6c6c70; }
-        body.light-theme .tv-schedule-show { color: #000; }
-        body.light-theme .tv-schedule-genre { color: #8e8e93; }
-        body.light-theme .tv-schedule-row { border-bottom-color: #f2f2f7; }
-        body.light-theme .tv-schedule-row.past { opacity: 0.4; }
-        body.light-theme .tv-switcher-btn-new { background: #fff; border-color: #e5e5ea; }
-        body.light-theme .tv-switcher-name-new { color: #6c6c70; }
-        body.light-theme .tv-switcher-section-title { color: #8e8e93; }
-        body.light-theme .tv-switcher-logo-new { background: #f2f2f7; color: #000; }
-
-        body.light-theme .filter-item { color: #000; border-bottom-color: #f2f2f7; }
-        body.light-theme .sticky-reset { background: #f2f2f7 !important; color: #000 !important; border-bottom-color: #e5e5ea; }
-        body.light-theme .date-chip { background: #fff; }
-        body.light-theme .date-chip .d-day { color: #000; }
-        body.light-theme .date-chip .d-month { color: #8e8e93; }
-        body.light-theme .date-chip.active-date { border-color: #000; }
-        body.light-theme .calendar-item { border-bottom-color: #f2f2f7; }
-        body.light-theme .cal-title { color: #000; }
-        body.light-theme .cal-meta { color: #8e8e93; }
-        body.light-theme .cal-genre-pill { background: #f2f2f7; color: #6c6c70; }
-
-        body.light-theme .music-card { background: #fff; border-color: #f2f2f7; }
-        body.light-theme #soundtrackModal { background: #f2f2f7; border-top-color: #e5e5ea; }
-
-        body.light-theme #sideMenu { background: #f2f2f7; }
-        body.light-theme .about-hero { border-bottom-color: #e5e5ea; }
-        body.light-theme .about-stats-row { border-bottom-color: #e5e5ea; }
-        body.light-theme .about-hero-glow { background: radial-gradient(circle, rgba(0,122,255,0.1) 0%, transparent 70%); }
-
-        body.light-theme .seriesControl,
-        body.light-theme #seriesControl { background: #f2f2f7 !important; border-color: #e5e5ea !important; }
-        body.light-theme #seasonSel { background: #fff !important; color: #000 !important; border-color: #e5e5ea !important; }
-        body.light-theme .ep-btn { border-color: #e5e5ea !important; color: #000 !important; }
-
-        body.light-theme .about-info-row:not(:last-child) { border-bottom-color: #f2f2f7; }
-        body.light-theme .about-feature-row:not(:last-child) { border-bottom-color: #f2f2f7; }
-        body.light-theme .about-link-row:not(:last-child) { border-bottom-color: #f2f2f7; }
-
-        body.light-theme #themeToggle { background: #34c759 !important; }
-        body.light-theme #themeThumb { transform: translateX(18px); }
-        body.light-theme #themeLabel { color: #000 !important; }
         /* Fix Horizontal Scroll & Safari Smoothness */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -webkit-overflow-scrolling: touch; }
@@ -763,15 +592,15 @@
             display: flex; gap: 7px; padding: 14px 15px 0;
         }
         .actor-btn-follow {
-            flex: 1; background: #0095f6; color: #fff;
-            font-size: 13px; font-weight: 700;
+            flex: 1; background: #262626; color: #fff;
+            font-size: 13px; font-weight: 600;
             border-radius: 8px; padding: 7px 10px; text-align: center; cursor: pointer;
             transition: background 0.2s;
         }
-        .actor-btn-follow:active { background: #007ad1; }
+        .actor-btn-follow:active { background: #363636; }
         .actor-btn-msg {
             flex: 1; background: #262626; color: #fff;
-            font-size: 13px; font-weight: 700;
+            font-size: 13px; font-weight: 600;
             border-radius: 8px; padding: 7px 10px; text-align: center; cursor: pointer;
             transition: background 0.2s;
         }
@@ -1246,15 +1075,6 @@
                     <div class="about-feat-desc">Tonton siaran langsung channel TV nasional Indonesia.</div>
                 </div>
             </div>
-            <div class="about-feature-row">
-                <div class="about-feat-icon-wrap" style="background:#2a1a20">
-                    <i class="ph ph-device-mobile-camera" style="color:#f48fb1"></i>
-                </div>
-                <div class="about-feat-text">
-                    <div class="about-feat-title">Mode Landscape</div>
-                    <div class="about-feat-desc">Tonton dalam mode layar penuh horizontal dengan kontrol profesional.</div>
-                </div>
-            </div>
         </div>
 
         <!-- Data source -->
@@ -1543,12 +1363,8 @@
 
         <!-- Action buttons (IG style) -->
         <div class="actor-action-row">
-            <div class="actor-btn-follow" onclick="searchByCast(window._currentActorId)">
-                <i class="fa-solid fa-table-cells-large mr-1"></i> Lihat Filmografi
-            </div>
-            <div class="actor-btn-msg" id="actorImdbBtn" onclick="openActorImdb()">
-                <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> IMDb
-            </div>
+            <div class="actor-btn-follow" onclick="searchByCast(window._currentActorId)">Filmografi</div>
+            <div class="actor-btn-msg" id="actorImdbBtn" onclick="openActorImdb()">IMDb</div>
             <div class="actor-btn-sq"><i class="fa-solid fa-chevron-down"></i></div>
         </div>
 
@@ -2181,14 +1997,16 @@
 
         function closeSoundtrack() {
             document.getElementById('soundtrackModal').style.display = 'none';
-            document.querySelectorAll('.audio-player-mini').forEach(a => a.pause());
-            if (document.getElementById('movieModal').style.display === 'block') {
-                replayTrailer();
-            }
+            document.querySelectorAll('.audio-player-mini').forEach(a => { a.pause(); a.currentTime = 0; });
+            document.getElementById('filterOverlay').style.display = 'none';
+            // Resume video yang sudah ada (tidak reload)
+            document.querySelectorAll('#carouselTrack iframe').forEach(iframe => {
+                try {
+                    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                } catch(e) {}
+            });
             if (document.getElementById('movieModal').style.display !== 'block') {
                 document.body.style.overflow = 'auto';
-            } else {
-                document.getElementById('filterOverlay').style.display = 'none';
             }
         }
 
@@ -2453,6 +2271,7 @@
                 if (bioText) {
                     const short = bioText.length > 120;
                     bioEl.innerText = short ? bioText.substring(0, 120) + '...' : bioText;
+                    bioEl.style.display = '';
                     if (short) {
                         const more = document.createElement('span');
                         more.className = 'toggle-btn';
@@ -2461,7 +2280,8 @@
                         bioEl.after(more);
                     }
                 } else {
-                    bioEl.innerText = 'Tidak ada biografi.';
+                    bioEl.innerText = '';
+                    bioEl.style.display = 'none';
                 }
 
                 // Bio meta: birth date, place, gender
@@ -2572,7 +2392,10 @@
                         track.appendChild(slide);
                     }
                 });
-            } else { document.body.style.overflow = 'auto'; }
+                // body tetap hidden karena movieModal masih buka
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         }
 
         function searchByStudio(studioId, studioName) {
@@ -2668,6 +2491,7 @@
         let calendarMediaType = 'movie';
 
         async function openComingSoon() {
+            calendarMediaType = 'movie'; // reset tiap buka
             const overlay = document.getElementById('searchOverlay');
             const calendarHeader = document.getElementById('calendarHeader');
             overlay.style.display = 'block';
@@ -2770,8 +2594,13 @@
         }
 
         function searchByCast(castId) { 
-            closeModal(); currentCastId = castId; searchQuery = ''; document.getElementById('searchInp').value = ''; 
-            document.getElementById('searchOverlay').style.display = 'block'; document.getElementById('smartSearchDropdown').style.display = 'none';
+            closeActorModal();
+            closeModal(); 
+            currentCastId = castId; searchQuery = ''; 
+            document.getElementById('searchInp').value = ''; 
+            document.getElementById('searchOverlay').style.display = 'block';
+            document.getElementById('smartSearchDropdown').style.display = 'none';
+            showSearchResults();
             document.body.style.overflow='hidden'; 
             history.pushState({view: 'search'}, "");
             loadFeed(true); 
@@ -2809,12 +2638,44 @@
             let yearHTML = '<div class="filter-item sticky-reset" onclick="setYear(\'\')">Semua Tahun</div>'; 
             for(let y=2026; y>=1930; y--) yearHTML += `<div class="filter-item" onclick="setYear(${y})">${y}</div>`; 
             yD.innerHTML = yearHTML; 
-            const countries = [['ID','Indonesia'],['US','USA'],['KR','Korea Selatan'],['JP','Jepang'],['IN','India'],['TH','Thailand'],['CN','China'],['PH','Filipina'],['GB','Inggris'],['FR','Prancis'],['ES','Spanyol'],['IT','Italia'],['TR','Turki'],['DE','Jerman']]; 
+
+            // Negara — Indonesia pertama, sisanya abjad
+            const countries = [
+                ['ID','Indonesia'],
+                ['DZ','Aljazair'],['AR','Argentina'],['AU','Australia'],
+                ['AT','Austria'],['BE','Belgia'],['BR','Brasil'],
+                ['CA','Kanada'],['CL','Cile'],['CN','China'],
+                ['CO','Kolombia'],['HR','Kroasia'],['CZ','Ceko'],
+                ['DK','Denmark'],['EG','Mesir'],['FI','Finlandia'],
+                ['FR','Prancis'],['DE','Jerman'],['GR','Yunani'],
+                ['HK','Hong Kong'],['HU','Hungaria'],['IN','India'],
+                ['IE','Irlandia'],['IL','Israel'],['IT','Italia'],
+                ['JP','Jepang'],['MX','Meksiko'],['MY','Malaysia'],
+                ['MA','Maroko'],['NL','Belanda'],['NZ','Selandia Baru'],
+                ['NG','Nigeria'],['NO','Norwegia'],['PK','Pakistan'],
+                ['PH','Filipina'],['PL','Polandia'],['PT','Portugal'],
+                ['RO','Rumania'],['RU','Rusia'],['SA','Arab Saudi'],
+                ['ZA','Afrika Selatan'],['KR','Korea Selatan'],['ES','Spanyol'],
+                ['SE','Swedia'],['CH','Swiss'],['TW','Taiwan'],
+                ['TH','Thailand'],['TR','Turki'],['UA','Ukraina'],
+                ['AE','UEA'],['GB','Inggris'],['US','Amerika Serikat'],
+                ['VN','Vietnam']
+            ];
             const cD = document.getElementById('countryDropdown'); 
             let countryHTML = '<div class="filter-item sticky-reset" onclick="setCountry(\'\',\'Negara\')">Semua Negara</div>'; 
             countries.forEach(c => countryHTML += `<div class="filter-item" onclick="setCountry('${c[0]}','${c[1]}')">${c[1]}</div>`); 
             cD.innerHTML = countryHTML; 
-            const genres = [[28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Komedi'],[80,'Crime'],[99,'Dokumenter'],[18,'Drama'],[10751,'Family'],[14,'Fantasy'],[36,'History'],[27,'Horror'],[10402,'Music'],[9648,'Misteri'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller']]; 
+
+            // Genre — lengkap, urut abjad (ID TMDb)
+            const genres = [
+                [28,'Action'],[12,'Adventure'],[16,'Animasi'],
+                [35,'Komedi'],[80,'Crime'],
+                [99,'Dokumenter'],[18,'Drama'],[10751,'Family'],
+                [14,'Fantasy'],[36,'History'],[27,'Horror'],
+                [10402,'Musik'],[9648,'Misteri'],[10749,'Romance'],
+                [878,'Sci-Fi'],[10770,'TV Movie'],[53,'Thriller'],
+                [10752,'War'],[37,'Western']
+            ].sort((a,b) => a[1].localeCompare(b[1]));
             const gD = document.getElementById('genreDropdown'); 
             let genreHTML = '<div class="filter-item sticky-reset" onclick="setGenre(\'\',\'Genre\')">Semua Genre</div>'; 
             genres.forEach(g => genreHTML += `<div class="filter-item" onclick="setGenre('${g[0]}','${g[1]}')">${g[1]}</div>`); 
@@ -3022,15 +2883,32 @@
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             currentIdx = 0;
             document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link'));
+
+            function pickBestYT(results) {
+                const yt = (results || []).filter(v => v.site === 'YouTube');
+                const trailers = yt.filter(v => v.type === 'Trailer').sort((a,b) => (b.official?1:0)-(a.official?1:0));
+                if (trailers.length) return trailers.slice(0, 5);
+                const teasers = yt.filter(v => v.type === 'Teaser').sort((a,b) => (b.official?1:0)-(a.official?1:0));
+                if (teasers.length) return teasers.slice(0, 5);
+                const extra = yt.filter(v => ['Clip','Featurette','Behind the Scenes'].includes(v.type));
+                if (extra.length) return extra.slice(0, 5);
+                return yt.slice(0, 5);
+            }
+
             try {
                 const dId = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos&include_video_language=en,id,hi,th,ko,ja,ru,null`);
-                const allVideos = (dId.videos?.results || []).filter(v => v.site === 'YouTube' && v.official === true && (v.type === 'Trailer' || v.type === 'Teaser')).sort((a, b) => (a.type === 'Trailer' ? -1 : 1));
-                if(allVideos.length > 0) {
-                    let vidsToDisplay = allVideos.slice(0, 5);
+                let vidsToDisplay = pickBestYT(dId.videos?.results);
+
+                if (!vidsToDisplay.length) {
+                    const enVid = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`);
+                    vidsToDisplay = pickBestYT(enVid.results);
+                }
+
+                if (vidsToDisplay.length > 0) {
                     vidsToDisplay.forEach((v, i) => {
                         const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
                         track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`;
-                        if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
+                        if (vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                     });
                     document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
                 } else {
@@ -3097,16 +2975,37 @@
                 document.getElementById('swipeOverlay').style.display = 'none';
             };
 
-            const allVideos = (dId.videos?.results || [])
-                .filter(v => v.site === 'YouTube' && v.official === true && (v.type === 'Trailer' || v.type === 'Teaser'))
-                .sort((a, b) => (a.type === 'Trailer' ? -1 : 1));
+            // Pilih video terbaik dari hasil TMDb — tanpa syarat official
+            function pickBestYT(results) {
+                const yt = (results || []).filter(v => v.site === 'YouTube');
+                // 1. Trailer (official duluan)
+                const trailers = yt.filter(v => v.type === 'Trailer').sort((a,b) => (b.official?1:0)-(a.official?1:0));
+                if (trailers.length) return trailers.slice(0, 5);
+                // 2. Teaser
+                const teasers = yt.filter(v => v.type === 'Teaser').sort((a,b) => (b.official?1:0)-(a.official?1:0));
+                if (teasers.length) return teasers.slice(0, 5);
+                // 3. Clip / Featurette / Behind the Scenes
+                const extra = yt.filter(v => ['Clip','Featurette','Behind the Scenes'].includes(v.type));
+                if (extra.length) return extra.slice(0, 5);
+                // 4. Video YouTube apapun yang ada
+                return yt.slice(0, 5);
+            }
 
-            if(allVideos.length > 0) { 
-                let vidsToDisplay = allVideos.slice(0, 5);
+            let vidsToDisplay = pickBestYT(dId.videos?.results);
+
+            // Fallback: fetch endpoint /videos bahasa en-US jika masih kosong
+            if (!vidsToDisplay.length) {
+                try {
+                    const enVid = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`);
+                    vidsToDisplay = pickBestYT(enVid.results);
+                } catch(e) {}
+            }
+
+            if (vidsToDisplay.length > 0) { 
                 vidsToDisplay.forEach((v, i) => { 
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0`;
                     track.innerHTML += `<div class="carousel-slide"><iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen"></iframe></div>`; 
-                    if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
+                    if (vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                 }); 
                 document.getElementById('swipeOverlay').style.display = vidsToDisplay.length > 1 ? 'block' : 'none'; 
             } else { 
@@ -3141,7 +3040,7 @@
             document.getElementById('mDateDisplay').innerText = rel ? new Date(rel).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
             
             let serverButtonsHTML = '';
-            for(let i=1; i<=20; i++) {
+            for(let i=1; i<=19; i++) {
                 serverButtonsHTML += `<button class="server-btn ${i===1?'active-link':''}" onclick="changeServer(${i}, this)">Server ${i}</button>`;
             }
             document.getElementById('serverList').innerHTML = serverButtonsHTML;
@@ -3279,9 +3178,8 @@
                 case 15: url = `https://vidsrc.net/embed/${type}/${id}${seriesSuffix}`; break;
                 case 16: url = `https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}`; break;
                 case 17: url = `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 18: url = `https://player.autoembed.cc/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 19: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 20: url = `https://embed.smashystream.com/playere.php?tmdb=${id}${type==='tv'?`&season=${s}&episode=${e}`:''}`; break;
+                case 18: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 19: url = `https://embed.smashystream.com/playere.php?tmdb=${id}${type==='tv'?`&season=${s}&episode=${e}`:''}`; break;
                 case 21: url = `https://www.dailymotion.com/embed/video/${currentDailymotionId}`; break;
                 default: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
             }
@@ -3324,12 +3222,12 @@
         async function showLibrary(k) { const items = JSON.parse(localStorage.getItem(k) || '[]'); const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; if (!items.length) { grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-xs">Belum ada konten disimpan</div>'; return; } const promises = items.map(i => fetchWithCache(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`).then(r => r)); const results = await Promise.all(promises); renderGrid(results.filter(m => m.id), grid); }
         window.onscroll = () => { if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000 && !loading && !searchQuery && !currentLibMode) { page++; loadFeed(false); } };
 
-        // ===== THEME TOGGLE =====
+        // ===== THEME TOGGLE (disabled - UI removed) =====
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light-theme');
             localStorage.setItem('amnesTheme', isLight ? 'light' : 'dark');
-            document.getElementById('themeLabel').innerText = isLight ? 'Terang' : 'Gelap';
-            // toggle pill color handled by CSS
+            const lbl = document.getElementById('themeLabel');
+            if (lbl) lbl.innerText = isLight ? 'Terang' : 'Gelap';
         }
 
         // Apply saved theme on load
@@ -3337,11 +3235,6 @@
             const saved = localStorage.getItem('amnesTheme');
             if (saved === 'light') {
                 document.body.classList.add('light-theme');
-                // update label after DOM ready
-                document.addEventListener('DOMContentLoaded', () => {
-                    const lbl = document.getElementById('themeLabel');
-                    if (lbl) lbl.innerText = 'Terang';
-                });
             }
         })();
     </script>
