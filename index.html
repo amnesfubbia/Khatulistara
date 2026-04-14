@@ -930,6 +930,190 @@
         .tv-bottom-item i { font-size: 20px; transition: color 0.3s; }
         .tv-bottom-item:active i { opacity: 0.6; }
         .tv-bottom-active i { color: #fff !important; }
+
+        /* ===== REELS MODAL — Instagram style ===== */
+        #reelsModal {
+            display: none; position: fixed; inset: 0; z-index: 8500;
+            background: #000; overflow: hidden;
+        }
+
+        /* Container scroll vertikal snap — tanpa padding agar snap tepat */
+        .reels-container {
+            width: 100%; height: 100%;
+            overflow-y: scroll; scroll-snap-type: y mandatory;
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+        .reels-container::-webkit-scrollbar { display: none; }
+
+        /* Tiap slide = tepat 1 viewport penuh */
+        .reel-slide {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh; /* dynamic viewport — lebih akurat di mobile */
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+
+        /* 
+         * KUNCI PORTRAIT FULLSCREEN:
+         * Video YouTube aslinya 16:9 (landscape).
+         * Untuk tampil portrait fullscreen seperti IG Reels:
+         * - Buat iframe selebar 177.78vh (= tinggi × 16/9)
+         * - Tinggi tetap 100vh
+         * - Geser ke tengah dengan left:50% + translateX(-50%)
+         * - Overflow hidden pada .reel-slide memotong kiri-kanan
+         * Hasilnya: video crop tengah, memenuhi seluruh layar portrait.
+         */
+        .reel-slide iframe {
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 177.78vh;   /* 100vh × (16/9) */
+            min-width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            border: none;
+            pointer-events: auto;
+        }
+
+        /* Gradient bawah — fade ke hitam agar teks terbaca */
+        .reel-gradient {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: 60%;
+            background: linear-gradient(to top,
+                rgba(0,0,0,0.92) 0%,
+                rgba(0,0,0,0.55) 40%,
+                transparent 100%);
+            pointer-events: none; z-index: 5;
+        }
+
+        /* Info teks kiri bawah — mirip IG */
+        .reel-info {
+            position: absolute;
+            bottom: 80px; left: 0; right: 68px;
+            padding: 0 14px;
+            z-index: 10;
+        }
+        .reel-info * { pointer-events: none; }
+        .reel-detail-btn { pointer-events: auto !important; }
+
+        .reel-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #333; overflow: hidden;
+            display: inline-flex; align-items: center; justify-content: center;
+            margin-bottom: 8px; border: 1.5px solid rgba(255,255,255,0.5);
+            vertical-align: middle; margin-right: 8px;
+        }
+        .reel-username {
+            font-size: 13px; font-weight: 700; color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            display: inline; vertical-align: middle;
+        }
+        .reel-title {
+            font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.9);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+            margin: 6px 0 4px; line-height: 1.4;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .reel-year {
+            font-size: 11px; color: rgba(255,255,255,0.5);
+            font-weight: 600; margin-bottom: 10px;
+        }
+        .reel-detail-btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 7px 16px; border-radius: 6px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            font-size: 12px; font-weight: 700; color: #fff;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            transition: background 0.15s;
+        }
+        .reel-detail-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.97); }
+
+        /* Tombol aksi kanan — mirip IG (like, bookmark, share) */
+        .reel-actions {
+            position: absolute;
+            bottom: 80px; right: 10px;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 20px;
+            z-index: 10;
+        }
+        .reel-action-btn {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 3px;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+        }
+        .reel-action-btn i {
+            font-size: 28px; color: #fff;
+            filter: drop-shadow(0 1px 4px rgba(0,0,0,0.8));
+            transition: transform 0.15s;
+        }
+        .reel-action-btn:active i { transform: scale(1.3); }
+        .reel-action-label {
+            font-size: 11px; font-weight: 700;
+            color: rgba(255,255,255,0.85);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+        .reel-action-btn.liked i { color: #ff3b30; }
+
+        /* Topbar — transparent gradient, mirip IG */
+        .reels-topbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9200;
+            display: flex; align-items: center;
+            padding: 14px 16px 10px;
+            pointer-events: none;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
+        }
+        .reels-topbar-title {
+            flex: 1; text-align: center;
+            font-size: 16px; font-weight: 800; color: #fff;
+            letter-spacing: -0.3px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+        }
+        .reels-back-btn {
+            font-size: 22px; color: #fff;
+            cursor: pointer; pointer-events: auto;
+            padding: 4px; -webkit-tap-highlight-color: transparent;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.8));
+        }
+        .reels-cam-btn {
+            font-size: 22px; color: #fff;
+            pointer-events: auto;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.8));
+        }
+
+        /* Loading state */
+        .reel-loading {
+            display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 12px;
+            width: 100%; height: 100vh;
+        }
+
+        /* Bottom nav — transparan, overlay di atas video seperti IG */
+        .reels-bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; z-index: 9100;
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 10px 0 16px;
+            background: transparent;
+        }
+        .reels-bottom-item {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: rgba(255,255,255,0.75);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .reels-bottom-item i {
+            font-size: 22px;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.9));
+            transition: color 0.2s;
+        }
+        .reels-bottom-item.active-reel-nav i { color: #fff; }
+
     </style>
 </head>
 <body>
@@ -1421,6 +1605,9 @@
             <div class="tv-bottom-item tv-bottom-search" onclick="closeTvModal(); openSearch()">
                 <i class="fa-solid fa-magnifying-glass cursor-pointer"></i>
             </div>
+            <div class="tv-bottom-item" onclick="closeTvModal(); updateActiveNav(document.getElementById('reelsBtnNav')); openReels()">
+                <i class="fa-solid fa-circle-play cursor-pointer"></i>
+            </div>
             <div class="tv-bottom-item tv-bottom-active">
                 <i class="fa-solid fa-clapperboard cursor-pointer"></i>
             </div>
@@ -1430,9 +1617,47 @@
         </nav>
     </div>
 
+
+    <!-- ===== REELS MODAL ===== -->
+    <div id="reelsModal">
+        <!-- Topbar mirip Instagram Reels -->
+        <div class="reels-topbar">
+            <i class="fa-solid fa-chevron-left reels-back-btn" onclick="closeReels()"></i>
+            <div class="reels-topbar-title">Reels</div>
+            <i class="fa-regular fa-paper-plane reels-cam-btn"></i>
+        </div>
+
+        <!-- Reel slides container -->
+        <div class="reels-container" id="reelsContainer">
+            <div class="reel-loading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+
+        <!-- Bottom nav reels -->
+        <nav class="reels-bottom-nav">
+            <div class="reels-bottom-item" onclick="closeReels(); updateActiveNav(document.getElementById('homeBtnNav')); backToHome()">
+                <i class="fa-solid fa-house"></i>
+            </div>
+            <div class="reels-bottom-item" onclick="closeReels(); openSearch()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="reels-bottom-item active-reel-nav">
+                <i class="fa-solid fa-circle-play"></i>
+            </div>
+            <div class="reels-bottom-item" onclick="closeReels(); updateActiveNav(document.getElementById('tvBtnNav')); openTvModal()">
+                <i class="fa-solid fa-clapperboard"></i>
+            </div>
+            <div class="reels-bottom-item" onclick="closeReels(); updateActiveNav(document.getElementById('bookmarkBtnNav')); switchTab('bookmarks', document.getElementById('tabBookmark'))">
+                <i class="fa-solid fa-bookmark"></i>
+            </div>
+        </nav>
+    </div>
+
     <nav class="bottom-nav">
         <i class="fa-solid fa-house cursor-pointer text-xl active-nav" id="homeBtnNav" onclick="updateActiveNav(this); backToHome()"></i>
         <i class="fa-solid fa-magnifying-glass cursor-pointer text-xl" id="searchBtnNav" onclick="updateActiveNav(this); openSearch()"></i>
+        <i class="fa-solid fa-circle-play cursor-pointer text-xl" id="reelsBtnNav" onclick="updateActiveNav(this); openReels()"></i>
         <i class="fa-solid fa-clapperboard cursor-pointer text-xl" id="tvBtnNav" onclick="updateActiveNav(this); openTvModal()"></i>
         <i class="fa-solid fa-bookmark cursor-pointer text-xl" id="bookmarkBtnNav" onclick="updateActiveNav(this); switchTab('bookmarks', document.getElementById('tabBookmark'))"></i>
     </nav>
@@ -2138,6 +2363,14 @@
             document.body.style.overflow = 'auto';
         }
 
+        function _closeReelsSilent() {
+            document.getElementById('reelsModal').style.display = 'none';
+            document.querySelectorAll('#reelsContainer iframe').forEach(f => {
+                try { f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+            });
+            document.body.style.overflow = 'auto';
+        }
+
         function _closeSearchSilent() {
             document.getElementById('searchOverlay').style.display = 'none';
             document.getElementById('calendarHeader').classList.add('hidden');
@@ -2167,7 +2400,10 @@
 
         window.addEventListener('popstate', function(event) {
             // Urutan pengecekan: dari yang paling atas (overlay) ke bawah
-            if (document.getElementById('landscapeOverlay').style.display === 'block') {
+            if (document.getElementById('reelsModal').style.display === 'block') {
+                closeReels();
+            }
+            else if (document.getElementById('landscapeOverlay').style.display === 'block') {
                 closeLandscapeSilently();
             } 
             else if (document.getElementById('soundtrackModal').style.display === 'block') {
@@ -2571,6 +2807,275 @@
             loadFeed(true);
         }
 
+
+        // ===== REELS FEATURE =====
+        let _reelsLoaded = false;
+        let _reelsData = [];   // [{movieId, type, title, year, videoKey}]
+        let _reelsPage = 1;
+        let _reelsLoading = false;
+        let _reelsObserver = null;
+
+        // Regex portrait — sama dengan filter di trailer (disimpan global agar konsisten)
+        const PORTRAIT_REGEX = /\bvertical\b|\bportrait\b|9\s*:\s*16|\breels?\b|\btiktok\b|#shorts|\bshorts\b/i;
+
+        async function openReels() {
+            const modal = document.getElementById('reelsModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            history.pushState({view: 'reels'}, '');
+
+            if (!_reelsLoaded) {
+                await loadReels(true);
+            }
+        }
+
+        function closeReels() {
+            document.getElementById('reelsModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            // Hentikan semua video yang sedang main
+            document.querySelectorAll('#reelsContainer iframe').forEach(f => {
+                try { f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+            });
+            history.replaceState({view: 'home'}, '');
+        }
+
+        // Helper: cek like/bookmark status untuk reel
+        function getReelLibStatus(movieId) {
+            const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x => x.id == movieId);
+            const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x => x.id == movieId);
+            return { liked: isL, bookmarked: isB };
+        }
+
+        function toggleReelLib(key, movieId, type, btn) {
+            let items = JSON.parse(localStorage.getItem(key) || '[]');
+            const idx = items.findIndex(x => x.id == movieId);
+            const isLike = key === 'likes';
+            const addCls = isLike ? 'liked' : 'bookmarked';
+            const icon = btn.querySelector('i');
+            if (idx > -1) {
+                items.splice(idx, 1);
+                btn.classList.remove(addCls);
+                if (icon) icon.className = `fa-regular fa-${isLike ? 'heart' : 'bookmark'}`;
+            } else {
+                items.push({ id: movieId, type: type });
+                btn.classList.add(addCls);
+                if (icon) icon.className = `fa-solid fa-${isLike ? 'heart' : 'bookmark'}`;
+            }
+            localStorage.setItem(key, JSON.stringify(items));
+        }
+
+        async function loadReels(isNew = false) {
+            if (_reelsLoading) return;
+            _reelsLoading = true;
+
+            const container = document.getElementById('reelsContainer');
+            if (isNew) {
+                container.innerHTML = '<div class="reel-loading"><div class="spinner"></div></div>';
+                _reelsData = [];
+                _reelsPage = 1;
+                _reelsLoaded = false;
+            }
+
+            try {
+                // Ambil film trending — gabung movie + tv untuk variasi konten
+                const [movRes, tvRes] = await Promise.allSettled([
+                    fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&language=en-US&page=${_reelsPage}`).then(r => r.json()),
+                    fetch(`https://api.themoviedb.org/3/trending/tv/week?api_key=${API_KEY}&language=en-US&page=${_reelsPage}`).then(r => r.json())
+                ]);
+
+                const movies = (movRes.status === 'fulfilled' ? movRes.value.results || [] : []).map(m => ({...m, _mtype: 'movie'}));
+                const tvs    = (tvRes.status  === 'fulfilled' ? tvRes.value.results  || [] : []).map(m => ({...m, _mtype: 'tv'}));
+
+                // Selang-seling movie dan tv
+                const combined = [];
+                const maxLen = Math.max(movies.length, tvs.length);
+                for (let i = 0; i < maxLen; i++) {
+                    if (movies[i]) combined.push(movies[i]);
+                    if (tvs[i])    combined.push(tvs[i]);
+                }
+
+                // Untuk tiap film/serial, ambil video trailer pertama yang ada
+                const videoPromises = combined.slice(0, 20).map(async m => {
+                    try {
+                        const mtype = m._mtype;
+                        const vRes = await fetchWithCache(
+                            `https://api.themoviedb.org/3/${mtype}/${m.id}/videos?api_key=${API_KEY}&language=en-US`
+                        );
+                        // Prioritas: Official Trailer > Trailer > Teaser > Clip
+                        const allVids = (vRes.results || []).filter(v => v.site === 'YouTube');
+                        const scoreVid = v => (v.official?4:0) + (v.type==='Trailer'?3:0) + (v.type==='Teaser'?1:0);
+                        allVids.sort((a, b) => scoreVid(b) - scoreVid(a));
+                        const best = allVids[0];
+                        if (!best) return null;
+
+                        const title = m.title || m.name || '';
+                        const year  = (m.release_date || m.first_air_date || '').split('-')[0];
+                        const poster = m.poster_path || '';
+                        return { movieId: m.id, type: mtype, title, year, poster, videoKey: best.key };
+                    } catch(e) { return null; }
+                });
+
+                const results = await Promise.allSettled(videoPromises);
+                const newReels = results
+                    .filter(r => r.status === 'fulfilled' && r.value)
+                    .map(r => r.value);
+
+                if (isNew) container.innerHTML = '';
+
+                if (newReels.length === 0 && isNew) {
+                    container.innerHTML = `
+                        <div style="height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px">
+                            <i class="fa-regular fa-circle-play" style="font-size:48px;color:#333"></i>
+                            <div style="font-size:14px;font-weight:700;color:#555">Tidak Ada Konten</div>
+                            <div style="font-size:12px;color:#333;text-align:center;padding:0 40px">Gagal memuat trailer</div>
+                        </div>`;
+                    _reelsLoading = false;
+                    return;
+                }
+
+                _reelsData.push(...newReels);
+                _reelsLoaded = true;
+
+                newReels.forEach(reel => {
+                    const lib = getReelLibStatus(reel.movieId);
+                    const slide = document.createElement('div');
+                    slide.className = 'reel-slide';
+                    slide.dataset.movieId = reel.movieId;
+                    slide.dataset.type = reel.type;
+
+                    // autoplay=1 agar langsung main saat slide pertama dimuat
+                    // js_api diaktifkan agar bisa pause via postMessage
+                    const embedUrl = `https://www.youtube.com/embed/${reel.videoKey}?enablejsapi=1&autoplay=0&rel=0&modestbranding=1&mute=0&playsinline=1`;
+
+                    // Poster sebagai thumbnail sebelum video load
+                    const posterUrl = reel.poster
+                        ? `https://image.tmdb.org/t/p/w500${reel.poster}`
+                        : '';
+
+                    slide.innerHTML = `
+                        <iframe src="${embedUrl}"
+                            allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+                            loading="lazy"
+                            ${posterUrl ? `style="background:url('${posterUrl}') center/cover no-repeat"` : ''}>
+                        </iframe>
+                        <div class="reel-gradient"></div>
+
+                        <!-- Info kiri bawah -->
+                        <div class="reel-info">
+                            <div style="display:flex;align-items:center;margin-bottom:6px">
+                                <div class="reel-avatar">
+                                    <i class="fa-solid fa-film" style="font-size:12px;color:#888"></i>
+                                </div>
+                                <span class="reel-username">amnesfubbia</span>
+                            </div>
+                            <div class="reel-title">${reel.title}</div>
+                            <div class="reel-year">${reel.year || ''} · Trailer</div>
+                            <button class="reel-detail-btn" 
+                                onclick="event.stopPropagation(); openModal(${reel.movieId}, '${reel.type}')">
+                                <i class="fa-solid fa-play" style="font-size:9px"></i>Tonton Film
+                            </button>
+                        </div>
+
+                        <!-- Aksi kanan bawah -->
+                        <div class="reel-actions">
+                            <div class="reel-action-btn ${lib.liked ? 'liked' : ''}"
+                                 id="reel-like-${reel.movieId}"
+                                 onclick="event.stopPropagation(); toggleReelLib('likes', ${reel.movieId}, '${reel.type}', this)">
+                                <i class="fa-${lib.liked ? 'solid' : 'regular'} fa-heart"></i>
+                                <span class="reel-action-label">Suka</span>
+                            </div>
+                            <div class="reel-action-btn ${lib.bookmarked ? 'bookmarked' : ''}"
+                                 id="reel-bm-${reel.movieId}"
+                                 onclick="event.stopPropagation(); toggleReelLib('bookmarks', ${reel.movieId}, '${reel.type}', this)">
+                                <i class="fa-${lib.bookmarked ? 'solid' : 'regular'} fa-bookmark"></i>
+                                <span class="reel-action-label">Simpan</span>
+                            </div>
+                            <div class="reel-action-btn"
+                                 onclick="event.stopPropagation(); openModal(${reel.movieId}, '${reel.type}')">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span class="reel-action-label">Detail</span>
+                            </div>
+                        </div>`;
+                    container.appendChild(slide);
+                });
+
+                setupReelsAutoplay();
+                _reelsPage++;
+
+            } catch(e) {
+                console.error('Reels error:', e);
+                if (isNew) container.innerHTML = '<div class="reel-loading" style="color:#555;font-size:12px">Gagal memuat</div>';
+            }
+
+            _reelsLoading = false;
+        }
+
+        function setupReelsAutoplay() {
+            if (_reelsObserver) _reelsObserver.disconnect();
+
+            _reelsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const iframe = entry.target.querySelector('iframe');
+                    if (!iframe) return;
+                    if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
+                        // Slide masuk layar → play via postMessage
+                        try {
+                            iframe.contentWindow.postMessage(
+                                '{"event":"command","func":"playVideo","args":""}', '*'
+                            );
+                        } catch(e) {}
+                        // Fallback: set autoplay lewat src jika postMessage belum aktif
+                        if (iframe.src && !iframe.src.includes('autoplay=1')) {
+                            iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
+                        }
+                    } else {
+                        // Slide keluar → pause
+                        try {
+                            iframe.contentWindow.postMessage(
+                                '{"event":"command","func":"pauseVideo","args":""}', '*'
+                            );
+                        } catch(e) {}
+                    }
+                });
+            }, { threshold: [0, 0.75, 1] });
+
+            document.querySelectorAll('.reel-slide').forEach(slide => {
+                _reelsObserver.observe(slide);
+            });
+
+            // Autoplay slide pertama setelah sedikit delay (iframe perlu waktu load)
+            const firstSlide = document.querySelector('.reel-slide');
+            if (firstSlide) {
+                setTimeout(() => {
+                    const iframe = firstSlide.querySelector('iframe');
+                    if (iframe) {
+                        try {
+                            iframe.contentWindow.postMessage(
+                                '{"event":"command","func":"playVideo","args":""}', '*'
+                            );
+                        } catch(e) {}
+                        if (iframe.src && !iframe.src.includes('autoplay=1')) {
+                            iframe.src = iframe.src.replace('autoplay=0', 'autoplay=1');
+                        }
+                    }
+                }, 1500);
+            }
+
+            // Load more saat slide terakhir terlihat
+            const slides = document.querySelectorAll('.reel-slide');
+            if (slides.length > 0) {
+                const lastSlide = slides[slides.length - 1];
+                const loadMoreObserver = new IntersectionObserver((entries) => {
+                    if (entries[0].isIntersecting) {
+                        loadMoreObserver.disconnect();
+                        loadReels(false);
+                    }
+                }, { threshold: 0.3 });
+                loadMoreObserver.observe(lastSlide);
+            }
+        }
+
+        // Tambah reels ke popstate handler
         function updateActiveNav(el) { 
             document.querySelectorAll('.bottom-nav i').forEach(i => i.classList.remove('active-nav')); 
             if(el) el.classList.add('active-nav'); 
@@ -2592,6 +3097,7 @@
 
         function backToHome() {
             closeModal(); closeSearch(); closeD(); closeActorModal(); closeTvModal();
+            if(document.getElementById('reelsModal').style.display === 'block') closeReels();
             currentGenre = ''; currentYear = ''; currentCountry = ''; currentSchedule = 'trending'; 
             currentType = 'multi'; searchQuery = ''; currentCastId = ''; currentCompany = '';
             document.querySelectorAll('.highlight-item').forEach(i => i.classList.remove('active-hl'));
@@ -3022,6 +3528,7 @@
 
         function openSearch() { 
             closeModal(); closeD(); closeActorModal(); closeTvModal();
+            if(document.getElementById('reelsModal').style.display === 'block') closeReels();
             if(document.getElementById('sideMenu').style.display === 'block') toggleSideMenu();
             document.getElementById('searchGrid').innerHTML = '';
             document.getElementById('searchOverlay').style.display = 'block';
@@ -3160,7 +3667,7 @@
                 }
                 rVideos.sort((a, b) => { const sA=(a.official?2:0)+(a.type==='Trailer'?1:0); const sB=(b.official?2:0)+(b.type==='Trailer'?1:0); return sB-sA; });
                 // Filter portrait + deduplikasi ketat
-                const portraitKw = /vertical|portrait|9[:\s]?16|short|reel|tiktok|story|shorts/i;
+                const portraitKw = /\bvertical\b|\bportrait\b|9\s*:\s*16|\breels?\b|\btiktok\b|#shorts|\bshorts\b/i;
                 rVideos = rVideos.filter(v => !portraitKw.test(v.name || ''));
                 const seenR = new Set(); rVideos = rVideos.filter(v => { if(seenR.has(v.key)) return false; seenR.add(v.key); return true; });
                 const seenTR = new Set(); rVideos = rVideos.filter(v => { const n=(v.name||'').toLowerCase().replace(/[^a-z0-9\s]/g,'').trim(); if(!n||seenTR.has(n)) return !n; seenTR.add(n); return true; });
@@ -3272,7 +3779,7 @@
             });
 
             // Filter 1: Buang trailer portrait/vertical (tidak sesuai tampilan landscape)
-            const portraitKeywords = /vertical|portrait|9[:\s]?16|short|reel|tiktok|story|shorts/i;
+            const portraitKeywords = /\bvertical\b|\bportrait\b|9\s*:\s*16|\breels?\b|\btiktok\b|#shorts|\bshorts\b/i;
             allVideos = allVideos.filter(v => !portraitKeywords.test(v.name || ''));
 
             // Filter 2: Deduplikasi ketat — buang video dengan key sama
