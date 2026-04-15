@@ -1055,6 +1055,103 @@
         .reels-bottom-item i { font-size: 20px; transition: color 0.2s; }
         .reels-bottom-item.active-reel-nav i { color: #fff; }
 
+        /* ===== REEL DETAIL BOTTOM SHEET ===== */
+        #reelDetailSheet {
+            display: none;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            z-index: 9800;
+            background: #141414;
+            border-radius: 20px 20px 0 0;
+            max-height: 55vh;
+            overflow-y: auto;
+            border-top: 1px solid #2a2a2a;
+            animation: slideUp 0.3s cubic-bezier(0.25,1,0.5,1);
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+        }
+        #reelDetailSheet::-webkit-scrollbar { display: none; }
+        #reelDetailOverlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9799;
+        }
+        .rds-handle {
+            width: 36px; height: 4px; background: #333;
+            border-radius: 99px; margin: 12px auto 0;
+        }
+        .rds-header {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 14px 16px 10px;
+            border-bottom: 1px solid #1e1e1e;
+        }
+        .rds-poster {
+            width: 52px; height: 76px; border-radius: 10px;
+            object-fit: cover; background: #222; flex-shrink: 0;
+        }
+        .rds-poster-placeholder {
+            width: 52px; height: 76px; border-radius: 10px;
+            background: #222; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: #444; font-size: 20px;
+        }
+        .rds-title {
+            font-size: 15px; font-weight: 800; color: #fff;
+            line-height: 1.25; margin-bottom: 4px;
+        }
+        .rds-meta-row {
+            display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px;
+        }
+        .rds-badge {
+            font-size: 9px; font-weight: 800; text-transform: uppercase;
+            padding: 2px 7px; border-radius: 4px;
+            background: #222; color: #aaa; border: 0.5px solid #2e2e2e;
+        }
+        .rds-badge.type { background: #1a1a2e; color: #6c8efb; border-color: #2a2a4e; }
+        .rds-body { padding: 12px 16px 8px; }
+        .rds-section-label {
+            font-size: 9px; font-weight: 800; color: #555;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-bottom: 6px; margin-top: 12px;
+        }
+        .rds-synopsis {
+            font-size: 12px; color: #bbb; line-height: 1.55;
+        }
+        .rds-info-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 0; border-radius: 10px; overflow: hidden;
+            border: 1px solid #1e1e1e;
+        }
+        .rds-info-cell {
+            background: #111; padding: 10px 12px;
+            border-bottom: 1px solid #1a1a1a;
+            border-right: 1px solid #1a1a1a;
+        }
+        .rds-info-cell:nth-child(even) { border-right: none; }
+        .rds-info-cell:nth-last-child(-n+2) { border-bottom: none; }
+        .rds-info-key {
+            font-size: 9px; font-weight: 800; color: #555;
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;
+        }
+        .rds-info-val {
+            font-size: 11px; font-weight: 600; color: #e0e0e0; line-height: 1.3;
+        }
+        .rds-btn-row {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 8px; padding: 14px 16px 24px;
+        }
+        .rds-btn {
+            padding: 11px; border-radius: 12px;
+            font-size: 11px; font-weight: 800;
+            text-align: center; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            -webkit-tap-highlight-color: transparent;
+            transition: opacity 0.15s;
+        }
+        .rds-btn:active { opacity: 0.7; }
+        .rds-btn-stream { background: #fff; color: #000; }
+        .rds-btn-download { background: #1a1a1a; color: #fff; border: 1px solid #333; }
+
     </style>
 </head>
 <body>
@@ -1595,6 +1692,34 @@
         </nav>
     </div>
 
+    <!-- ===== REEL DETAIL BOTTOM SHEET ===== -->
+    <div id="reelDetailOverlay" onclick="closeReelDetail()"></div>
+    <div id="reelDetailSheet">
+        <div class="rds-handle"></div>
+        <div class="rds-header">
+            <img id="rdsPoster" class="rds-poster" src="" alt="" onerror="this.style.display='none';document.getElementById('rdsPosterFallback').style.display='flex'">
+            <div id="rdsPosterFallback" class="rds-poster-placeholder" style="display:none"><i class="fa-solid fa-film"></i></div>
+            <div style="flex:1;min-width:0">
+                <div class="rds-title" id="rdsTitle"></div>
+                <div class="rds-meta-row" id="rdsMeta"></div>
+            </div>
+        </div>
+        <div class="rds-body">
+            <div class="rds-section-label">Sinopsis</div>
+            <div class="rds-synopsis" id="rdsSynopsis">Memuat...</div>
+            <div class="rds-section-label" style="margin-top:14px">Info Film</div>
+            <div class="rds-info-grid" id="rdsInfoGrid"></div>
+        </div>
+        <div class="rds-btn-row">
+            <div class="rds-btn rds-btn-stream" id="rdsBtnStream" onclick="openReelStream()">
+                <i class="fa-solid fa-play" style="margin-right:5px;font-size:10px"></i>Tonton
+            </div>
+            <div class="rds-btn rds-btn-download" id="rdsBtnDownload" onclick="openReelDownload()">
+                <i class="fa-solid fa-download" style="margin-right:5px;font-size:10px"></i>Download
+            </div>
+        </div>
+    </div>
+
     <nav class="bottom-nav">
         <i class="fa-solid fa-house cursor-pointer text-xl active-nav" id="homeBtnNav" onclick="updateActiveNav(this); backToHome()"></i>
         <i class="fa-solid fa-magnifying-glass cursor-pointer text-xl" id="searchBtnNav" onclick="updateActiveNav(this); openSearch()"></i>
@@ -2005,6 +2130,10 @@
 
         function openTvModal() {
             closeModal(); closeSearch();
+            // Tutup reels jika aktif
+            if (document.getElementById('reelsModal').style.display === 'block') {
+                _closeReelsSilent();
+            }
             document.getElementById('tvSearchInp').value = '';
             document.getElementById('tvSearchBox').style.display = 'none';
             renderTvList('');
@@ -2023,6 +2152,10 @@
         }
 
         function playTvChannel(name, url) {
+            // Tutup semua overlay yang mungkin aktif
+            if (document.getElementById('reelsModal').style.display === 'block') {
+                _closeReelsSilent();
+            }
             closeTvModal();
             const modal = document.getElementById('movieModal');
             modal.classList.add('tv-mode');
@@ -2968,16 +3101,110 @@
             if(el) el.classList.add('active-nav'); 
         }
 
-        // Buka modal film dari dalam Reels (tutup reels dulu, lalu buka modal)
-        function openReelDetail(movieId, type) {
-            _closeReelsSilent();
-            document.getElementById('reelsModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            updateActiveNav(document.getElementById('homeBtnNav'));
-            openModal(movieId, type);
+        // ===== REEL DETAIL BOTTOM SHEET =====
+        let _rdsCurrentId = null;
+        let _rdsCurrentType = null;
+
+        async function openReelDetail(movieId, type) {
+            _rdsCurrentId = movieId;
+            _rdsCurrentType = type;
+
+            // Reset state
+            document.getElementById('rdsTitle').innerText = 'Memuat...';
+            document.getElementById('rdsMeta').innerHTML = '';
+            document.getElementById('rdsSynopsis').innerText = 'Memuat...';
+            document.getElementById('rdsInfoGrid').innerHTML = '';
+            document.getElementById('rdsPoster').src = '';
+            document.getElementById('rdsPoster').style.display = 'block';
+            document.getElementById('rdsPosterFallback').style.display = 'none';
+
+            // Tampilkan sheet
+            document.getElementById('reelDetailOverlay').style.display = 'block';
+            document.getElementById('reelDetailSheet').style.display = 'block';
+            document.getElementById('reelDetailSheet').scrollTop = 0;
+
+            try {
+                const data = await fetchWithCache(
+                    `https://api.themoviedb.org/3/${type}/${movieId}?api_key=${API_KEY}&language=id-ID&append_to_response=credits`
+                );
+
+                const title = data.title || data.name || '';
+                const year = (data.release_date || data.first_air_date || '').split('-')[0];
+                const rating = data.vote_average ? data.vote_average.toFixed(1) : '—';
+                const synopsis = data.overview || 'Tidak ada sinopsis tersedia.';
+                const poster = data.poster_path
+                    ? `https://image.tmdb.org/t/p/w185${data.poster_path}` : '';
+
+                // Director
+                const crew = (data.credits && data.credits.crew) || [];
+                const director = crew.find(c => c.job === 'Director');
+                const dirName = director ? director.name : (type === 'tv' ? (data.created_by && data.created_by[0] ? data.created_by[0].name : '—') : '—');
+
+                // Country
+                const countries = (data.production_countries || []).map(c => c.name).join(', ') || '—';
+
+                // Studio
+                const studios = (data.production_companies || []).slice(0,2).map(c => c.name).join(', ') || '—';
+
+                // Genre
+                const genres = (data.genres || []).slice(0,3).map(g => g.name).join(', ') || '—';
+
+                // Release
+                const releaseRaw = data.release_date || data.first_air_date || '';
+                const releaseStr = releaseRaw
+                    ? new Date(releaseRaw).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'})
+                    : '—';
+
+                // Poster
+                if (poster) {
+                    document.getElementById('rdsPoster').src = poster;
+                } else {
+                    document.getElementById('rdsPoster').style.display = 'none';
+                    document.getElementById('rdsPosterFallback').style.display = 'flex';
+                }
+
+                document.getElementById('rdsTitle').innerText = title;
+                document.getElementById('rdsMeta').innerHTML = `
+                    <span class="rds-badge type">${type === 'movie' ? 'Film' : 'Serial'}</span>
+                    ${year ? `<span class="rds-badge">${year}</span>` : ''}
+                    <span class="rds-badge">★ ${rating}</span>
+                `;
+                document.getElementById('rdsSynopsis').innerText = synopsis;
+                document.getElementById('rdsInfoGrid').innerHTML = `
+                    <div class="rds-info-cell"><div class="rds-info-key">Rilis</div><div class="rds-info-val">${releaseStr}</div></div>
+                    <div class="rds-info-cell"><div class="rds-info-key">Sutradara</div><div class="rds-info-val">${dirName}</div></div>
+                    <div class="rds-info-cell"><div class="rds-info-key">Negara</div><div class="rds-info-val">${countries}</div></div>
+                    <div class="rds-info-cell"><div class="rds-info-key">Studio</div><div class="rds-info-val">${studios}</div></div>
+                    <div class="rds-info-cell" style="grid-column:1/-1;border-right:none"><div class="rds-info-key">Genre</div><div class="rds-info-val">${genres}</div></div>
+                `;
+            } catch(e) {
+                document.getElementById('rdsSynopsis').innerText = 'Gagal memuat data.';
+            }
         }
 
-        // Setup swipe-left gesture on reel slides to open detail
+        function closeReelDetail() {
+            document.getElementById('reelDetailOverlay').style.display = 'none';
+            document.getElementById('reelDetailSheet').style.display = 'none';
+            _rdsCurrentId = null;
+            _rdsCurrentType = null;
+        }
+
+        function openReelStream() {
+            if (!_rdsCurrentId || !_rdsCurrentType) return;
+            const id = _rdsCurrentId, type = _rdsCurrentType;
+            closeReelDetail();
+            // Buka langsung di server 1
+            const url = buildEmbedUrl(type, id, 1, 1, 1);
+            window.open(url, '_blank');
+        }
+
+        function openReelDownload() {
+            if (!_rdsCurrentId || !_rdsCurrentType) return;
+            const url = `https://dl.vidsrc.vip/${_rdsCurrentType}/${_rdsCurrentId}`;
+            window.open(url, '_blank');
+        }
+
+        // Setup swipe-left gesture on reel slides to open detail bottom sheet
         function setupReelSwipeLeft() {
             document.querySelectorAll('.reel-slide').forEach(slide => {
                 if (slide._swipeInit) return;
@@ -2990,11 +3217,10 @@
                 slide.addEventListener('touchend', e => {
                     const dx = sx - e.changedTouches[0].clientX;
                     const dy = Math.abs(sy - e.changedTouches[0].clientY);
-                    // Swipe kiri: dx > 60px dan lebih horizontal dari vertikal
                     if (dx > 60 && dx > dy) {
-                        const movieId = slide.dataset.movieId;
+                        const movieId = parseInt(slide.dataset.movieId);
                         const type = slide.dataset.type;
-                        if (movieId && type) openReelDetail(parseInt(movieId), type);
+                        if (movieId && type) openReelDetail(movieId, type);
                     }
                 }, { passive: true });
             });
