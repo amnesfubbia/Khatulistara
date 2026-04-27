@@ -4212,14 +4212,7 @@
             // Rating dropdown
             const rD = document.getElementById('ratingDropdown');
             let ratingHTML = '<div class="filter-item sticky-reset" onclick="setRating(\'\',\'Rating\')">Semua Rating</div>';
-            [
-                ['9.0|100','★ 9+'],
-                ['8.0|200','★ 8+'],
-                ['7.0|300','★ 7+'],
-                ['6.0|500','★ 6+'],
-                ['5.0|1000','★ 5+'],
-                ['4.0|2000','★ 4+']
-            ].forEach(r => ratingHTML += `<div class="filter-item" onclick="setRating('${r[0]}','${r[1]}')">${r[1]}</div>`);
+            [['9','★ 9+'],['8','★ 8+'],['7','★ 7+'],['6','★ 6+'],['5','★ 5+'],['4','★ 4+']].forEach(r => ratingHTML += `<div class="filter-item" onclick="setRating('${r[0]}','${r[1]}')">${r[1]}</div>`);
             rD.innerHTML = ratingHTML;
 
             // Genre — lengkap, urut abjad (ID TMDb)
@@ -4261,10 +4254,7 @@
                 let endpoint = (currentType === 'tv') ? 'discover/tv' : 'discover/movie';
                 url = `https://api.themoviedb.org/3/${endpoint}?api_key=${API_KEY}&language=id-ID&page=${page}&include_adult=false&sort_by=popularity.desc`;
                 if(currentCountry) url += `&with_origin_country=${currentCountry}`;
-                if(currentRating) {
-                    const [minVote, minCount] = currentRating.split('|');
-                    url += `&vote_average.gte=${minVote}&vote_count.gte=${minCount}&sort_by=vote_average.desc`;
-                }
+                if(currentRating) url += `&vote_average.gte=${currentRating}&vote_count.gte=50`;
                 if(currentGenre) url += `&with_genres=${currentGenre}`;
                 if(currentCompany) url += `&with_companies=${currentCompany}`;
                 if(currentType === 'short') { url += `&with_runtime.lte=20&with_runtime.gte=1&vote_count.lte=5000`; }
@@ -4392,7 +4382,8 @@
         function toggleFilterBar() { const b = document.getElementById('filterBar'); b.style.display = b.style.display === 'block' ? 'none' : 'block'; }
         
         function setSchedule(v, el) { 
-            currentLibMode = false; currentCastId = ''; searchQuery = ''; 
+            currentLibMode = false; currentCastId = ''; searchQuery = ''; currentRating = ''; 
+            const _btnR3 = document.getElementById('btnRating'); if(_btnR3){ _btnR3.innerHTML='Rating <i class="fa-solid fa-caret-down"></i>'; _btnR3.classList.remove('active-pill'); }
             const isActive = el.classList.contains('active');
             document.querySelectorAll('.btn-ig').forEach(b=>b.classList.remove('active')); 
             if(isActive) { currentSchedule = 'trending'; } 
@@ -4402,7 +4393,8 @@
         }
 
         function setFilter(k, v, el) { 
-            currentLibMode = false; currentCastId = ''; searchQuery = ''; 
+            currentLibMode = false; currentCastId = ''; searchQuery = ''; currentRating = ''; 
+            const _btnR2 = document.getElementById('btnRating'); if(_btnR2){ _btnR2.innerHTML='Rating <i class="fa-solid fa-caret-down"></i>'; _btnR2.classList.remove('active-pill'); }
             currentType = v; 
             document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat'));
             el.classList.add('active-stat');
@@ -4988,7 +4980,9 @@
                 history.pushState({view: mode}, '');
                 showLibrary(mode); 
             } else { 
-                currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; loadFeed(true); 
+                currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; currentRating=''; 
+                const _btnR = document.getElementById('btnRating'); if(_btnR){ _btnR.innerHTML='Rating <i class="fa-solid fa-caret-down"></i>'; _btnR.classList.remove('active-pill'); }
+                loadFeed(true); 
             } 
         }
         async function showLibrary(k) { 
