@@ -2796,7 +2796,9 @@
             // update main server list
             document.querySelectorAll('.server-btn').forEach((b, i) => {
                 b.classList.remove('active-link');
-                if (i + 1 === srvIdx) b.classList.add('active-link');
+                // server 1-17 ada di index 0-16, server 19 ada di index 17
+                const btnSrvIdx = i < 17 ? i + 1 : 19;
+                if (btnSrvIdx === srvIdx) b.classList.add('active-link');
             });
             // update ls panel
             document.querySelectorAll('.ls-srv-btn').forEach(b => b.classList.remove('active-link'));
@@ -4743,7 +4745,7 @@
             
             let serverButtonsHTML = '';
             for(let i=1; i<=17; i++) {
-                serverButtonsHTML += `<button class="server-btn ${i===1?'active-link':''}" onclick="changeServer(${i}, this)">Server ${i}</button>`;
+                serverButtonsHTML += `<button class="server-btn" onclick="changeServer(${i}, this)">Server ${i}</button>`;
             }
             // Server 19 ditampilkan sebagai "Server 18" (server 18 dan 20 dihapus)
             serverButtonsHTML += `<button class="server-btn" onclick="changeServer(19, this)">Server 18</button>`;
@@ -4772,6 +4774,7 @@
                 track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); }); 
                 track.innerHTML = ''; 
             } 
+            const _ig = document.getElementById('mInfoGrid'); if(_ig){ _ig.style.display='none'; _ig.innerHTML=''; }
             const modal = document.getElementById('movieModal');
             modal.classList.remove('tv-mode');
             modal.style.display = 'none'; 
@@ -4943,6 +4946,7 @@
 
         async function loadEpisodes() { 
             activeSeason = document.getElementById('seasonSel').value; 
+            activeEpisode = 1;
             const data = await fetchWithCache(`https://api.themoviedb.org/3/tv/${window.currentMediaId}/season/${activeSeason}?api_key=${API_KEY}`); 
             const episodes = data.episodes || [];
             document.getElementById('episodeGrid').innerHTML = episodes.map((e) => { 
