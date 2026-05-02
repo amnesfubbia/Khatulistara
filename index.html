@@ -1036,14 +1036,14 @@
         }
         .reel-translate-btn:active { color: rgba(255,255,255,0.9); }
         .reel-detail-btn {
-            pointer-events: auto; display: inline-flex; align-items: center; gap: 5px;
-            padding: 6px 14px; border-radius: 20px;
-            background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.35);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            font-size: 11px; font-weight: 700; color: #fff; cursor: pointer;
-            -webkit-tap-highlight-color: transparent; transition: background 0.15s;
+            pointer-events: auto; display: inline-block;
+            padding: 0; border-radius: 0;
+            background: transparent; border: none;
+            font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6);
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            transition: color 0.15s;
         }
-        .reel-detail-btn:active { background: rgba(255,255,255,0.3); }
+        .reel-detail-btn:active { color: #fff; }
 
         /* Tombol aksi kanan bawah (like, bookmark) */
         .reel-actions {
@@ -1232,13 +1232,11 @@
             text-align: center; cursor: pointer;
             text-transform: uppercase; letter-spacing: 0.5px;
             -webkit-tap-highlight-color: transparent;
-            border: 1px solid #333;
-            background: #000; color: #fff;
-            transition: border-color 0.15s, background 0.15s;
+            border: none; background: transparent;
+            color: #8e8e8e;
+            transition: color 0.15s;
         }
-        .rds-btn:active, .rds-btn.pressed {
-            border-color: #fff; background: #111;
-        }
+        .rds-btn:active, .rds-btn.pressed { color: #fff; }
 
 
         /* ===== MOVIE INFO GRID (2 col, no border) ===== */
@@ -1358,6 +1356,148 @@
         }
         .pull-arrow.ready { transform: rotate(180deg); color: #fff; }
         .pull-inner.ready { color: #fff; }
+
+
+
+        /* ===== CUSTOM VIDEO PLAYER OVERLAY ===== */
+        #videoPlayerOverlay {
+            position: absolute; inset: 0; z-index: 20;
+            background: transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Gradient overlays top & bottom */
+        .vp-gradient-top {
+            position: absolute; top: 0; left: 0; right: 0; height: 80px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+            pointer-events: none; z-index: 2;
+            opacity: 0; transition: opacity 0.25s;
+        }
+        .vp-gradient-bottom {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+            pointer-events: none; z-index: 2;
+            opacity: 0; transition: opacity 0.25s;
+        }
+        #videoPlayerOverlay.vp-visible .vp-gradient-top,
+        #videoPlayerOverlay.vp-visible .vp-gradient-bottom { opacity: 1; }
+
+        /* Center controls (play/pause + rewind/forward) */
+        .vp-center-controls {
+            position: absolute; inset: 0; z-index: 5;
+            display: flex; align-items: center; justify-content: center; gap: 36px;
+            opacity: 0; transition: opacity 0.25s; pointer-events: none;
+        }
+        #videoPlayerOverlay.vp-visible .vp-center-controls { opacity: 1; pointer-events: auto; }
+
+        .vp-ctrl-btn {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: rgba(0,0,0,0.45); backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: transform 0.15s, background 0.15s;
+            -webkit-tap-highlight-color: transparent; border: none;
+            color: #fff; font-size: 18px;
+        }
+        .vp-ctrl-btn:active { transform: scale(0.88); background: rgba(0,0,0,0.7); }
+        .vp-ctrl-btn.vp-play-btn { width: 58px; height: 58px; font-size: 22px; }
+
+        /* Seek flash animation */
+        .vp-seek-flash {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.15); border-radius: 12px;
+            padding: 10px 18px; display: flex; flex-direction: column;
+            align-items: center; gap: 4px; pointer-events: none;
+            opacity: 0; transition: opacity 0.2s; z-index: 10;
+            font-size: 11px; color: #fff; font-weight: 700;
+        }
+        .vp-seek-flash.left { left: 16px; }
+        .vp-seek-flash.right { right: 16px; }
+        .vp-seek-flash.show { opacity: 1; }
+        .vp-seek-flash i { font-size: 20px; }
+
+        /* Bottom bar: progress + time + volume */
+        .vp-bottom-bar {
+            position: absolute; bottom: 0; left: 0; right: 0; z-index: 5;
+            padding: 8px 12px 10px;
+            opacity: 0; transition: opacity 0.25s; pointer-events: none;
+        }
+        #videoPlayerOverlay.vp-visible .vp-bottom-bar { opacity: 1; pointer-events: auto; }
+
+        /* Progress bar */
+        .vp-progress-wrap {
+            position: relative; height: 4px; background: rgba(255,255,255,0.25);
+            border-radius: 99px; cursor: pointer; margin-bottom: 8px;
+            touch-action: none;
+        }
+        .vp-progress-wrap:active { height: 6px; }
+        .vp-progress-fill {
+            height: 100%; background: #fff; border-radius: 99px;
+            width: 0%; transition: width 0.5s linear; pointer-events: none;
+        }
+        .vp-progress-thumb {
+            position: absolute; top: 50%; right: -5px;
+            transform: translateY(-50%);
+            width: 12px; height: 12px; border-radius: 50%; background: #fff;
+            pointer-events: none; box-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Time + volume row */
+        .vp-info-row {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .vp-time {
+            font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.85);
+            letter-spacing: 0.3px; font-variant-numeric: tabular-nums;
+        }
+        .vp-right-controls { display: flex; align-items: center; gap: 14px; }
+        .vp-icon-btn {
+            font-size: 16px; color: rgba(255,255,255,0.85); cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: opacity 0.15s;
+        }
+        .vp-icon-btn:active { opacity: 0.6; }
+
+        /* Lock screen overlay */
+        .vp-lock-overlay {
+            position: absolute; inset: 0; z-index: 30;
+            display: none; align-items: flex-start; justify-content: flex-end;
+            padding: 14px;
+        }
+        .vp-lock-overlay.active { display: flex; }
+        .vp-lock-badge {
+            display: flex; align-items: center; gap: 5px;
+            background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
+            padding: 5px 12px; color: rgba(255,255,255,0.7);
+            font-size: 11px; font-weight: 700; cursor: pointer;
+        }
+
+        /* ===== REEL CUSTOM PLAYER ===== */
+        .reel-player-overlay {
+            position: absolute; inset: 0; z-index: 15;
+            background: transparent;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .reel-player-bottom {
+            position: absolute; bottom: 0; left: 0; right: 0; z-index: 6;
+            padding: 6px 10px 8px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+            opacity: 0; transition: opacity 0.25s; pointer-events: none;
+        }
+        .reel-player-overlay.vp-visible .reel-player-bottom { opacity: 1; pointer-events: auto; }
+        .reel-progress-wrap {
+            height: 3px; background: rgba(255,255,255,0.3);
+            border-radius: 99px; cursor: pointer; touch-action: none;
+        }
+        .reel-progress-fill {
+            height: 100%; background: #fff; border-radius: 99px;
+            width: 0%; transition: width 0.5s linear; pointer-events: none;
+        }
+        .reel-time {
+            font-size: 9px; color: rgba(255,255,255,0.6); font-weight: 700;
+            margin-top: 4px; text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
 
     </style>
 </head>
@@ -1715,9 +1855,40 @@
                 
                 <div class="relative overflow-hidden" id="mainVideoArea">
                     <div id="videoLoader" class="iframe-loader hidden"><div class="spinner"></div></div>
-                    <div class="swipe-overlay" id="swipeOverlay"></div>
                     <div class="carousel-track" id="carouselTrack"></div>
                     <div id="carouselDots" class="flex justify-center gap-2 py-2"></div>
+                    <!-- Custom Player Overlay -->
+                    <div id="videoPlayerOverlay">
+                        <div class="vp-gradient-top"></div>
+                        <div class="vp-gradient-bottom"></div>
+                        <!-- Seek flash indicators -->
+                        <div class="vp-seek-flash left" id="vpSeekLeft"><i class="fa-solid fa-backward-fast"></i><span>-10s</span></div>
+                        <div class="vp-seek-flash right" id="vpSeekRight"><i class="fa-solid fa-forward-fast"></i><span>+10s</span></div>
+                        <!-- Center controls -->
+                        <div class="vp-center-controls">
+                            <div class="vp-ctrl-btn" id="vpRewindBtn" onclick="vpSeek(-10)"><i class="fa-solid fa-rotate-left"></i></div>
+                            <div class="vp-ctrl-btn vp-play-btn" id="vpPlayBtn" onclick="vpTogglePlay()"><i class="fa-solid fa-play" id="vpPlayIcon"></i></div>
+                            <div class="vp-ctrl-btn" id="vpForwardBtn" onclick="vpSeek(10)"><i class="fa-solid fa-rotate-right"></i></div>
+                        </div>
+                        <!-- Bottom bar -->
+                        <div class="vp-bottom-bar">
+                            <div class="vp-progress-wrap" id="vpProgressWrap">
+                                <div class="vp-progress-fill" id="vpProgressFill"></div>
+                                <div class="vp-progress-thumb" id="vpProgressThumb"></div>
+                            </div>
+                            <div class="vp-info-row">
+                                <span class="vp-time" id="vpTime">0:00 / 0:00</span>
+                                <div class="vp-right-controls">
+                                    <i class="fa-solid fa-volume-high vp-icon-btn" id="vpMuteBtn" onclick="vpToggleMute()"></i>
+                                    <i class="fa-solid fa-lock-open vp-icon-btn" id="vpLockBtn" onclick="vpLockScreen()"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lock overlay -->
+                        <div class="vp-lock-overlay" id="vpLockOverlay">
+                            <div class="vp-lock-badge" onclick="vpUnlockScreen()"><i class="fa-solid fa-lock"></i> Terkunci</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="px-4 py-3 flex justify-between items-center bg-black">
@@ -1738,7 +1909,7 @@
             <div id="mRatingBar" class="modal-rating-bar" style="display:none"></div>
             <div class="ig-post-content">
                 <div class="mb-1">
-                    <span class="ig-username">amnesfubbia</span>
+                    <span class="ig-username" id="mModalTitle"></span>
                     <span id="mDesc" class="ig-caption"></span>
                     <div class="mt-1">
                         <span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span>
@@ -2677,7 +2848,7 @@
             const postContent = document.querySelector('#movieModal .ig-post-content');
             if (postContent && document.getElementById('tvChannelSwitcher')) {
                 postContent.innerHTML = `
-                <div class="mb-1"><span class="ig-username">amnesfubbia</span><span id="mDesc" class="ig-caption"></span>
+                <div class="mb-1"><span class="ig-username" id="mModalTitle"></span><span id="mDesc" class="ig-caption"></span>
                 <div class="mt-1"><span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span></div></div>
                 <div id="mInfoGrid" class="minfo-grid" style="display:none"></div>
                 <div id="mHashtags" class="ig-hashtags"></div>
@@ -3151,8 +3322,13 @@
                 window._actorImdbId = details.imdb_id || '';
 
                 // Known For highlights (top 6 by popularity)
+                const _seenTop = new Set();
                 const topWorks = [...allCast]
-                    .filter(c => c.poster_path)
+                    .filter(c => {
+                        if (!c.poster_path) return false;
+                        if (_seenTop.has(c.id)) return false;
+                        _seenTop.add(c.id); return true;
+                    })
                     .sort((a,b) => b.popularity - a.popularity)
                     .slice(0, 6);
 
@@ -3169,8 +3345,13 @@
                 }
 
                 // Film grid (movies)
-                const movieFilms = allCast.filter(m => m.media_type === 'movie' && m.poster_path)
-                    .sort((a,b) => b.popularity - a.popularity);
+                // Deduplikasi berdasarkan id (satu judul bisa muncul berkali-kali di credits)
+                const _seenMovie = new Set();
+                const movieFilms = allCast.filter(m => {
+                    if (m.media_type !== 'movie' || !m.poster_path) return false;
+                    if (_seenMovie.has(m.id)) return false;
+                    _seenMovie.add(m.id); return true;
+                }).sort((a,b) => b.popularity - a.popularity);
                 const filmGrid = document.getElementById('actorFilmGrid');
                 filmGrid.innerHTML = '';
                 if (movieFilms.length === 0) {
@@ -3186,8 +3367,12 @@
                 }
 
                 // TV grid
-                const tvFilms = allCast.filter(m => m.media_type === 'tv' && m.poster_path)
-                    .sort((a,b) => b.popularity - a.popularity);
+                const _seenTv = new Set();
+                const tvFilms = allCast.filter(m => {
+                    if (m.media_type !== 'tv' || !m.poster_path) return false;
+                    if (_seenTv.has(m.id)) return false;
+                    _seenTv.add(m.id); return true;
+                }).sort((a,b) => b.popularity - a.popularity);
                 const tvGrid = document.getElementById('actorTvGrid');
                 tvGrid.innerHTML = '';
                 if (tvFilms.length === 0) {
@@ -3279,6 +3464,15 @@
         const PORTRAIT_REGEX = /\bvertical\b|\bportrait\b|9\s*:\s*16|\breels?\b|\btiktok\b|#shorts|\bshorts\b/i;
 
         async function openReels() {
+            // Pause/mute semua video dari modal film yang mungkin masih main
+            document.querySelectorAll('#carouselTrack iframe').forEach(f => {
+                try { f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+                try { f.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*'); } catch(e) {}
+            });
+            document.querySelectorAll('#mainVideoArea iframe').forEach(f => {
+                try { f.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+                // Streaming server iframe - mute via src param tidak bisa, tapi remove src momentarily
+            });
             const modal = document.getElementById('reelsModal');
             modal.style.display = 'block';
             document.getElementById('reelsBottomNav').style.display = 'flex';
@@ -3441,15 +3635,25 @@
                     // js_api diaktifkan agar bisa pause via postMessage
                     // enablejsapi=1 wajib agar YT.Player onStateChange bekerja
                     // controls=1 dibiarkan agar event state change tidak diblokir
-                    const embedUrl = `https://www.youtube.com/embed/${reel.videoKey}?enablejsapi=1&autoplay=${isNew && _reelsData.length===1?1:0}&rel=0&modestbranding=1&showinfo=0&playsinline=1&iv_load_policy=3&mute=0&origin=${encodeURIComponent(location.origin || location.href.split('/').slice(0,3).join('/'))}`;
+                    const embedUrl = `https://www.youtube.com/embed/${reel.videoKey}?enablejsapi=1&autoplay=${isNew && _reelsData.length===1?1:0}&controls=0&rel=0&modestbranding=1&showinfo=0&playsinline=1&iv_load_policy=3&mute=0&origin=${encodeURIComponent(location.origin || location.href.split('/').slice(0,3).join('/'))}`;
                     const typeLabel = reel.type === 'movie' ? 'Film' : 'Serial';
                     const ratingStr = reel.rating ? `· ★${reel.rating}` : '';
                     const synopsisId = `reel-syn-${reel.movieId}`;
                     const synTransId = `reel-trans-${reel.movieId}`;
 
                     slide.innerHTML = `
-                        <div class="reel-video-wrap">
+                        <div class="reel-video-wrap" style="position:relative">
                             <iframe src="${embedUrl}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <div class="reel-player-overlay" id="rpo-${reel.movieId}" onclick="reelPlayerTap(this)">
+                                <div class="vp-seek-flash left" id="rsfl-${reel.movieId}"><i class="fa-solid fa-backward-fast"></i><span>-10s</span></div>
+                                <div class="vp-seek-flash right" id="rsfr-${reel.movieId}"><i class="fa-solid fa-forward-fast"></i><span>+10s</span></div>
+                                <div class="reel-player-bottom">
+                                    <div class="reel-progress-wrap" id="rpw-${reel.movieId}">
+                                        <div class="reel-progress-fill" id="rpf-${reel.movieId}"></div>
+                                    </div>
+                                    <div class="reel-time" id="rpt-${reel.movieId}">0:00 / 0:00</div>
+                                </div>
+                            </div>
                         </div>
                         <div class="reel-heart-pop" id="heart-${reel.movieId}"><i class="fa-solid fa-heart"></i></div>
                         <div class="reel-gradient"></div>
@@ -3463,9 +3667,7 @@
                                  data-translated="0" data-orig="${encodeURIComponent(reel.synopsis)}" data-trans="">
                                 Lihat terjemahan
                             </div>` : ''}
-                            <div class="reel-detail-btn" onclick="openReelDetail(${reel.movieId}, '${reel.type}')">
-                                <i class="fa-solid fa-circle-info" style="font-size:10px"></i>Detail Film
-                            </div>
+                            <div class="reel-detail-btn" onclick="openReelDetail(${reel.movieId}, '${reel.type}')">Detail Film</div>
                         </div>
                         <div class="reel-actions">
                             <div class="reel-action-btn ${lib.liked ? 'liked' : ''}" 
@@ -3524,7 +3726,11 @@
                             try { iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
                         }
                         // Attach YT Player jika belum
-                        if (!slide._ytPlayer) attachYTPlayer(iframe, slide);
+                        if (!slide._ytPlayer) {
+                            const mid = slide.dataset.movieId;
+                            if (mid) attachReelPlayer(iframe, mid);
+                            else attachYTPlayer(iframe, slide);
+                        }
                     } else {
                         if (slide._ytPlayer && slide._ytPlayer.pauseVideo) {
                             try { slide._ytPlayer.pauseVideo(); } catch(e) {}
@@ -4645,7 +4851,7 @@
                     const embeddableR = await filterEmbeddableVideos(rVideos.slice(0, 10));
                     let vidsToDisplay = embeddableR.slice(0, 6);
                     vidsToDisplay.forEach((v, i) => {
-                        const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
+                        const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&controls=0&rel=0&modestbranding=1&mute=0&playsinline=1&iv_load_policy=3&disablekb=1`;
                         const slideDiv = document.createElement('div');
                         slideDiv.className = 'carousel-slide';
                         slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
@@ -4805,7 +5011,7 @@
                 const embeddable = await filterEmbeddableVideos(allVideos.slice(0, 10));
                 let vidsToDisplay = embeddable.slice(0, 6);
                 vidsToDisplay.forEach((v, i) => { 
-                    const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
+                    const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&controls=0&rel=0&modestbranding=1&mute=0&playsinline=1&iv_load_policy=3&disablekb=1`;
                     const slideDiv = document.createElement('div');
                     slideDiv.className = 'carousel-slide';
                     slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
@@ -4855,6 +5061,8 @@
                 } catch {}
             }
             document.getElementById('mTitle').innerText = displayTitle;
+            const _mu = document.getElementById('mModalTitle');
+            if (_mu) _mu.innerText = displayTitle;
             // Simpan info untuk soundtrack search yang akurat
             window.currentMediaTitle = displayTitle;
             window.currentMediaYear = (dId.release_date || dId.first_air_date || '').split('-')[0] || '';
@@ -4945,7 +5153,7 @@
             if (postContent && document.getElementById('tvChannelSwitcher')) {
                 postContent.innerHTML = `
                 <div class="mb-1">
-                    <span class="ig-username">amnesfubbia</span>
+                    <span class="ig-username" id="mModalTitle"></span>
                     <span id="mDesc" class="ig-caption"></span>
                     <div class="mt-1"><span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span></div>
                 </div>
@@ -5202,6 +5410,291 @@
                 document.body.classList.add('light-theme');
             }
         })();
+
+        // ===== CUSTOM VIDEO PLAYER =====
+        let _vpPlayer = null;  // YT.Player for modal
+        let _vpDuration = 0;
+        let _vpCurrentTime = 0;
+        let _vpIsPlaying = false;
+        let _vpIsMuted = false;
+        let _vpLocked = false;
+        let _vpVisible = false;
+        let _vpHideTimer = null;
+        let _vpProgressTimer = null;
+        let _vpScrubbing = false;
+
+        // Init player overlay on mainVideoArea
+        function vpInit(iframe) {
+            if (!window._ytApiReady) {
+                window._ytPendingSlides.push(() => vpInit(iframe));
+                return;
+            }
+            if (!iframe.id) iframe.id = 'vp-main-' + Date.now();
+            try {
+                _vpPlayer = new YT.Player(iframe, {
+                    events: {
+                        onReady: (e) => {
+                            _vpDuration = e.target.getDuration();
+                            _vpIsPlaying = true;
+                            _vpIsMuted = e.target.isMuted();
+                            vpUpdateTime();
+                            vpStartProgressTimer();
+                        },
+                        onStateChange: (e) => {
+                            if (e.data === YT.PlayerState.PLAYING) {
+                                _vpIsPlaying = true;
+                                document.getElementById('vpPlayIcon').className = 'fa-solid fa-pause';
+                                vpStartProgressTimer();
+                            } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+                                _vpIsPlaying = false;
+                                document.getElementById('vpPlayIcon').className = 'fa-solid fa-play';
+                                vpStopProgressTimer();
+                                if (e.data === YT.PlayerState.PAUSED) vpShowControls();
+                            }
+                        }
+                    }
+                });
+            } catch(e) { console.log('VP init error:', e); }
+        }
+
+        function vpShowControls() {
+            if (_vpLocked) return;
+            const ov = document.getElementById('videoPlayerOverlay');
+            if (!ov) return;
+            ov.classList.add('vp-visible');
+            _vpVisible = true;
+            clearTimeout(_vpHideTimer);
+            if (_vpIsPlaying) {
+                _vpHideTimer = setTimeout(() => {
+                    ov.classList.remove('vp-visible');
+                    _vpVisible = false;
+                }, 3500);
+            }
+        }
+
+        function vpHideControls() {
+            const ov = document.getElementById('videoPlayerOverlay');
+            if (ov) { ov.classList.remove('vp-visible'); _vpVisible = false; }
+            clearTimeout(_vpHideTimer);
+        }
+
+        function vpTogglePlay() {
+            if (!_vpPlayer) return;
+            if (_vpIsPlaying) { _vpPlayer.pauseVideo(); }
+            else { _vpPlayer.playVideo(); }
+            vpShowControls();
+        }
+
+        function vpSeek(secs) {
+            if (!_vpPlayer) return;
+            const cur = _vpPlayer.getCurrentTime() || 0;
+            _vpPlayer.seekTo(Math.max(0, cur + secs), true);
+            // Show flash
+            const flashId = secs < 0 ? 'vpSeekLeft' : 'vpSeekRight';
+            const flash = document.getElementById(flashId);
+            if (flash) {
+                flash.querySelector('span').innerText = secs < 0 ? '-10s' : '+10s';
+                flash.classList.add('show');
+                setTimeout(() => flash.classList.remove('show'), 700);
+            }
+            vpShowControls();
+        }
+
+        function vpToggleMute() {
+            if (!_vpPlayer) return;
+            if (_vpIsMuted) { _vpPlayer.unMute(); _vpIsMuted = false; document.getElementById('vpMuteBtn').className = 'fa-solid fa-volume-high vp-icon-btn'; }
+            else { _vpPlayer.mute(); _vpIsMuted = true; document.getElementById('vpMuteBtn').className = 'fa-solid fa-volume-xmark vp-icon-btn'; }
+        }
+
+        function vpLockScreen() {
+            _vpLocked = true;
+            vpHideControls();
+            document.getElementById('vpLockOverlay').classList.add('active');
+        }
+
+        function vpUnlockScreen() {
+            _vpLocked = false;
+            document.getElementById('vpLockOverlay').classList.remove('active');
+            vpShowControls();
+        }
+
+        function vpStartProgressTimer() {
+            vpStopProgressTimer();
+            _vpProgressTimer = setInterval(vpUpdateTime, 500);
+        }
+
+        function vpStopProgressTimer() {
+            if (_vpProgressTimer) { clearInterval(_vpProgressTimer); _vpProgressTimer = null; }
+        }
+
+        function vpUpdateTime() {
+            if (!_vpPlayer || _vpScrubbing) return;
+            try {
+                _vpCurrentTime = _vpPlayer.getCurrentTime() || 0;
+                _vpDuration = _vpPlayer.getDuration() || 0;
+                const pct = _vpDuration > 0 ? (_vpCurrentTime / _vpDuration) * 100 : 0;
+                const fill = document.getElementById('vpProgressFill');
+                const thumb = document.getElementById('vpProgressThumb');
+                const timeEl = document.getElementById('vpTime');
+                if (fill) fill.style.width = pct + '%';
+                if (thumb) thumb.style.right = (100 - pct) + '%';
+                if (timeEl) timeEl.innerText = fmtTime(_vpCurrentTime) + ' / ' + fmtTime(_vpDuration);
+            } catch(e) {}
+        }
+
+        function fmtTime(s) {
+            if (!s || isNaN(s)) return '0:00';
+            const m = Math.floor(s / 60);
+            const sec = Math.floor(s % 60);
+            return m + ':' + String(sec).padStart(2, '0');
+        }
+
+        // Touch on overlay: tap = toggle controls, double-tap center = play/pause
+        let _vpLastTap = 0;
+        document.addEventListener('DOMContentLoaded', () => {
+            const ov = document.getElementById('videoPlayerOverlay');
+            if (!ov) return;
+            ov.addEventListener('click', (e) => {
+                if (_vpLocked) return;
+                // Don't toggle if clicking actual buttons
+                if (e.target.closest('.vp-ctrl-btn, .vp-bottom-bar, .vp-icon-btn')) return;
+                const now = Date.now();
+                const x = e.clientX;
+                const w = ov.offsetWidth;
+                if (now - _vpLastTap < 300) {
+                    // Double tap
+                    if (x < w * 0.35) vpSeek(-10);
+                    else if (x > w * 0.65) vpSeek(10);
+                    else vpTogglePlay();
+                    _vpLastTap = 0;
+                } else {
+                    _vpLastTap = now;
+                    if (_vpVisible) { vpHideControls(); }
+                    else { vpShowControls(); }
+                }
+            });
+
+            // Progress bar scrubbing
+            const pw = document.getElementById('vpProgressWrap');
+            if (pw) {
+                const scrub = (e) => {
+                    if (!_vpPlayer || !_vpDuration) return;
+                    const rect = pw.getBoundingClientRect();
+                    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+                    const pct = Math.max(0, Math.min(1, x / rect.width));
+                    const fill = document.getElementById('vpProgressFill');
+                    if (fill) fill.style.width = (pct * 100) + '%';
+                    _vpPlayer.seekTo(pct * _vpDuration, true);
+                };
+                pw.addEventListener('touchstart', (e) => { _vpScrubbing = true; scrub(e); }, { passive: true });
+                pw.addEventListener('touchmove', (e) => { if (_vpScrubbing) scrub(e); }, { passive: true });
+                pw.addEventListener('touchend', () => { _vpScrubbing = false; });
+                pw.addEventListener('click', (e) => { _vpScrubbing = true; scrub(e); _vpScrubbing = false; });
+            }
+        });
+
+        // Hook vpInit into existing video render
+        const _origPlayVid = playVid;
+        playVid = function(url, el) {
+            _vpPlayer = null; _vpDuration = 0; _vpCurrentTime = 0;
+            _vpIsPlaying = false; _vpLocked = false; _vpVisible = false;
+            vpStopProgressTimer();
+            const fill = document.getElementById('vpProgressFill');
+            const timeEl = document.getElementById('vpTime');
+            if (fill) fill.style.width = '0%';
+            if (timeEl) timeEl.innerText = '0:00 / 0:00';
+            document.getElementById('vpLockOverlay').classList.remove('active');
+            vpHideControls();
+            _origPlayVid(url, el);
+        };
+
+        // Hook into openModal to init YT player for trailer iframes
+        const _origOpenModal = openModal;
+        // We patch the iframe creation in openModal instead
+        // by observing when #carouselTrack gets new iframes
+        const _vpObserver = new MutationObserver((mutations) => {
+            for (const m of mutations) {
+                for (const node of m.addedNodes) {
+                    if (node.nodeType === 1) {
+                        const iframes = node.tagName === 'IFRAME' ? [node] : node.querySelectorAll('iframe');
+                        iframes.forEach(f => {
+                            if (f.src && f.src.includes('youtube.com') && f.src.includes('controls=0') && !f._vpInited) {
+                                f._vpInited = true;
+                                // Wait for iframe to load then init player
+                                f.addEventListener('load', () => {
+                                    if (f.closest('#carouselTrack')) {
+                                        // Only init for first slide (index 0)
+                                        const slides = document.querySelectorAll('#carouselTrack .carousel-slide');
+                                        if (slides[0] && slides[0].contains(f)) {
+                                            setTimeout(() => vpInit(f), 500);
+                                        }
+                                    }
+                                }, { once: true });
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.getElementById('carouselTrack');
+            if (track) _vpObserver.observe(track, { childList: true, subtree: true });
+        });
+
+        // ===== REEL PLAYER =====
+        let _reelPlayers = {}; // movieId -> YT.Player
+
+        function reelPlayerTap(overlayEl) {
+            const movieId = overlayEl.id.replace('rpo-', '');
+            overlayEl.classList.toggle('vp-visible');
+            if (overlayEl.classList.contains('vp-visible')) {
+                setTimeout(() => overlayEl.classList.remove('vp-visible'), 3000);
+            }
+        }
+
+        function attachReelPlayer(iframe, movieId) {
+            const doAttach = () => {
+                if (!iframe.id) iframe.id = 'rp-' + movieId + '-' + Date.now();
+                try {
+                    const player = new YT.Player(iframe, {
+                        events: {
+                            onReady: (e) => {
+                                _reelPlayers[movieId] = e.target;
+                                const dur = e.target.getDuration();
+                                const timeEl = document.getElementById('rpt-' + movieId);
+                                if (timeEl) timeEl.innerText = '0:00 / ' + fmtTime(dur);
+                                // Start progress updater
+                                setInterval(() => updateReelProgress(movieId), 500);
+                            },
+                            onStateChange: (e) => {
+                                if (e.data === 0) scrollToNextReel(null); // ended
+                            }
+                        }
+                    });
+                    iframe._ytPlayer = player;
+                    const slide = iframe.closest('.reel-slide');
+                    if (slide) slide._ytPlayer = player;
+                } catch(err) {}
+            };
+            if (window._ytApiReady) doAttach();
+            else window._ytPendingSlides.push(doAttach);
+        }
+
+        function updateReelProgress(movieId) {
+            const p = _reelPlayers[movieId];
+            if (!p) return;
+            try {
+                const cur = p.getCurrentTime() || 0;
+                const dur = p.getDuration() || 0;
+                const pct = dur > 0 ? (cur / dur) * 100 : 0;
+                const fill = document.getElementById('rpf-' + movieId);
+                const timeEl = document.getElementById('rpt-' + movieId);
+                if (fill) fill.style.width = pct + '%';
+                if (timeEl) timeEl.innerText = fmtTime(cur) + ' / ' + fmtTime(dur);
+            } catch(e) {}
+        }
+
 
         // ===== RECENTLY VIEWED =====
         const RV_KEY = 'recentlyViewed';
