@@ -1317,11 +1317,59 @@
         .recently-item {
             flex: 0 0 58px; cursor: pointer;
             -webkit-tap-highlight-color: transparent;
+            position: relative;
         }
         .recently-img {
             width: 58px; height: 86px; border-radius: 8px;
             object-fit: cover; background: #111;
             display: block;
+        }
+        .recently-del {
+            position: absolute; top: -5px; right: -5px;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: rgba(0,0,0,0.85); border: 1.5px solid #333;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 8px; cursor: pointer;
+            -webkit-tap-highlight-color: transparent; z-index: 10;
+        }
+        .recently-del:active { background: #ff3b30; }
+        /* Recently viewed header row */
+        .recently-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .recently-clear-btn {
+            font-size: 10px; font-weight: 700; color: #555;
+            cursor: pointer; -webkit-tap-highlight-color: transparent;
+            padding: 2px 0;
+        }
+        .recently-clear-btn:active { color: #ff3b30; }
+        /* Filter bar bookmark/likes */
+        #libFilterBar {
+            display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px 8px;
+            border-bottom: 1px solid #1c1c1c; background: #000;
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
+            position: sticky; top: 0; z-index: 50;
+        }
+        #libFilterBar::-webkit-scrollbar { display: none; }
+        .lib-filter-btn {
+            flex: 0 0 auto; padding: 5px 12px; border-radius: 20px;
+            border: 1px solid #2a2a2a; background: transparent;
+            font-size: 10px; font-weight: 700; color: #8e8e8e;
+            cursor: pointer; white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+            transition: all 0.2s;
+        }
+        .lib-filter-btn.active-lf {
+            border-color: #fff; color: #fff;
+            background: rgba(255,255,255,0.08);
+        }
+        .lib-filter-dropdown {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0;
+            background: #121212; border-radius: 20px 20px 0 0;
+            z-index: 9500; max-height: 55vh; overflow-y: auto;
+            border-top: 1px solid #333; padding-bottom: 20px;
+            animation: slideUp 0.3s ease-out; overscroll-behavior: contain;
         }
 
         /* ===== BADGE NEW on poster ===== */
@@ -1807,16 +1855,26 @@
         <div class="highlights-wrapper no-scrollbar"><div class="highlights-container no-scrollbar" id="highlightList"></div></div>
 
         <div id="recentlyViewedWrapper">
-            <span class="recently-label">Terakhir Dilihat</span>
+            <div class="recently-header">
+                <span class="recently-label" style="margin-bottom:0">Terakhir Dilihat</span>
+                <span class="recently-clear-btn" onclick="clearAllRecentlyViewed()">Hapus Semua</span>
+            </div>
             <div class="recently-scroll" id="recentlyScroll"></div>
         </div>
 
         <div class="tab-nav">
             <div class="tab-item active" id="tabGrid" onclick="switchTab('grid', this)"><i class="fa-solid fa-table-cells"></i></div>
-            <div class="tab-item" id="tabLikes" onclick="switchTab('likes', this)"><i class="fa-regular fa-heart"></i></div>
-            <div class="tab-item" id="tabBookmark" onclick="switchTab('bookmarks', this)"><i class="fa-regular fa-bookmark"></i></div>
+            <div class="tab-item" id="tabLikes" onclick="switchTab('likes', this)" style="position:relative">
+                <i class="fa-regular fa-heart"></i>
+                <span id="badgeLikes" style="display:none;position:absolute;top:6px;right:18px;background:#ff3b30;color:#fff;font-size:8px;font-weight:900;border-radius:99px;padding:1px 5px;min-width:14px;text-align:center;line-height:14px"></span>
+            </div>
+            <div class="tab-item" id="tabBookmark" onclick="switchTab('bookmarks', this)" style="position:relative">
+                <i class="fa-regular fa-bookmark"></i>
+                <span id="badgeBookmarks" style="display:none;position:absolute;top:6px;right:18px;background:#ff3b30;color:#fff;font-size:8px;font-weight:900;border-radius:99px;padding:1px 5px;min-width:14px;text-align:center;line-height:14px"></span>
+            </div>
         </div>
 
+        <div id="libFilterBar" style="display:none"></div>
         <main id="feedGrid" class="movie-grid"></main>
     </div>
 
@@ -2209,7 +2267,7 @@
         });
 
         window.onload = () => {
-            initFilters(); initHighlights(); loadFeed(); setupSwipe(); initSmartSearch(); initTvChannels();
+            initFilters(); initHighlights(); loadFeed(); setupSwipe(); initSmartSearch(); initTvChannels(); updateBadgeCounts();
             // Pre-load YouTube IFrame API agar sudah siap saat reels dibuka
             loadYTApi();
             // Isi popular chips dari trending TMDb
@@ -2644,7 +2702,7 @@
             if (_mBackBtn) _mBackBtn.setAttribute('onclick', 'handleModalBack()');
             document.getElementById('mDesc').innerText = '';
             document.getElementById('mLikeDisplay').innerText = '';
-            document.getElementById('mDateDisplay').innerText = '';
+            // mDateDisplay disabled
             document.getElementById('castContainer').innerHTML = '';
             document.getElementById('serverList').innerHTML = '';
             document.getElementById('seriesControl').classList.add('hidden');
@@ -2687,6 +2745,9 @@
             document.querySelectorAll('.tv-switcher-btn-new').forEach(b => b.classList.remove('active-ch'));
             el.classList.add('active-ch');
             document.getElementById('mTitle').innerText = '● LIVE: ' + name;
+            // Pastikan back btn tetap ke handleModalBack setelah switch channel
+            const _backBtn = document.querySelector('#movieModal .fa-chevron-left');
+            if (_backBtn) _backBtn.setAttribute('onclick', 'handleModalBack()');
 
             // Update schedule section
             const switcher = document.getElementById('tvChannelSwitcher');
@@ -2899,7 +2960,6 @@
                     <div class="poster-gallery-scroll" id="mPosterScroll"></div>
                 </div>
 <div id="mHashtags" style="display:none"></div>
-                <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()" style="margin-top:4px"></p>
                 <div id="mDateDisplay" style="display:none"></div>
                 <div id="seriesControl" class="hidden mt-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4">
@@ -2990,6 +3050,12 @@
 
         window.addEventListener('popstate', function(event) {
             const state = event.state ? event.state.view : null;
+
+            // Lib filter dropdown
+            if (document.querySelector('.lib-filter-dropdown[style*="block"]')) {
+                closeLibFilter();
+                return;
+            }
 
             // Lightbox gambar
             if (document.getElementById('lightboxModal') && document.getElementById('lightboxModal').style.display === 'flex') {
@@ -3609,6 +3675,7 @@
                 if (icon) icon.className = `fa-solid fa-${isLike ? 'heart' : 'bookmark'}`;
             }
             localStorage.setItem(key, JSON.stringify(items));
+            updateBadgeCounts();
         }
 
         async function loadReels(isNew = false) {
@@ -4331,6 +4398,7 @@
             document.querySelectorAll('.btn-ig').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat'));
             document.getElementById('filterBar').style.display = 'none';
+            const _lbBar = document.getElementById('libFilterBar'); if(_lbBar) _lbBar.style.display = 'none';
             document.getElementById('tabGrid').classList.add('active');
             document.getElementById('tabLikes').classList.remove('active');
             document.getElementById('tabBookmark').classList.remove('active');
@@ -4890,53 +4958,111 @@
             const id = window.currentMediaId;
             const track = document.getElementById('carouselTrack');
             const dots = document.getElementById('carouselDots');
-            
+
             track.querySelectorAll('iframe').forEach(f => { f.src = ""; f.remove(); });
             track.innerHTML = ''; dots.innerHTML = ''; track.style.transform = 'translateX(0)';
             currentIdx = 0;
             document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active-link'));
+
             try {
-                const dId = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=id-ID&append_to_response=videos&include_video_language=en,id,hi,th,ko,ja,ru,null`);
-                let rVideos = (dId.videos?.results || []).filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
-                if (rVideos.length === 0) {
-                    try {
-                        const enVids = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`);
-                        rVideos = (enVids.results || []).filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
-                    } catch(e2) {}
-                }
+                // Fetch video - prioritas EN dulu
+                let rVideos = [];
+
+                // Step 1: Fetch EN
+                try {
+                    const enVids = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`);
+                    rVideos = (enVids.results || []).filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
+                } catch(e) {}
+
+                // Step 2: Fallback semua bahasa jika EN kosong
                 if (rVideos.length === 0) {
                     try {
                         const rawVids = await fetchWithCache(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${API_KEY}&include_video_language=en,hi,ko,ja,zh,th,id,ar,ru,null`);
                         rVideos = (rawVids.results || []).filter(v => v.site === 'YouTube' && (v.type === 'Trailer' || v.type === 'Teaser'));
-                    } catch(e3) {}
+                    } catch(e) {}
                 }
-                rVideos.sort((a, b) => { const sA=(a.official?2:0)+(a.type==='Trailer'?1:0); const sB=(b.official?2:0)+(b.type==='Trailer'?1:0); return sB-sA; });
-                // Filter portrait + deduplikasi ketat
-                const portraitKw = /\bvertical\b|\bportrait\b|9\s*:\s*16|\breels?\b|\btiktok\b|#shorts|\bshorts\b/i;
-                rVideos = rVideos.filter(v => !portraitKw.test(v.name || ''));
-                const seenR = new Set(); rVideos = rVideos.filter(v => { if(seenR.has(v.key)) return false; seenR.add(v.key); return true; });
-                const seenTR = new Set(); rVideos = rVideos.filter(v => { const n=(v.name||'').toLowerCase().replace(/[^a-z0-9\s]/g,'').trim(); if(!n||seenTR.has(n)) return !n; seenTR.add(n); return true; });
-                if(rVideos.length > 0) {
-                    // Filter trailer error sebelum render
-                    const embeddableR = await filterEmbeddableVideos(rVideos.slice(0, 10));
-                    let vidsToDisplay = embeddableR.slice(0, 6);
-                    vidsToDisplay.forEach((v, i) => {
-                        const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
-                        const slideDiv = document.createElement('div');
-                        slideDiv.className = 'carousel-slide';
-                        slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
-                        track.appendChild(slideDiv);
-                        setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
-                        if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
-                    });
-                    const soR = document.getElementById('swipeOverlay');
-                    soR.style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
-                    soR.style.pointerEvents = 'auto'; // aktifkan kembali untuk swipe trailer
-                } else {
+
+                if (rVideos.length === 0) {
                     const fallbackUrl = buildEmbedUrl(type, id, 1, 1, 1);
                     track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe></div>`;
                     document.getElementById('swipeOverlay').style.display = 'none';
+                    return;
                 }
+
+                // ===== FILTER SAMA SEPERTI openModal =====
+
+                // Filter bahasa: prioritas EN, buang non-EN jika ada EN
+                const enOnly = rVideos.filter(v => !v.iso_639_1 || v.iso_639_1 === 'en' || v.iso_639_1 === 'null');
+                if (enOnly.length > 0) rVideos = enOnly;
+
+                // Filter akun non-English (nama video mengandung script/keyword regional)
+                const nonLatinPat = /[\u0900-\u097F\u3040-\u30FF\u4E00-\u9FFF\uAC00-\uD7FF\u0600-\u06FF]/;
+                const regionalKw = /\b(korean?|hindi|japanese|arabic|chinese|thai|dubbed?|dub|indo(nesia)?|malay|tamil|telugu|bengali|urdu|persian|turkish|greek|hebrew|polish|dutch|swedish|norwegian|danish|finnish|czech|hungarian|romanian|bulgarian|serbian|croatian|slovak|catalan|tagalog|vietnamese)\b/i;
+                const cleanEn = rVideos.filter(v => {
+                    const nm = v.name || '';
+                    return !nonLatinPat.test(nm) && !regionalKw.test(nm);
+                });
+                // Hanya gunakan filter jika ada hasil — jangan sampai kosong
+                if (cleanEn.length > 0) rVideos = cleanEn;
+
+                // Sort: Official Trailer > Official Teaser > Trailer > Teaser
+                rVideos.sort((a, b) => {
+                    const sA = (a.official ? 2 : 0) + (a.type === 'Trailer' ? 1 : 0);
+                    const sB = (b.official ? 2 : 0) + (b.type === 'Trailer' ? 1 : 0);
+                    return sB - sA;
+                });
+
+                // Filter portrait/vertical
+                const portraitKw = /\bvertical\b|\bportrait\b|9\s*:\s*16|\breels?\b|\btiktok\b|#shorts|\bshorts\b/i;
+                rVideos = rVideos.filter(v => !portraitKw.test(v.name || ''));
+
+                // Deduplikasi key
+                const seenKeys = new Set();
+                rVideos = rVideos.filter(v => { if (seenKeys.has(v.key)) return false; seenKeys.add(v.key); return true; });
+
+                // Deduplikasi judul (sama dari channel berbeda)
+                function normTitle(name) {
+                    return (name || '').toLowerCase()
+                        .replace(/\s*[\|\-–]\s*.{0,30}$/, '')
+                        .replace(/\s+(v\d+|version|ver\.?|#\d+|\[.*?\]|\(.*?\))\s*$/gi, '')
+                        .replace(/\b(official|trailer|teaser|clip|hd|4k|subtitled?|dubbed?|sub|dub)\b/gi, '')
+                        .replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+                }
+                const seenTitles = new Set();
+                rVideos = rVideos.filter(v => {
+                    const norm = normTitle(v.name);
+                    if (!norm) return true;
+                    if (seenTitles.has(norm)) return false;
+                    seenTitles.add(norm); return true;
+                });
+
+                // Filter embeddable + render
+                const embeddable = await filterEmbeddableVideos(rVideos.slice(0, 10));
+                const vidsToDisplay = embeddable.slice(0, 6);
+
+                if (vidsToDisplay.length === 0) {
+                    const fallbackUrl = buildEmbedUrl(type, id, 1, 1, 1);
+                    track.innerHTML = `<div class="carousel-slide"><iframe id="player-frame" src="${fallbackUrl}" class="w-full h-full" allowfullscreen allow="autoplay; fullscreen; picture-in-picture"></iframe></div>`;
+                    document.getElementById('swipeOverlay').style.display = 'none';
+                    return;
+                }
+
+                vidsToDisplay.forEach((v, i) => {
+                    const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
+                    const slideDiv = document.createElement('div');
+                    slideDiv.className = 'carousel-slide';
+                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
+                    track.appendChild(slideDiv);
+                    setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
+                    if (vidsToDisplay.length > 1) {
+                        dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===0?'bg-blue-500':'bg-zinc-700'}"></div>`;
+                    }
+                });
+
+                const soR = document.getElementById('swipeOverlay');
+                soR.style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
+                soR.style.pointerEvents = 'auto';
+
             } catch(e) { console.error(e); }
         }
 
@@ -5247,7 +5373,7 @@
                 <div class="mb-1">
                     <span class="ig-username" id="mModalTitle"></span>
                     <span id="mDesc" class="ig-caption"></span>
-                    <div class="mt-1"><span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span></div>
+                    <div class="mt-1"><span id="mToggleBtn" class="toggle-btn hidden" onclick="handleToggleDesc()">selengkapnya</span><p id="mTranslateBtn" class="hidden" onclick="handleTranslate()" style="margin-top:2px;font-size:11px;color:#fff;font-weight:700;cursor:pointer;display:inline-block"></p></div>
                 </div>
                 <div id="mInfoGrid" class="minfo-grid" style="display:none"></div>
                 <div id="mPosterGallery" class="poster-gallery-section" style="display:none">
@@ -5255,7 +5381,6 @@
                     <div class="poster-gallery-scroll" id="mPosterScroll"></div>
                 </div>
 <div id="mHashtags" style="display:none"></div>
-                <p id="mTranslateBtn" class="hidden" onclick="handleTranslate()" style="margin-top:4px"></p>
                 <div id="mDateDisplay" style="display:none"></div>
                 <div id="seriesControl" class="hidden mt-4 p-4 bg-zinc-950 rounded-2xl border border-zinc-900">
                     <div class="flex justify-between items-center mb-4">
@@ -5455,19 +5580,22 @@
             }); 
         }
         function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
-        function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); }
+        function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); updateBadgeCounts(); }
         async function switchTab(mode, el) { 
             closeModal(); closeSearch(); closeActorModal(); closeTvModal(); 
             document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); 
             if(el) el.classList.add('active'); 
             if(mode === 'bookmarks') updateActiveNav(document.getElementById('bookmarkBtnNav')); 
             else updateActiveNav(document.getElementById('homeBtnNav'));
-            const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; 
+            const grid = document.getElementById('feedGrid'); grid.innerHTML = '';
+            const libBar = document.getElementById('libFilterBar');
             if(mode === 'likes' || mode === 'bookmarks') { 
                 currentLibMode = true; 
                 history.pushState({view: mode}, '');
-                showLibrary(mode); 
+                buildLibFilterBar(mode);
+                applyLibFilters();
             } else { 
+                if (libBar) libBar.style.display = 'none';
                 currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; currentRating='';
                 const _btnRt = document.getElementById('btnRating'); if(_btnRt){ _btnRt.innerHTML='Rating <i class="fa-solid fa-caret-down"></i>'; _btnRt.classList.remove('active-pill'); } loadFeed(true); 
             } 
@@ -5577,9 +5705,13 @@
                 document.body.style.overflow = 'hidden';
             } else {
                 document.body.style.overflow = 'hidden';
-                // Un-mute trailer setelah lightbox ditutup
-                document.querySelectorAll('#carouselTrack iframe').forEach(f => {
+                // Un-mute dan auto-play trailer aktif setelah lightbox ditutup
+                document.querySelectorAll('#carouselTrack iframe').forEach((f, i) => {
                     try { f.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*'); } catch(e) {}
+                    // Play hanya iframe yang aktif (currentIdx)
+                    if (i === currentIdx) {
+                        try { f.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
+                    }
                 });
             }
         }
@@ -5850,6 +5982,12 @@
         function closeActorPhotos() {
             const m = document.getElementById('actorPhotosModal');
             if (m) m.style.display = 'none';
+            // Clear actor gallery agar tidak polusi lightbox film berikutnya
+            window._actorGallery = null;
+            if (window._prevGalleryImages !== undefined) {
+                window._galleryImages = window._prevGalleryImages;
+                window._prevGalleryImages = undefined;
+            }
             // Cek apakah actor modal masih terbuka
             if (document.getElementById('actorModal').style.display === 'block') {
                 document.body.style.overflow = 'hidden';
@@ -5895,11 +6033,180 @@
             if (!wrapper || !scroll) return;
             if (!items.length) { wrapper.style.display = 'none'; return; }
             wrapper.style.display = 'block';
-            scroll.innerHTML = items.map(item => `
+            scroll.innerHTML = items.map((item, idx) => `
                 <div class="recently-item" onclick="openModal(${item.id}, '${item.type}')">
                     <img class="recently-img" src="https://image.tmdb.org/t/p/w185${item.poster || ''}"
                          onerror="this.style.background='#1a1a1a'" loading="lazy">
+                    <div class="recently-del" onclick="event.stopPropagation(); deleteRecentlyViewed(${idx})">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
                 </div>`).join('');
+        }
+
+        function deleteRecentlyViewed(idx) {
+            let items = JSON.parse(localStorage.getItem(RV_KEY) || '[]');
+            items.splice(idx, 1);
+            localStorage.setItem(RV_KEY, JSON.stringify(items));
+            renderRecentlyViewed();
+        }
+
+        function clearAllRecentlyViewed() {
+            localStorage.removeItem(RV_KEY);
+            renderRecentlyViewed();
+        }
+
+        function updateBadgeCounts() {
+            const likes = JSON.parse(localStorage.getItem('likes') || '[]').length;
+            const bms   = JSON.parse(localStorage.getItem('bookmarks') || '[]').length;
+            const bl = document.getElementById('badgeLikes');
+            const bb = document.getElementById('badgeBookmarks');
+            if (bl) { bl.innerText = likes > 99 ? '99+' : likes; bl.style.display = likes > 0 ? 'inline-block' : 'none'; }
+            if (bb) { bb.innerText = bms > 99 ? '99+' : bms;   bb.style.display = bms > 0   ? 'inline-block' : 'none'; }
+        }
+
+        // ===== LIBRARY FILTER =====
+        let _libMode = ''; // 'likes' or 'bookmarks'
+        let _libFilters = { type: '', genre: '', year: '', rating: '', country: '' };
+
+        function openLibFilter(key) {
+            // Tutup semua dropdown dulu
+            document.querySelectorAll('.lib-filter-dropdown').forEach(d => d.style.display = 'none');
+            document.getElementById('filterOverlay').style.display = 'none';
+
+            const dd = document.getElementById('libDd-' + key);
+            if (!dd) return;
+            dd.style.display = 'block';
+            dd.scrollTop = 0;
+            document.getElementById('filterOverlay').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            history.pushState({view: 'libFilter'}, '');
+        }
+
+        function closeLibFilter() {
+            document.querySelectorAll('.lib-filter-dropdown').forEach(d => d.style.display = 'none');
+            document.getElementById('filterOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function setLibFilter(key, val, label, el) {
+            _libFilters[key] = val;
+            // Update tombol
+            const btn = document.getElementById('libBtn-' + key);
+            if (btn) {
+                const icons = {type:'fa-film', genre:'fa-masks-theater', year:'fa-calendar', rating:'fa-star', country:'fa-globe'};
+                const defaultLabels = {type:'Tipe', genre:'Genre', year:'Tahun', rating:'Rating', country:'Negara'};
+                if (val) {
+                    btn.innerHTML = `<i class="fa-solid ${icons[key]}"></i> ${label}`;
+                    btn.classList.add('active-lf');
+                } else {
+                    btn.innerHTML = `<i class="fa-solid ${icons[key]}"></i> ${defaultLabels[key]}`;
+                    btn.classList.remove('active-lf');
+                }
+            }
+            closeLibFilter();
+            applyLibFilters();
+        }
+
+        async function applyLibFilters() {
+            const items = JSON.parse(localStorage.getItem(_libMode) || '[]');
+            const grid = document.getElementById('feedGrid');
+            grid.innerHTML = '<div class="col-span-3 text-center py-10 text-zinc-600 text-xs animate-pulse">Memfilter...</div>';
+
+            // Fetch semua data
+            const promises = items.map(i =>
+                fetchWithCache(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`)
+                    .then(r => ({ ...r, _savedType: i.type }))
+                    .catch(() => null)
+            );
+            let results = (await Promise.all(promises)).filter(m => m && m.id && m.poster_path);
+
+            // Apply filters
+            const f = _libFilters;
+            if (f.type) results = results.filter(m => m._savedType === f.type);
+            if (f.genre) results = results.filter(m => (m.genres || []).some(g => String(g.id) === f.genre));
+            if (f.year) {
+                results = results.filter(m => {
+                    const y = (m.release_date || m.first_air_date || '').split('-')[0];
+                    return y === f.year;
+                });
+            }
+            if (f.rating) {
+                const rMin = parseFloat(f.rating);
+                results = results.filter(m => m.vote_average >= rMin && m.vote_average < rMin + 1);
+            }
+            if (f.country) {
+                results = results.filter(m =>
+                    (m.production_countries || []).some(c => c.iso_3166_1 === f.country)
+                );
+            }
+
+            grid.innerHTML = '';
+            if (!results.length) {
+                grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-xs">Tidak ada hasil</div>';
+                return;
+            }
+            results.forEach(m => {
+                const card = document.createElement('div');
+                card.className = 'post-card';
+                card.onclick = () => openModal(m.id, m._savedType);
+                card.innerHTML = `<div class="badge-rating">${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${m._savedType==='tv'?'tv':'movie'}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy" onload="this.style.opacity=1" style="opacity:0">`;
+                grid.appendChild(card);
+            });
+        }
+
+        function buildLibFilterBar(mode) {
+            _libMode = mode;
+            _libFilters = { type: '', genre: '', year: '', rating: '', country: '' };
+
+            const genreOpts = [
+                [28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Komedi'],
+                [80,'Crime'],[99,'Dokumenter'],[18,'Drama'],[10751,'Family'],
+                [14,'Fantasy'],[36,'History'],[27,'Horror'],[10402,'Musik'],
+                [9648,'Misteri'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller'],
+                [10752,'War'],[37,'Western']
+            ].sort((a,b) => a[1].localeCompare(b[1]));
+
+            const yearOpts = [];
+            for (let y = 2026; y >= 1980; y--) yearOpts.push(y);
+
+            const countryOpts = [
+                ['US','Amerika Serikat'],['GB','Inggris'],['FR','Prancis'],
+                ['DE','Jerman'],['IT','Italia'],['ES','Spanyol'],['KR','Korea Selatan'],
+                ['JP','Jepang'],['CN','China'],['IN','India'],['ID','Indonesia'],
+                ['TH','Thailand'],['AU','Australia'],['CA','Kanada'],['BR','Brasil'],
+            ].sort((a,b) => a[1].localeCompare(b[1], 'id'));
+
+            const makeDD = (key, items) => `
+                <div class="lib-filter-dropdown" id="libDd-${key}">
+                    <div class="filter-item sticky-reset" onclick="setLibFilter('${key}','','Semua')">Semua</div>
+                    ${items.map(([val, label]) => `<div class="filter-item" onclick="setLibFilter('${key}','${val}','${label}')">${label}</div>`).join('')}
+                </div>`;
+
+            const typeItems = [['movie','Film'],['tv','Serial']];
+            const ratingItems = [['9','★ 9'],['8','★ 8'],['7','★ 7'],['6','★ 6'],['5','★ 5'],['4','★ 4']];
+
+            // Inject dropdowns ke body jika belum ada
+            if (!document.getElementById('libDd-type')) {
+                const wrapper = document.createElement('div');
+                wrapper.innerHTML =
+                    makeDD('type', typeItems) +
+                    makeDD('genre', genreOpts) +
+                    makeDD('year', yearOpts.map(y => [String(y), String(y)])) +
+                    makeDD('rating', ratingItems) +
+                    makeDD('country', countryOpts);
+                document.body.appendChild(wrapper);
+            }
+
+            const bar = document.getElementById('libFilterBar');
+            if (!bar) return;
+            bar.style.display = 'flex';
+            bar.innerHTML = `
+                <button class="lib-filter-btn" id="libBtn-type" onclick="openLibFilter('type')"><i class="fa-solid fa-film"></i> Tipe</button>
+                <button class="lib-filter-btn" id="libBtn-genre" onclick="openLibFilter('genre')"><i class="fa-solid fa-masks-theater"></i> Genre</button>
+                <button class="lib-filter-btn" id="libBtn-year" onclick="openLibFilter('year')"><i class="fa-solid fa-calendar"></i> Tahun</button>
+                <button class="lib-filter-btn" id="libBtn-rating" onclick="openLibFilter('rating')"><i class="fa-solid fa-star"></i> Rating</button>
+                <button class="lib-filter-btn" id="libBtn-country" onclick="openLibFilter('country')"><i class="fa-solid fa-globe"></i> Negara</button>
+            `;
         }
 
         window.addEventListener('DOMContentLoaded', () => { renderRecentlyViewed(); });
