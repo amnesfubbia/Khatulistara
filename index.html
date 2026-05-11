@@ -1500,13 +1500,13 @@
         .carousel-slide.playing .yt-overlay-mask {
             pointer-events: auto;
         }
-        /* Cover error YouTube (region block, age restrict) */
-        .yt-error-cover {
+        /* Cover hitam menutupi iframe YT dari awal */
+        .yt-black-cover {
             position: absolute; inset: 0; z-index: 9;
-            background: #000; display: none;
-            align-items: center; justify-content: center;
+            background: #000; pointer-events: none;
+            transition: opacity 0.4s ease;
         }
-        .yt-error-cover.active { display: flex; }
+        .yt-black-cover.revealed { opacity: 0; pointer-events: none; }
 
 
         /* ===== CUSTOM LIGHTBOX ===== */
@@ -5018,14 +5018,14 @@
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
                     const slideDiv = document.createElement('div');
                     slideDiv.className = 'carousel-slide';
-                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
+                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div><div class="yt-black-cover"></div>`;
                     track.appendChild(slideDiv);
                     setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
                     if (vidsToDisplay.length > 1) {
                         dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===0?'bg-blue-500':'bg-zinc-700'}"></div>`;
                     }
                 });
-                // Mulai timer fallback untuk deteksi error YouTube
+                // Start fallback timer slide pertama
                 if (window._startYtFallbackTimer) window._startYtFallbackTimer(0);
 
                 const soR = document.getElementById('swipeOverlay');
@@ -5180,13 +5180,12 @@
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
                     const slideDiv = document.createElement('div');
                     slideDiv.className = 'carousel-slide';
-                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
+                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div><div class="yt-black-cover"></div>`;
                     track.appendChild(slideDiv);
-                    // Hide YT controls after video starts playing (3 detik)
                     setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
                     if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                 });
-                // Mulai timer fallback untuk deteksi error YouTube (slide pertama)
+                // Start fallback timer slide pertama
                 if (window._startYtFallbackTimer) window._startYtFallbackTimer(0); 
                 const so = document.getElementById('swipeOverlay');
                 so.style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
@@ -5551,89 +5550,111 @@
             }); 
         }
 
-        // ===== DETEKSI ERROR YOUTUBE (region block / age restrict) =====
+        // ===== DETEKSI ERROR YOUTUBE via postMessage =====
+        // Cover hitam menutupi iframe dari awal.
+        // Dibuka hanya kalau YT konfirmasi state=1 (playing).
+        // Kalau 7 detik tidak ada konfirmasi → fallback streaming.
         (function setupYTErrorDetector() {
-            const _ytTimers = {};
-            const _ytPlayed = {};
+            const _ytTimers = {};   // fallback timer per slide
+            const _ytOkSlides = new Set(); // slide yg sudah confirmed playing
+
+            // Minta YT kirim state update via postMessage
+            function _subscribeYT(iframe) {
+                try {
+                    iframe.contentWindow.postMessage(JSON.stringify({
+                        event: 'listening',
+                        id: iframe.id || 'yt'
+                    }), '*');
+                } catch(e) {}
+            }
 
             window.addEventListener('message', function(e) {
                 try {
                     const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
                     if (!data) return;
+
+                    // Cari iframe pengirim
                     const iframes = document.querySelectorAll('#carouselTrack iframe');
                     let senderIframe = null;
                     iframes.forEach(f => { try { if (f.contentWindow === e.source) senderIframe = f; } catch(err) {} });
                     if (!senderIframe) return;
+
                     const slideEl = senderIframe.closest('.carousel-slide');
                     if (!slideEl) return;
-                    const slideIdx = [...document.querySelectorAll('#carouselTrack .carousel-slide')].indexOf(slideEl);
-                    // YT error: 101/150 = embed not allowed (region/age), 100 = not found
+                    const allSlides = [...document.querySelectorAll('#carouselTrack .carousel-slide')];
+                    const slideIdx = allSlides.indexOf(slideEl);
+
+                    // YT error codes: 101/150 = embed not allowed, 100 = not found
                     if (data.event === 'onError') {
                         const code = data.info;
                         if (code === 101 || code === 150 || code === 100 || code === 2 || code === 5) {
-                            _handleYtSlideError(slideEl, slideIdx);
+                            _onSlideError(slideEl, slideIdx, allSlides);
                         }
+                        return;
                     }
-                    // Tandai playing — batalkan timer fallback
-                    if (data.event === 'infoDelivery' && data.info && data.info.playerState === 1) {
-                        _ytPlayed[slideIdx] = true;
+
+                    // playerState 1 = playing → video OK, reveal
+                    const state = data.info && data.info.playerState !== undefined
+                        ? data.info.playerState
+                        : (data.event === 'onStateChange' ? data.info : null);
+
+                    if (state === 1) {
+                        _ytOkSlides.add(slideIdx);
                         if (_ytTimers[slideIdx]) { clearTimeout(_ytTimers[slideIdx]); delete _ytTimers[slideIdx]; }
+                        // Buka cover hitam slide ini
+                        const cover = slideEl.querySelector('.yt-black-cover');
+                        if (cover) cover.classList.add('revealed');
                     }
                 } catch(err) {}
             });
 
+            // Timer fallback per slide
             window._startYtFallbackTimer = function(slideIdx) {
                 if (_ytTimers[slideIdx]) clearTimeout(_ytTimers[slideIdx]);
-                _ytPlayed[slideIdx] = false;
-                _ytTimers[slideIdx] = setTimeout(() => {
-                    if (!_ytPlayed[slideIdx]) {
-                        const slides = document.querySelectorAll('#carouselTrack .carousel-slide');
-                        const slideEl = slides[slideIdx];
-                        if (slideEl) _handleYtSlideError(slideEl, slideIdx);
-                    }
-                }, 9000);
-            };
-        })();
+                _ytOkSlides.delete(slideIdx);
 
-        function _handleYtSlideError(slideEl, slideIdx) {
-            // Sembunyikan iframe yang error
-            let cover = slideEl.querySelector('.yt-error-cover');
-            if (!cover) {
-                cover = document.createElement('div');
-                cover.className = 'yt-error-cover';
-                slideEl.appendChild(cover);
-            }
-            cover.classList.add('active');
-            const allSlides = document.querySelectorAll('#carouselTrack .carousel-slide');
-            const totalSlides = allSlides.length;
-            const errorSlides = document.querySelectorAll('#carouselTrack .yt-error-cover.active').length;
-            if (errorSlides >= totalSlides) {
-                // Semua error → fallback ke server streaming
-                _fallbackToStreaming();
-            } else if (slideIdx === currentIdx) {
-                // Slide aktif error → geser ke slide berikutnya yang belum error
-                let nextOk = -1;
-                allSlides.forEach((s, i) => {
-                    if (i > slideIdx && !s.querySelector('.yt-error-cover.active') && nextOk === -1) nextOk = i;
-                });
-                if (nextOk === -1) allSlides.forEach((s, i) => {
-                    if (i < slideIdx && !s.querySelector('.yt-error-cover.active') && nextOk === -1) nextOk = i;
-                });
-                if (nextOk !== -1) {
-                    currentIdx = nextOk;
-                    document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`;
-                    document.querySelectorAll('.dot').forEach((d, i) => {
-                        d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`;
-                    });
-                    const nextIframe = document.getElementById(`vid-${currentIdx}`);
-                    if (nextIframe) {
-                        try { nextIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
+                // Subscribe ke YT setelah iframe load (500ms)
+                setTimeout(() => {
+                    const iframes = document.querySelectorAll('#carouselTrack iframe');
+                    if (iframes[slideIdx]) _subscribeYT(iframes[slideIdx]);
+                }, 800);
+
+                _ytTimers[slideIdx] = setTimeout(() => {
+                    if (!_ytOkSlides.has(slideIdx)) {
+                        const slides = [...document.querySelectorAll('#carouselTrack .carousel-slide')];
+                        if (slides[slideIdx]) _onSlideError(slides[slideIdx], slideIdx, slides);
                     }
-                } else {
+                }, 7000);
+            };
+
+            function _onSlideError(slideEl, slideIdx, allSlides) {
+                if (_ytOkSlides.has(slideIdx)) return; // sudah playing, abaikan
+                // Tandai slide ini error
+                slideEl.dataset.ytError = '1';
+                const errorCount = allSlides.filter(s => s.dataset.ytError === '1').length;
+
+                if (errorCount >= allSlides.length) {
                     _fallbackToStreaming();
+                } else if (slideIdx === currentIdx) {
+                    // Cari slide berikutnya yang tidak error
+                    let nextOk = allSlides.findIndex((s, i) => i > slideIdx && s.dataset.ytError !== '1');
+                    if (nextOk === -1) nextOk = allSlides.findIndex((s, i) => i < slideIdx && s.dataset.ytError !== '1');
+                    if (nextOk !== -1) {
+                        currentIdx = nextOk;
+                        document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`;
+                        document.querySelectorAll('.dot').forEach((d, i) => {
+                            d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`;
+                        });
+                        const nf = document.getElementById(`vid-${currentIdx}`);
+                        if (nf) try { nf.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
+                        // Start timer untuk slide baru
+                        window._startYtFallbackTimer(currentIdx);
+                    } else {
+                        _fallbackToStreaming();
+                    }
                 }
             }
-        }
+        })();
 
         function _fallbackToStreaming() {
             if (!window.currentMediaId || !window.currentMediaType) return;
