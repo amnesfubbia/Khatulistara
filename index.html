@@ -102,7 +102,7 @@
         .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-bottom: 80px; }
         .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; cursor: pointer; }
         .post-card img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
-        .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(255,255,255,0.9); color: #000; }
+        .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(0,0,0,0.7); color: #fff; border: 0.5px solid rgba(255,255,255,0.3); }
         .badge-type { position: absolute; top: 6px; right: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(0,0,0,0.7); color: #fff; text-transform: uppercase; border: 0.5px solid rgba(255,255,255,0.3); }
 
         #searchOverlay { display: none; position: fixed; inset: 0; background: #000; z-index: 4500; overflow-y: auto; }
@@ -1344,41 +1344,16 @@
             padding: 2px 0;
         }
         .recently-clear-btn:active { color: #ff3b30; }
-        /* Filter bar bookmark/likes */
-        #libFilterBar {
-            display: flex; gap: 8px; overflow-x: auto; padding: 10px 15px 8px;
-            border-bottom: 1px solid #1c1c1c; background: #000;
-            scrollbar-width: none; -webkit-overflow-scrolling: touch;
-            position: sticky; top: 0; z-index: 50;
-        }
-        #libFilterBar::-webkit-scrollbar { display: none; }
-        .lib-filter-btn {
-            flex: 0 0 auto; padding: 5px 12px; border-radius: 20px;
-            border: 1px solid #2a2a2a; background: transparent;
-            font-size: 10px; font-weight: 700; color: #8e8e8e;
-            cursor: pointer; white-space: nowrap;
-            -webkit-tap-highlight-color: transparent;
-            transition: all 0.2s;
-        }
-        .lib-filter-btn.active-lf {
-            border-color: #fff; color: #fff;
-            background: rgba(255,255,255,0.08);
-        }
-        .lib-filter-dropdown {
-            display: none; position: fixed; bottom: 0; left: 0; right: 0;
-            background: #121212; border-radius: 20px 20px 0 0;
-            z-index: 9500; max-height: 55vh; overflow-y: auto;
-            border-top: 1px solid #333; padding-bottom: 20px;
-            animation: slideUp 0.3s ease-out; overscroll-behavior: contain;
-        }
+
 
         /* ===== BADGE NEW on poster ===== */
         .badge-new {
             position: absolute; bottom: 6px; left: 6px;
             padding: 2px 5px; border-radius: 2px;
             font-size: 7px; font-weight: 900; z-index: 5;
-            background: #ff3b30; color: #fff;
+            background: rgba(0,0,0,0.7); color: #ff3b30;
             text-transform: uppercase; letter-spacing: 0.5px;
+            border: 0.5px solid rgba(255,255,255,0.3);
         }
 
         /* ===== PULL TO REFRESH ===== */
@@ -1525,6 +1500,13 @@
         .carousel-slide.playing .yt-overlay-mask {
             pointer-events: auto;
         }
+        /* Cover error YouTube (region block, age restrict) */
+        .yt-error-cover {
+            position: absolute; inset: 0; z-index: 9;
+            background: #000; display: none;
+            align-items: center; justify-content: center;
+        }
+        .yt-error-cover.active { display: flex; }
 
 
         /* ===== CUSTOM LIGHTBOX ===== */
@@ -1864,17 +1846,10 @@
 
         <div class="tab-nav">
             <div class="tab-item active" id="tabGrid" onclick="switchTab('grid', this)"><i class="fa-solid fa-table-cells"></i></div>
-            <div class="tab-item" id="tabLikes" onclick="switchTab('likes', this)" style="position:relative">
-                <i class="fa-regular fa-heart"></i>
-                <span id="badgeLikes" style="display:none;position:absolute;top:6px;right:18px;background:#ff3b30;color:#fff;font-size:8px;font-weight:900;border-radius:99px;padding:1px 5px;min-width:14px;text-align:center;line-height:14px"></span>
-            </div>
-            <div class="tab-item" id="tabBookmark" onclick="switchTab('bookmarks', this)" style="position:relative">
-                <i class="fa-regular fa-bookmark"></i>
-                <span id="badgeBookmarks" style="display:none;position:absolute;top:6px;right:18px;background:#ff3b30;color:#fff;font-size:8px;font-weight:900;border-radius:99px;padding:1px 5px;min-width:14px;text-align:center;line-height:14px"></span>
-            </div>
+            <div class="tab-item" id="tabLikes" onclick="switchTab('likes', this)"><i class="fa-regular fa-heart"></i></div>
+            <div class="tab-item" id="tabBookmark" onclick="switchTab('bookmarks', this)"><i class="fa-regular fa-bookmark"></i></div>
         </div>
 
-        <div id="libFilterBar" style="display:none"></div>
         <main id="feedGrid" class="movie-grid"></main>
     </div>
 
@@ -2267,7 +2242,7 @@
         });
 
         window.onload = () => {
-            initFilters(); initHighlights(); loadFeed(); setupSwipe(); initSmartSearch(); initTvChannels(); updateBadgeCounts();
+            initFilters(); initHighlights(); loadFeed(); setupSwipe(); initSmartSearch(); initTvChannels();
             // Pre-load YouTube IFrame API agar sudah siap saat reels dibuka
             loadYTApi();
             // Isi popular chips dari trending TMDb
@@ -3051,12 +3026,6 @@
         window.addEventListener('popstate', function(event) {
             const state = event.state ? event.state.view : null;
 
-            // Lib filter dropdown
-            if (document.querySelector('.lib-filter-dropdown[style*="block"]')) {
-                closeLibFilter();
-                return;
-            }
-
             // Lightbox gambar
             if (document.getElementById('lightboxModal') && document.getElementById('lightboxModal').style.display === 'flex') {
                 closeLightbox();
@@ -3675,7 +3644,6 @@
                 if (icon) icon.className = `fa-solid fa-${isLike ? 'heart' : 'bookmark'}`;
             }
             localStorage.setItem(key, JSON.stringify(items));
-            updateBadgeCounts();
         }
 
         async function loadReels(isNew = false) {
@@ -4398,7 +4366,6 @@
             document.querySelectorAll('.btn-ig').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.stat-item').forEach(s => s.classList.remove('active-stat'));
             document.getElementById('filterBar').style.display = 'none';
-            const _lbBar = document.getElementById('libFilterBar'); if(_lbBar) _lbBar.style.display = 'none';
             document.getElementById('tabGrid').classList.add('active');
             document.getElementById('tabLikes').classList.remove('active');
             document.getElementById('tabBookmark').classList.remove('active');
@@ -5058,6 +5025,8 @@
                         dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===0?'bg-blue-500':'bg-zinc-700'}"></div>`;
                     }
                 });
+                // Mulai timer fallback untuk deteksi error YouTube
+                if (window._startYtFallbackTimer) window._startYtFallbackTimer(0);
 
                 const soR = document.getElementById('swipeOverlay');
                 soR.style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
@@ -5216,7 +5185,9 @@
                     // Hide YT controls after video starts playing (3 detik)
                     setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
                     if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
-                }); 
+                });
+                // Mulai timer fallback untuk deteksi error YouTube (slide pertama)
+                if (window._startYtFallbackTimer) window._startYtFallbackTimer(0); 
                 const so = document.getElementById('swipeOverlay');
                 so.style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
                 so.style.pointerEvents = 'auto'; // aktifkan kembali untuk swipe trailer
@@ -5579,23 +5550,122 @@
                 } 
             }); 
         }
+
+        // ===== DETEKSI ERROR YOUTUBE (region block / age restrict) =====
+        (function setupYTErrorDetector() {
+            const _ytTimers = {};
+            const _ytPlayed = {};
+
+            window.addEventListener('message', function(e) {
+                try {
+                    const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+                    if (!data) return;
+                    const iframes = document.querySelectorAll('#carouselTrack iframe');
+                    let senderIframe = null;
+                    iframes.forEach(f => { try { if (f.contentWindow === e.source) senderIframe = f; } catch(err) {} });
+                    if (!senderIframe) return;
+                    const slideEl = senderIframe.closest('.carousel-slide');
+                    if (!slideEl) return;
+                    const slideIdx = [...document.querySelectorAll('#carouselTrack .carousel-slide')].indexOf(slideEl);
+                    // YT error: 101/150 = embed not allowed (region/age), 100 = not found
+                    if (data.event === 'onError') {
+                        const code = data.info;
+                        if (code === 101 || code === 150 || code === 100 || code === 2 || code === 5) {
+                            _handleYtSlideError(slideEl, slideIdx);
+                        }
+                    }
+                    // Tandai playing — batalkan timer fallback
+                    if (data.event === 'infoDelivery' && data.info && data.info.playerState === 1) {
+                        _ytPlayed[slideIdx] = true;
+                        if (_ytTimers[slideIdx]) { clearTimeout(_ytTimers[slideIdx]); delete _ytTimers[slideIdx]; }
+                    }
+                } catch(err) {}
+            });
+
+            window._startYtFallbackTimer = function(slideIdx) {
+                if (_ytTimers[slideIdx]) clearTimeout(_ytTimers[slideIdx]);
+                _ytPlayed[slideIdx] = false;
+                _ytTimers[slideIdx] = setTimeout(() => {
+                    if (!_ytPlayed[slideIdx]) {
+                        const slides = document.querySelectorAll('#carouselTrack .carousel-slide');
+                        const slideEl = slides[slideIdx];
+                        if (slideEl) _handleYtSlideError(slideEl, slideIdx);
+                    }
+                }, 9000);
+            };
+        })();
+
+        function _handleYtSlideError(slideEl, slideIdx) {
+            // Sembunyikan iframe yang error
+            let cover = slideEl.querySelector('.yt-error-cover');
+            if (!cover) {
+                cover = document.createElement('div');
+                cover.className = 'yt-error-cover';
+                slideEl.appendChild(cover);
+            }
+            cover.classList.add('active');
+            const allSlides = document.querySelectorAll('#carouselTrack .carousel-slide');
+            const totalSlides = allSlides.length;
+            const errorSlides = document.querySelectorAll('#carouselTrack .yt-error-cover.active').length;
+            if (errorSlides >= totalSlides) {
+                // Semua error → fallback ke server streaming
+                _fallbackToStreaming();
+            } else if (slideIdx === currentIdx) {
+                // Slide aktif error → geser ke slide berikutnya yang belum error
+                let nextOk = -1;
+                allSlides.forEach((s, i) => {
+                    if (i > slideIdx && !s.querySelector('.yt-error-cover.active') && nextOk === -1) nextOk = i;
+                });
+                if (nextOk === -1) allSlides.forEach((s, i) => {
+                    if (i < slideIdx && !s.querySelector('.yt-error-cover.active') && nextOk === -1) nextOk = i;
+                });
+                if (nextOk !== -1) {
+                    currentIdx = nextOk;
+                    document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`;
+                    document.querySelectorAll('.dot').forEach((d, i) => {
+                        d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`;
+                    });
+                    const nextIframe = document.getElementById(`vid-${currentIdx}`);
+                    if (nextIframe) {
+                        try { nextIframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
+                    }
+                } else {
+                    _fallbackToStreaming();
+                }
+            }
+        }
+
+        function _fallbackToStreaming() {
+            if (!window.currentMediaId || !window.currentMediaType) return;
+            const url = buildEmbedUrl(window.currentMediaType, window.currentMediaId, activeSeason, activeEpisode, 1);
+            const track = document.getElementById('carouselTrack');
+            const dots = document.getElementById('carouselDots');
+            track.querySelectorAll('iframe').forEach(f => { f.src = ''; f.remove(); });
+            track.innerHTML = ''; dots.innerHTML = ''; currentIdx = 0;
+            const slide = document.createElement('div');
+            slide.className = 'carousel-slide';
+            slide.innerHTML = `<iframe id="player-frame" src="${url}" class="w-full h-full" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
+            track.appendChild(slide);
+            track.style.transform = 'translateX(0)';
+            document.getElementById('swipeOverlay').style.display = 'none';
+            document.querySelectorAll('.server-btn').forEach((b, i) => {
+                b.classList.toggle('active-link', i === 0);
+            });
+        }
         function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
-        function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); updateBadgeCounts(); }
+        function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); }
         async function switchTab(mode, el) { 
             closeModal(); closeSearch(); closeActorModal(); closeTvModal(); 
             document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active')); 
             if(el) el.classList.add('active'); 
             if(mode === 'bookmarks') updateActiveNav(document.getElementById('bookmarkBtnNav')); 
             else updateActiveNav(document.getElementById('homeBtnNav'));
-            const grid = document.getElementById('feedGrid'); grid.innerHTML = '';
-            const libBar = document.getElementById('libFilterBar');
+            const grid = document.getElementById('feedGrid'); grid.innerHTML = ''; 
             if(mode === 'likes' || mode === 'bookmarks') { 
                 currentLibMode = true; 
                 history.pushState({view: mode}, '');
-                buildLibFilterBar(mode);
-                applyLibFilters();
+                showLibrary(mode); 
             } else { 
-                if (libBar) libBar.style.display = 'none';
                 currentLibMode = false; currentCastId = ''; searchQuery = ''; currentType='multi'; currentSchedule='trending'; currentCompany=''; currentRating='';
                 const _btnRt = document.getElementById('btnRating'); if(_btnRt){ _btnRt.innerHTML='Rating <i class="fa-solid fa-caret-down"></i>'; _btnRt.classList.remove('active-pill'); } loadFeed(true); 
             } 
@@ -6055,159 +6125,8 @@
             renderRecentlyViewed();
         }
 
-        function updateBadgeCounts() {
-            const likes = JSON.parse(localStorage.getItem('likes') || '[]').length;
-            const bms   = JSON.parse(localStorage.getItem('bookmarks') || '[]').length;
-            const bl = document.getElementById('badgeLikes');
-            const bb = document.getElementById('badgeBookmarks');
-            if (bl) { bl.innerText = likes > 99 ? '99+' : likes; bl.style.display = likes > 0 ? 'inline-block' : 'none'; }
-            if (bb) { bb.innerText = bms > 99 ? '99+' : bms;   bb.style.display = bms > 0   ? 'inline-block' : 'none'; }
-        }
+        // ===== LIBRARY FILTER (removed) =====
 
-        // ===== LIBRARY FILTER =====
-        let _libMode = ''; // 'likes' or 'bookmarks'
-        let _libFilters = { type: '', genre: '', year: '', rating: '', country: '' };
-
-        function openLibFilter(key) {
-            // Tutup semua dropdown dulu
-            document.querySelectorAll('.lib-filter-dropdown').forEach(d => d.style.display = 'none');
-            document.getElementById('filterOverlay').style.display = 'none';
-
-            const dd = document.getElementById('libDd-' + key);
-            if (!dd) return;
-            dd.style.display = 'block';
-            dd.scrollTop = 0;
-            document.getElementById('filterOverlay').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            history.pushState({view: 'libFilter'}, '');
-        }
-
-        function closeLibFilter() {
-            document.querySelectorAll('.lib-filter-dropdown').forEach(d => d.style.display = 'none');
-            document.getElementById('filterOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function setLibFilter(key, val, label, el) {
-            _libFilters[key] = val;
-            // Update tombol
-            const btn = document.getElementById('libBtn-' + key);
-            if (btn) {
-                const icons = {type:'fa-film', genre:'fa-masks-theater', year:'fa-calendar', rating:'fa-star', country:'fa-globe'};
-                const defaultLabels = {type:'Tipe', genre:'Genre', year:'Tahun', rating:'Rating', country:'Negara'};
-                if (val) {
-                    btn.innerHTML = `<i class="fa-solid ${icons[key]}"></i> ${label}`;
-                    btn.classList.add('active-lf');
-                } else {
-                    btn.innerHTML = `<i class="fa-solid ${icons[key]}"></i> ${defaultLabels[key]}`;
-                    btn.classList.remove('active-lf');
-                }
-            }
-            closeLibFilter();
-            applyLibFilters();
-        }
-
-        async function applyLibFilters() {
-            const items = JSON.parse(localStorage.getItem(_libMode) || '[]');
-            const grid = document.getElementById('feedGrid');
-            grid.innerHTML = '<div class="col-span-3 text-center py-10 text-zinc-600 text-xs animate-pulse">Memfilter...</div>';
-
-            // Fetch semua data
-            const promises = items.map(i =>
-                fetchWithCache(`https://api.themoviedb.org/3/${i.type}/${i.id}?api_key=${API_KEY}&language=id-ID`)
-                    .then(r => ({ ...r, _savedType: i.type }))
-                    .catch(() => null)
-            );
-            let results = (await Promise.all(promises)).filter(m => m && m.id && m.poster_path);
-
-            // Apply filters
-            const f = _libFilters;
-            if (f.type) results = results.filter(m => m._savedType === f.type);
-            if (f.genre) results = results.filter(m => (m.genres || []).some(g => String(g.id) === f.genre));
-            if (f.year) {
-                results = results.filter(m => {
-                    const y = (m.release_date || m.first_air_date || '').split('-')[0];
-                    return y === f.year;
-                });
-            }
-            if (f.rating) {
-                const rMin = parseFloat(f.rating);
-                results = results.filter(m => m.vote_average >= rMin && m.vote_average < rMin + 1);
-            }
-            if (f.country) {
-                results = results.filter(m =>
-                    (m.production_countries || []).some(c => c.iso_3166_1 === f.country)
-                );
-            }
-
-            grid.innerHTML = '';
-            if (!results.length) {
-                grid.innerHTML = '<div class="col-span-3 text-center py-20 text-zinc-500 text-xs">Tidak ada hasil</div>';
-                return;
-            }
-            results.forEach(m => {
-                const card = document.createElement('div');
-                card.className = 'post-card';
-                card.onclick = () => openModal(m.id, m._savedType);
-                card.innerHTML = `<div class="badge-rating">${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${m._savedType==='tv'?'tv':'movie'}</div><img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy" onload="this.style.opacity=1" style="opacity:0">`;
-                grid.appendChild(card);
-            });
-        }
-
-        function buildLibFilterBar(mode) {
-            _libMode = mode;
-            _libFilters = { type: '', genre: '', year: '', rating: '', country: '' };
-
-            const genreOpts = [
-                [28,'Action'],[12,'Adventure'],[16,'Animasi'],[35,'Komedi'],
-                [80,'Crime'],[99,'Dokumenter'],[18,'Drama'],[10751,'Family'],
-                [14,'Fantasy'],[36,'History'],[27,'Horror'],[10402,'Musik'],
-                [9648,'Misteri'],[10749,'Romance'],[878,'Sci-Fi'],[53,'Thriller'],
-                [10752,'War'],[37,'Western']
-            ].sort((a,b) => a[1].localeCompare(b[1]));
-
-            const yearOpts = [];
-            for (let y = 2026; y >= 1980; y--) yearOpts.push(y);
-
-            const countryOpts = [
-                ['US','Amerika Serikat'],['GB','Inggris'],['FR','Prancis'],
-                ['DE','Jerman'],['IT','Italia'],['ES','Spanyol'],['KR','Korea Selatan'],
-                ['JP','Jepang'],['CN','China'],['IN','India'],['ID','Indonesia'],
-                ['TH','Thailand'],['AU','Australia'],['CA','Kanada'],['BR','Brasil'],
-            ].sort((a,b) => a[1].localeCompare(b[1], 'id'));
-
-            const makeDD = (key, items) => `
-                <div class="lib-filter-dropdown" id="libDd-${key}">
-                    <div class="filter-item sticky-reset" onclick="setLibFilter('${key}','','Semua')">Semua</div>
-                    ${items.map(([val, label]) => `<div class="filter-item" onclick="setLibFilter('${key}','${val}','${label}')">${label}</div>`).join('')}
-                </div>`;
-
-            const typeItems = [['movie','Film'],['tv','Serial']];
-            const ratingItems = [['9','★ 9'],['8','★ 8'],['7','★ 7'],['6','★ 6'],['5','★ 5'],['4','★ 4']];
-
-            // Inject dropdowns ke body jika belum ada
-            if (!document.getElementById('libDd-type')) {
-                const wrapper = document.createElement('div');
-                wrapper.innerHTML =
-                    makeDD('type', typeItems) +
-                    makeDD('genre', genreOpts) +
-                    makeDD('year', yearOpts.map(y => [String(y), String(y)])) +
-                    makeDD('rating', ratingItems) +
-                    makeDD('country', countryOpts);
-                document.body.appendChild(wrapper);
-            }
-
-            const bar = document.getElementById('libFilterBar');
-            if (!bar) return;
-            bar.style.display = 'flex';
-            bar.innerHTML = `
-                <button class="lib-filter-btn" id="libBtn-type" onclick="openLibFilter('type')"><i class="fa-solid fa-film"></i> Tipe</button>
-                <button class="lib-filter-btn" id="libBtn-genre" onclick="openLibFilter('genre')"><i class="fa-solid fa-masks-theater"></i> Genre</button>
-                <button class="lib-filter-btn" id="libBtn-year" onclick="openLibFilter('year')"><i class="fa-solid fa-calendar"></i> Tahun</button>
-                <button class="lib-filter-btn" id="libBtn-rating" onclick="openLibFilter('rating')"><i class="fa-solid fa-star"></i> Rating</button>
-                <button class="lib-filter-btn" id="libBtn-country" onclick="openLibFilter('country')"><i class="fa-solid fa-globe"></i> Negara</button>
-            `;
-        }
 
         window.addEventListener('DOMContentLoaded', () => { renderRecentlyViewed(); });
 
