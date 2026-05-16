@@ -1500,13 +1500,7 @@
         .carousel-slide.playing .yt-overlay-mask {
             pointer-events: auto;
         }
-        /* Cover hitam menutupi iframe YT dari awal */
-        .yt-black-cover {
-            position: absolute; inset: 0; z-index: 9;
-            background: #000; pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        .yt-black-cover.revealed { opacity: 0; pointer-events: none; }
+
 
 
         /* ===== CUSTOM LIGHTBOX ===== */
@@ -2909,7 +2903,7 @@
 
         function handleDownload() {
             if(window.currentMediaId && window.currentMediaType) {
-                const downloadUrl = `https://dl.vidsrc.vip/${window.currentMediaType}/${window.currentMediaId}`;
+                const downloadUrl = `https://vidvault.ru/${window.currentMediaType}/${window.currentMediaId}`;
                 window.open(downloadUrl, '_blank');
             } else {
                 alert("ID Media tidak ditemukan.");
@@ -4272,7 +4266,7 @@
         function openReelDownload(btn) {
             if (!_rdsCurrentId || !_rdsCurrentType) return;
             if (btn) { btn.classList.add('pressed'); setTimeout(() => btn.classList.remove('pressed'), 300); }
-            const url = `https://dl.vidsrc.vip/${_rdsCurrentType}/${_rdsCurrentId}`;
+            const url = `https://vidvault.ru/${_rdsCurrentType}/${_rdsCurrentId}`;
             window.open(url, '_blank');
         }
 
@@ -5018,15 +5012,14 @@
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
                     const slideDiv = document.createElement('div');
                     slideDiv.className = 'carousel-slide';
-                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div><div class="yt-black-cover"></div>`;
+                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
                     track.appendChild(slideDiv);
                     setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
                     if (vidsToDisplay.length > 1) {
                         dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===0?'bg-blue-500':'bg-zinc-700'}"></div>`;
                     }
                 });
-                // Start fallback timer slide pertama
-                if (window._startYtFallbackTimer) window._startYtFallbackTimer(0);
+
 
                 const soR = document.getElementById('swipeOverlay');
                 soR.style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
@@ -5180,13 +5173,12 @@
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
                     const slideDiv = document.createElement('div');
                     slideDiv.className = 'carousel-slide';
-                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div><div class="yt-black-cover"></div>`;
+                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
                     track.appendChild(slideDiv);
                     setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
                     if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
                 });
-                // Start fallback timer slide pertama
-                if (window._startYtFallbackTimer) window._startYtFallbackTimer(0); 
+
                 const so = document.getElementById('swipeOverlay');
                 so.style.display = vidsToDisplay.length > 1 ? 'block' : 'none';
                 so.style.pointerEvents = 'auto'; // aktifkan kembali untuk swipe trailer
@@ -5487,21 +5479,21 @@
                 case 1: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`; break;
                 case 2: url = `https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`; break;
                 case 3: url = `https://vidlink.pro/${type}/${id}${seriesSuffix}`; break;
-                case 4: url = `https://vidsrc.cc/v2/embed/${type}/${currentImdbId || id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
-                case 5: url = `https://111movies.com/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 4: url = `https://vidfast.pro/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 5: url = `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 6: url = `https://player.videasy.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 7: url = `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`; break;
-                case 8: url = `https://vidfast.pro/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 9: url = `https://moviesapi.club/${type}/${id}${seriesSuffix}`; break;
+                case 7: url = `https://111movies.com/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 8: url = `https://www.2embed.cc/embed${type==='tv'?'/tv':''}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
+                case 9: url = `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`; break;
                 case 10: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
-                case 11: url = `https://multiembed.mov/directstream.php?video_id=${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
-                case 12: url = `https://www.2embed.cc/embed${type==='tv'?'/tv':''}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
-                case 13: url = `https://vidsrc.xyz/embed/${type}/${id}${seriesSuffix}`; break;
+                case 11: url = `https://vidfast.net/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
+                case 12: url = `https://111movies.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 13: url = `https://vidsrcme.ru/embed/${type}/${id}${seriesSuffix}`; break;
                 case 14: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${seriesSuffix}`; break;
                 case 15: url = `https://vidsrc.net/embed/${type}/${id}${seriesSuffix}`; break;
                 case 16: url = `https://vidsrc.icu/embed/${type}/${id}${seriesSuffix}`; break;
-                case 17: url = `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 19: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 17: url = `https://vidsrc.ru/embed/${type}?tmdb=${id}${seriesSuffix}`; break;
+                case 18: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 21: url = `https://www.dailymotion.com/embed/video/${currentDailymotionId}`; break;
                 default: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
             }
@@ -5550,129 +5542,7 @@
             }); 
         }
 
-        // ===== DETEKSI ERROR YOUTUBE via postMessage =====
-        // Cover hitam menutupi iframe dari awal.
-        // Dibuka hanya kalau YT konfirmasi state=1 (playing).
-        // Kalau 7 detik tidak ada konfirmasi → fallback streaming.
-        (function setupYTErrorDetector() {
-            const _ytTimers = {};   // fallback timer per slide
-            const _ytOkSlides = new Set(); // slide yg sudah confirmed playing
 
-            // Minta YT kirim state update via postMessage
-            function _subscribeYT(iframe) {
-                try {
-                    iframe.contentWindow.postMessage(JSON.stringify({
-                        event: 'listening',
-                        id: iframe.id || 'yt'
-                    }), '*');
-                } catch(e) {}
-            }
-
-            window.addEventListener('message', function(e) {
-                try {
-                    const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
-                    if (!data) return;
-
-                    // Cari iframe pengirim
-                    const iframes = document.querySelectorAll('#carouselTrack iframe');
-                    let senderIframe = null;
-                    iframes.forEach(f => { try { if (f.contentWindow === e.source) senderIframe = f; } catch(err) {} });
-                    if (!senderIframe) return;
-
-                    const slideEl = senderIframe.closest('.carousel-slide');
-                    if (!slideEl) return;
-                    const allSlides = [...document.querySelectorAll('#carouselTrack .carousel-slide')];
-                    const slideIdx = allSlides.indexOf(slideEl);
-
-                    // YT error codes: 101/150 = embed not allowed, 100 = not found
-                    if (data.event === 'onError') {
-                        const code = data.info;
-                        if (code === 101 || code === 150 || code === 100 || code === 2 || code === 5) {
-                            _onSlideError(slideEl, slideIdx, allSlides);
-                        }
-                        return;
-                    }
-
-                    // playerState 1 = playing → video OK, reveal
-                    const state = data.info && data.info.playerState !== undefined
-                        ? data.info.playerState
-                        : (data.event === 'onStateChange' ? data.info : null);
-
-                    if (state === 1) {
-                        _ytOkSlides.add(slideIdx);
-                        if (_ytTimers[slideIdx]) { clearTimeout(_ytTimers[slideIdx]); delete _ytTimers[slideIdx]; }
-                        // Buka cover hitam slide ini
-                        const cover = slideEl.querySelector('.yt-black-cover');
-                        if (cover) cover.classList.add('revealed');
-                    }
-                } catch(err) {}
-            });
-
-            // Timer fallback per slide
-            window._startYtFallbackTimer = function(slideIdx) {
-                if (_ytTimers[slideIdx]) clearTimeout(_ytTimers[slideIdx]);
-                _ytOkSlides.delete(slideIdx);
-
-                // Subscribe ke YT setelah iframe load (500ms)
-                setTimeout(() => {
-                    const iframes = document.querySelectorAll('#carouselTrack iframe');
-                    if (iframes[slideIdx]) _subscribeYT(iframes[slideIdx]);
-                }, 800);
-
-                _ytTimers[slideIdx] = setTimeout(() => {
-                    if (!_ytOkSlides.has(slideIdx)) {
-                        const slides = [...document.querySelectorAll('#carouselTrack .carousel-slide')];
-                        if (slides[slideIdx]) _onSlideError(slides[slideIdx], slideIdx, slides);
-                    }
-                }, 7000);
-            };
-
-            function _onSlideError(slideEl, slideIdx, allSlides) {
-                if (_ytOkSlides.has(slideIdx)) return; // sudah playing, abaikan
-                // Tandai slide ini error
-                slideEl.dataset.ytError = '1';
-                const errorCount = allSlides.filter(s => s.dataset.ytError === '1').length;
-
-                if (errorCount >= allSlides.length) {
-                    _fallbackToStreaming();
-                } else if (slideIdx === currentIdx) {
-                    // Cari slide berikutnya yang tidak error
-                    let nextOk = allSlides.findIndex((s, i) => i > slideIdx && s.dataset.ytError !== '1');
-                    if (nextOk === -1) nextOk = allSlides.findIndex((s, i) => i < slideIdx && s.dataset.ytError !== '1');
-                    if (nextOk !== -1) {
-                        currentIdx = nextOk;
-                        document.getElementById('carouselTrack').style.transform = `translateX(-${currentIdx * 100}%)`;
-                        document.querySelectorAll('.dot').forEach((d, i) => {
-                            d.className = `dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}`;
-                        });
-                        const nf = document.getElementById(`vid-${currentIdx}`);
-                        if (nf) try { nf.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
-                        // Start timer untuk slide baru
-                        window._startYtFallbackTimer(currentIdx);
-                    } else {
-                        _fallbackToStreaming();
-                    }
-                }
-            }
-        })();
-
-        function _fallbackToStreaming() {
-            if (!window.currentMediaId || !window.currentMediaType) return;
-            const url = buildEmbedUrl(window.currentMediaType, window.currentMediaId, activeSeason, activeEpisode, 1);
-            const track = document.getElementById('carouselTrack');
-            const dots = document.getElementById('carouselDots');
-            track.querySelectorAll('iframe').forEach(f => { f.src = ''; f.remove(); });
-            track.innerHTML = ''; dots.innerHTML = ''; currentIdx = 0;
-            const slide = document.createElement('div');
-            slide.className = 'carousel-slide';
-            slide.innerHTML = `<iframe id="player-frame" src="${url}" class="w-full h-full" allowfullscreen allow="autoplay; fullscreen; picture-in-picture" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
-            track.appendChild(slide);
-            track.style.transform = 'translateX(0)';
-            document.getElementById('swipeOverlay').style.display = 'none';
-            document.querySelectorAll('.server-btn').forEach((b, i) => {
-                b.classList.toggle('active-link', i === 0);
-            });
-        }
         function updateLibButtons(id) { const isL = JSON.parse(localStorage.getItem('likes') || '[]').some(x=>x.id==id); const isB = JSON.parse(localStorage.getItem('bookmarks') || '[]').some(x=>x.id==id); document.getElementById('btnLikeModal').className = isL ? 'fa-solid fa-heart text-red-500 interaction-icon' : 'fa-regular fa-heart interaction-icon'; document.getElementById('btnBookModal').className = isB ? 'fa-solid fa-bookmark text-white interaction-icon' : 'fa-regular fa-bookmark interaction-icon'; document.getElementById('btnLikeModal').onclick = () => toggleLib('likes'); document.getElementById('btnBookModal').onclick = () => toggleLib('bookmarks'); }
         function toggleLib(k) { let items = JSON.parse(localStorage.getItem(k) || '[]'); const idx = items.findIndex(x => x.id == window.currentMediaId); idx > -1 ? items.splice(idx,1) : items.push({id: window.currentMediaId, type: window.currentMediaType}); localStorage.setItem(k, JSON.stringify(items)); updateLibButtons(window.currentMediaId); }
         async function switchTab(mode, el) { 
