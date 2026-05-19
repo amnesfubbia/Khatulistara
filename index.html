@@ -1961,7 +1961,7 @@
                 
                 <div class="dl-grid">
                     <button id="btnDownload1" class="dl-link-btn" onclick="handleDownload()">Unduh</button>
-                    <button id="btnTrailerDailymotion" class="dl-link-btn btn-trailer-special" onclick="changeServer(21, this)">Trailer</button>
+                    <button id="btnTrailerDailymotion" class="dl-link-btn btn-trailer-special" onclick="changeServer(99, this)">Trailer</button>
                 </div>
                 <div id="mSimilarSection" class="similar-section" style="display:none">
                     <span class="similar-label">Film Serupa</span>
@@ -3157,12 +3157,10 @@
         function buildLsServerList() {
             const scroll = document.getElementById('lsServerScroll');
             let html = '';
-            for (let i = 1; i <= 20; i++) {
+            for (let i = 1; i <= 22; i++) {
                 const active = (i === activeServerIdx) ? 'active-link' : '';
                 html += `<div class="ls-srv-btn ${active}" onclick="event.stopPropagation(); lsChangeServer(${i}, this)">Server ${i}</div>`;
             }
-            html += `<div class="ls-srv-btn ${activeServerIdx===22?'active-link':''}" onclick="event.stopPropagation(); lsChangeServer(22, this)">Server 21</div>`;
-            html += `<div class="ls-srv-btn ${activeServerIdx===23?'active-link':''}" onclick="event.stopPropagation(); lsChangeServer(23, this)">Server 22</div>`;
             if (currentDailymotionId) {
                 html += `<div class="ls-srv-btn ${activeServerIdx === 21 ? 'active-link' : ''}" onclick="event.stopPropagation(); lsChangeServer(21, this)">Trailer</div>`;
             }
@@ -5261,12 +5259,9 @@
             // tanggal dihapus dari modal (sudah ada di info grid)
             
             let serverButtonsHTML = '';
-            for(let i=1; i<=20; i++) {
+            for(let i=1; i<=22; i++) {
                 serverButtonsHTML += `<button class="server-btn" onclick="changeServer(${i}, this)">Server ${i}</button>`;
             }
-            // Server 22 & 23 sebagai server tambahan
-            serverButtonsHTML += `<button class="server-btn" onclick="changeServer(22, this)">Server 21</button>`;
-            serverButtonsHTML += `<button class="server-btn" onclick="changeServer(23, this)">Server 22</button>`;
             document.getElementById('serverList').innerHTML = serverButtonsHTML;
 
             if(type === 'tv') { document.getElementById('seriesControl').classList.remove('hidden'); document.getElementById('seasonSel').innerHTML = (dId.seasons||[]).filter(s=>s.season_number>0).map(s=>`<option value="${s.season_number}">Season ${s.season_number}</option>`).join(''); loadEpisodes(); } else { document.getElementById('seriesControl').classList.add('hidden'); }
@@ -5477,34 +5472,28 @@
             let url = "";
             switch(srv) {
                 case 1:  url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`; break;
-                case 2:  url = `https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`; break;
-                // Server 3: vidzee.wtf - path /embed/movie/ID & /embed/tv/ID/S/E
-                case 3:  url = `https://player.vidzee.wtf/embed/${type}/${id}${seriesSuffix}`; break;
-                case 4:  url = `https://vidlink.pro/${type}/${id}${seriesSuffix}`; break;
-                case 5:  url = `https://vidsrc.wtf/1/${type}/${id}${seriesSuffix}`; break;
-                case 6:  url = `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 7:  url = `https://111movies.com/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 8:  url = `https://vidfast.pro/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 9:  url = `https://www.2embed.online/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 10: url = `https://player.videasy.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 11: url = `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`; break;
-                case 12: url = `https://vidsrcme.ru/embed/${type}/${id}${seriesSuffix}`; break;
-                // Server 13: vidfast.net - FIX: pakai path /ID/S/E bukan query ?s=&e=
+                case 2:  url = `https://vidlink.pro/${type}/${id}${seriesSuffix}`; break;
+                case 3:  url = `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 4:  url = `https://vidfast.pro/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 5:  url = `https://player.videasy.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 6:  url = `https://111movies.com/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 7:  url = `https://player.vidzee.wtf/embed/${type}/${id}${seriesSuffix}`; break;
+                case 8:  url = `https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`; break;
+                case 9:  url = `https://vidsrc.wtf/1/${type}/${id}${seriesSuffix}`; break;
+                case 10: url = `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`; break;
+                case 11: url = `https://www.2embed.online/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 12: url = `https://111movies.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 13: url = `https://vidfast.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 14: url = `https://111movies.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                // Server 15: vidify.top - FIX: pakai path /embed/type/ID/S/E bukan query
-                case 15: url = `https://player.vidify.top/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                // Server 16: vidplus.to - FIX: tambah ?tmdb=1 agar dikenali sebagai TMDB id
-                case 16: url = `https://player.vidplus.to/embed/${type}/${id}${seriesSuffix}?tmdb=1`; break;
-                // Server 17: vidsrc.ru - FIX: pakai /embed/ prefix & format /embed/type/IMDB/S/E
-                case 17: url = `https://vidsrc.ru/embed/${type}/${currentImdbId || id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 18: url = `https://multiembed.mov/?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
-                // Server 19: 2embed.cc - FIX: movie=/embed/ID, tv=/embedtv/ID?s=S&e=E (format resmi 2embed.cc)
-                case 19: url = type==='tv' ? `https://www.2embed.cc/embedtv/${id}?s=${s}&e=${e}` : `https://www.2embed.cc/embed/${id}`; break;
-                case 20: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
-                case 22: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
-                case 23: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 21: url = `https://www.dailymotion.com/embed/video/${currentDailymotionId}`; break;
+                case 14: url = `https://vidsrcme.ru/embed/${type}/${id}${seriesSuffix}`; break;
+                case 15: url = `https://player.vidify.top/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}?autoplay=1`; break;
+                case 16: url = `https://player.vidplus.to/embed/${type}/${id}${seriesSuffix}`; break;
+                case 17: url = `https://multiembed.mov/?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 18: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
+                case 19: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 20: url = `https://vidsrc.ru/${type}/${currentImdbId || id}${type==='tv'?`?s=${s}&e=${e}`:''}` ; break;
+                case 21: url = `https://www.2embed.cc/embed/${type}/${id}${seriesSuffix}`; break;
+                case 22: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 99: url = `https://www.dailymotion.com/embed/video/${currentDailymotionId}`; break;
                 default: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
             }
             return url.replace("http://", "https://");
