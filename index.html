@@ -15,6 +15,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="amnesfubbia">
     <meta name="twitter:image" content="amnesfubbia.png">
+    <link rel="preconnect" href="https://api.themoviedb.org">
+    <link rel="preconnect" href="https://image.tmdb.org">
+    <link rel="dns-prefetch" href="https://www.youtube.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -100,8 +104,8 @@
         .tab-item.active { color: #fff; border-bottom: 1px solid #fff; }
 
         .movie-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; padding-bottom: 80px; }
-        .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; cursor: pointer; }
-        .post-card img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+        .post-card { position: relative; aspect-ratio: 2/3; background: #0a0a0a; overflow: hidden; cursor: pointer; content-visibility: auto; contain-intrinsic-size: auto 160px 240px; }
+        .post-card img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; image-rendering: auto; }
         .badge-rating { position: absolute; top: 6px; left: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(0,0,0,0.7); color: #fff; border: 0.5px solid rgba(255,255,255,0.3); }
         .badge-type { position: absolute; top: 6px; right: 6px; padding: 2px 5px; border-radius: 2px; font-size: 7px; font-weight: 900; z-index: 5; background: rgba(0,0,0,0.7); color: #fff; text-transform: uppercase; border: 0.5px solid rgba(255,255,255,0.3); }
 
@@ -2229,10 +2233,14 @@
         let activeSeason = 1;
 
         document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('splashScreen').style.display = 'none';
-                document.getElementById('mainProfile').style.display = 'block';
-            }, 1200);
+            const _hideSplash = () => {
+                const s = document.getElementById('splashScreen');
+                const m = document.getElementById('mainProfile');
+                if (s) s.style.display = 'none';
+                if (m) m.style.display = 'block';
+            };
+            setTimeout(_hideSplash, 1200);
+            setTimeout(_hideSplash, 3000);
         });
 
         window.onload = () => {
@@ -4681,7 +4689,7 @@
         function closeD() { document.querySelectorAll('.filter-dropdown').forEach(d => d.style.display = 'none'); document.getElementById('filterOverlay').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         async function loadFeed(isNew = true) {
-            if(loading && isNew) { loading = false; } // reset flag agar request baru bisa jalan
+            if(isNew) loading = false;
             if(loading && !isNew) return;
             loading = true;
             const grid = document.getElementById('searchOverlay').style.display === 'block' ? document.getElementById('searchGrid') : document.getElementById('feedGrid');
@@ -4740,7 +4748,7 @@
                 card.onclick = function() { openModal(m.id, mType); }; 
                 const _rd = m.release_date || m.first_air_date || '';
                 const _nb = isNewRelease(_rd) ? '<div class="badge-new">NEW</div>' : '';
-                card.innerHTML = `<div class="badge-rating">${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':(mType==='tv'?'tv':'movie')}</div>${_nb}<img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy" onload="this.style.opacity=1" style="opacity:0">`;
+                card.innerHTML = `<div class="badge-rating">${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':(mType==='tv'?'tv':'movie')}</div>${_nb}<img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy" decoding="async" onload="this.style.opacity=1" style="opacity:0">`;
                 fragment.appendChild(card); 
             });
             grid.appendChild(fragment);
@@ -5481,17 +5489,17 @@
                 case 8:  url = `https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`; break;
                 case 9:  url = `https://vidsrc.wtf/1/${type}/${id}${seriesSuffix}`; break;
                 case 10: url = `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`; break;
-                case 11: url = `https://www.2embed.online/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 12: url = `https://111movies.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 13: url = `https://vidfast.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 14: url = `https://vidsrcme.ru/embed/${type}/${id}${seriesSuffix}`; break;
-                case 15: url = `https://player.vidify.top/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}?autoplay=1`; break;
-                case 16: url = `https://player.vidplus.to/embed/${type}/${id}${seriesSuffix}`; break;
-                case 17: url = `https://multiembed.mov/?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
-                case 18: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
-                case 19: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
-                case 20: url = `https://vidsrc.ru/${type}/${currentImdbId || id}${type==='tv'?`?s=${s}&e=${e}`:''}` ; break;
-                case 21: url = `https://www.2embed.cc/embed/${type}/${id}${seriesSuffix}`; break;
+                case 11: url = `https://111movies.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 12: url = `https://vidfast.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 13: url = `https://vidsrcme.ru/embed/${type}/${id}${seriesSuffix}`; break;
+                case 14: url = `https://player.vidify.top/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}?autoplay=1`; break;
+                case 15: url = `https://player.vidplus.to/embed/${type}/${id}${seriesSuffix}`; break;
+                case 16: url = `https://multiembed.mov/?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 17: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
+                case 18: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 19: url = `https://vidsrc.ru/${type}/${currentImdbId || id}${type==='tv'?`?s=${s}&e=${e}`:''}` ; break;
+                case 20: url = `https://www.2embed.cc/embed/${type}/${id}${seriesSuffix}`; break;
+                case 21: url = `https://embed.su/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 22: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 99: url = `https://www.dailymotion.com/embed/video/${currentDailymotionId}`; break;
                 default: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
