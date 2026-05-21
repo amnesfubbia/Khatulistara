@@ -5558,7 +5558,6 @@
             let url = "";
             switch(srv) {
                 case 1:  url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`; break;
-                // Server 2 vidlink.pro: tambah autoplay=true dari docs resmi
                 case 2:  url = `https://vidlink.pro/${type}/${id}${seriesSuffix}?autoplay=true&title=true&poster=true`; break;
                 case 3:  url = `https://vidnest.fun/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 4:  url = `https://vidfast.pro/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
@@ -5567,23 +5566,20 @@
                 case 7:  url = `https://player.vidzee.wtf/embed/${type}/${id}${seriesSuffix}`; break;
                 case 8:  url = `https://vidstorm.ru/embed/${type}/${id}${seriesSuffix}`; break;
                 case 9:  url = `https://vidsrc.wtf/1/${type}/${id}${seriesSuffix}`; break;
-                // Server 10 nontongo: tambah trailing slash agar tidak redirect
                 case 10: url = `https://www.nontongo.win/embed/${type}/${id}${seriesSuffix}`; break;
                 case 11: url = `https://111movies.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 12: url = `https://vidfast.net/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 13: url = `https://vidsrcme.ru/embed/${type}/${id}${seriesSuffix}`; break;
-                case 14: url = `https://player.vidify.top/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}?autoplay=1`; break;
-                case 15: url = `https://player.vidplus.to/embed/${type}/${id}${seriesSuffix}`; break;
-                case 16: url = `https://multiembed.mov/?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
-                case 17: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
-                case 18: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
-                // Server 19 vidsrc.ru: fix fallback - jika currentImdbId kosong/undefined gunakan TMDB id saja
-                case 19: url = `https://vidsrc.ru/embed/${type}/${(currentImdbId && currentImdbId !== 'undefined' && currentImdbId !== '') ? currentImdbId : id}${type==='tv'?`/${s}/${e}`:''}` ; break;
-                case 20: url = `https://www.2embed.cc/embed/${type}/${id}${seriesSuffix}`; break;
-                // Server 21 embed.su: tambah ?autoplay=1
-                case 21: url = `https://embed.su/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 22: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
-                case 23: url = `https://www.vidking.net/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 14: url = `https://multiembed.mov/?video_id=${id}&tmdb=1${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 15: url = `https://vidsrc.cc/v2/embed/${type}/${id}${type==='tv'?`?s=${s}&e=${e}`:''}`; break;
+                case 16: url = `https://vidsrc.me/embed/${type}?tmdb=${id}${type==='tv'?`&s=${s}&e=${e}`:''}`; break;
+                case 17: url = `https://www.2embed.cc/embed/${type}/${id}${seriesSuffix}`; break;
+                case 18: url = `https://warezcdn.site/${type==='tv'?'serie':'filme'}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
+                case 19: url = `https://www.vidking.net/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}?autoplay=1`; break;
+                case 20: url = `https://player.vidify.top/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}?autoplay=1`; break;
+                case 21: url = `https://player.vidplus.to/embed/${type}/${id}${seriesSuffix}`; break;
+                case 22: url = `https://vidsrc.ru/embed/${type}/${(currentImdbId && currentImdbId !== 'undefined' && currentImdbId !== '') ? currentImdbId : id}${type==='tv'?`/${s}/${e}`:''}` ; break;
+                case 23: url = `https://embed.su/embed/${type}/${id}${type==='tv'?`/${s}/${e}`:''}`; break;
                 case 99: url = `https://www.dailymotion.com/embed/video/${currentDailymotionId}`; break;
                 default: url = `https://vidrock.net/embed/${type}/${id}${seriesSuffix}`;
             }
