@@ -1072,7 +1072,8 @@
 
         /* Tombol aksi kanan bawah (like, bookmark) */
         .reel-actions {
-            position: absolute; top: 60px; right: 12px;
+            position: absolute; top: 50%; right: 12px;
+            transform: translateY(-50%);
             display: flex; flex-direction: column; align-items: center; gap: 18px;
             z-index: 10;
         }
@@ -1316,14 +1317,14 @@
         }
         .similar-scroll::-webkit-scrollbar { display: none; }
         .similar-card {
-            flex: 0 0 160px; cursor: pointer;
+            flex: 0 0 110px; cursor: pointer;
             -webkit-tap-highlight-color: transparent;
-            border-radius: 14px; overflow: hidden;
+            border-radius: 10px; overflow: hidden;
             position: relative; background: #111;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
         .similar-poster {
-            width: 160px; height: 240px;
+            width: 110px; height: 165px;
             object-fit: cover; background: #111;
             display: block;
             opacity: 0; transition: opacity 0.3s;
@@ -4345,7 +4346,8 @@
         function openReelDownload(btn) {
             if (!_rdsCurrentId || !_rdsCurrentType) return;
             if (btn) { btn.classList.add('pressed'); setTimeout(() => btn.classList.remove('pressed'), 300); }
-            const url = `https://vidvault.ru/${_rdsCurrentType}/${_rdsCurrentId}`;
+            const mediaPath = _rdsCurrentType === 'tv' ? `tv/${_rdsCurrentId}` : `movie/${_rdsCurrentId}`;
+            const url = `https://dl.vidsrc.vip/${mediaPath}`;
             window.open(url, '_blank');
         }
 
@@ -4822,7 +4824,7 @@
                 card.onclick = function() { openModal(m.id, mType); }; 
                 const _rd = m.release_date || m.first_air_date || '';
                 const _nb = isNewRelease(_rd) ? '<div class="badge-new">NEW</div>' : '';
-                card.innerHTML = `<div class="badge-rating">${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':(mType==='tv'?'tv':'movie')}</div>${_nb}<img src="https://image.tmdb.org/t/p/w342${m.poster_path}" loading="lazy" onload="this.style.opacity=1" style="opacity:0">`;
+                card.innerHTML = `<div class="badge-rating">${(m.vote_average||0).toFixed(1)}</div><div class="badge-type">${currentType==='short'?'SHORT':(mType==='tv'?'tv':'movie')}</div>${_nb}<img src="https://image.tmdb.org/t/p/w185${m.poster_path}" loading="lazy" onload="this.style.opacity=1" style="opacity:0">`;
                 fragment.appendChild(card); 
             });
             grid.appendChild(fragment);
@@ -5091,7 +5093,7 @@
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
                     const slideDiv = document.createElement('div');
                     slideDiv.className = 'carousel-slide';
-                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
+                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div><div style="position:absolute;top:0;left:0;right:0;height:44px;background:#000;z-index:9;pointer-events:none"></div><div style="position:absolute;bottom:0;left:0;right:0;height:44px;background:#000;z-index:9;pointer-events:none"></div>`;
                     track.appendChild(slideDiv);
                     setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
                     if (vidsToDisplay.length > 1) {
@@ -5252,7 +5254,7 @@
                     const embedUrl = `https://www.youtube.com/embed/${v.key}?enablejsapi=1&autoplay=${i===0?1:0}&rel=0&modestbranding=1&mute=0&playsinline=1`;
                     const slideDiv = document.createElement('div');
                     slideDiv.className = 'carousel-slide';
-                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div>`;
+                    slideDiv.innerHTML = `<iframe id="vid-${i}" src="${embedUrl}" class="w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe><div class="yt-overlay-mask" onclick="void(0)"></div><div style="position:absolute;top:0;left:0;right:0;height:44px;background:#000;z-index:9;pointer-events:none"></div><div style="position:absolute;bottom:0;left:0;right:0;height:44px;background:#000;z-index:9;pointer-events:none"></div>`;
                     track.appendChild(slideDiv);
                     setTimeout(() => { slideDiv.classList.add('playing'); }, 3000);
                     if(vidsToDisplay.length > 1) { dots.innerHTML += `<div class="dot w-1.5 h-1.5 rounded-full ${i===currentIdx?'bg-blue-500':'bg-zinc-700'}"></div>`; }
