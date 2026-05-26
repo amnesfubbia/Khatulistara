@@ -1072,7 +1072,7 @@
 
         /* Tombol aksi kanan bawah (like, bookmark) */
         .reel-actions {
-            position: absolute; top: calc(78svh - 120px); right: 12px;
+            position: absolute; top: calc(78svh - 180px); right: 12px;
             display: flex; flex-direction: column; align-items: center; gap: 18px;
             z-index: 10;
         }
@@ -2232,7 +2232,7 @@
                 <i class="fa-solid fa-play" style="font-size:12px"></i> Tonton
             </button>
             <button class="rds-btn-info" id="rdsBtnDownload" onclick="openReelDownload(this)">
-                <i class="fa-solid fa-circle-info" style="font-size:13px"></i> Detail
+                <i class="fa-solid fa-download" style="font-size:13px"></i> Unduh
             </button>
         </div>
     </div>
@@ -3824,6 +3824,8 @@
                     slide.innerHTML = `
                         <div class="reel-video-wrap">
                             <iframe src="${embedUrl}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            <!-- Tutup header & title YouTube -->
+                            <div style="position:absolute;top:0;left:0;right:0;height:52px;background:#000;z-index:2;pointer-events:none"></div>
                         </div>
                         <div class="reel-heart-pop" id="heart-${reel.movieId}"><i class="fa-solid fa-heart"></i></div>
                         <div class="reel-gradient"></div>
