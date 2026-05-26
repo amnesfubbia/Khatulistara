@@ -191,8 +191,8 @@
         .ig-hashtags { color: #e0f1ff; display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; }
         .ig-date { color: #a8a8a8; font-size: 11px; text-transform: uppercase; }
         
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; align-items: center; padding: 12px 0; z-index: 9000; }
-        .bottom-nav i { color: #a8a8a8; transition: color 0.3s; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; align-items: center; padding: 0; height: 52px; z-index: 9000; }
+        .bottom-nav i { color: #a8a8a8; transition: color 0.3s; font-size: 20px; }
         .bottom-nav i.active-nav { color: #fff; }
 
         /* ===== SAFE AREA INSET FIX (Android status bar) ===== */
@@ -936,7 +936,7 @@
             position: fixed; bottom: 0; left: 0; right: 0;
             background: #000; border-top: 1px solid #1c1c1c;
             display: flex; justify-content: space-around; align-items: center;
-            padding: 12px 0; z-index: 9700;
+            padding: 0; height: 52px; z-index: 9700;
             width: 100%;
         }
         .tv-bottom-item {
@@ -1119,7 +1119,7 @@
         .reels-bottom-nav {
             position: fixed; bottom: 0; left: 0; right: 0; z-index: 9810;
             display: flex; justify-content: space-around; align-items: center;
-            padding: 12px 0;
+            padding: 0; height: 52px;
             background: #000; border-top: 1px solid #1c1c1c;
         }
         .reels-bottom-item {
@@ -1982,12 +1982,15 @@
                         <i class="fa-solid fa-expand interaction-icon" onclick="enterLandscape()"></i>
                         <i class="fa-solid fa-arrow-rotate-left interaction-icon text-[20px]" onclick="replayTrailer()"></i>
                     </div>
-                    <i id="btnBookModal" class="interaction-icon"></i>
                 </div>
                 
                 <div class="px-4 bg-black pb-1 flex justify-between items-end">
                     <span id="mLikeDisplay" class="ig-likes-count"></span>
-                    <span class="text-[11px] font-bold text-white cursor-pointer mb-[5px] uppercase tracking-tighter" onclick="openSoundtrack()">Soundtrack</span>
+                    <div style="display:flex;align-items:center;gap:14px;margin-bottom:5px">
+                        <span class="text-[11px] font-bold text-white cursor-pointer uppercase tracking-tighter" onclick="changeServer(99, this)" id="btnTrailerTop">Trailer</span>
+                        <span class="text-[11px] font-bold text-white cursor-pointer uppercase tracking-tighter" onclick="openSoundtrack()">Soundtrack</span>
+                        <i id="btnBookModal" class="interaction-icon" style="font-size:22px"></i>
+                    </div>
                 </div>
             </div>
             
@@ -2023,8 +2026,8 @@
                 <div id="serverList" class="server-scroll-wrapper mt-4 px-4"></div>
                 
                 <div class="dl-grid">
-                    <button id="btnDownload1" class="dl-link-btn" onclick="handleDownload()">Unduh</button>
-                    <button id="btnTrailerDailymotion" class="dl-link-btn btn-trailer-special" onclick="changeServer(99, this)">Trailer</button>
+                    <button class="dl-link-btn" onclick="handleDownload()"><i class="fa-solid fa-download" style="margin-right:6px;font-size:10px"></i>Vidvault</button>
+                    <button class="dl-link-btn" onclick="handleDownload2()"><i class="fa-solid fa-download" style="margin-right:6px;font-size:10px"></i>02Movie</button>
                 </div>
                 <div id="mSimilarSection" class="similar-section" style="display:none">
                     <span class="similar-label">Film Serupa</span>
@@ -2971,6 +2974,16 @@
         function handleDownload() {
             if(window.currentMediaId && window.currentMediaType) {
                 const downloadUrl = `https://vidvault.ru/${window.currentMediaType}/${window.currentMediaId}`;
+                window.open(downloadUrl, '_blank');
+            } else {
+                alert("ID Media tidak ditemukan.");
+            }
+        }
+
+        function handleDownload2() {
+            if(window.currentMediaId && window.currentMediaType) {
+                const path = window.currentMediaType === 'tv' ? 'series' : 'movie';
+                const downloadUrl = `https://02moviedownloader.site/api/download/${path}/${window.currentMediaId}`;
                 window.open(downloadUrl, '_blank');
             } else {
                 alert("ID Media tidak ditemukan.");
