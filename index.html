@@ -191,7 +191,7 @@
         .ig-hashtags { color: #e0f1ff; display: block; margin-top: 4px; font-size: 13px; line-height: 1.4; }
         .ig-date { color: #a8a8a8; font-size: 11px; text-transform: uppercase; }
         
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; padding: 12px 0; z-index: 9000; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; background: #000; border-top: 1px solid #1c1c1c; display: flex; justify-content: space-around; align-items: center; padding: 12px 0; z-index: 9000; }
         .bottom-nav i { color: #a8a8a8; transition: color 0.3s; }
         .bottom-nav i.active-nav { color: #fff; }
 
@@ -204,9 +204,7 @@
         /* Landscape dan lightbox: inset sudah handle safe area */
         #landscapeOverlay, #lightboxModal { padding-top: 0; }
         /* Bottom nav: padding bottom untuk gesture bar */
-        .bottom-nav, .tv-bottom-nav {
-            padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
-        }
+        /* Nav padding seragam - tidak ada extra safe-area */
 
         /* LOADING SPINNER FOR IFRAME */
         .iframe-loader { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #000; z-index: 5; }
@@ -4356,9 +4354,7 @@
         function openReelDownload(btn) {
             if (!_rdsCurrentId || !_rdsCurrentType) return;
             if (btn) { btn.classList.add('pressed'); setTimeout(() => btn.classList.remove('pressed'), 300); }
-            const url = _rdsCurrentType === 'tv'
-                ? `https://02moviedownloader.site/tv/${_rdsCurrentId}`
-                : `https://02moviedownloader.site/movie/${_rdsCurrentId}`;
+            const url = `https://vidvault.ru/${_rdsCurrentType}/${_rdsCurrentId}`;
             window.open(url, '_blank');
         }
 
