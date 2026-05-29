@@ -6082,16 +6082,7 @@
                 if (movieItems.length) {
                     html2 += `<div class="notif-section-label">🎬 Movie (${movieItems.length})</div>`;
                     html2 += movieItems.map(m => {
-                        let title = m.title || m.name || '';
-                        if (isNonLatin(title)) {
-                            try {
-                                const enN = await fetchWithCache(`https://api.themoviedb.org/3/${m._mtype}/${m.id}?api_key=${API_KEY}&language=en-US`);
-                                const enT = enN.title || enN.name || '';
-                                const origT = enN.original_title || enN.original_name || '';
-                                if (enT && !isNonLatin(enT)) title = enT;
-                                else if (origT && !isNonLatin(origT)) title = origT;
-                            } catch {}
-                        }
+                        const title = m.title || m.name || '';
                         const rating = (m.vote_average||0).toFixed(1);
                         const genre = m._mtype === 'tv' ? 'Series' : 'Movie';
                         return `<div class="notif-item" onclick="closeNotif(); openModal(${m.id},'${m._mtype}')">
