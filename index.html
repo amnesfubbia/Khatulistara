@@ -3,405 +3,608 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix - Mirip YouTube</title>
-    <!-- Font Awesome untuk ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <title>Amnesfubbia - Platform Streaming Film & Musik</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS DIMULAI DI SINI --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', Arial, sans-serif;
-        }
-
         body {
-            background-color: #f9f9f9;
-            color: #0f0f0f;
+            background-color: #0f0f0f;
+            color: #f1f1f1;
         }
-
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            height: 56px;
-            background-color: white;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        .logo {
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
+        ::-webkit-scrollbar-track {
+            background: #0f0f0f;
         }
-
-        .logo i {
-            color: red;
-        }
-
-        .search-bar {
-            display: flex;
-            flex: 0 1 600px;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 20px 0 0 20px;
-            outline: none;
-        }
-
-        .search-bar button {
-            padding: 8px 15px;
-            border: 1px solid #ccc;
-            border-left: none;
-            background-color: #f8f8f8;
-            border-radius: 0 20px 20px 0;
-            cursor: pointer;
-        }
-
-        .search-bar button:hover {
-            background-color: #f0f0f0;
-        }
-
-        .user-actions {
-            display: flex;
-            gap: 15px;
-            font-size: 18px;
-            cursor: pointer;
-            align-items: center;
-        }
-
-        /* Main Content */
-        .main-content {
-            display: flex;
-            min-height: calc(100vh - 56px);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 200px;
-            background-color: white;
-            padding: 10px 0;
-            overflow-y: auto;
-            display: none; /* Sembunyikan di mobile */
-        }
-
-        @media (min-width: 768px) {
-            .sidebar {
-                display: block;
-            }
-        }
-
-        .sidebar ul {
-            list-style: none;
-        }
-
-        .sidebar li {
-            padding: 10px 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 14px;
-        }
-
-        .sidebar li:hover {
-            background-color: #f0f0f0;
-        }
-
-        .sidebar li.active {
-            background-color: #e5e5e5;
-            font-weight: bold;
-        }
-
-        /* Movie Grid */
-        .movie-grid {
-            flex: 1;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ukuran kartu lebih kecil agar mirip YT */
-            gap: 20px;
-            overflow-y: auto;
-        }
-
-        .movie-card {
-            background-color: transparent;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .movie-card:hover {
-            transform: scale(1.02);
-        }
-
-        .thumbnail-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* Rasio aspek 16:9 seperti video YouTube */
-            background-color: #ddd;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .movie-poster {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .duration-badge {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 2px 4px;
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f3f;
             border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
         }
-
-        .movie-info {
-            padding: 10px 0;
-            display: flex;
-            gap: 10px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
-
-        .channel-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: #ccc;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            color: #555;
+        /* Style khusus untuk Shorts */
+        .shorts-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: calc(100vh - 120px);
         }
-
-        .text-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .movie-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 4px;
-            line-height: 1.4;
-            max-height: 2.8em; /* Batasi 2 baris */
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .movie-meta {
-            font-size: 12px;
-            color: #606060;
-        }
-
-        .movie-meta span {
-            margin-right: 5px;
-        }
-
-        /* Loading & Error States */
-        .loading, .error {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-            color: #606060;
+        .short-card {
+            scroll-snap-align: start;
         }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased">
 
-    <!-- Header -->
-    <header class="header">
-        <div class="logo" onclick="fetchPopularMovies()">
-            <i class="fab fa-youtube"></i> StreamFlix
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 flex items-center justify-between px-4 h-14 bg-[#0f0f0f] border-b border-zinc-800">
+        <div class="flex items-center gap-4">
+            <button id="menu-btn" class="p-2 hover:bg-zinc-800 rounded-full hidden md:block">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <div class="flex items-center gap-1 cursor-pointer" onclick="loadCategory('trending')">
+                <i class="fa-brands fa-youtube text-red-600 text-3xl"></i>
+                <span class="text-xl font-bold tracking-tighter">Amnesfubbia</span>
+            </div>
         </div>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Telusuri">
-            <button id="searchButton"><i class="fas fa-search"></i></button>
+
+        <!-- Search Bar -->
+        <div class="flex items-center flex-1 max-w-[600px] mx-4">
+            <form id="search-form" class="flex w-full">
+                <input type="text" id="search-input" placeholder="Cari film..." 
+                    class="w-full bg-[#121212] border border-zinc-700 rounded-l-full py-2 px-5 text-sm focus:outline-none focus:border-blue-500 placeholder-zinc-500">
+                <button type="submit" class="bg-[#222222] border border-l-0 border-zinc-700 hover:bg-zinc-800 rounded-r-full py-2 px-6">
+                    <i class="fa-solid fa-magnifying-glass text-sm text-zinc-300"></i>
+                </button>
+            </form>
         </div>
-        <div class="user-actions">
-            <i class="fas fa-video" title="Buat"></i>
-            <i class="fas fa-bell" title="Notifikasi"></i>
-            <i class="fas fa-user-circle" title="Akun"></i>
+
+        <div class="flex items-center gap-3">
+            <button class="p-2 hover:bg-zinc-800 rounded-full hidden sm:block">
+                <i class="fa-solid fa-video text-xl"></i>
+            </button>
+            <button class="p-2 hover:bg-zinc-800 rounded-full hidden sm:block">
+                <i class="fa-regular fa-bell text-xl"></i>
+            </button>
+            <div class="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-sm font-bold">
+                A
+            </div>
         </div>
     </header>
 
-    <!-- Konten Utama -->
-    <main class="main-content">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <ul>
-                <li class="active" onclick="fetchPopularMovies()"><i class="fas fa-home"></i> Beranda</li>
-                <li><i class="fas fa-fire"></i> Trending</li>
-                <li><i class="fas fa-film"></i> Film</li>
-                <li><i class="fas fa-tv"></i> Serial TV</li>
-                <hr style="margin: 10px 0; border: 0; border-top: 1px solid #e5e5e5;">
-                <li><i class="fas fa-history"></i> Histori</li>
-                <li><i class="fas fa-clock"></i> Tonton Nanti</li>
-            </ul>
+    <div class="flex">
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="w-[240px] shrink-0 min-h-[calc(100vh-56px)] bg-[#0f0f0f] px-3 py-3 hidden md:block">
+            <nav class="space-y-1">
+                <button onclick="loadCategory('trending')" class="sidebar-btn w-full flex items-center gap-5 px-3 py-2.5 rounded-xl hover:bg-zinc-800 text-sm font-medium transition-colors bg-zinc-800">
+                    <i class="fa-solid fa-house text-lg"></i> Beranda
+                </button>
+                <button onclick="loadShorts()" class="sidebar-btn w-full flex items-center gap-5 px-3 py-2.5 rounded-xl hover:bg-zinc-800 text-sm font-medium transition-colors">
+                    <i class="fa-solid fa-bolt text-lg text-red-500"></i> Shorts
+                </button>
+                <button onclick="loadCategory('popular')" class="sidebar-btn w-full flex items-center gap-5 px-3 py-2.5 rounded-xl hover:bg-zinc-800 text-sm font-medium transition-colors">
+                    <i class="fa-solid fa-fire text-lg"></i> Populer
+                </button>
+                <button onclick="loadCategory('top_rated')" class="sidebar-btn w-full flex items-center gap-5 px-3 py-2.5 rounded-xl hover:bg-zinc-800 text-sm font-medium transition-colors">
+                    <i class="fa-solid fa-star text-lg"></i> Rating Tertinggi
+                </button>
+                <hr class="border-zinc-800 my-3">
+                <div class="px-3 text-xs text-zinc-400 font-bold mb-2">Kategori</div>
+                <button onclick="loadGenre(28)" class="sidebar-btn w-full flex items-center gap-5 px-3 py-2.5 rounded-xl hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
+                    <i class="fa-solid fa-gun text-lg"></i> Action
+                </button>
+                <button onclick="loadGenre(35)" class="sidebar-btn w-full flex items-center gap-5 px-3 py-2.5 rounded-xl hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
+                    <i class="fa-solid fa-face-laugh text-lg"></i> Komedi
+                </button>
+                <button onclick="loadGenre(27)" class="sidebar-btn w-full flex items-center gap-5 px-3 py-2.5 rounded-xl hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
+                    <i class="fa-solid fa-ghost text-lg"></i> Horor
+                </button>
+            </nav>
         </aside>
 
-        <!-- Grid Film -->
-        <section class="movie-grid" id="movieGrid">
-            <div class="loading">Memuat film...</div>
-        </section>
-    </main>
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 min-h-[calc(100vh-56px)] p-4 md:p-6 overflow-x-hidden">
+            
+            <!-- BROWSE VIEW (Daftar Film) -->
+            <div id="browse-view">
+                <!-- Kategori Chips / Tags -->
+                <div class="flex gap-3 overflow-x-auto pb-4 mb-4">
+                    <button onclick="loadCategory('trending')" class="bg-zinc-100 text-black text-sm font-medium px-3 py-1.5 rounded-lg whitespace-nowrap">Semua</button>
+                    <button onclick="loadGenre(878)" class="bg-zinc-800 hover:bg-zinc-700 text-sm font-medium px-3 py-1.5 rounded-lg whitespace-nowrap">Sci-Fi</button>
+                    <button onclick="loadGenre(12)" class="bg-zinc-800 hover:bg-zinc-700 text-sm font-medium px-3 py-1.5 rounded-lg whitespace-nowrap">Petualangan</button>
+                    <button onclick="loadGenre(53)" class="bg-zinc-800 hover:bg-zinc-700 text-sm font-medium px-3 py-1.5 rounded-lg whitespace-nowrap">Thriller</button>
+                </div>
 
-    <script>
-        /* --- JAVASCRIPT DIMULAI DI SINI --- */
-        
-        // API Key TMDB Anda
-        const API_KEY = 'bfa7df5310c9974f62f26c6789a8c00d'; 
-        const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+                <!-- Grid Video -->
+                <div id="movie-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10"></div>
+            </div>
 
-        const movieGrid = document.getElementById('movieGrid');
-        const searchInput = document.getElementById('searchInput');
-        const searchButton = document.getElementById('searchButton');
-
-        // Fungsi untuk mengambil film populer
-        async function fetchPopularMovies() {
-            showLoading();
-            try {
-                // Mengambil film populer dengan bahasa Indonesia
-                const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&language=id-ID&page=1`);
-                
-                if (!response.ok) {
-                    throw new Error('Gagal mengambil data dari API');
-                }
-
-                const data = await response.json();
-                displayMovies(data.results);
-            } catch (error) {
-                console.error('Error fetching popular movies:', error);
-                showError('Gagal memuat film. Periksa koneksi internet atau API Key.');
-            }
-        }
-
-        // Fungsi untuk mencari film
-        async function searchMovies(query) {
-            if (!query) {
-                fetchPopularMovies(); // Jika kosong, tampilkan populer
-                return;
-            }
-
-            showLoading();
-            try {
-                const response = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&language=id-ID&query=${encodeURIComponent(query)}&page=1`);
-                
-                if (!response.ok) {
-                    throw new Error('Gagal mencari data');
-                }
-
-                const data = await response.json();
-                displayMovies(data.results);
-            } catch (error) {
-                console.error('Error searching movies:', error);
-                showError('Gagal mencari film.');
-            }
-        }
-
-        // Fungsi menampilkan loading
-        function showLoading() {
-            movieGrid.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Memuat...</div>';
-        }
-
-        // Fungsi menampilkan error
-        function showError(message) {
-            movieGrid.innerHTML = `<div class="error">${message}</div>`;
-        }
-
-        // Fungsi untuk menampilkan film di grid
-        function displayMovies(movies) {
-            movieGrid.innerHTML = ''; // Kosongkan grid
-
-            if (!movies || movies.length === 0) {
-                movieGrid.innerHTML = '<div class="error">Tidak ada film ditemukan.</div>';
-                return;
-            }
-
-            movies.forEach(movie => {
-                // Buat elemen kartu film
-                const movieCard = document.createElement('div');
-                movieCard.classList.add('movie-card');
-
-                // Tentukan URL poster
-                const posterPath = movie.poster_path 
-                    ? `${IMAGE_BASE_URL}${movie.poster_path}` 
-                    : 'https://via.placeholder.com/500x281?text=No+Image'; // Placeholder rasio 16:9
-
-                // Format tahun rilis
-                const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
-                
-                // Buat HTML internal kartu
-                movieCard.innerHTML = `
-                    <div class="thumbnail-container">
-                        <img src="${posterPath}" alt="${movie.title}" class="movie-poster" loading="lazy">
-                        <span class="duration-badge">⭐ ${movie.vote_average.toFixed(1)}</span>
-                    </div>
-                    <div class="movie-info">
-                        <div class="channel-icon">
-                            <i class="fas fa-film"></i>
+            <!-- WATCH VIEW (Detail Film, Pemutar & Musik) -->
+            <div id="watch-view" class="hidden">
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Kolom Kiri: Player & Deskripsi -->
+                    <div class="flex-1">
+                        <!-- Video Player (Iframe YouTube) -->
+                        <div class="relative w-full aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
+                            <iframe id="video-player" class="absolute top-0 left-0 w-full h-full" 
+                                src="" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                         </div>
-                        <div class="text-info">
-                            <h3 class="movie-title" title="${movie.title}">${movie.title}</h3>
-                            <div class="movie-meta">
-                                <span>${releaseYear}</span> • 
-                                <span>Film</span>
+                        
+                        <!-- Detail Film -->
+                        <div class="mt-4">
+                            <h1 id="watch-title" class="text-xl md:text-2xl font-bold">Judul Film</h1>
+                            
+                            <div class="flex flex-wrap items-center justify-between gap-4 mt-2 pb-4 border-b border-zinc-800">
+                                <div class="flex items-center gap-3 text-sm text-zinc-400">
+                                    <span id="watch-date">Tanggal Rilis</span>
+                                    <span>•</span>
+                                    <span id="watch-rating" class="flex items-center gap-1 text-yellow-500 font-bold">
+                                        <i class="fa-solid fa-star"></i> 0.0
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Pilihan Download / Server Streaming -->
+                            <div class="mt-4 bg-zinc-900 rounded-xl p-4">
+                                <span class="font-bold text-zinc-200 block mb-3"><i class="fa-solid fa-download mr-1 text-red-500"></i> Unduh / Putar Alternatif</span>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2" id="download-links">
+                                    <!-- Link download dinamis akan di-render di sini -->
+                                </div>
+                            </div>
+
+                            <!-- Deskripsi & Terjemahan -->
+                            <div class="bg-zinc-900 rounded-xl p-4 mt-4 text-sm">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-bold text-zinc-200">Sinopsis</span>
+                                    <button id="translate-btn" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2.5 py-1 rounded-md transition-colors flex items-center gap-1">
+                                        <i class="fa-solid fa-language"></i> Terjemahkan ke Indonesia
+                                    </button>
+                                </div>
+                                <p id="watch-overview" class="text-zinc-300 leading-relaxed">Sinopsis film...</p>
+                            </div>
+
+                            <!-- Aktor / Pemeran Utama -->
+                            <div class="bg-zinc-900 rounded-xl p-4 mt-4 text-sm">
+                                <span class="font-bold text-zinc-200 block mb-2">Pemeran Utama</span>
+                                <div id="actors-list" class="flex gap-4 overflow-x-auto pb-2">
+                                    <!-- Daftar Aktor -->
+                                </div>
+                            </div>
+
+                            <!-- Soundtrack / Musik List -->
+                            <div class="bg-zinc-900 rounded-xl p-4 mt-4 text-sm">
+                                <span class="font-bold text-zinc-200 block mb-2"><i class="fa-solid fa-music text-red-500 mr-1"></i> Soundtrack Resmi (iTunes)</span>
+                                <div id="soundtrack-list" class="space-y-3 mt-2">
+                                    <!-- Lagu dimuat di sini -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                `;
 
-                // Event listener saat kartu diklik
-                movieCard.addEventListener('click', () => {
-                    alert(`Anda memilih: ${movie.title}\n\nCatatan: Ini hanya demo tampilan. Untuk streaming video asli, diperlukan sumber video legal.`);
-                    // Di sini Anda bisa menambahkan logika untuk membuka modal atau halaman detail
+                    <!-- Kolom Kanan: Rekomendasi Film -->
+                    <div class="w-full lg:w-[360px] shrink-0">
+                        <h2 class="text-lg font-bold mb-4">Rekomendasi Lainnya</h2>
+                        <div id="recommendations-list" class="flex flex-col gap-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SHORTS VIEW -->
+            <div id="shorts-view" class="hidden">
+                <div class="flex justify-center items-center">
+                    <div id="shorts-container" class="shorts-container w-full max-w-[400px] space-y-8">
+                        <!-- Konten Shorts akan dimuat secara dinamis -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const API_KEY = 'bfa7df5310c9974f62f26c6789a8c00d';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+        let originalOverview = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategory('trending');
+
+            document.getElementById('search-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const query = document.getElementById('search-input').value.trim();
+                if (query) searchMovies(query);
+            });
+        });
+
+        function switchView(view) {
+            const browseView = document.getElementById('browse-view');
+            const watchView = document.getElementById('watch-view');
+            const shortsView = document.getElementById('shorts-view');
+            
+            browseView.classList.add('hidden');
+            watchView.classList.add('hidden');
+            shortsView.classList.add('hidden');
+
+            if (view === 'watch') {
+                watchView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (view === 'shorts') {
+                shortsView.classList.remove('hidden');
+                document.getElementById('video-player').src = '';
+            } else {
+                browseView.classList.remove('hidden');
+                document.getElementById('video-player').src = '';
+            }
+        }
+
+        async function loadCategory(category) {
+            switchView('browse');
+            let url = '';
+            if (category === 'trending') {
+                url = `${BASE_URL}/trending/movie/week?api_key=${API_KEY}`;
+            } else if (category === 'popular') {
+                url = `${BASE_URL}/movie/popular?api_key=${API_KEY}`;
+            } else if (category === 'top_rated') {
+                url = `${BASE_URL}/movie/top_rated?api_key=${API_KEY}`;
+            }
+            updateSidebarActiveState(category);
+            fetchAndRender(url);
+        }
+
+        async function loadGenre(genreId) {
+            switchView('browse');
+            const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc`;
+            fetchAndRender(url);
+        }
+
+        async function searchMovies(query) {
+            switchView('browse');
+            const url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}`;
+            fetchAndRender(url);
+        }
+
+        async function fetchAndRender(url) {
+            const grid = document.getElementById('movie-grid');
+            grid.innerHTML = '<div class="col-span-full text-center text-zinc-400 py-10"><i class="fa-solid fa-spinner fa-spin text-3xl"></i></div>';
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results || [];
+
+                if (movies.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full text-center text-zinc-400 py-10">Film tidak ditemukan.</div>';
+                    return;
+                }
+
+                grid.innerHTML = '';
+                movies.forEach(movie => {
+                    const thumbnail = movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : 'https://placehold.co/600x340/1f1f1f/f1f1f1?text=Amnesfubbia';
+                    const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'cursor-pointer group';
+                    card.onclick = () => watchMovie(movie.id);
+
+                    card.innerHTML = `
+                        <div class="relative aspect-video rounded-xl overflow-hidden bg-zinc-800 mb-3 transition-transform duration-200 group-hover:scale-[1.03]">
+                            <img src="${thumbnail}" alt="${movie.title}" class="w-full h-full object-cover" loading="lazy">
+                            <span class="absolute bottom-2 right-2 bg-black/80 px-2 py-0.5 rounded text-xs font-semibold">HD</span>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="w-9 h-9 rounded-full bg-red-600 shrink-0 flex items-center justify-center text-xs text-white font-bold">AF</div>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-sm line-clamp-2 leading-tight text-zinc-100 group-hover:text-white">${movie.title}</h3>
+                                <p class="text-xs text-zinc-400 mt-1 flex items-center gap-1.5">
+                                    <span>Rating: ${movie.vote_average.toFixed(1)}</span>
+                                    <span>•</span>
+                                    <span>${releaseYear}</span>
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error(error);
+                grid.innerHTML = '<div class="col-span-full text-center text-red-500 py-10">Gagal memuat film.</div>';
+            }
+        }
+
+        // FUNGSI UTAMA WATCH MOVIE
+        async function watchMovie(movieId) {
+            switchView('watch');
+            const videoPlayer = document.getElementById('video-player');
+            videoPlayer.src = '';
+
+            try {
+                // Get Movie Details + Videos + Credits
+                const detailUrl = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos,credits`;
+                const response = await fetch(detailUrl);
+                const movie = await response.json();
+
+                // 1. Trailer Setup
+                let trailerKey = '';
+                if (movie.videos && movie.videos.results) {
+                    const trailer = movie.videos.results.find(vid => vid.type === 'Trailer' && vid.site === 'YouTube');
+                    if (trailer) trailerKey = trailer.key;
+                    else if (movie.videos.results.length > 0) trailerKey = movie.videos.results[0].key;
+                }
+
+                document.getElementById('watch-title').innerText = movie.title;
+                document.getElementById('watch-date').innerText = movie.release_date || 'N/A';
+                document.getElementById('watch-rating').innerHTML = `<i class="fa-solid fa-star"></i> ${movie.vote_average.toFixed(1)}`;
+                
+                originalOverview = movie.overview || 'Sinopsis tidak tersedia.';
+                document.getElementById('watch-overview').innerText = originalOverview;
+
+                // Setup tombol Translate
+                const translateBtn = document.getElementById('translate-btn');
+                translateBtn.onclick = () => translateSynopsis(originalOverview);
+
+                if (trailerKey) {
+                    videoPlayer.src = `https://www.youtube.com/embed/${trailerKey}?autoplay=1`;
+                } else {
+                    videoPlayer.src = '';
+                }
+
+                // 2. Render Actors
+                const actorsContainer = document.getElementById('actors-list');
+                actorsContainer.innerHTML = '';
+                const cast = movie.credits ? movie.credits.cast.slice(0, 8) : [];
+                cast.forEach(actor => {
+                    const actorImg = actor.profile_path ? `${IMAGE_BASE_URL}${actor.profile_path}` : 'https://placehold.co/100x100/1f1f1f/f1f1f1?text=No+Photo';
+                    const actorDiv = document.createElement('div');
+                    actorDiv.className = 'text-center shrink-0 w-16';
+                    actorDiv.innerHTML = `
+                        <img src="${actorImg}" class="w-12 h-12 rounded-full object-cover mx-auto" alt="${actor.name}">
+                        <p class="text-[10px] mt-1 text-zinc-300 truncate w-16">${actor.name}</p>
+                    `;
+                    actorsContainer.appendChild(actorDiv);
                 });
 
-                movieGrid.appendChild(movieCard);
+                // 3. Render Link Unduhan
+                renderDownloadLinks(movieId);
+
+                // 4. Load Soundtrack dari iTunes Search API
+                loadSoundtrack(movie.title);
+
+                // 5. Load Rekomendasi
+                loadRecommendations(movieId);
+
+            } catch (error) {
+                console.error("Gagal memuat detail film:", error);
+            }
+        }
+
+        // RENDER LINK UNDUHAN (DOWNLOAD)
+        function renderDownloadLinks(id) {
+            const container = document.getElementById('download-links');
+            container.innerHTML = '';
+
+            const links = [
+                { name: "VidVault Stream/Download", url: `https://vidvault.ru/movie/${id}`, color: "bg-blue-600 hover:bg-blue-700" },
+                { name: "02Movie Downloader", url: `https://02moviedownloader.site/api/download/movie/${id}`, color: "bg-emerald-600 hover:bg-emerald-700" },
+                { name: "Peachify DL", url: `https://dl.peachify.top/movie/${id}`, color: "bg-orange-600 hover:bg-orange-700" },
+                { name: "RiveStream DL", url: `https://rivestream.ru/download?type=movie&id=${id}`, color: "bg-indigo-600 hover:bg-indigo-700" },
+                { name: "CineSRC DL", url: `https://cinesrc.st/download/movie/${id}`, color: "bg-purple-600 hover:bg-purple-700" },
+                { name: "BunnyDDL DL", url: `https://bunnyddl.termsandconditionshere.workers.dev/movie/${id}`, color: "bg-pink-600 hover:bg-pink-700" }
+            ];
+
+            links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = "_blank";
+                a.className = `${link.color} text-center text-xs font-semibold py-2.5 px-3 rounded-lg transition-all flex items-center justify-center gap-1`;
+                a.innerHTML = `<i class="fa-solid fa-circle-down"></i> ${link.name}`;
+                container.appendChild(a);
             });
         }
 
-        // Event Listeners
-        searchButton.addEventListener('click', () => {
-            searchMovies(searchInput.value);
-        });
+        // TERJEMAHAN SINOPSIS (Google Translate API gratis)
+        async function translateSynopsis(text) {
+            const overviewEl = document.getElementById('watch-overview');
+            const btn = document.getElementById('translate-btn');
+            
+            if (!text || text === 'Sinopsis tidak tersedia.') return;
 
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                searchMovies(searchInput.value);
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menerjemahkan...';
+
+            try {
+                const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=id&dt=t&q=${encodeURIComponent(text)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data && data[0]) {
+                    const translatedText = data[0].map(sentence => sentence[0]).join('');
+                    overviewEl.innerText = translatedText;
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Berhasil Diterjemahkan';
+                }
+            } catch (error) {
+                console.error("Gagal menerjemahkan sinopsis:", error);
+                btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Gagal';
             }
+        }
+
+        // SOUNDTRACK (iTunes Search API)
+        async function loadSoundtrack(title) {
+            const container = document.getElementById('soundtrack-list');
+            container.innerHTML = '<div class="text-xs text-zinc-500">Mencari soundtrack...</div>';
+
+            try {
+                // Mencari lagu di iTunes dengan tambahan keyword soundtrack
+                const url = `https://itunes.apple.com/search?term=${encodeURIComponent(title)}+soundtrack&limit=5&media=music&entity=song`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                container.innerHTML = '';
+                if (!data.results || data.results.length === 0) {
+                    container.innerHTML = '<div class="text-xs text-zinc-500">Tidak ada lagu soundtrack yang ditemukan.</div>';
+                    return;
+                }
+
+                data.results.forEach(song => {
+                    const trackDiv = document.createElement('div');
+                    trackDiv.className = 'flex items-center gap-3 bg-zinc-800 p-2.5 rounded-lg';
+                    trackDiv.innerHTML = `
+                        <img src="${song.artworkUrl60}" class="w-10 h-10 rounded" alt="${song.trackName}">
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-xs text-white truncate">${song.trackName}</p>
+                            <p class="text-[10px] text-zinc-400 truncate">${song.artistName} - ${song.collectionName}</p>
+                        </div>
+                        <audio controls class="w-28 sm:w-40 h-8 brightness-95 rounded bg-zinc-700">
+                            <source src="${song.previewUrl}" type="audio/x-m4a">
+                        </audio>
+                    `;
+                    container.appendChild(trackDiv);
+                });
+            } catch (error) {
+                console.error("Gagal mengambil soundtrack:", error);
+                container.innerHTML = '<div class="text-xs text-red-500">Gagal memuat soundtrack.</div>';
+            }
+        }
+
+        // SHORTS (Mirip YouTube Shorts)
+        async function loadShorts() {
+            switchView('shorts');
+            updateSidebarActiveState('shorts');
+            const container = document.getElementById('shorts-container');
+            container.innerHTML = '<div class="text-center py-10 text-zinc-400"><i class="fa-solid fa-spinner fa-spin text-3xl"></i></div>';
+
+            try {
+                // Mengambil film-film terpopuler untuk dijadikan Shorts
+                const url = `${BASE_URL}/movie/popular?api_key=${API_KEY}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const movies = data.results || [];
+
+                container.innerHTML = '';
+
+                // Memfilter film yang memiliki video trailer
+                for (let i = 0; i < Math.min(movies.length, 5); i++) {
+                    const movie = movies[i];
+                    const videoUrl = `${BASE_URL}/movie/${movie.id}/videos?api_key=${API_KEY}`;
+                    const videoRes = await fetch(videoUrl);
+                    const videoData = await videoRes.json();
+                    
+                    let key = '';
+                    if (videoData.results && videoData.results.length > 0) {
+                        key = videoData.results[0].key;
+                    }
+
+                    if (key) {
+                        const short = document.createElement('div');
+                        short.className = 'short-card relative w-full h-[650px] bg-black rounded-3xl overflow-hidden flex flex-col justify-end shadow-2xl';
+                        short.innerHTML = `
+                            <!-- Player YouTube dibentuk vertikal -->
+                            <iframe class="absolute top-0 left-0 w-full h-[90%] pointer-events-auto" 
+                                src="https://www.youtube.com/embed/${key}?autoplay=0&controls=0&mute=1&loop=1&playlist=${key}" 
+                                frameborder="0" allowfullscreen></iframe>
+                            
+                            <!-- Gradient Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none"></div>
+
+                            <!-- Tombol interaksi di sebelah kanan (YouTube Shorts style) -->
+                            <div class="absolute right-3 bottom-24 flex flex-col items-center gap-5 z-20 text-white">
+                                <button class="flex flex-col items-center hover:text-red-500">
+                                    <div class="w-11 h-11 rounded-full bg-zinc-900/80 flex items-center justify-center text-lg shadow-md"><i class="fa-solid fa-thumbs-up"></i></div>
+                                    <span class="text-[10px] mt-1 font-semibold">Suka</span>
+                                </button>
+                                <button class="flex flex-col items-center hover:text-red-500">
+                                    <div class="w-11 h-11 rounded-full bg-zinc-900/80 flex items-center justify-center text-lg shadow-md"><i class="fa-solid fa-comment"></i></div>
+                                    <span class="text-[10px] mt-1 font-semibold">1.2K</span>
+                                </button>
+                                <button class="flex flex-col items-center hover:text-red-500">
+                                    <div class="w-11 h-11 rounded-full bg-zinc-900/80 flex items-center justify-center text-lg shadow-md"><i class="fa-solid fa-share"></i></div>
+                                    <span class="text-[10px] mt-1 font-semibold">Bagikan</span>
+                                </button>
+                            </div>
+
+                            <!-- Info Judul & Tombol Mainkan Film penuh -->
+                            <div class="absolute bottom-4 left-4 right-16 z-10 text-white pointer-events-auto">
+                                <h3 class="font-bold text-sm drop-shadow-md truncate">${movie.title}</h3>
+                                <p class="text-xs text-zinc-300 drop-shadow-md mt-1 truncate">${movie.overview || ''}</p>
+                                <button onclick="watchMovie(${movie.id})" class="mt-3 bg-red-600 hover:bg-red-700 text-white font-semibold text-xs py-2 px-4 rounded-full transition-all flex items-center gap-1.5">
+                                    <i class="fa-solid fa-play"></i> Putar Film Penuh
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(short);
+                    }
+                }
+
+                if (container.children.length === 0) {
+                    container.innerHTML = '<div class="text-center text-zinc-500 py-10">Tidak ada Shorts tersedia saat ini.</div>';
+                }
+
+            } catch (error) {
+                console.error("Gagal memuat Shorts:", error);
+                container.innerHTML = '<div class="text-center text-red-500 py-10">Gagal memuat halaman Shorts.</div>';
+            }
+        }
+
+        async function loadRecommendations(movieId) {
+            const recommendationsContainer = document.getElementById('recommendations-list');
+            recommendationsContainer.innerHTML = '<div class="text-center py-4 text-zinc-500"><i class="fa-solid fa-spinner fa-spin"></i></div>';
+
+            try {
+                const url = `${BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                const recommendedMovies = data.results ? data.results.slice(0, 6) : [];
+
+                recommendationsContainer.innerHTML = '';
+                if (recommendedMovies.length === 0) {
+                    recommendationsContainer.innerHTML = '<p class="text-zinc-500 text-sm">Tidak ada rekomendasi sejenis.</p>';
+                    return;
+                }
+
+                recommendedMovies.forEach(movie => {
+                    const thumbnail = movie.backdrop_path ? `${IMAGE_BASE_URL}${movie.backdrop_path}` : 'https://placehold.co/300x170/1f1f1f/f1f1f1?text=No+Image';
+                    const releaseYear = movie.release_date ? movie.release_date.split('-')[0] : 'N/A';
+
+                    const item = document.createElement('div');
+                    item.className = 'flex gap-3 cursor-pointer group';
+                    item.onclick = () => watchMovie(movie.id);
+
+                    item.innerHTML = `
+                        <div class="relative w-[130px] aspect-video rounded-lg overflow-hidden bg-zinc-800 shrink-0">
+                            <img src="${thumbnail}" alt="${movie.title}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-xs text-zinc-100 group-hover:text-white line-clamp-2 leading-tight">${movie.title}</h4>
+                            <p class="text-[10px] text-zinc-400 mt-1">Rating: ${movie.vote_average.toFixed(1)}</p>
+                            <p class="text-[9px] text-zinc-500">${releaseYear}</p>
+                        </div>
+                    `;
+                    recommendationsContainer.appendChild(item);
+                });
+
+            } catch (error) {
+                console.error(error);
+                recommendationsContainer.innerHTML = '<p class="text-red-500 text-xs">Gagal memuat rekomendasi.</p>';
+            }
+        }
+
+        function updateSidebarActiveState(activeCategory) {
+            const buttons = document.querySelectorAll('.sidebar-btn');
+            buttons.forEach(btn => btn.classList.remove('bg-zinc-800'));
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes(activeCategory)) {
+                    btn.classList.add('bg-zinc-800');
+                }
+            });
+        }
+
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
         });
-
-        // Muat film populer saat halaman pertama kali dibuka
-        window.addEventListener('DOMContentLoaded', fetchPopularMovies);
-
     </script>
 </body>
 </html>
