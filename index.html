@@ -1584,10 +1584,12 @@
         }
         .ep-synopsis.expanded { -webkit-line-clamp: unset; display: block; }
         .ep-action-row {
-            display: flex; gap: 6px; margin-top: 7px;
+            display: flex; gap: 6px;
+            padding: 0 0 10px 0;
+            width: 100%;
         }
         .ep-action-btn {
-            flex: 1; padding: 6px 4px;
+            flex: 1; padding: 8px 4px;
             border-radius: 8px; font-size: 10px; font-weight: 700;
             text-align: center; cursor: pointer; border: 1px solid #2a2a2a;
             background: #1a1a1a; color: #fff;
@@ -6324,30 +6326,32 @@
                     ? `<div class="ep-synopsis" id="syn-${epId}">${epOverview}</div>`
                     : `<div class="ep-synopsis" style="color:#333;font-style:italic">No synopsis available.</div>`;
 
-                const actionRowHTML = `<div class="ep-action-row" onclick="event.stopPropagation()">
-                    <button class="ep-action-btn ep-btn-watch" onclick="changeEpisode(${epNum}, this.closest('.ep-card')); document.getElementById('movieModal').scrollTo({top:0,behavior:'smooth'})">
-                        <i class="fa-solid fa-play" style="font-size:8px"></i> Watch
-                    </button>
-                    <button class="ep-action-btn ep-btn-download" onclick="(function(){const id=window.currentMediaId,s=document.getElementById('seasonSel').value||1;window.open('https://vidvault.ru/tv/'+id+'/'+s+'/${epNum}','_blank')})()">
-                        <i class="fa-solid fa-download" style="font-size:8px"></i> Download
-                    </button>
-                    ${epOverview ? `<button class="ep-action-btn ep-btn-translate" id="transbtn-${epId}" onclick="translateEpSynopsis('${epId}', this, event)">See Translation</button>` : ''}
-                </div>`;
+                const actionRowHTML = '';
 
-                return `<div class="ep-card" onclick="changeEpisode(${epNum}, this)">
-                    <div class="ep-thumb-wrap">
-                        ${thumbHTML}
-                        <span class="ep-badge">EP ${epNum}</span>
-                        ${runtime ? `<span class="ep-duration">${runtime}</span>` : ''}
-                    </div>
-                    <div class="ep-info">
-                        <div class="ep-title">${epTitle}</div>
-                        <div class="ep-meta-row">
-                            ${epRating ? `<span class="ep-rating">★ ${epRating}<span class="ep-rating-count">${epVotes ? ` (${epVotes})` : ''}</span></span>` : ''}
-                            ${epDate ? `<span class="ep-date"><i class="fa-regular fa-calendar" style="font-size:9px"></i>${epDate}</span>` : ''}
+                return `<div class="ep-card" style="flex-direction:column;padding-bottom:0" onclick="changeEpisode(${epNum}, this)">
+                    <div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0 8px">
+                        <div class="ep-thumb-wrap">
+                            ${thumbHTML}
+                            <span class="ep-badge">EP ${epNum}</span>
+                            ${runtime ? `<span class="ep-duration">${runtime}</span>` : ''}
                         </div>
-                        ${synopsisHTML}
-                        ${actionRowHTML}
+                        <div class="ep-info" style="padding:2px 0">
+                            <div class="ep-title">${epTitle}</div>
+                            <div class="ep-meta-row">
+                                ${epRating ? `<span class="ep-rating">★ ${epRating}<span class="ep-rating-count">${epVotes ? ` (${epVotes})` : ''}</span></span>` : ''}
+                                ${epDate ? `<span class="ep-date"><i class="fa-regular fa-calendar" style="font-size:9px"></i>${epDate}</span>` : ''}
+                            </div>
+                            ${synopsisHTML}
+                        </div>
+                    </div>
+                    <div class="ep-action-row" onclick="event.stopPropagation()">
+                        <button class="ep-action-btn ep-btn-watch" onclick="changeEpisode(${epNum}, this.closest('.ep-card')); document.getElementById('movieModal').scrollTo({top:0,behavior:'smooth'})">
+                            <i class="fa-solid fa-play" style="font-size:8px"></i> Watch
+                        </button>
+                        <button class="ep-action-btn ep-btn-download" onclick="(function(){const id=window.currentMediaId,s=document.getElementById('seasonSel').value||1;window.open('https://vidvault.ru/tv/'+id+'/'+s+'/${epNum}','_blank')})()">
+                            <i class="fa-solid fa-download" style="font-size:8px"></i> Download
+                        </button>
+                        ${epOverview ? `<button class="ep-action-btn ep-btn-translate" id="transbtn-${epId}" onclick="translateEpSynopsis('${epId}', this, event)">See Translation</button>` : ''}
                     </div>
                 </div>`;
             }).join('');
