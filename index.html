@@ -1,779 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#000000">
-<title>Silmikaffah — Islam Secara Menyeluruh</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NUSANTARA — Budaya Indonesia</title>
 <style>
-:root{
-  --bg:#050908; --surface:#0b1210; --surface2:#101a17;
-  --teal:#16c7a0; --teal2:#0e8f78; --text:#f4f8f6;
-  --muted:#91a19c; --line:#1b2a26; --danger:#ff7272;
-  --radius:20px;
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-body{min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer}
-.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:82px}
-header{padding:22px 18px 12px;position:sticky;top:0;z-index:5;background:rgba(5,9,8,.92);backdrop-filter:blur(16px)}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:48px;height:48px;display:grid;place-items:center;overflow:hidden;flex:0 0 48px}.logo img{width:40px;height:40px;object-fit:contain;display:block}
-.brand h1{font-size:21px;margin:0}
-.brand p{font-size:12px;color:var(--muted);margin:3px 0 0}
-.search{margin-top:16px;display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:12px 14px}
-.search input{width:100%;border:0;outline:0;background:none;color:var(--text)}
-.search span{color:var(--muted)}
-main{padding:10px 18px}
-.hero{background:linear-gradient(135deg,#0c201b,#0b1512);border:1px solid var(--line);border-radius:24px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden}
-.hero:after{content:"☪";position:absolute;right:-8px;top:-25px;font-size:115px;color:#16c7a012}
-.hero h2{margin:0 0 7px;font-size:22px}
-.hero p{margin:0;color:var(--muted);line-height:1.5;font-size:14px}
-.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 0 11px}
-.section-title h2{font-size:17px;margin:0}
-.section-title small{color:var(--teal)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
-.card{border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:15px;text-align:left;color:var(--text);min-height:108px;transition:.2s}
-.card:hover{transform:translateY(-2px);border-color:#24534a}
-.card .icon{font-size:27px;margin-bottom:10px}
-.card b{display:block;font-size:14px}
-.card small{display:block;color:var(--muted);margin-top:5px;line-height:1.35}
-.shortcut{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.short{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px 8px;text-align:center;color:var(--text)}
-.short div{font-size:22px}.short small{display:block;margin-top:5px;color:var(--muted)}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);background:rgba(8,14,12,.96);border-top:1px solid var(--line);backdrop-filter:blur(18px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:20}
-.navbtn{background:none;border:0;color:var(--muted);font-size:11px;padding:0;margin:0;min-width:0;width:100%;height:48px;display:flex;align-items:center;justify-content:center}
-.navbtn span{display:grid;place-items:center}.nav-svg{width:30px;height:30px}
-
-.navbtn.active{color:var(--teal)}
-.page{display:none}
-.page.active{display:block}
-.back{border:0;background:none;color:var(--teal);padding:8px 4px 16px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:6px}
-.page-head{display:flex;gap:13px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:17px;margin-bottom:16px}
-.page-head .big{font-size:34px}.page-head h2{margin:0;font-size:20px}.page-head p{margin:4px 0 0;color:var(--muted);font-size:13px}
-.sublist{display:grid;gap:9px}
-.subitem{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:14px;color:var(--text);text-align:left}
-.subitem .left{display:flex;align-items:center;gap:11px}.subitem .mini{font-size:20px}
-.arrow{color:var(--muted)}
-.detail{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;line-height:1.65}
-.detail h3{margin-top:0}.detail .arabic{font-size:25px;line-height:2;text-align:right;margin:15px 0}
-.detail .source{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:18px}
-.settings-group{margin-bottom:20px}.settings-group h3{font-size:14px;color:var(--teal);margin-bottom:9px}
-.setting{display:flex;justify-content:space-between;align-items:center;background:var(--surface);border:1px solid var(--line);padding:14px;border-radius:14px;margin-bottom:7px}
-.setting small{display:block;color:var(--muted);margin-top:3px}
-.switch{width:44px;height:25px;border-radius:30px;background:#26332f;padding:3px}.switch i{display:block;width:19px;height:19px;border-radius:50%;background:#fff}.switch.on{background:var(--teal)}.switch.on i{margin-left:19px}
-.empty{padding:35px 15px;text-align:center;color:var(--muted)}
-.results{display:grid;gap:9px;margin-top:14px}
-.result{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:14px}
-.result b{display:block}.result small{color:var(--muted)}
-@media(min-width:600px){body{padding:0 20px}.app{box-shadow:0 0 80px #000}}
-
-
-/* DAILY HOME CARD */
-.daily-card{padding:18px}
-.daily-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.hijri-label,.quote-label{font-size:10px;letter-spacing:1.2px;font-weight:800;color:var(--teal)}
-.daily-top h2{font-size:20px;margin:5px 0 2px}
-.gregorian-date{font-size:12px;color:var(--muted)}
-.moon{width:46px;height:46px;border-radius:15px;background:rgba(22,199,160,.12);display:grid;place-items:center;font-size:24px;color:var(--teal)}
-.prayer-box{margin-top:15px;padding:13px;border:1px solid var(--line);background:var(--surface2);border-radius:16px}
-.prayer-location{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:11px;margin-bottom:10px}
-.current-prayer{display:flex;align-items:center;justify-content:space-between}
-.current-prayer small{display:block;color:var(--muted);font-size:9px;letter-spacing:.7px}
-.current-prayer strong{display:block;font-size:15px;margin-top:3px}
-.prayer-time{font-size:27px;font-weight:800;color:var(--teal)}
-.prayer-row{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
-.prayer-row span{text-align:center;color:var(--muted);font-size:9px}
-.prayer-row b{display:block;color:var(--text);font-size:10px;margin-top:3px}
-.quote-box{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);line-height:1.5;font-size:13px}
-.quote-box small{display:block;color:var(--muted);font-size:10px;margin-top:6px}
-body.theme-light .hero{background:linear-gradient(135deg,#ffffff,#eef7f4);border-color:#d7e5e0}
-body.theme-light .daily-card{color:#13211d}
-body.theme-light .daily-card .hijri-label,
-body.theme-light .daily-card .quote-label{color:#087d68}
-body.theme-light .prayer-box{background:#f3f8f6;border-color:#d7e5e0}
-body.theme-light .moon{background:#e3f5f0}
-body.theme-light .card,
-body.theme-light .subitem,
-body.theme-light .short,
-body.theme-light .result,
-body.theme-light .detail,
-body.theme-light .page-head,
-body.theme-light .search{box-shadow:0 3px 14px rgba(17,50,42,.05)}
-
-/* SILMIKAFFAH THEME SYSTEM */
-.splash{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .45s,visibility .45s;animation:splashAutoHide .45s ease 1.5s forwards}@keyframes splashAutoHide{to{opacity:0;visibility:hidden;pointer-events:none}}
-.splash.hide{opacity:0;visibility:hidden}.nojs-note{display:none}
-.splash-logo{width:90px;height:90px;border-radius:22px;display:grid;place-items:center;margin-bottom:16px;overflow:hidden}
-.splash-logo img{width:76px;height:76px;object-fit:contain;display:block}
-.splash-name{font-size:28px;font-weight:800;letter-spacing:.2px}
-.splash-tagline{font-size:13px;color:#91a19c;margin-top:5px}
-.splash-loader{width:90px;height:3px;background:#17201d;border-radius:99px;margin-top:28px;overflow:hidden}
-.splash-loader i{display:block;width:35%;height:100%;background:#16c7a0;border-radius:99px;animation:load 1.15s infinite}
-@keyframes load{0%{transform:translateX(-120%)}100%{transform:translateX(380%)}}
-
-body.theme-light{--bg:#f5f8f7;--surface:#fff;--surface2:#eef4f2;--teal:#078f76;--teal2:#056d5b;--text:#12201c;--muted:#64746e;--line:#dce7e3}
-body.theme-light header{background:rgba(245,248,247,.94)}
-body.theme-light .bottom{background:rgba(255,255,255,.96)}
-
-.theme-options{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
-.theme-option{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:13px;padding:12px 7px;text-align:center}
-.theme-option strong{display:block;font-size:12px;margin-top:5px}
-.theme-option small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
-.theme-option.active{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal) inset}
-.theme-dot{width:26px;height:26px;border-radius:50%;margin:auto;border:1px solid var(--line)}
-.dot-amoled{background:#000}.dot-light{background:#fff}
-
-
-.icon,.big,.mini,.nav-svg{color:var(--teal)}
-.icon svg,.big svg,.mini svg,.nav-svg svg{display:block}
-.mini{width:24px;height:24px;display:grid;place-items:center;flex:none}
-.nav-svg{display:grid;place-items:center;width:28px;height:28px}.navbtn{padding:7px 2px}
-
-
-.moon{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;color:var(--teal);opacity:.9}
-.moon svg{width:52px;height:52px}
-.short{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
-.short-icon{height:28px;display:grid;place-items:center;color:var(--teal)}
-.location-icon{color:var(--teal);display:inline-flex;align-items:center}
-
-<style>
-@media(max-width:430px){
-  .cards{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}
-  .card{padding:11px 9px!important;border-radius:15px!important}
-  .card .icon{font-size:24px!important}
-  .card h3{font-size:13px!important;line-height:1.2!important}
-  .card p{font-size:10px!important;line-height:1.35!important}
-}
+:root{--bg:#000;--card:#090909;--card2:#101010;--text:#f5f5f5;--muted:#999;--green:#25c79a;--lime:#c4f36b;--line:#242424}
+*{box-sizing:border-box}body{margin:0;background:#000;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.app{max-width:1100px;margin:auto;padding:18px 18px 90px}
+header{display:flex;justify-content:space-between;align-items:center;padding:5px 0 22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:45px;height:45px;border-radius:14px;background:linear-gradient(135deg,var(--lime),var(--green));color:#05251c;display:grid;place-items:center;font-size:24px;font-weight:900}.brand b{letter-spacing:2px;font-size:20px}.brand small{display:block;color:var(--muted);font-size:11px}
+button{font:inherit;cursor:pointer}.icon{background:var(--card);border:1px solid var(--line);color:white;border-radius:12px;width:42px;height:42px}
+.hero{padding:30px;border-radius:26px;border:1px solid #285548;background:#080808;overflow:hidden}.eyebrow{color:var(--lime);font-size:12px;font-weight:800;letter-spacing:2px}.hero h1{font-size:clamp(34px,7vw,58px);line-height:1;margin:8px 0}.hero p{color:#c4d1cc;max-width:680px;line-height:1.65}.search{display:flex;gap:8px;max-width:720px}.search input{flex:1;min-width:0;padding:14px 16px;border-radius:13px;border:1px solid #315a4e;background:#06110e;color:white;outline:none}.primary{border:0;background:var(--green);color:#04241b;font-weight:800;padding:13px 18px;border-radius:13px}
+section{margin-top:28px}.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.title h2{font-size:21px;margin:0}.title button{background:none;border:0;color:var(--lime)}
+.quick,.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.quick .item,.province,.culture{background:var(--card);border:1px solid var(--line);border-radius:18px;transition:.2s}.quick .item{padding:17px;cursor:pointer}.item:hover,.province:hover,.culture:hover{transform:translateY(-3px);border-color:#377263}.emoji{font-size:29px}.item b{display:block;margin-top:8px}.item small,.province small,.culture small{color:var(--muted)}
+.province{overflow:hidden;cursor:pointer}.picon{height:105px;display:grid;place-items:center;font-size:45px;background:#111}.pbody{padding:13px}.pbody b{display:block;margin-bottom:3px}
+.culture{padding:16px;cursor:pointer}.culture b{display:block;margin:8px 0 4px}
+.quiz{padding:22px;border-radius:22px;border:1px solid #285548;background:#0a0a0a}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.answers button{padding:13px;text-align:left;border-radius:12px;background:#091713;color:white;border:1px solid var(--line)}.answers button:hover{border-color:var(--green)}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:5;width:min(720px,calc(100% - 18px));display:grid;grid-template-columns:repeat(5,1fr);padding:8px;background:#081511ee;backdrop-filter:blur(15px);border:1px solid #28493f;border-radius:19px 19px 0 0}nav button{background:none;border:0;color:#9aaba5;font-size:11px}nav span{display:block;font-size:19px;margin-bottom:3px}nav button:hover{color:var(--lime)}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10;padding:18px;place-items:center}.modal.show{display:grid}.box{max-width:700px;width:100%;max-height:90vh;overflow:auto;background:#0b1815;border:1px solid #295448;border-radius:23px;padding:22px}.close{float:right;background:#142923;color:white;border:0;border-radius:9px;width:38px;height:38px}.detailicon{font-size:55px;padding:25px;border-radius:18px;background:linear-gradient(135deg,#163d33,#0d211d)}.tags{display:flex;gap:7px;flex-wrap:wrap}.tag{background:#14352d;padding:7px 10px;border-radius:99px;font-size:12px;color:#bcecdf}.result{color:var(--muted);margin-top:12px}.toast{position:fixed;right:15px;bottom:75px;background:#173d33;border:1px solid #2b6657;padding:12px 15px;border-radius:12px;display:none;z-index:20}
+@media(max-width:800px){.quick,.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.app{padding:12px 12px 80px}.hero{padding:22px}.search{flex-direction:column}.answers{grid-template-columns:1fr}.picon{height:90px}}
 </style>
 </head>
 <body>
-
-<div id="splash" class="splash">
-  <div class="splash-logo"><img src="logo.png" alt="Silmikaffah"></div>
-  <div class="splash-name">Silmikaffah</div>
-  <div class="splash-tagline">Islam Secara Menyeluruh</div>
-  <div class="splash-loader"><i></i></div>
-</div>
-
 <div class="app">
-<header>
-  <div class="brand">
-    <div class="logo"><img src="logo.png" alt="Silmikaffah"></div>
-    <div><h1>Silmikaffah</h1><p>Islam Secara Menyeluruh</p></div>
-  </div>
-  <div class="search"><span>⌕</span><input id="searchInput" placeholder="Cari ilmu, doa, hadis, kitab..." oninput="searchAll(this.value)"></div>
-</header>
+<header><div class="brand"><div class="logo"><svg viewBox="0 0 48 48" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 24 24 9l17 15"/><path d="M11 22v17h26V22"/><path d="M18 39V26h12v13"/><path d="M16 19h16"/></svg></div><div><b>NUSANTARA</b><small>Jelajahi Warisan Budaya Indonesia</small></div></div><button class="icon" onclick="favorites()">♡</button></header>
 
-<main>
-<section id="home" class="page active">
-  <div class="hero daily-card">
-    <div class="daily-top">
-      <div>
-        <div class="hijri-label">HARI INI • KALENDER HIJRIAH</div>
-        <h2 id="hijriDate">Memuat tanggal Hijriah...</h2>
-        <div class="gregorian-date" id="gregorianDate"></div>
-      </div>
-      <div class="moon" id="moonIcon"></div>
-    </div>
-
-    <div class="prayer-box">
-      <div class="prayer-location"><span class="location-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-12a7 7 0 0 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg></span><span id="locationText">Mencari lokasi GPS...</span></div>
-      <div class="current-prayer">
-        <div>
-          <small>SHOLAT BERIKUTNYA</small>
-          <strong id="currentPrayer">Memuat...</strong>
-        </div>
-        <div class="prayer-time" id="currentPrayerTime">--:--</div>
-      </div>
-      <div class="prayer-row" id="prayerRow">
-        <span>Subuh <b>--:--</b></span>
-        <span>Dzuhur <b>--:--</b></span>
-        <span>Ashar <b>--:--</b></span>
-        <span>Maghrib <b>--:--</b></span>
-        <span>Isya <b>--:--</b></span>
-      </div>
-    </div>
-
-    <div class="quote-box">
-      <div class="quote-label">✦ KUTIPAN HARI INI</div>
-      <div id="dailyQuote">Memuat kutipan...</div>
-      <small id="quoteSource"></small>
-    </div>
-  </div>
-
-  <div class="section-title"><h2>Menu Utama</h2><small>10 kategori</small></div>
-  <div class="grid" id="categoryGrid"></div>
-
-  <div class="section-title"><h2>Akses Cepat</h2></div>
-  <div class="shortcut">
-    <button class="short" onclick="openTool('Jadwal Sholat')"><div class="short-icon" data-short-icon="Jadwal Sholat"></div><small>Jadwal Sholat</small></button>
-    <button class="short" onclick="openTool('Arah Kiblat')"><div class="short-icon" data-short-icon="Arah Kiblat"></div><small>Arah Kiblat</small></button>
-    <button class="short" onclick="openCategory('8')"><div class="short-icon" data-short-icon="Doa & Dzikir"></div><small>Doa & Dzikir</small></button>
-  </div>
-</section>
-
-<section id="category" class="page">
-  <button class="back" onclick="goBack()">← Kembali</button>
-  <div id="categoryHead"></div>
-  <div class="sublist" id="submenu"></div>
-</section>
-
-<section id="detail" class="page">
-  <button class="back" onclick="goBack()">← Kembali</button>
-  <div id="detailBox"></div>
-</section>
-
-<section id="search" class="page">
-  <div class="section-title"><h2>Hasil Pencarian</h2></div>
-  <div id="results" class="results"><div class="empty">Ketik sesuatu pada kotak pencarian di atas.</div></div>
-</section>
-
-<section id="collection" class="page">
-  <div class="section-title"><h2>Referensi & Koleksi</h2></div>
-  <div class="sublist">
-    <button class="subitem" onclick="showDetail('Bookmark','','Semua materi yang kamu simpan untuk dibaca kembali.')"><span class="left"><span class="mini"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.7L6 21V4.5Z"/></svg></span>Bookmark</span><span class="arrow">›</span></button>
-    <button class="subitem" onclick="showDetail('Favorit','','Kumpulan materi yang ditandai sebagai favorit.')"><span class="left"><span class="mini"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.8 4.8 0 0 1 12 6.1a4.8 4.8 0 0 1 8.8 2.7Z"/></svg></span>Favorit</span><span class="arrow">›</span></button>
-    <button class="subitem" onclick="showDetail('Terakhir Dibaca','','Materi yang terakhir kamu buka.')"><span class="left"><span class="mini"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Terakhir Dibaca</span><span class="arrow">›</span></button>
-    <button class="subitem" onclick="showDetail('Riwayat','','Riwayat aktivitas dan bacaan kamu.')"><span class="left"><span class="mini"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg></span>Riwayat</span><span class="arrow">›</span></button>
-    <button class="subitem" onclick="showDetail('Catatan','','Catatan pribadi untuk materi yang sedang dipelajari.')"><span class="left"><span class="mini"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h14v18H5z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span>Catatan</span><span class="arrow">›</span></button>
-    <button class="subitem" onclick="showDetail('Referensi & Sumber','','Informasi sumber dan referensi setiap materi.')"><span class="left"><span class="mini"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/><path d="M4 18h16"/></svg></span>Referensi & Sumber</span><span class="arrow">›</span></button>
-  </div>
-</section>
-
-<section id="tools" class="page">
-  <div class="section-title"><h2>Alat Muslim</h2></div>
-  <div class="sublist" id="toolsList"></div>
-</section>
-
-<section id="settings" class="page">
-  <div class="section-title"><h2>Pengaturan Aplikasi</h2></div>
-  <div class="settings-group">
-    <h3>Tampilan</h3>
-    <div class="setting" style="display:block">
-      <div><b>Tema Aplikasi</b><small>Pilih tampilan Silmikaffah</small></div>
-      <div class="theme-options">
-        <button class="theme-option active" id="theme-amoled" onclick="setTheme('amoled')"><div class="theme-dot dot-amoled"></div><strong>Gelap</strong><small>AMOLED</small></button>
-        <button class="theme-option" id="theme-light" onclick="setTheme('light')"><div class="theme-dot dot-light"></div><strong>Terang</strong><small>Putih</small></button>
-        
-      </div>
-    </div>
-    <div class="setting"><div>Ukuran Font<small>Atur ukuran teks aplikasi</small></div><span>›</span></div>
-    <div class="setting"><div>Font Arab<small>Atur jenis dan tampilan font Arab</small></div><span>›</span></div>
-  </div>
-  <div class="settings-group">
-    <h3>Ibadah</h3>
-    <div class="setting"><div>Metode Jadwal Sholat<small>Atur metode perhitungan</small></div><span>›</span></div>
-    <div class="setting"><div>Mazhab<small>Pilihan mazhab untuk fitur terkait</small></div><span>›</span></div>
-    <div class="setting"><div>Notifikasi<small>Pengingat ibadah</small></div><span>›</span></div>
-  </div>
-  <div class="settings-group">
-    <h3>Aplikasi</h3>
-    <div class="setting"><div>Bahasa<small>Indonesia</small></div><span>›</span></div>
-    <div class="setting"><div>Tentang Silmikaffah<small>Versi 1.0.0</small></div><span>›</span></div>
-    <div class="setting"><div>Sumber & Referensi<small>Informasi sumber konten</small></div><span>›</span></div>
-    <div class="setting"><div>Privasi<small>Pengaturan privasi aplikasi</small></div><span>›</span></div>
-  </div>
-</section>
-</main>
-
-<nav class="bottom">
-  <button class="navbtn active" data-page="home" aria-label="Home" onclick="goRoot('home')">
-    <span class="nav-svg"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21v-8h14v8"/><path d="M7 13V9l5-4 5 4v4"/></svg></span>
-  </button>
-  <button class="navbtn" data-page="rukun-iman" aria-label="Rukun Iman" onclick="openNavCategory('2','rukun-iman')">
-    <span class="nav-svg"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.8 4.8 0 0 1 12 6.1a4.8 4.8 0 0 1 8.8 2.7Z"/></svg></span>
-  </button>
-  <button class="navbtn" data-page="rukun-islam" aria-label="Rukun Islam" onclick="openNavCategory('1','rukun-islam')">
-    <span class="nav-svg"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21v-8h14v8"/><path d="M7 13V9l5-4 5 4v4"/><path d="M12 5V2"/><path d="M10.5 2h3"/></svg></span>
-  </button>
-  <button class="navbtn" data-page="collection" aria-label="Koleksi" onclick="goRoot('collection')">
-    <span class="nav-svg"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.7L6 21V4.5Z"/></svg></span>
-  </button>
-  <button class="navbtn" data-page="settings" aria-label="Pengaturan" onclick="goRoot('settings')">
-    <span class="nav-svg"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-2.5V20a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8.1 15a1.7 1.7 0 0 0-1.6-1H6v-2.5h.5a1.7 1.7 0 0 0 1.6-1A1.7 1.7 0 0 0 7.8 9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6v-.2H15v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2V14h-.2a1.7 1.7 0 0 0-1.6 1Z"/></svg></span>
-  </button>
-</nav>
+<div class="hero" id="home">
+<div class="eyebrow">INDONESIA DALAM SATU APLIKASI</div>
+<h1>Jelajahi<br>Nusantara.</h1>
+<p>Kenali pakaian adat, rumah adat, tari, musik, senjata, kuliner, tradisi, dan cerita rakyat dari berbagai daerah Indonesia.</p>
+<div class="search"><input id="search" placeholder="Cari provinsi atau budaya..." onkeydown="if(event.key==='Enter')search()"><button class="primary" onclick="search()">Cari</button></div>
+<div id="result" class="result"></div>
 </div>
 
-<script>
+<section><div class="title"><h2>Jelajah Cepat</h2></div><div class="quick">
+<div class="item" onclick="go('provinsi')"><div class="emoji">🗺️</div><b>38 Provinsi</b><small>Kenali daerah</small></div>
+<div class="item" onclick="go('budaya')"><div class="emoji">🎭</div><b>Budaya</b><small>Warisan tradisional</small></div>
+<div class="item" onclick="cultureModal('Kuliner Nusantara','🍛','Rendang, rawon, pempek, gudeg, papeda, dan berbagai kuliner khas daerah.')"><div class="emoji">🍛</div><b>Kuliner</b><small>Rasa Nusantara</small></div>
+<div class="item" onclick="newQuiz()"><div class="emoji">🎯</div><b>Kuis</b><small>Uji wawasan</small></div>
+</div></section>
 
-function lineIcon(type, size=30){
- const common=`width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"`;
- const m={
-  mosque:`<svg ${common}><path d="M3 21h18"/><path d="M5 21v-8h14v8"/><path d="M7 13V9l5-4 5 4v4"/><path d="M9 21v-5h6v5"/><path d="M12 5V2"/><path d="M10.5 2h3"/></svg>`,
-  heart:`<svg ${common}><path d="M20.8 8.8c0 5.1-8.8 10.2-8.8 10.2S3.2 13.9 3.2 8.8A4.8 4.8 0 0 1 12 6.1a4.8 4.8 0 0 1 8.8 2.7Z"/></svg>`,
-  books:`<svg ${common}><path d="M4 5.5h13a2 2 0 0 1 2 2V19H6a2 2 0 0 0-2 2V5.5Z"/><path d="M6 19h13"/><path d="M7 5V3h12v14"/><path d="M9 9h7M9 12h6"/></svg>`,
-  family:`<svg ${common}><circle cx="9" cy="7" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M14 15a4.5 4.5 0 0 1 6 4"/></svg>`,
-  history:`<svg ${common}><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg>`,
-  book:`<svg ${common}><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5Z"/><path d="M4 18h16"/></svg>`,
-  hands:`<svg ${common}><path d="M8 11V5a1.5 1.5 0 0 1 3 0v5"/><path d="M11 10V3.8a1.5 1.5 0 0 1 3 0V10"/><path d="M14 10V5.2a1.5 1.5 0 0 1 3 0v6"/><path d="M17 11V8a1.5 1.5 0 0 1 3 0v5c0 4.4-2.7 7-7 7h-1.5C8.4 20 6 18.2 4.5 15L3 11.7a1.5 1.5 0 0 1 2.7-1.3L8 13"/></svg>`,
-  compass:`<svg ${common}><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 4.8-4.8 2.2 2.2-4.8 4.8-2.2Z"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>`,
-  bookmark:`<svg ${common}><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.7L6 21V4.5Z"/></svg>`,
-  moon:`<svg ${common}><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>`
- };
- return m[type]||m.book;
-}
+<section id="provinsi"><div class="title"><h2>Provinsi Indonesia</h2><button onclick="render(provinces)">Lihat semua</button></div><div class="grid" id="provinceGrid"></div></section>
 
-function moonIcon(){
- return `<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
- <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/>
- <path d="M16.8 7.2v3.2M15.2 8.8h3.2"/>
- </svg>`;
-}
+<section id="budaya"><div class="title"><h2>Ragam Budaya</h2></div><div class="grid" id="cultureGrid"></div></section>
 
-function miniIcon(name){
- const n=(name||'').toLowerCase();
- if(n.includes('sholat')||n.includes('masjid')||n.includes('haji')||n.includes('umrah')) return lineIcon('mosque',21);
- if(n.includes('iman')||n.includes('allah')||n.includes('malaikat')||n.includes('rasul')||n.includes('akhlak')||n.includes('keluarga')||n.includes('pernikahan')||n.includes('munakahat')) return lineIcon('heart',21);
- if(n.includes('kitab')||n.includes('qur')||n.includes('hadis')||n.includes('ilmu')||n.includes('bahasa arab')||n.includes('pendidikan')||n.includes('tafsir')) return lineIcon('book',21);
- if(n.includes('sejarah')||n.includes('sirah')||n.includes('perang')||n.includes('tokoh')||n.includes('sahabat')||n.includes('peradaban')) return lineIcon('history',21);
- if(n.includes('doa')||n.includes('dzikir')||n.includes('zikir')||n.includes('tasbih')) return lineIcon('hands',21);
- if(n.includes('kiblat')||n.includes('jadwal')||n.includes('arah')) return lineIcon('compass',21);
- if(n.includes('bookmark')||n.includes('koleksi')||n.includes('simpan')) return lineIcon('bookmark',21);
- if(n.includes('zakat')||n.includes('faraid')||n.includes('waris')||n.includes('fikih')||n.includes('ushul')||n.includes('qawaid')||n.includes('muamalah')) return lineIcon('book',21);
- if(n.includes('puasa')||n.includes('ramadan')||n.includes('hari akhir')||n.includes('qada')||n.includes('qadar')) return lineIcon('moon',21);
- if(n.includes('pencarian')||n.includes('search')||n.includes('referensi')||n.includes('sumber')||n.includes('catatan')) return lineIcon('bookmark',21);
- return lineIcon('book',21);
-}
+<section id="kuis"><div class="title"><h2>Kuis Budaya</h2><button onclick="newQuiz()">Soal baru</button></div><div class="quiz"><div class="eyebrow">UJI WAWASANMU</div><h3 id="question"></h3><div class="answers" id="answers"></div><p id="feedback"></p></div></section>
+</div>
 
-function renderQuickAccessIcons(){
-  document.querySelectorAll('[data-short-icon]').forEach(el=>{
-    el.innerHTML=miniIcon(el.dataset.shortIcon || '');
-  });
-}
-
-const iconMap={'1':'mosque','2':'heart','3':'books','4':'family','5':'heart','6':'history','7':'book','8':'hands','9':'compass','10':'bookmark'};
-const categories = [
- {id:'1',icon:'☪️',name:'Rukun Islam',desc:'Lima rukun Islam dan cabang pembahasannya',subs:[
-  ['🕌','Syahadat'],['🧎','Sholat'],['💰','Zakat'],['🌙','Puasa'],['🕋','Haji & Umrah']]},
- {id:'2',icon:'🤍',name:'Rukun Iman',desc:'Enam rukun iman dan seluruh cabang pembahasannya',subs:[
-  ['☝️','Iman kepada Allah'],['👼','Iman kepada Malaikat'],['📖','Iman kepada Kitab Allah'],['🧑‍🦱','Iman kepada Rasul'],['🌅','Iman kepada Hari Akhir'],['⚖️','Iman kepada Qada & Qadar']]},
- {id:'3',icon:'📚',name:'Ilmu & Belajar',desc:'Berbagai cabang ilmu Islam dan pembelajaran',subs:[
-  ['🧠','Akidah'],['⚖️','Fikih'],['🧮','Faraidh / Ilmu Waris'],['📐','Ushul Fikih'],['📜','Qawaid Fiqhiyyah'],
-  ['📖','Ulumul Qur’an'],['📜','Hadis'],['🔬','Ulumul Hadis'],['✍️','Belajar Al-Qur’an'],['🇸🇦','Bahasa Arab'],['🎓','Pendidikan Islam']]},
- {id:'4',icon:'💍',name:'Keluarga & Muamalah',desc:'Pernikahan, keluarga dan kehidupan bermuamalah',subs:[
-  ['💍','Pernikahan / Munakahat'],['👨‍👩‍👧','Keluarga'],['🤝','Muamalah']]},
- {id:'5',icon:'❤️',name:'Akhlak & Adab',desc:'Akhlak, adab dan pembinaan diri',subs:[
-  ['✨','Akhlak Terpuji'],['⚠️','Akhlak Tercela'],['🤝','Adab'],['❤️','Tazkiyatun Nafs']]},
- {id:'6',icon:'🕌',name:'Sejarah & Peristiwa Islam',desc:'Sirah, perang, tokoh, peradaban dan peristiwa Islam',subs:[
-  ['📜','Sirah Nabi'],['⚔️','Perang & Ekspedisi'],['👥','Sahabat & Generasi Awal'],['🎓','Ulama & Tokoh'],
-  ['🏛️','Sejarah Peradaban Islam'],['🌏','Islam Nusantara'],['🌙','Hari & Peristiwa Islam'],['📅','Kalender Hijriah']]},
- {id:'7',icon:'📜',name:'Kitab',desc:'Koleksi kitab berdasarkan bidang kajian',subs:[
-  ['❤️','Kitab Akhlak'],['⚖️','Kitab Fikih'],['☝️','Kitab Akidah'],['📜','Kitab Hadis'],['💍','Kitab Keluarga'],['📖','Kitab Tafsir'],['📚','Kitab Lainnya']]},
- {id:'8',icon:'🤲',name:'Doa & Dzikir',desc:'Doa dan dzikir untuk berbagai keadaan',subs:[
-  ['🌅','Doa Harian'],['🤲','Doa Khusus'],['📿','Dzikir'],['📖','Doa dari Al-Qur’an']]},
- {id:'9',icon:'🧭',name:'Alat Muslim',desc:'Alat bantu ibadah dan aktivitas Muslim',subs:[
-  ['🕐','Jadwal Sholat'],['🧭','Arah Kiblat'],['🔔','Pengingat Sholat'],['📿','Pengingat Dzikir'],['📿','Tasbih Digital'],['🔔','Notifikasi Ibadah'],['🕌','Lokasi Masjid']]},
- {id:'10',icon:'🔎',name:'Referensi & Koleksi',desc:'Pencarian, simpanan, riwayat dan sumber',subs:[
-  ['🔎','Pencarian Global'],['🔖','Bookmark'],['⭐','Favorit'],['🕘','Terakhir Dibaca'],['📜','Riwayat'],['🗂️','Koleksi Saya'],['📝','Catatan'],['📚','Referensi & Sumber']]}
-];
-
-const submenuData = {
- 'Syahadat': {
-   title:'Syahadat', icon:'🕌',
-   sections:['Pengertian Syahadat','Dua Kalimat Syahadat','Makna Syahadat','Syarat dan Konsekuensi Syahadat']
- },
- 'Sholat': {
-   title:'Sholat', icon:'🧎',
-   sections:['Pengertian dan Kedudukan Sholat','Syarat Wajib','Syarat Sah','Rukun Sholat','Sunnah Sholat','Pembatal Sholat','Wudhu','Mandi Wajib','Tayamum','Bacaan Sholat','Gerakan Sholat','Sholat Fardhu','Sholat Sunnah','Sholat Jumat','Sholat Jenazah','Jama’ & Qashar','Sujud Sahwi','Sujud Tilawah','Sujud Syukur']
- },
- 'Zakat': {
-   title:'Zakat', icon:'💰',
-   sections:['Pengertian Zakat','Zakat Fitrah','Zakat Mal','Nisab','Haul','Mustahik','Jenis Harta yang Dizakati','Cara Menghitung Zakat','Kalkulator Zakat']
- },
- 'Puasa': {
-   title:'Puasa', icon:'🌙',
-   sections:['Pengertian Puasa','Syarat Wajib','Syarat Sah','Rukun Puasa','Hal yang Membatalkan','Puasa Ramadan','Puasa Sunnah','Qadha Puasa','Fidyah','I’tikaf']
- },
- 'Haji & Umrah': {
-   title:'Haji & Umrah', icon:'🕋',
-   sections:['Pengertian Haji','Syarat Haji','Rukun Haji','Wajib Haji','Larangan Ihram','Manasik Haji','Umrah','Miqat','Dam','Panduan Singkat Haji & Umrah']
- },
- 'Iman kepada Allah': {
-   title:'Iman kepada Allah', icon:'☝️',
-   sections:['Pengertian Iman kepada Allah','Tauhid','Asmaul Husna','20 Sifat Allah','Sifat Wajib bagi Allah','Sifat Mustahil bagi Allah','Sifat Jaiz bagi Allah','Dalil tentang Iman kepada Allah']
- },
- 'Iman kepada Malaikat': {
-   title:'Iman kepada Malaikat', icon:'👼',
-   sections:['Pengertian Malaikat','Sifat Malaikat','10 Malaikat yang Wajib Diketahui','Tugas Para Malaikat','Dalil tentang Malaikat']
- },
- 'Iman kepada Kitab Allah': {
-   title:'Iman kepada Kitab Allah', icon:'📖',
-   sections:['Pengertian Kitab Allah','Taurat','Zabur','Injil','Suhuf','Al-Qur’an','Perbedaan Kitab dan Suhuf','Dalil Iman kepada Kitab']
- },
- 'Iman kepada Rasul': {
-   title:'Iman kepada Rasul', icon:'🧑‍🦱',
-   sections:['Pengertian Rasul','Nabi dan Rasul','25 Nabi dan Rasul','Ulul Azmi','Sifat Wajib Rasul','Sifat Mustahil Rasul','Sifat Jaiz Rasul','Mukjizat','Kisah Para Nabi']
- },
- 'Iman kepada Hari Akhir': {
-   title:'Iman kepada Hari Akhir', icon:'🌅',
-   sections:['Pengertian Hari Akhir','Tanda-Tanda Kiamat','Alam Barzakh','Yaumul Ba’ats','Yaumul Mahsyar','Hisab','Mizan','Shirat','Surga','Neraka']
- },
- 'Iman kepada Qada & Qadar': {
-   title:'Iman kepada Qada & Qadar', icon:'⚖️',
-   sections:['Pengertian Qada dan Qadar','Takdir Mubram','Takdir Muallaq','Ikhtiar','Tawakal','Hikmah Beriman kepada Qada dan Qadar']
- },
- 'Akidah': {title:'Akidah',icon:'🧠',sections:['Pengertian Akidah','Tauhid','Iman','Syirik','Kufur','Nifak','Ahlus Sunnah','Dasar-Dasar Akidah']},
- 'Fikih': {title:'Fikih',icon:'⚖️',sections:['Thaharah','Sholat','Zakat','Puasa','Haji','Muamalah','Munakahat','Jinayah','Adab dan Fikih Kehidupan']},
- 'Faraidh / Ilmu Waris': {title:'Faraidh / Ilmu Waris',icon:'🧮',sections:['Pengertian Faraidh','Sebab Waris','Penghalang Waris','Ahli Waris','Ashabul Furudh','Ashabah','Hijab','Bagian Warisan','Contoh Kasus','Kalkulator Faraidh']},
- 'Ushul Fikih': {title:'Ushul Fikih',icon:'📐',sections:['Pengertian Ushul Fikih','Dalil Syariat','Al-Qur’an','Sunnah','Ijma’','Qiyas','Ijtihad','Maqashid Syariah']},
- 'Qawaid Fiqhiyyah': {title:'Qawaid Fiqhiyyah',icon:'📜',sections:['Pengertian Kaidah Fikih','Kaidah Utama','Niat','Kesulitan Mendatangkan Kemudahan','Kemudaratan Dihilangkan','Keyakinan Tidak Hilang karena Keraguan','Adat sebagai Pertimbangan']},
- 'Ulumul Qur’an': {title:'Ulumul Qur’an',icon:'📖',sections:['Pengertian Ulumul Qur’an','Wahyu','Makkiyah dan Madaniyah','Asbabun Nuzul','Nasikh dan Mansukh','Muhkam dan Mutasyabih','Tafsir dan Takwil']},
- 'Hadis': {title:'Hadis',icon:'📜',sections:['Pengertian Hadis','Kedudukan Hadis','Hadis Qudsi','Jenis Hadis','Perawi Hadis','Kitab-Kitab Hadis','Hadis Pilihan','Pencarian Hadis']},
- 'Ulumul Hadis': {title:'Ulumul Hadis',icon:'🔬',sections:['Pengertian Ulumul Hadis','Sanad','Matan','Rawi','Hadis Shahih','Hadis Hasan','Hadis Dhaif','Jarh wa Ta’dil','Takhrij Hadis']},
- 'Belajar Al-Qur’an': {title:'Belajar Al-Qur’an',icon:'✍️',sections:['Huruf Hijaiyah','Harakat','Membaca Al-Qur’an','Tajwid','Makharijul Huruf','Mad','Waqaf dan Ibtida','Latihan Membaca']},
- 'Bahasa Arab': {title:'Bahasa Arab',icon:'🇸🇦',sections:['Dasar Bahasa Arab','Mufradat','Nahwu','Sharaf','Percakapan Dasar','Kamus Bahasa Arab','Latihan Bahasa Arab']},
- 'Pendidikan Islam': {title:'Pendidikan Islam',icon:'🎓',sections:['Pendidikan Anak','Metode Belajar Islam','Adab Menuntut Ilmu','Guru dan Murid','Lingkungan Pendidikan','Materi Pendidikan Islam']},
- 'Pernikahan / Munakahat': {title:'Pernikahan / Munakahat',icon:'💍',sections:['Tujuan Pernikahan','Khitbah','Akad Nikah','Mahar','Hak dan Kewajiban','Wali','Saksi','Talak','Rujuk']},
- 'Keluarga': {title:'Keluarga',icon:'👨‍👩‍👧',sections:['Hak Suami','Hak Istri','Pendidikan Anak','Hubungan Orang Tua dan Anak','Nafkah','Keharmonisan Keluarga','Penyelesaian Konflik']},
- 'Muamalah': {title:'Muamalah',icon:'🤝',sections:['Pengertian Muamalah','Jual Beli','Utang Piutang','Riba','Gadai','Sewa Menyewa','Syirkah','Etika Bisnis','Muamalah Kontemporer']},
- 'Akhlak Terpuji': {title:'Akhlak Terpuji',icon:'✨',sections:['Jujur','Amanah','Sabar','Syukur','Tawadhu','Ikhlas','Adil','Pemaaf','Kasih Sayang']},
- 'Akhlak Tercela': {title:'Akhlak Tercela',icon:'⚠️',sections:['Dusta','Kikir','Sombong','Hasad','Ghibah','Namimah','Riya','Ujub','Fitnah']},
- 'Adab': {title:'Adab',icon:'🤝',sections:['Adab kepada Allah','Adab kepada Rasul','Adab kepada Orang Tua','Adab kepada Guru','Adab kepada Sesama','Adab Makan dan Minum','Adab Bertamu','Adab Berpakaian','Adab di Masjid']},
- 'Tazkiyatun Nafs': {title:'Tazkiyatun Nafs',icon:'❤️',sections:['Pengertian Tazkiyah','Penyakit Hati','Muhasabah','Taubat','Mujahadah','Ikhlas','Dzikir dan Pembinaan Jiwa']},
- 'Sirah Nabi': {title:'Sirah Nabi',icon:'📜',sections:['Kelahiran Nabi Muhammad ﷺ','Masa Kanak-Kanak','Awal Kenabian','Dakwah Makkah','Hijrah','Dakwah Madinah','Keluarga Nabi','Wafat Nabi ﷺ']},
- 'Perang & Ekspedisi': {title:'Perang & Ekspedisi',icon:'⚔️',sections:['Badar','Uhud','Khandaq','Bani Quraizhah','Khaibar','Mu’tah','Fathu Makkah','Hunain','Thaif','Tabuk']},
- 'Sahabat & Generasi Awal': {title:'Sahabat & Generasi Awal',icon:'👥',sections:['Khulafaur Rasyidin','Abu Bakar Ash-Shiddiq','Umar bin Khattab','Utsman bin Affan','Ali bin Abi Thalib','Sahabat Nabi','Tabi’in','Tabi’ut Tabi’in']},
- 'Ulama & Tokoh': {title:'Ulama & Tokoh',icon:'🎓',sections:['Imam Mazhab','Ulama Hadis','Ulama Tafsir','Ulama Fikih','Tokoh Islam Nusantara','Wali Songo','Tokoh Peradaban Islam']},
- 'Sejarah Peradaban Islam': {title:'Sejarah Peradaban Islam',icon:'🏛️',sections:['Masa Nabi','Khulafaur Rasyidin','Dinasti Umayyah','Dinasti Abbasiyah','Perkembangan Ilmu','Peradaban Islam di Dunia','Masjid dan Pusat Ilmu']},
- 'Islam Nusantara': {title:'Islam Nusantara',icon:'🌏',sections:['Masuknya Islam ke Nusantara','Wali Songo','Pesantren','Kerajaan Islam','Ulama Nusantara','Tradisi Keislaman Nusantara']},
- 'Hari & Peristiwa Islam': {title:'Hari & Peristiwa Islam',icon:'🌙',sections:['Tahun Baru Hijriah','Asyura','Maulid Nabi','Isra Mi’raj','Nuzulul Qur’an','Ramadan','Lailatul Qadar','Idul Fitri','Idul Adha','Muharram']},
- 'Kalender Hijriah': {title:'Kalender Hijriah',icon:'📅',sections:['12 Bulan Hijriah','Konversi Hijriah-Masehi','Peristiwa Penting','Hari-Hari Istimewa']},
- 'Kitab Akhlak': {title:'Kitab Akhlak',icon:'❤️',sections:['Qurratul ‘Uyun','Riyadhus Shalihin','Kitab Adab','Kumpulan Bab Akhlak']},
- 'Kitab Fikih': {title:'Kitab Fikih',icon:'⚖️',sections:['Kitab Thaharah','Kitab Sholat','Kitab Zakat','Kitab Puasa','Kitab Haji','Kitab Muamalah']},
- 'Kitab Akidah': {title:'Kitab Akidah',icon:'☝️',sections:['Kitab Tauhid','Kitab Akidah Ahlus Sunnah','Kitab Sifat Allah','Kitab Iman']},
- 'Kitab Hadis': {title:'Kitab Hadis',icon:'📜',sections:['Arba’in Nawawi','Riyadhus Shalihin','Bulughul Maram','Kitab Hadis Lainnya']},
- 'Kitab Keluarga': {title:'Kitab Keluarga',icon:'💍',sections:['Kitab Pernikahan','Hak dan Kewajiban','Pendidikan Anak','Adab Keluarga']},
- 'Kitab Tafsir': {title:'Kitab Tafsir',icon:'📖',sections:['Tafsir Ringkas','Tafsir Tematik','Tafsir Ayat Pilihan','Koleksi Tafsir']},
- 'Kitab Lainnya': {title:'Kitab Lainnya',icon:'📚',sections:['Kitab Tarikh','Kitab Bahasa Arab','Kitab Tasawuf','Kitab Pendidikan','Koleksi Lainnya']},
- 'Doa Harian': {title:'Doa Harian',icon:'🌅',sections:['Bangun Tidur','Sebelum Tidur','Masuk dan Keluar Rumah','Makan dan Minum','Masuk dan Keluar Masjid','Bepergian','Bercermin','Berpakaian','Belajar']},
- 'Doa Khusus': {title:'Doa Khusus',icon:'🤲',sections:['Doa Kesulitan','Doa Sakit','Doa Memohon Rezeki','Doa Memohon Ampunan','Doa Perlindungan','Doa Kebaikan Dunia Akhirat']},
- 'Dzikir': {title:'Dzikir',icon:'📿',sections:['Dzikir Pagi','Dzikir Petang','Dzikir Setelah Sholat','Istighfar','Tasbih','Tahmid','Takbir','Shalawat']},
- 'Doa dari Al-Qur’an': {title:'Doa dari Al-Qur’an',icon:'📖',sections:['Doa Para Nabi','Doa Memohon Ampunan','Doa Kebaikan Dunia Akhirat','Doa Keluarga','Doa Perlindungan']},
- 'Pencarian Global': {title:'Pencarian Global',icon:'🔎',sections:['Cari Al-Qur’an','Cari Hadis','Cari Doa','Cari Kitab','Cari Tokoh','Cari Materi']},
- 'Bookmark': {title:'Bookmark',icon:'🔖',sections:['Semua Bookmark','Ayat Tersimpan','Hadis Tersimpan','Materi Tersimpan']},
- 'Favorit': {title:'Favorit',icon:'⭐',sections:['Materi Favorit','Doa Favorit','Hadis Favorit','Ayat Favorit']},
- 'Terakhir Dibaca': {title:'Terakhir Dibaca',icon:'🕘',sections:['Materi Terakhir','Ayat Terakhir','Kitab Terakhir']},
- 'Riwayat': {title:'Riwayat',icon:'📜',sections:['Riwayat Bacaan','Riwayat Pencarian','Riwayat Aktivitas']},
- 'Koleksi Saya': {title:'Koleksi Saya',icon:'🗂️',sections:['Buat Koleksi','Koleksi Materi','Koleksi Doa','Koleksi Ayat']},
- 'Catatan': {title:'Catatan',icon:'📝',sections:['Catatan Materi','Catatan Pribadi','Catatan Ayat']},
- 'Referensi & Sumber': {title:'Referensi & Sumber',icon:'📚',sections:['Sumber Al-Qur’an','Sumber Hadis','Sumber Kitab','Sumber Artikel','Tentang Referensi']}
-};
-
-
-const tools = [
- ['Jadwal Sholat','Jadwal Sholat','Menampilkan jadwal sholat berdasarkan lokasi.'],
- ['Arah Kiblat','Arah Kiblat','Menentukan arah kiblat menggunakan sensor perangkat.'],
- ['Pengingat Sholat','Pengingat Sholat','Pengingat waktu sholat.'],
- ['Pengingat Dzikir','Pengingat Dzikir','Pengingat dzikir yang dapat diatur.'],
- ['Tasbih Digital','Tasbih Digital','Menghitung dzikir secara digital.'],
- ['Notifikasi Ibadah','Notifikasi Ibadah','Notifikasi untuk aktivitas ibadah.'],
- ['Lokasi Masjid','Lokasi Masjid','Mencari masjid di sekitar pengguna.']
-];
-
-const grid=document.getElementById('categoryGrid');
-categories.forEach(c=>{
- grid.innerHTML += `<button class="card" onclick="openCategory('${c.id}')"><div class="icon">${lineIcon(iconMap[c.id]||"book",28)}</div><b>${c.name}</b><small>${c.desc}</small></button>`;
-});
-const tl=document.getElementById('toolsList');
-tools.forEach(t=>{
- tl.innerHTML += `<button class="subitem" onclick="openTool('${t[1]}')"><span class="left"><span class="mini">${miniIcon(t[0])}</span><span><b>${t[1]}</b><small style="color:var(--muted);display:block">${t[2]}</small></span></span><span class="arrow">›</span></button>`;
-});
-
-let pageHistory=[];
-let currentPage='home';
-
-function activatePage(id){
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- const el=document.getElementById(id);
- if(el) el.classList.add('active');
- document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
- window.scrollTo({top:0,behavior:'smooth'});
-}
-function showPage(id){
- if(!document.getElementById(id)) return;
- if(currentPage!==id) pageHistory.push(currentPage);
- currentPage=id;
- activatePage(id);
-}
-function goRoot(id, navKey){
- pageHistory=[];
- currentPage=id;
- activatePage(navKey || id);
-}
-function goBack(){
- if(pageHistory.length){
-   const previous=pageHistory.pop();
-   currentPage=previous;
-   activatePage(previous);
- }else{
-   currentPage='home';
-   activatePage('home');
- }
-}
-function openNavCategory(id, navKey){
- pageHistory=[];
- currentPage='home';
- openCategory(id, navKey);
-}
-function openCategory(id, navKey){
- const c=categories.find(x=>x.id===id); if(!c)return;
- if(currentPage!=='category'){
-   pageHistory.push(currentPage);
- }
- currentPage='category';
- document.getElementById('categoryHead').innerHTML=`<div class="page-head"><div class="big">${lineIcon(iconMap[c.id]||"book",34)}</div><div><h2>${c.name}</h2><p>${c.desc}</p></div></div>`;
- const list=document.getElementById('submenu'); list.innerHTML='';
- c.subs.forEach(s=>{
-   list.innerHTML += `<button class="subitem" onclick="openSub('${escapeAttr(s[1])}','${s[0]}','${escapeAttr(c.name)}')"><span class="left"><span class="mini">${miniIcon(s[1])}</span>${s[1]}</span><span class="arrow">›</span></button>`;
- });
- document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
- document.getElementById('category').classList.add('active');
- document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===navKey));
- window.scrollTo({top:0,behavior:'smooth'});
-}
-function openSub(name,icon,parent){
- const data=submenuData[name] || {title:name,icon:icon,sections:['Pengantar','Materi Utama','Dalil / Referensi','Catatan']};
- const sectionHtml=data.sections.map((s,i)=>`<button class="subitem" onclick="showDetail('${escapeAttr(s)}','${data.icon}','${escapeAttr(data.title)}')"><span class="left"><span class="mini">${miniIcon(s)}</span>${s}</span><span class="arrow">›</span></button>`).join('');
- document.getElementById('detailBox').innerHTML=`<div class="page-head"><div class="big">${miniIcon(data.title)}</div><div><h2>${data.title}</h2><p>${parent} • ${data.sections.length} bagian</p></div></div><div class="section-title"><h2>Submateri</h2></div><div class="sublist">${sectionHtml}</div>`;
- showPage('detail');
-}
-function showDetail(title,icon,content){
- document.getElementById('detailBox').innerHTML=`<div class="page-head"><div class="big">${miniIcon(title)}</div><div><h2>${title}</h2><p>Silmikaffah • Islam Secara Menyeluruh</p></div></div><div class="detail"><h3>${title}</h3><p>${content}</p><p class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</p><p>Halaman materi ini disiapkan untuk memuat penjelasan yang terstruktur, dalil atau sumber yang relevan, terjemahan bila diperlukan, dan referensi yang dapat diverifikasi.</p><div class="source">Sumber & Referensi: akan diisi pada tahap database/konten.</div></div>`;
- showPage('detail');
-}
-function openTool(name){showDetail(name,'', 'Fitur ini akan menjadi alat interaktif pada tahap pengembangan berikutnya.');}
-function focusSearch(){showPage('search');setTimeout(()=>document.getElementById('searchInput').focus(),100)}
-function searchAll(q){
- if(!q){document.getElementById('results').innerHTML='<div class="empty">Ketik sesuatu pada kotak pencarian di atas.</div>';return;}
- const term=q.toLowerCase();
- const found=[];
- categories.forEach(c=>{
-   if(c.name.toLowerCase().includes(term)) found.push([c.icon,c.name,'Kategori']);
-   c.subs.forEach(s=>{if(s[1].toLowerCase().includes(term))found.push([s[0],s[1],c.name]);});
- });
- document.getElementById('results').innerHTML=found.length?found.map(x=>`<button class="result" onclick="openSearchResult('${escapeAttr(x[1])}','${x[0]}','${escapeAttr(x[2])}')"><b><span class="mini">${miniIcon(x[1])}</span>${x[1]}</b><small>${x[2]}</small></button>`).join(''):'<div class="empty">Tidak ditemukan.</div>';
- showPage('search');
-}
-function openSearchResult(title,icon,parent){showDetail(title,icon,`Hasil pencarian dari kategori <b>${parent}</b>.`);}
-function toggle(el){el.classList.toggle('on')}
-function escapeAttr(s){return s.replace(/'/g,"&#39;")}
-
-
-const dailyQuotes = [
-  {text:'“Sesungguhnya amal itu tergantung pada niatnya.”', source:'HR. Bukhari dan Muslim'},
-  {text:'“Sebaik-baik kalian adalah yang belajar Al-Qur’an dan mengajarkannya.”', source:'HR. Bukhari'},
-  {text:'“Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya.”', source:'QS. Al-Baqarah: 286'},
-  {text:'“Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.”', source:'QS. Ar-Ra’d: 28'},
-  {text:'“Dan barangsiapa bertawakal kepada Allah, niscaya Allah akan mencukupkan keperluannya.”', source:'QS. At-Talaq: 3'},
-  {text:'“Sesungguhnya Allah menyukai orang-orang yang bertobat dan menyukai orang-orang yang menyucikan diri.”', source:'QS. Al-Baqarah: 222'},
-  {text:'“Barangsiapa menempuh jalan untuk mencari ilmu, Allah mudahkan baginya jalan menuju surga.”', source:'HR. Muslim'},
-  {text:'“Maka sesungguhnya bersama kesulitan ada kemudahan.”', source:'QS. Al-Insyirah: 5'}
-];
-
-function initDailyHome(){
-  const now=new Date();
-  setHijriDate(now);
-  document.getElementById('gregorianDate').textContent=new Intl.DateTimeFormat('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now);
-  const q=dailyQuotes[Math.floor(Math.random()*dailyQuotes.length)];
-  document.getElementById('dailyQuote').textContent=q.text;
-  document.getElementById('quoteSource').textContent=q.source;
-
-  const cached=localStorage.getItem('silmikaffah-gps');
-  if(cached){
-    try{const p=JSON.parse(cached); renderPrayerTimes(p.lat,p.lon);}catch(e){requestGPS();}
-  }else requestGPS();
-}
-function setHijriDate(date){
-  try{
-    const localNoon=new Date(date.getFullYear(),date.getMonth(),date.getDate(),12,0,0);
-    const hijri=new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(localNoon).replace(' AH',' H');
-    if(!/Muharram|Safar|Rabi|Jumada|Rajab|Shaaban|Ramadan|Shawwal|Dhul|Dhu/.test(hijri)) throw new Error('unsupported');
-    document.getElementById('hijriDate').textContent=hijri;
-    document.getElementById('moonIcon').innerHTML=moonIcon();
-  }catch(e){
-    const anchor=new Date(2026,7,9,12,0,0);
-    const d=new Date(date.getFullYear(),date.getMonth(),date.getDate(),12,0,0);
-    const days=Math.round((d-anchor)/86400000);
-    const months=['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Dzulqa’dah','Dzulhijjah'];
-    let day=26+days, mi=1, year=1448;
-    while(day>30){day-=30;mi++;} while(day<1){day+=30;mi--;}
-    if(mi<0){mi=11;year--;}
-    document.getElementById('hijriDate').textContent=`${day} ${months[mi]} ${year} H`;
-    document.getElementById('moonIcon').innerHTML=moonIcon();
-  }
-}
-function requestGPS(){
-  document.getElementById('locationText').textContent='Mengambil lokasi…';
-  if(!navigator.geolocation){useDefaultLocation();return;}
-  navigator.geolocation.getCurrentPosition(
-    pos=>{const lat=pos.coords.latitude,lon=pos.coords.longitude;localStorage.setItem('silmikaffah-gps',JSON.stringify({lat,lon}));renderPrayerTimes(lat,lon);},
-    ()=>useDefaultLocation(),
-    {enableHighAccuracy:false,maximumAge:300000,timeout:3500}
-  );
-}
-function useDefaultLocation(){
-  const lat=-7.2575,lon=112.7521;
-  document.getElementById('locationText').textContent='Lokasi belum diizinkan • Surabaya (perkiraan)';
-  renderPrayerTimes(lat,lon);
-}
-
-function degToRad(d){return d*Math.PI/180}
-function radToDeg(r){return r*180/Math.PI}
-function fixAngle(a){return ((a%360)+360)%360}
-function fixHour(h){return ((h%24)+24)%24}
-function dsin(d){return Math.sin(degToRad(d))}
-function dcos(d){return Math.cos(degToRad(d))}
-function dtan(d){return Math.tan(degToRad(d))}
-function darccos(x){return radToDeg(Math.acos(Math.max(-1,Math.min(1,x))))}
-function julian(date){
-  const y=date.getFullYear(),m=date.getMonth()+1,d=date.getDate();
-  let Y=y,M=m;if(M<=2){Y--;M+=12}
-  const A=Math.floor(Y/100),B=2-A+Math.floor(A/4);
-  return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+d+B-1524.5;
-}
-function sunPosition(jd){
-  const D=jd-2451545,g=fixAngle(357.529+0.98560028*D),q=fixAngle(280.459+0.98564736*D);
-  const L=fixAngle(q+1.915*dsin(g)+0.020*dsin(2*g)),e=23.439-0.00000036*D;
-  const ra=radToDeg(Math.atan2(dcos(e)*dsin(L),dcos(L)))/15;
-  return {decl:radToDeg(Math.asin(dsin(e)*dsin(L))),eqt:q/15-fixHour(ra)};
-}
-function prayerTimes(date,lat,lon){
-  const tz=-date.getTimezoneOffset()/60;
-  const s=sunPosition(julian(date));
-  const noon=fixHour(12-s.eqt+tz-lon/15);
-
-  // Solar altitude in degrees. Negative values are below the horizon.
-  function hourAngle(altitude){
-    const term=(dsin(altitude)-dsin(lat)*dsin(s.decl))/
-               (dcos(lat)*dcos(s.decl));
-    return darccos(term)/15;
-  }
-
-  const fajr=noon-hourAngle(-20);
-  const sunrise=noon-hourAngle(-0.833);
-  const sunset=noon+hourAngle(-0.833);
-  const isya=noon+hourAngle(-18);
-
-  // Asr: shadow factor 1 (Shafi'i/Hanafi-style selectable later).
-  const shadow=1+dtan(Math.abs(lat-s.decl));
-  const asrAltitude=radToDeg(Math.atan(1/shadow));
-  const asr=noon+hourAngle(asrAltitude);
-
-  return {
-    Subuh:fajr,
-    Dzuhur:noon,
-    Ashar:asr,
-    Maghrib:sunset,
-    Isya:isya
-  };
-}
-function fmtTime(hours){
-  if(hours==null||!isFinite(hours))return '--:--';
-  hours=fixHour(hours);let h=Math.floor(hours),m=Math.round((hours-h)*60);
-  if(m===60){h=(h+1)%24;m=0}
-  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
-}
-function renderPrayerTimes(lat,lon){
-  const t=prayerTimes(new Date(),lat,lon),keys=['Subuh','Dzuhur','Ashar','Maghrib','Isya'];
-  document.getElementById('locationText').textContent=`GPS ${lat.toFixed(2)}, ${lon.toFixed(2)}`;
-  document.getElementById('prayerRow').innerHTML=keys.map(k=>`<span>${k}<b>${fmtTime(t[k])}</b></span>`).join('');
-  const now=new Date(),current=now.getHours()+now.getMinutes()/60;
-  const next=keys.map(k=>[k,t[k]]).find(x=>x[1]>current);
-  const active=next?next[0]:'Subuh';
-  const activeTime=next?next[1]:t.Subuh;
-  document.getElementById('currentPrayer').textContent=active;
-  document.getElementById('currentPrayerTime').textContent=fmtTime(activeTime);
-}
-function fallbackPrayer(){useDefaultLocation();}
-
-function setTheme(theme){
-  if(theme!=='light' && theme!=='amoled') theme='amoled';
-  document.body.classList.remove('theme-light','theme-teal');
-  if(theme==='light') document.body.classList.add('theme-light');
-  document.querySelectorAll('.theme-option').forEach(x=>x.classList.remove('active'));
-  const el=document.getElementById('theme-'+theme); if(el) el.classList.add('active');
-  localStorage.setItem('silmikaffah-theme',theme);
-}
-(function(){
-  try{ initDailyHome(); }catch(e){ console.warn('Home init:',e); }
-  try{ renderQuickAccessIcons(); }catch(e){ console.warn('Icon init:',e); }
-  try{
-    const saved=localStorage.getItem('silmikaffah-theme');
-    setTheme(saved==='light' ? 'light' : 'amoled');
-  }catch(e){ console.warn('Theme init:',e); }
-  setInterval(()=>{
-    try{
-      const cached=localStorage.getItem('silmikaffah-gps');
-      if(cached){ const p=JSON.parse(cached); renderPrayerTimes(p.lat,p.lon); }
-    }catch(e){}
-  },60000);
-  setTimeout(()=>{
-    const splash=document.getElementById('splash');
-    if(splash) splash.classList.add('hide');
-    const home=document.getElementById('home');
-    if(home) home.classList.add('active');
-  },1500);
-})();
-
-</script>
-<script>
-window.addEventListener('load',()=>{ currentPage='home'; pageHistory=[]; activatePage('home'); });
-</script>
+<nav><button onclick="go('home')"><span>⌂</span>Home</button><button onclick="go('provinsi')"><span>🗺️</span>Provinsi</button><button onclick="go('budaya')"><span>🎭</span>Budaya</button><button onclick="go('kuis')"><span>🎯</span>Kuis</button><button onclick="favorites()"><span>♡</span>Favorit</button></nav>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="box" id="box"></div></div><div class="toast" id="toast"></div>
 
 <script>
-window.SilmikaffahAPI = {
-  async prayerTimes(lat,lon,date=new Date()){
-    const d=String(date.getDate()).padStart(2,'0');
-    const m=String(date.getMonth()+1).padStart(2,'0');
-    const y=date.getFullYear();
-    const base='https://api.aladhan.com/v1/timings/'+d+'-'+m+'-'+y;
-    const q='?latitude='+encodeURIComponent(lat)+'&longitude='+encodeURIComponent(lon)+'&method=20';
-    let r=await fetch(base+q);
-    if(!r.ok){r=await fetch(base+'?latitude='+encodeURIComponent(lat)+'&longitude='+encodeURIComponent(lon)+'&method=2');}
-    if(!r.ok)throw new Error('Aladhan HTTP '+r.status);
-    return (await r.json()).data;
-  },
-  async syncPrayer(){
-    try{
-      const raw=localStorage.getItem('silmikaffah-gps');
-      if(!raw)return;
-      const p=JSON.parse(raw);
-      if(!Number.isFinite(+p.lat)||!Number.isFinite(+p.lon))return;
-      const data=await this.prayerTimes(+p.lat,+p.lon);
-      const t=data.timings;
-      const clean={Subuh:t.Fajr,Dzuhur:t.Dhuhr,Ashar:t.Asr,Maghrib:t.Maghrib,Isya:t.Isha};
-      document.querySelectorAll('[data-prayer]').forEach(el=>{
-        if(clean[el.dataset.prayer])el.textContent=clean[el.dataset.prayer].slice(0,5);
-      });
-      const now=new Date(), nm=now.getHours()*60+now.getMinutes();
-      const order=['Subuh','Dzuhur','Ashar','Maghrib','Isya'];
-      let next=order.find(k=>{
-        const [h,m]=clean[k].slice(0,5).split(':').map(Number);
-        return h*60+m>nm;
-      })||'Subuh';
-      const cp=document.getElementById('currentPrayer');
-      const ct=document.getElementById('currentPrayerTime');
-      if(cp)cp.textContent=next;
-      if(ct)ct.textContent=clean[next].slice(0,5);
-      if(data.date&&data.date.hijri){
-        const h=data.date.hijri;
-        const hd=document.getElementById('hijriDate');
-        if(hd)hd.textContent=h.day+' '+h.month.en+' '+h.year+' H';
-      }
-    }catch(e){console.warn('Aladhan:',e);}
-  },
-  quranChapters(){return fetch('https://api.quran.com/api/v4/chapters?language=id').then(r=>r.json());},
-  quranVerses(id){return fetch('https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number='+encodeURIComponent(id)).then(r=>r.json());},
-  quranSearch(q){return fetch('https://api.quran.com/api/v4/search?q='+encodeURIComponent(q)+'&size=20&language=id').then(r=>r.json());},
-  hadithEditions(){return fetch('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions.json').then(r=>r.json());},
-  hadithCollection(c){return fetch('https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/ind-'+encodeURIComponent(c)+'.json').then(r=>r.json());}
-};
-window.addEventListener('load',()=>setTimeout(()=>SilmikaffahAPI.syncPrayer(),700));
-</script>
+const provinces=[
+["Aceh","🕌","Krong Bade","Saman","Rencong"],["Sumatera Utara","🏔️","Bolon","Tor-Tor","Piso Gaja Dompak"],["Sumatera Barat","🏠","Gadang","Piring","Karih"],["Riau","🌴","Selaso Jatuh Kembar","Zapin","Pedang Jenawi"],["Jambi","🌿","Kajang Lako","Sekapur Sirih","Keris"],["Sumatera Selatan","🏯","Limas","Gending Sriwijaya","Trisula"],["Bengkulu","🌺","Bubungan Lima","Andun","Kujur"],["Lampung","🌾","Nuwo Sesat","Melinting","Badik"],["Kep. Bangka Belitung","⚓","Rumah Rakit","Campak","Siwar Panjang"],["Kepulauan Riau","🌊","Belah Bubung","Zapin","Jenawi"],
+["DKI Jakarta","🏙️","Kebaya","Cokek","Golok"],["Jawa Barat","🌾","Jolopong","Jaipong","Kujang"],["Jawa Tengah","🛕","Joglo","Gambyong","Keris"],["DI Yogyakarta","👑","Joglo","Bedhaya","Keris"],["Jawa Timur","🐂","Tanean Lanjhang","Remo","Clurit"],["Banten","🪘","Baduy","Rampak Bedug","Golok"],
+["Bali","🛕","Bale","Kecak","Keris"],["NTB","🏔️","Dalam Loka","Mpaa Lenggo","Sampari"],["NTT","🏡","Mbaru Niang","Caci","Sundu"],
+["Kalimantan Barat","🌳","Rumah Panjang","Monong","Mandau"],["Kalimantan Tengah","🌴","Betang","Balean Dadas","Mandau"],["Kalimantan Selatan","🌿","Bubungan Tinggi","Baksa Kembang","Keris"],["Kalimantan Timur","🦅","Lamin","Hudoq","Mandau"],["Kalimantan Utara","🌲","Baloy","Jepen","Mandau"],
+["Sulawesi Utara","🌋","Walewangko","Maengket","Keris"],["Sulawesi Tengah","🏞️","Tambi","Dero","Pasatimpo"],["Sulawesi Selatan","⛵","Tongkonan","Pakarena","Badik"],["Sulawesi Tenggara","🌊","Banua Tada","Lulo","Keris"],["Gorontalo","🌺","Dulohupa","Saronde","Baladu"],["Sulawesi Barat","🏔️","Boyang","Patuddu","Badik"],
+["Maluku","🌊","Baileo","Cakalele","Parang Salawaku"],["Maluku Utara","🌋","Sasadu","Soya-Soya","Parang"],["Papua","🌴","Honai","Yospan","Busur dan Panah"],["Papua Barat","🦜","Mod Aki Aksa","Tumbu Tanah","Busur dan Panah"],["Papua Barat Daya","🏝️","Kaki Seribu","Aluyen","Busur dan Panah"],["Papua Tengah","⛰️","Honai","Seka","Busur dan Panah"],["Papua Pegunungan","🏔️","Honai","Etai","Busur dan Panah"],["Papua Selatan","🌿","Jew","Det Pok Mbui","Busur dan Panah"]];
 
+const cultures=[
+["👕","Pakaian Adat","Kebaya, Ulos, Songket, Baju Bodo, dan banyak pakaian khas daerah."],
+["🏠","Rumah Adat","Rumah Gadang, Joglo, Tongkonan, Honai, Lamin, dan lainnya."],
+["💃","Tari Tradisional","Saman, Kecak, Jaipong, Piring, Pakarena, Cakalele, dan lainnya."],
+["🎵","Alat Musik","Angklung, Gamelan, Sasando, Kolintang, Tifa, dan lainnya."],
+["⚔️","Senjata Tradisional","Kujang, Rencong, Mandau, Badik, Keris, dan lainnya."],
+["🍛","Kuliner Nusantara","Rendang, Rawon, Pempek, Gudeg, Papeda, Soto, dan lainnya."],
+["🧵","Kain & Kerajinan","Batik, Tenun, Ulos, Songket, Sasirangan, Endek, dan lainnya."],
+["🎭","Tradisi & Upacara","Ngaben, Sekaten, Rambu Solo', Pasola, Tabuik, dan lainnya."]];
+
+const quiz=[["Rumah Gadang berasal dari...",["Sumatera Barat","Jawa Tengah","Bali","Aceh"],0],["Angklung berasal dari...",["Jawa Barat","Papua","Maluku","Bengkulu"],0],["Tari Kecak berasal dari...",["Bali","Jawa Timur","Sumatera Barat","Sulawesi Selatan"],0],["Tongkonan adalah rumah adat masyarakat...",["Toraja","Batak","Baduy","Betawi"],0],["Mandau dikenal sebagai senjata tradisional...",["Kalimantan","Jawa","Bali","Papua"],0]];
+let fav=JSON.parse(localStorage.getItem("nusantaraFav")||"[]");
+
+function render(list){document.getElementById("provinceGrid").innerHTML=list.map((p,i)=>`<div class="province" onclick="province(${provinces.indexOf(p)})"><div class="picon">${p[1]}</div><div class="pbody"><b>${p[0]}</b><small>Rumah ${p[2]} • Tari ${p[3]}</small></div></div>`).join("")}
+function renderCultures(){document.getElementById("cultureGrid").innerHTML=cultures.map(c=>`<div class="culture" onclick="cultureModal('${c[1]}','${c[0]}','${c[2]}')"><div class="emoji">${c[0]}</div><b>${c[1]}</b><small>${c[2]}</small></div>`).join("")}
+function province(i){let p=provinces[i];let saved=fav.includes(p[0]);document.getElementById("box").innerHTML=`<button class="close" onclick="closeModal()">×</button><div class="detailicon">${p[1]}</div><div class="eyebrow" style="margin-top:18px">PROVINSI INDONESIA</div><h2>${p[0]}</h2><p style="color:var(--muted);line-height:1.7">Jelajahi kekayaan budaya ${p[0]} melalui warisan tradisionalnya.</p><div class="tags"><span class="tag">🏠 ${p[2]}</span><span class="tag">💃 ${p[3]}</span><span class="tag">⚔️ ${p[4]}</span></div><h3>Yang bisa kamu jelajahi</h3><div class="grid">${cultures.slice(0,6).map(c=>`<div class="culture"><div class="emoji">${c[0]}</div><b>${c[1]}</b><small>Budaya ${p[0]}</small></div>`).join("")}</div><button class="primary" style="margin-top:18px" onclick="toggleFav('${p[0]}')">${saved?"♥ Hapus Favorit":"♡ Simpan Favorit"}</button>`;openModal()}
+function cultureModal(t,e,d){document.getElementById("box").innerHTML=`<button class="close" onclick="closeModal()">×</button><div class="detailicon">${e}</div><div class="eyebrow" style="margin-top:18px">RAGAM NUSANTARA</div><h2>${t}</h2><p style="color:var(--muted);line-height:1.7">${d}</p><div class="tags"><span class="tag">🇮🇩 Indonesia</span><span class="tag">Warisan Budaya</span></div>`;openModal()}
+function openModal(){document.getElementById("modal").classList.add("show")}function closeModal(){document.getElementById("modal").classList.remove("show")}
+function toggleFav(n){fav.includes(n)?fav=fav.filter(x=>x!==n):fav.push(n);localStorage.setItem("nusantaraFav",JSON.stringify(fav));closeModal();toast(fav.includes(n)?"Disimpan ke Favorit ♥":"Dihapus dari Favorit")}
+function favorites(){document.getElementById("box").innerHTML=`<button class="close" onclick="closeModal()">×</button><div class="eyebrow">KOLEKSIKU</div><h2>Favorit ❤️</h2>${fav.length?fav.map(n=>{let i=provinces.findIndex(p=>p[0]===n);return `<div class="item" style="margin-top:10px" onclick="closeModal();province(${i})">${provinces[i][1]} <b style="display:inline">${n}</b></div>`}).join(""):'<p style="color:var(--muted)">Belum ada provinsi favorit.</p>'}`;openModal()}
+function search(){let q=document.getElementById("search").value.toLowerCase().trim();let f=provinces.filter(p=>p.join(" ").toLowerCase().includes(q));document.getElementById("result").innerHTML=q?(f.length?`Ditemukan: ${f.slice(0,6).map(p=>`<button style="background:none;border:0;color:var(--lime)" onclick="province(${provinces.indexOf(p)})">${p[0]}</button>`).join(" · ")}`:"Tidak ditemukan. Coba nama provinsi, rumah adat, tari, atau senjata."):""}
+function newQuiz(){let q=quiz[Math.floor(Math.random()*quiz.length)];document.getElementById("question").textContent=q[0];document.getElementById("feedback").textContent="";document.getElementById("answers").innerHTML=q[1].map((a,i)=>`<button onclick="answer(${i},${q[2]})">${String.fromCharCode(65+i)}. ${a}</button>`).join("");go("kuis")}
+function answer(a,c){document.getElementById("feedback").textContent=a===c?"🎉 Benar! +10 Poin Nusantara":"💡 Belum tepat. Coba lagi dengan soal berikutnya!"}
+function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
+render(provinces.slice(0,8));renderCultures();newQuiz();
+</script>
 </body>
 </html>
