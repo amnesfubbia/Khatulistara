@@ -1,89 +1,322 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NUSANTARA — Budaya Indonesia</title>
-<style>
-:root{--bg:#000;--card:#090909;--card2:#101010;--text:#f5f5f5;--muted:#999;--green:#25c79a;--lime:#c4f36b;--line:#242424}
-*{box-sizing:border-box}body{margin:0;background:#000;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-.app{max-width:1100px;margin:auto;padding:18px 18px 90px}
-header{display:flex;justify-content:space-between;align-items:center;padding:5px 0 22px}.brand{display:flex;gap:11px;align-items:center}.logo{width:45px;height:45px;border-radius:14px;background:linear-gradient(135deg,var(--lime),var(--green));color:#05251c;display:grid;place-items:center;font-size:24px;font-weight:900}.brand b{letter-spacing:2px;font-size:20px}.brand small{display:block;color:var(--muted);font-size:11px}
-button{font:inherit;cursor:pointer}.icon{background:var(--card);border:1px solid var(--line);color:white;border-radius:12px;width:42px;height:42px}
-.hero{padding:30px;border-radius:26px;border:1px solid #285548;background:#080808;overflow:hidden}.eyebrow{color:var(--lime);font-size:12px;font-weight:800;letter-spacing:2px}.hero h1{font-size:clamp(34px,7vw,58px);line-height:1;margin:8px 0}.hero p{color:#c4d1cc;max-width:680px;line-height:1.65}.search{display:flex;gap:8px;max-width:720px}.search input{flex:1;min-width:0;padding:14px 16px;border-radius:13px;border:1px solid #315a4e;background:#06110e;color:white;outline:none}.primary{border:0;background:var(--green);color:#04241b;font-weight:800;padding:13px 18px;border-radius:13px}
-section{margin-top:28px}.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.title h2{font-size:21px;margin:0}.title button{background:none;border:0;color:var(--lime)}
-.quick,.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.quick .item,.province,.culture{background:var(--card);border:1px solid var(--line);border-radius:18px;transition:.2s}.quick .item{padding:17px;cursor:pointer}.item:hover,.province:hover,.culture:hover{transform:translateY(-3px);border-color:#377263}.emoji{font-size:29px}.item b{display:block;margin-top:8px}.item small,.province small,.culture small{color:var(--muted)}
-.province{overflow:hidden;cursor:pointer}.picon{height:105px;display:grid;place-items:center;font-size:45px;background:#111}.pbody{padding:13px}.pbody b{display:block;margin-bottom:3px}
-.culture{padding:16px;cursor:pointer}.culture b{display:block;margin:8px 0 4px}
-.quiz{padding:22px;border-radius:22px;border:1px solid #285548;background:#0a0a0a}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.answers button{padding:13px;text-align:left;border-radius:12px;background:#091713;color:white;border:1px solid var(--line)}.answers button:hover{border-color:var(--green)}
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:5;width:min(720px,calc(100% - 18px));display:grid;grid-template-columns:repeat(5,1fr);padding:8px;background:#081511ee;backdrop-filter:blur(15px);border:1px solid #28493f;border-radius:19px 19px 0 0}nav button{background:none;border:0;color:#9aaba5;font-size:11px}nav span{display:block;font-size:19px;margin-bottom:3px}nav button:hover{color:var(--lime)}
-.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10;padding:18px;place-items:center}.modal.show{display:grid}.box{max-width:700px;width:100%;max-height:90vh;overflow:auto;background:#0b1815;border:1px solid #295448;border-radius:23px;padding:22px}.close{float:right;background:#142923;color:white;border:0;border-radius:9px;width:38px;height:38px}.detailicon{font-size:55px;padding:25px;border-radius:18px;background:linear-gradient(135deg,#163d33,#0d211d)}.tags{display:flex;gap:7px;flex-wrap:wrap}.tag{background:#14352d;padding:7px 10px;border-radius:99px;font-size:12px;color:#bcecdf}.result{color:var(--muted);margin-top:12px}.toast{position:fixed;right:15px;bottom:75px;background:#173d33;border:1px solid #2b6657;padding:12px 15px;border-radius:12px;display:none;z-index:20}
-@media(max-width:800px){.quick,.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:480px){.app{padding:12px 12px 80px}.hero{padding:22px}.search{flex-direction:column}.answers{grid-template-columns:1fr}.picon{height:90px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khatulistara - Eksplorasi Nusantara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Palet warna fresh & friendly (Muted Green/Sage) */
+            --sage-green: #9CB49F;
+            --olive-green: #5F7A63;
+            --cream-bg: #F9F6F0;
+            --terracotta: #C88164;
+            --text-dark: #3A403C;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        body {
+            background-color: #EAEAEA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Simulasi Layar Smartphone */
+        .app-container {
+            width: 100%;
+            max-width: 414px; /* Ukuran standar mobile */
+            height: 850px;
+            background-color: var(--cream-bg);
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Top Bar */
+        .header {
+            background-color: var(--sage-green);
+            padding: 30px 20px 20px 20px;
+            color: var(--white);
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 4px 10px rgba(95, 122, 99, 0.2);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: var(--olive-green);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        /* Grid Menu Utama */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .menu-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            border-color: var(--sage-green);
+        }
+
+        .menu-icon {
+            font-size: 32px;
+            color: var(--terracotta);
+            margin-bottom: 10px;
+        }
+
+        .menu-card h3 {
+            font-size: 14px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        /* Aksara Showcase (Fitur Khusus) */
+        .aksara-card {
+            background-color: var(--olive-green);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .aksara-text h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .aksara-text p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .aksara-btn {
+            background-color: var(--terracotta);
+            color: var(--white);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            text-align: center;
+            color: var(--text-dark);
+            opacity: 0.5;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: var(--olive-green);
+            opacity: 1;
+            font-weight: 700;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        /* Modal Popup */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 30px;
+        }
+        
+        .modal-content {
+            background: var(--cream-bg);
+            width: 80%;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .modal-content h2 {
+            color: var(--olive-green);
+            margin-bottom: 10px;
+        }
+        
+        .close-btn {
+            margin-top: 15px;
+            background: var(--sage-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-<div class="app">
-<header><div class="brand"><div class="logo"><svg viewBox="0 0 48 48" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 24 24 9l17 15"/><path d="M11 22v17h26V22"/><path d="M18 39V26h12v13"/><path d="M16 19h16"/></svg></div><div><b>NUSANTARA</b><small>Jelajahi Warisan Budaya Indonesia</small></div></div><button class="icon" onclick="favorites()">♡</button></header>
 
-<div class="hero" id="home">
-<div class="eyebrow">INDONESIA DALAM SATU APLIKASI</div>
-<h1>Jelajahi<br>Nusantara.</h1>
-<p>Kenali pakaian adat, rumah adat, tari, musik, senjata, kuliner, tradisi, dan cerita rakyat dari berbagai daerah Indonesia.</p>
-<div class="search"><input id="search" placeholder="Cari provinsi atau budaya..." onkeydown="if(event.key==='Enter')search()"><button class="primary" onclick="search()">Cari</button></div>
-<div id="result" class="result"></div>
-</div>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fa-solid fa-leaf"></i> Khatulistara</h1>
+            <p>Jelajahi Sejarah & Budaya Nusantara</p>
+        </div>
 
-<section><div class="title"><h2>Jelajah Cepat</h2></div><div class="quick">
-<div class="item" onclick="go('provinsi')"><div class="emoji">🗺️</div><b>38 Provinsi</b><small>Kenali daerah</small></div>
-<div class="item" onclick="go('budaya')"><div class="emoji">🎭</div><b>Budaya</b><small>Warisan tradisional</small></div>
-<div class="item" onclick="cultureModal('Kuliner Nusantara','🍛','Rendang, rawon, pempek, gudeg, papeda, dan berbagai kuliner khas daerah.')"><div class="emoji">🍛</div><b>Kuliner</b><small>Rasa Nusantara</small></div>
-<div class="item" onclick="newQuiz()"><div class="emoji">🎯</div><b>Kuis</b><small>Uji wawasan</small></div>
-</div></section>
+        <!-- Content -->
+        <div class="content">
+            <h2 class="section-title">Eksplorasi Katalog</h2>
+            
+            <!-- Grid Menu 5 Pilar -->
+            <div class="menu-grid">
+                <div class="menu-card" onclick="openModal('Peta Nusantara')">
+                    <i class="fa-solid fa-map-location-dot menu-icon"></i>
+                    <h3>Peta Nusantara</h3>
+                </div>
+                <div class="menu-card" onclick="openModal('Ruang Aksara')">
+                    <i class="fa-solid fa-pen-nib menu-icon"></i>
+                    <h3>Ruang Aksara</h3>
+                </div>
+                <div class="menu-card" onclick="openModal('Lorong Waktu')">
+                    <i class="fa-solid fa-hourglass-half menu-icon"></i>
+                    <h3>Lorong Waktu</h3>
+                </div>
+                <div class="menu-card" onclick="openModal('Panggung Kesenian')">
+                    <i class="fa-solid fa-mask menu-icon"></i>
+                    <h3>Kesenian</h3>
+                </div>
+                <div class="menu-card" onclick="openModal('Pustaka Cerita')">
+                    <i class="fa-solid fa-book-open menu-icon"></i>
+                    <h3>Pustaka Cerita</h3>
+                </div>
+            </div>
 
-<section id="provinsi"><div class="title"><h2>Provinsi Indonesia</h2><button onclick="render(provinces)">Lihat semua</button></div><div class="grid" id="provinceGrid"></div></section>
+            <!-- Sorotan: Modul Aksara -->
+            <h2 class="section-title">Lanjutkan Belajar</h2>
+            <div class="aksara-card">
+                <div class="aksara-text">
+                    <h4>Aksara Jawa</h4>
+                    <p>Mengenal Hanacaraka Dasar</p>
+                </div>
+                <button class="aksara-btn" onclick="openModal('Modul Aksara Jawa')">Mulai</button>
+            </div>
+        </div>
 
-<section id="budaya"><div class="title"><h2>Ragam Budaya</h2></div><div class="grid" id="cultureGrid"></div></section>
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                <i class="fa-solid fa-house"></i>
+                Beranda
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-compass"></i>
+                Jelajah
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-bookmark"></i>
+                Tersimpan
+            </div>
+            <div class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                Profil
+            </div>
+        </div>
+        
+        <!-- Modal Popup Interaktif -->
+        <div id="demoModal" class="modal">
+            <div class="modal-content">
+                <i class="fa-solid fa-tools" style="font-size: 40px; color: var(--terracotta); margin-bottom: 15px;"></i>
+                <h2 id="modalTitle">Menu Title</h2>
+                <p style="color: var(--text-dark); font-size: 14px;">Halaman ini masih dalam tahap perancangan prototipe.</p>
+                <button class="close-btn" onclick="closeModal()">Tutup</button>
+            </div>
+        </div>
+    </div>
 
-<section id="kuis"><div class="title"><h2>Kuis Budaya</h2><button onclick="newQuiz()">Soal baru</button></div><div class="quiz"><div class="eyebrow">UJI WAWASANMU</div><h3 id="question"></h3><div class="answers" id="answers"></div><p id="feedback"></p></div></section>
-</div>
+    <!-- JavaScript Interaktif -->
+    <script>
+        function openModal(title) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('demoModal').style.display = 'flex';
+        }
 
-<nav><button onclick="go('home')"><span>⌂</span>Home</button><button onclick="go('provinsi')"><span>🗺️</span>Provinsi</button><button onclick="go('budaya')"><span>🎭</span>Budaya</button><button onclick="go('kuis')"><span>🎯</span>Kuis</button><button onclick="favorites()"><span>♡</span>Favorit</button></nav>
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="box" id="box"></div></div><div class="toast" id="toast"></div>
-
-<script>
-const provinces=[
-["Aceh","🕌","Krong Bade","Saman","Rencong"],["Sumatera Utara","🏔️","Bolon","Tor-Tor","Piso Gaja Dompak"],["Sumatera Barat","🏠","Gadang","Piring","Karih"],["Riau","🌴","Selaso Jatuh Kembar","Zapin","Pedang Jenawi"],["Jambi","🌿","Kajang Lako","Sekapur Sirih","Keris"],["Sumatera Selatan","🏯","Limas","Gending Sriwijaya","Trisula"],["Bengkulu","🌺","Bubungan Lima","Andun","Kujur"],["Lampung","🌾","Nuwo Sesat","Melinting","Badik"],["Kep. Bangka Belitung","⚓","Rumah Rakit","Campak","Siwar Panjang"],["Kepulauan Riau","🌊","Belah Bubung","Zapin","Jenawi"],
-["DKI Jakarta","🏙️","Kebaya","Cokek","Golok"],["Jawa Barat","🌾","Jolopong","Jaipong","Kujang"],["Jawa Tengah","🛕","Joglo","Gambyong","Keris"],["DI Yogyakarta","👑","Joglo","Bedhaya","Keris"],["Jawa Timur","🐂","Tanean Lanjhang","Remo","Clurit"],["Banten","🪘","Baduy","Rampak Bedug","Golok"],
-["Bali","🛕","Bale","Kecak","Keris"],["NTB","🏔️","Dalam Loka","Mpaa Lenggo","Sampari"],["NTT","🏡","Mbaru Niang","Caci","Sundu"],
-["Kalimantan Barat","🌳","Rumah Panjang","Monong","Mandau"],["Kalimantan Tengah","🌴","Betang","Balean Dadas","Mandau"],["Kalimantan Selatan","🌿","Bubungan Tinggi","Baksa Kembang","Keris"],["Kalimantan Timur","🦅","Lamin","Hudoq","Mandau"],["Kalimantan Utara","🌲","Baloy","Jepen","Mandau"],
-["Sulawesi Utara","🌋","Walewangko","Maengket","Keris"],["Sulawesi Tengah","🏞️","Tambi","Dero","Pasatimpo"],["Sulawesi Selatan","⛵","Tongkonan","Pakarena","Badik"],["Sulawesi Tenggara","🌊","Banua Tada","Lulo","Keris"],["Gorontalo","🌺","Dulohupa","Saronde","Baladu"],["Sulawesi Barat","🏔️","Boyang","Patuddu","Badik"],
-["Maluku","🌊","Baileo","Cakalele","Parang Salawaku"],["Maluku Utara","🌋","Sasadu","Soya-Soya","Parang"],["Papua","🌴","Honai","Yospan","Busur dan Panah"],["Papua Barat","🦜","Mod Aki Aksa","Tumbu Tanah","Busur dan Panah"],["Papua Barat Daya","🏝️","Kaki Seribu","Aluyen","Busur dan Panah"],["Papua Tengah","⛰️","Honai","Seka","Busur dan Panah"],["Papua Pegunungan","🏔️","Honai","Etai","Busur dan Panah"],["Papua Selatan","🌿","Jew","Det Pok Mbui","Busur dan Panah"]];
-
-const cultures=[
-["👕","Pakaian Adat","Kebaya, Ulos, Songket, Baju Bodo, dan banyak pakaian khas daerah."],
-["🏠","Rumah Adat","Rumah Gadang, Joglo, Tongkonan, Honai, Lamin, dan lainnya."],
-["💃","Tari Tradisional","Saman, Kecak, Jaipong, Piring, Pakarena, Cakalele, dan lainnya."],
-["🎵","Alat Musik","Angklung, Gamelan, Sasando, Kolintang, Tifa, dan lainnya."],
-["⚔️","Senjata Tradisional","Kujang, Rencong, Mandau, Badik, Keris, dan lainnya."],
-["🍛","Kuliner Nusantara","Rendang, Rawon, Pempek, Gudeg, Papeda, Soto, dan lainnya."],
-["🧵","Kain & Kerajinan","Batik, Tenun, Ulos, Songket, Sasirangan, Endek, dan lainnya."],
-["🎭","Tradisi & Upacara","Ngaben, Sekaten, Rambu Solo', Pasola, Tabuik, dan lainnya."]];
-
-const quiz=[["Rumah Gadang berasal dari...",["Sumatera Barat","Jawa Tengah","Bali","Aceh"],0],["Angklung berasal dari...",["Jawa Barat","Papua","Maluku","Bengkulu"],0],["Tari Kecak berasal dari...",["Bali","Jawa Timur","Sumatera Barat","Sulawesi Selatan"],0],["Tongkonan adalah rumah adat masyarakat...",["Toraja","Batak","Baduy","Betawi"],0],["Mandau dikenal sebagai senjata tradisional...",["Kalimantan","Jawa","Bali","Papua"],0]];
-let fav=JSON.parse(localStorage.getItem("nusantaraFav")||"[]");
-
-function render(list){document.getElementById("provinceGrid").innerHTML=list.map((p,i)=>`<div class="province" onclick="province(${provinces.indexOf(p)})"><div class="picon">${p[1]}</div><div class="pbody"><b>${p[0]}</b><small>Rumah ${p[2]} • Tari ${p[3]}</small></div></div>`).join("")}
-function renderCultures(){document.getElementById("cultureGrid").innerHTML=cultures.map(c=>`<div class="culture" onclick="cultureModal('${c[1]}','${c[0]}','${c[2]}')"><div class="emoji">${c[0]}</div><b>${c[1]}</b><small>${c[2]}</small></div>`).join("")}
-function province(i){let p=provinces[i];let saved=fav.includes(p[0]);document.getElementById("box").innerHTML=`<button class="close" onclick="closeModal()">×</button><div class="detailicon">${p[1]}</div><div class="eyebrow" style="margin-top:18px">PROVINSI INDONESIA</div><h2>${p[0]}</h2><p style="color:var(--muted);line-height:1.7">Jelajahi kekayaan budaya ${p[0]} melalui warisan tradisionalnya.</p><div class="tags"><span class="tag">🏠 ${p[2]}</span><span class="tag">💃 ${p[3]}</span><span class="tag">⚔️ ${p[4]}</span></div><h3>Yang bisa kamu jelajahi</h3><div class="grid">${cultures.slice(0,6).map(c=>`<div class="culture"><div class="emoji">${c[0]}</div><b>${c[1]}</b><small>Budaya ${p[0]}</small></div>`).join("")}</div><button class="primary" style="margin-top:18px" onclick="toggleFav('${p[0]}')">${saved?"♥ Hapus Favorit":"♡ Simpan Favorit"}</button>`;openModal()}
-function cultureModal(t,e,d){document.getElementById("box").innerHTML=`<button class="close" onclick="closeModal()">×</button><div class="detailicon">${e}</div><div class="eyebrow" style="margin-top:18px">RAGAM NUSANTARA</div><h2>${t}</h2><p style="color:var(--muted);line-height:1.7">${d}</p><div class="tags"><span class="tag">🇮🇩 Indonesia</span><span class="tag">Warisan Budaya</span></div>`;openModal()}
-function openModal(){document.getElementById("modal").classList.add("show")}function closeModal(){document.getElementById("modal").classList.remove("show")}
-function toggleFav(n){fav.includes(n)?fav=fav.filter(x=>x!==n):fav.push(n);localStorage.setItem("nusantaraFav",JSON.stringify(fav));closeModal();toast(fav.includes(n)?"Disimpan ke Favorit ♥":"Dihapus dari Favorit")}
-function favorites(){document.getElementById("box").innerHTML=`<button class="close" onclick="closeModal()">×</button><div class="eyebrow">KOLEKSIKU</div><h2>Favorit ❤️</h2>${fav.length?fav.map(n=>{let i=provinces.findIndex(p=>p[0]===n);return `<div class="item" style="margin-top:10px" onclick="closeModal();province(${i})">${provinces[i][1]} <b style="display:inline">${n}</b></div>`}).join(""):'<p style="color:var(--muted)">Belum ada provinsi favorit.</p>'}`;openModal()}
-function search(){let q=document.getElementById("search").value.toLowerCase().trim();let f=provinces.filter(p=>p.join(" ").toLowerCase().includes(q));document.getElementById("result").innerHTML=q?(f.length?`Ditemukan: ${f.slice(0,6).map(p=>`<button style="background:none;border:0;color:var(--lime)" onclick="province(${provinces.indexOf(p)})">${p[0]}</button>`).join(" · ")}`:"Tidak ditemukan. Coba nama provinsi, rumah adat, tari, atau senjata."):""}
-function newQuiz(){let q=quiz[Math.floor(Math.random()*quiz.length)];document.getElementById("question").textContent=q[0];document.getElementById("feedback").textContent="";document.getElementById("answers").innerHTML=q[1].map((a,i)=>`<button onclick="answer(${i},${q[2]})">${String.fromCharCode(65+i)}. ${a}</button>`).join("");go("kuis")}
-function answer(a,c){document.getElementById("feedback").textContent=a===c?"🎉 Benar! +10 Poin Nusantara":"💡 Belum tepat. Coba lagi dengan soal berikutnya!"}
-function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}function toast(t){let x=document.getElementById("toast");x.textContent=t;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
-render(provinces.slice(0,8));renderCultures();newQuiz();
-</script>
+        function closeModal() {
+            document.getElementById('demoModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
