@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khatulistara - Eksplorasi Nusantara</title>
+    <title>Khatulistara - Kuliner Jawa Timur</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -15,6 +15,7 @@
             --terracotta: #C88164;
             --text-dark: #3A403C;
             --white: #FFFFFF;
+            --light-grey: #EAEAEA;
         }
 
         * {
@@ -25,19 +26,20 @@
         }
 
         body {
-            background-color: #EAEAEA;
+            background-color: #D5D5D5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 20px;
         }
 
-        /* Simulasi Layar Smartphone */
+        /* Container Smartphone */
         .app-container {
             width: 100%;
-            max-width: 414px; /* Ukuran standar mobile */
+            max-width: 414px;
             height: 850px;
-            background-color: var(--cream-bg);
+            background-color: var(--light-grey);
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             overflow: hidden;
@@ -46,114 +48,169 @@
             flex-direction: column;
         }
 
-        /* Header / Top Bar */
+        /* Header dengan Tombol Back */
         .header {
             background-color: var(--sage-green);
-            padding: 30px 20px 20px 20px;
+            padding: 40px 20px 20px 20px;
             color: var(--white);
             border-bottom-left-radius: 25px;
             border-bottom-right-radius: 25px;
             box-shadow: 0 4px 10px rgba(95, 122, 99, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            font-size: 20px;
+            cursor: pointer;
         }
 
         .header h1 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .header p {
-            font-size: 14px;
-            margin-top: 5px;
+            font-size: 13px;
             opacity: 0.9;
         }
 
-        /* Content Area */
-        .content {
-            padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-bottom: 80px; /* Space for bottom nav */
+        /* Tab Navigasi Kategori Kuliner */
+        .category-tabs {
+            display: flex;
+            padding: 15px 20px 5px 20px;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .category-tabs::-webkit-scrollbar {
+            display: none; /* Safari/Chrome */
         }
 
-        .section-title {
-            font-size: 18px;
-            color: var(--olive-green);
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        /* Grid Menu Utama */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .menu-card {
+        .tab {
             background-color: var(--white);
-            border-radius: 15px;
-            padding: 20px 15px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .menu-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            border-color: var(--sage-green);
-        }
-
-        .menu-icon {
-            font-size: 32px;
-            color: var(--terracotta);
-            margin-bottom: 10px;
-        }
-
-        .menu-card h3 {
-            font-size: 14px;
             color: var(--text-dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
             font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
         }
 
-        /* Aksara Showcase (Fitur Khusus) */
-        .aksara-card {
+        .tab.active {
             background-color: var(--olive-green);
             color: var(--white);
-            padding: 20px;
+        }
+
+        /* Area Konten */
+        .content {
+            padding: 15px 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 90px;
+        }
+
+        /* Kartu Kuliner & Akordion */
+        .food-card {
+            background-color: var(--cream-bg);
             border-radius: 15px;
-            margin-top: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--terracotta);
+        }
+
+        .food-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 8px;
         }
 
-        .aksara-text h4 {
+        .food-title {
             font-size: 16px;
-            margin-bottom: 5px;
+            font-weight: 700;
+            color: var(--olive-green);
         }
 
-        .aksara-text p {
-            font-size: 12px;
-            opacity: 0.8;
+        .history-text {
+            font-size: 13px;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            text-align: justify;
         }
 
-        .aksara-btn {
-            background-color: var(--terracotta);
+        /* Tombol Buka/Tutup Resep */
+        .accordion-btn {
+            background-color: var(--sage-green);
             color: var(--white);
             border: none;
-            padding: 10px 15px;
+            padding: 8px 12px;
+            width: 100%;
+            text-align: center;
             border-radius: 8px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            font-family: inherit;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .accordion-btn:hover {
+            background-color: var(--olive-green);
+        }
+
+        .accordion-btn i {
+            transition: transform 0.3s;
+        }
+
+        .accordion-btn.active i {
+            transform: rotate(180deg);
+        }
+
+        /* Konten Resep yang Tersembunyi */
+        .recipe-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: var(--white);
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+
+        .recipe-inner {
+            padding: 15px;
+        }
+
+        .recipe-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--terracotta);
+            margin-bottom: 5px;
+            margin-top: 10px;
+        }
+        
+        .recipe-section-title:first-child {
+            margin-top: 0;
+        }
+
+        .recipe-list {
+            font-size: 13px;
+            color: var(--text-dark);
+            padding-left: 20px;
+            line-height: 1.5;
+        }
+        
+        .recipe-list li {
+            margin-bottom: 4px;
         }
 
         /* Bottom Navigation */
@@ -189,43 +246,6 @@
             margin-bottom: 5px;
             display: block;
         }
-        
-        /* Modal Popup */
-        .modal {
-            display: none;
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            border-radius: 30px;
-        }
-        
-        .modal-content {
-            background: var(--cream-bg);
-            width: 80%;
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-        }
-        
-        .modal-content h2 {
-            color: var(--olive-green);
-            margin-bottom: 10px;
-        }
-        
-        .close-btn {
-            margin-top: 15px;
-            background: var(--sage-green);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-        }
     </style>
 </head>
 <body>
@@ -233,56 +253,118 @@
     <div class="app-container">
         <!-- Header -->
         <div class="header">
-            <h1><i class="fa-solid fa-leaf"></i> Khatulistara</h1>
-            <p>Jelajahi Sejarah & Budaya Nusantara</p>
+            <i class="fa-solid fa-arrow-left back-btn" onclick="alert('Kembali ke Peta Nusantara')"></i>
+            <div>
+                <h1>Jawa Timur</h1>
+                <p>Ensiklopedia Kuliner Daerah</p>
+            </div>
+        </div>
+
+        <!-- Kategori -->
+        <div class="category-tabs">
+            <div class="tab active">🍲 Makanan Berat</div>
+            <div class="tab">🍡 Jajanan</div>
+            <div class="tab">🍹 Minuman</div>
         </div>
 
         <!-- Content -->
         <div class="content">
-            <h2 class="section-title">Eksplorasi Katalog</h2>
             
-            <!-- Grid Menu 5 Pilar -->
-            <div class="menu-grid">
-                <div class="menu-card" onclick="openModal('Peta Nusantara')">
-                    <i class="fa-solid fa-map-location-dot menu-icon"></i>
-                    <h3>Peta Nusantara</h3>
+            <!-- Item 1: Rawon -->
+            <div class="food-card">
+                <div class="food-header">
+                    <div class="food-title">Rawon</div>
                 </div>
-                <div class="menu-card" onclick="openModal('Ruang Aksara')">
-                    <i class="fa-solid fa-pen-nib menu-icon"></i>
-                    <h3>Ruang Aksara</h3>
+                <div class="history-text">
+                    Rawon adalah sup daging berkuah hitam legam peninggalan Kerajaan Majapahit, yang tercatat dalam Prasasti Trowulan. Warna hitam khasnya berasal dari rempah kluwek yang memberikan cita rasa gurih dan earthy yang sangat mendalam.
                 </div>
-                <div class="menu-card" onclick="openModal('Lorong Waktu')">
-                    <i class="fa-solid fa-hourglass-half menu-icon"></i>
-                    <h3>Lorong Waktu</h3>
-                </div>
-                <div class="menu-card" onclick="openModal('Panggung Kesenian')">
-                    <i class="fa-solid fa-mask menu-icon"></i>
-                    <h3>Kesenian</h3>
-                </div>
-                <div class="menu-card" onclick="openModal('Pustaka Cerita')">
-                    <i class="fa-solid fa-book-open menu-icon"></i>
-                    <h3>Pustaka Cerita</h3>
+                <button class="accordion-btn">Lihat Resep Singkat <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="recipe-content">
+                    <div class="recipe-inner">
+                        <div class="recipe-section-title">Bahan:</div>
+                        <ul class="recipe-list">
+                            <li>Daging sapi (potongan sandung lamur) secukupnya</li>
+                            <li>Bumbu halus (bawang merah, bawang putih, ketumbar, kemiri, kunyit)</li>
+                            <li>Beberapa buah kluwek (ambil daging isinya)</li>
+                            <li>Daun jeruk, serai, dan lengkuas</li>
+                            <li>Tauge pendek dan telur asin untuk pelengkap</li>
+                        </ul>
+                        <div class="recipe-section-title">Cara Membuat:</div>
+                        <ol class="recipe-list">
+                            <li>Tumis bumbu halus bersama kluwek, daun aromatik hingga harum.</li>
+                            <li>Masukkan potongan daging sapi, aduk hingga berubah warna.</li>
+                            <li>Tuangkan air, masak dengan api kecil hingga daging empuk.</li>
+                            <li>Sajikan hangat dengan pelengkap.</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
 
-            <!-- Sorotan: Modul Aksara -->
-            <h2 class="section-title">Lanjutkan Belajar</h2>
-            <div class="aksara-card">
-                <div class="aksara-text">
-                    <h4>Aksara Jawa</h4>
-                    <p>Mengenal Hanacaraka Dasar</p>
+            <!-- Item 2: Rujak Cingur -->
+            <div class="food-card">
+                <div class="food-header">
+                    <div class="food-title">Rujak Cingur</div>
                 </div>
-                <button class="aksara-btn" onclick="openModal('Modul Aksara Jawa')">Mulai</button>
+                <div class="history-text">
+                    Kuliner ikonik pesisir ini memadukan cingur (moncong sapi) dengan bumbu petis udang. Sejarah lisan menyebutkan resep ini sudah ada sejak zaman kolonial sebagai makanan padat gizi bagi kaum pekerja.
+                </div>
+                <button class="accordion-btn">Lihat Resep Singkat <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="recipe-content">
+                    <div class="recipe-inner">
+                        <div class="recipe-section-title">Bahan:</div>
+                        <ul class="recipe-list">
+                            <li>Potongan cingur sapi rebus secukupnya</li>
+                            <li>Sayuran rebus dan buah-buahan segar (bengkuang, nanas)</li>
+                            <li>Lontong, tahu, dan tempe goreng</li>
+                            <li>Bumbu ulek (petis udang, kacang tanah, cabai, pisang batu, asam jawa)</li>
+                        </ul>
+                        <div class="recipe-section-title">Cara Membuat:</div>
+                        <ol class="recipe-list">
+                            <li>Ulek pisang batu, cabai, kacang tanah, dan gula merah hingga halus.</li>
+                            <li>Tambahkan petis udang dan air asam jawa, aduk kental.</li>
+                            <li>Tata bahan irisan di piring, siram dengan bumbu ulek.</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
+
+            <!-- Item 3: Lontong Balap -->
+            <div class="food-card">
+                <div class="food-header">
+                    <div class="food-title">Lontong Balap</div>
+                </div>
+                <div class="history-text">
+                    Dinamakan "balap" karena pada zaman dulu para penjualnya memikul periuk berat dan berjalan cepat memperebutkan pembeli di kawasan Wonokromo. Menonjolkan perpaduan kuah kaldu ringan dan tauge melimpah.
+                </div>
+                <button class="accordion-btn">Lihat Resep Singkat <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="recipe-content">
+                    <div class="recipe-inner">
+                        <div class="recipe-section-title">Bahan:</div>
+                        <ul class="recipe-list">
+                            <li>Lontong dan tauge panjang (seduh air panas)</li>
+                            <li>Tahu goreng dan lentho (gorengan singkong & kacang tolo)</li>
+                            <li>Kuah kaldu sapi ringan dengan bumbu irisan bawang</li>
+                            <li>Sambal petis</li>
+                        </ul>
+                        <div class="recipe-section-title">Cara Membuat:</div>
+                        <ol class="recipe-list">
+                            <li>Buat kuah kaldu sapi yang gurih dan ringan.</li>
+                            <li>Tata lontong, tahu, lentho, dan tauge melimpah di piring.</li>
+                            <li>Siram dengan kuah panas, sajikan bersama sambal petis.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <!-- Bottom Navigation -->
         <div class="bottom-nav">
-            <div class="nav-item active">
+            <div class="nav-item">
                 <i class="fa-solid fa-house"></i>
                 Beranda
             </div>
-            <div class="nav-item">
+            <div class="nav-item active">
                 <i class="fa-solid fa-compass"></i>
                 Jelajah
             </div>
@@ -295,28 +377,31 @@
                 Profil
             </div>
         </div>
-        
-        <!-- Modal Popup Interaktif -->
-        <div id="demoModal" class="modal">
-            <div class="modal-content">
-                <i class="fa-solid fa-tools" style="font-size: 40px; color: var(--terracotta); margin-bottom: 15px;"></i>
-                <h2 id="modalTitle">Menu Title</h2>
-                <p style="color: var(--text-dark); font-size: 14px;">Halaman ini masih dalam tahap perancangan prototipe.</p>
-                <button class="close-btn" onclick="closeModal()">Tutup</button>
-            </div>
-        </div>
     </div>
 
-    <!-- JavaScript Interaktif -->
+    <!-- Script untuk Logika Akordion -->
     <script>
-        function openModal(title) {
-            document.getElementById('modalTitle').innerText = title;
-            document.getElementById('demoModal').style.display = 'flex';
-        }
+        // Mengambil semua tombol akordion
+        const accordions = document.querySelectorAll('.accordion-btn');
 
-        function closeModal() {
-            document.getElementById('demoModal').style.display = 'none';
-        }
+        accordions.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Toggle icon dan warna
+                this.classList.toggle('active');
+                
+                // Mengambil elemen konten resep tepat di bawah tombol ini
+                const content = this.nextElementSibling;
+                
+                // Logika animasi buka/tutup (mengatur max-height)
+                if (content.style.maxHeight) {
+                    // Jika sedang terbuka, maka tutup
+                    content.style.maxHeight = null;
+                } else {
+                    // Jika tertutup, buka seukuran isi di dalamnya
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
     </script>
 </body>
 </html>
