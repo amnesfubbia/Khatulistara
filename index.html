@@ -957,40 +957,54 @@ const PUSTAKA = {
 
 const BAHASA = {
   kamus:[
-    {id:'gotongroyong', kata:'Gotong royong', kelas:'nomina', arti:'Bekerja bersama-sama (tolong-menolong, bantu-membantu) untuk mencapai suatu hasil yang diinginkan.'},
-    {id:'musyawarah', kata:'Musyawarah', kelas:'nomina', arti:'Pembahasan bersama dengan maksud mencapai keputusan atas penyelesaian masalah, mufakat.'},
-    {id:'nusantara', kata:'Nusantara', kelas:'nomina', arti:'Sebutan bagi seluruh wilayah kepulauan Indonesia; secara historis berasal dari Sumpah Palapa Gajah Mada.'},
-    {id:'bhinneka', kata:'Bhinneka Tunggal Ika', kelas:'frasa', arti:'Semboyan negara Indonesia yang berarti "berbeda-beda tetapi tetap satu jua", diambil dari Kitab Sutasoma karya Mpu Tantular.'},
-    {id:'merdeka', kata:'Merdeka', kelas:'adjektiva', arti:'Bebas (dari perhambaan, penjajahan, dan sebagainya); berdiri sendiri.'},
-    {id:'tenggangrasa', kata:'Tenggang rasa', kelas:'nomina', arti:'Sikap menjaga perasaan orang lain, tidak berbuat sesuatu yang menyinggung hati orang lain.'},
-    {id:'swasembada', kata:'Swasembada', kelas:'nomina', arti:'Usaha mencukupi kebutuhan sendiri, terutama di bidang pangan, dengan kemampuan sendiri tanpa bergantung pihak lain.'},
+    {id:'gotongroyong', kata:'Gotong royong', kelas:'nomina', arti:'Bekerja bersama-sama (tolong-menolong, bantu-membantu) untuk mencapai suatu hasil yang diinginkan.', contoh:'Warga desa melakukan gotong royong membersihkan selokan setiap Minggu pagi.'},
+    {id:'musyawarah', kata:'Musyawarah', kelas:'nomina', arti:'Pembahasan bersama dengan maksud mencapai keputusan atas penyelesaian masalah, mufakat.', contoh:'Keputusan pembangunan balai desa diambil lewat musyawarah seluruh warga.'},
+    {id:'nusantara', kata:'Nusantara', kelas:'nomina', arti:'Sebutan bagi seluruh wilayah kepulauan Indonesia; secara historis berasal dari Sumpah Palapa Gajah Mada.', contoh:'Batik adalah salah satu warisan budaya Nusantara yang diakui dunia.'},
+    {id:'bhinneka', kata:'Bhinneka Tunggal Ika', kelas:'frasa', arti:'Semboyan negara Indonesia yang berarti "berbeda-beda tetapi tetap satu jua", diambil dari Kitab Sutasoma karya Mpu Tantular.', contoh:'Semboyan Bhinneka Tunggal Ika mengajarkan pentingnya toleransi di tengah keberagaman Indonesia.'},
+    {id:'merdeka', kata:'Merdeka', kelas:'adjektiva', arti:'Bebas (dari perhambaan, penjajahan, dan sebagainya); berdiri sendiri.', contoh:'Bangsa Indonesia merayakan hari merdeka setiap 17 Agustus.'},
+    {id:'tenggangrasa', kata:'Tenggang rasa', kelas:'nomina', arti:'Sikap menjaga perasaan orang lain, tidak berbuat sesuatu yang menyinggung hati orang lain.', contoh:'Sikap tenggang rasa penting dijaga dalam kehidupan bertetangga yang majemuk.'},
+    {id:'swasembada', kata:'Swasembada', kelas:'nomina', arti:'Usaha mencukupi kebutuhan sendiri, terutama di bidang pangan, dengan kemampuan sendiri tanpa bergantung pihak lain.', contoh:'Indonesia sempat mencapai swasembada beras pada era 1980-an.'},
   ],
   peribahasa:[
-    {id:'airtenang', teks:'Air tenang menghanyutkan', makna:'Orang yang pendiam belum tentu tidak berbahaya atau tidak berilmu.'},
-    {id:'beratsamadipikul', teks:'Berat sama dipikul, ringan sama dijinjing', makna:'Segala sesuatu dikerjakan bersama-sama, susah maupun senang.'},
-    {id:'bagaipungguk', teks:'Bagai pungguk merindukan bulan', makna:'Mengharapkan sesuatu yang mustahil didapat.'},
-    {id:'tongkosong', teks:'Tong kosong nyaring bunyinya', makna:'Orang yang banyak bicara biasanya kurang berilmu atau kurang berisi.'},
-    {id:'sepertikatak', teks:'Seperti katak dalam tempurung', makna:'Orang yang berpengetahuan sempit karena kurang bergaul atau belajar.'},
+    {id:'airtenang', teks:'Air tenang menghanyutkan', makna:'Orang yang pendiam belum tentu tidak berbahaya atau tidak berilmu.', penggunaan:'Sering digunakan untuk menggambarkan seseorang yang terlihat kalem namun ternyata memiliki kemampuan atau rencana besar.'},
+    {id:'beratsamadipikul', teks:'Berat sama dipikul, ringan sama dijinjing', makna:'Segala sesuatu dikerjakan bersama-sama, susah maupun senang.', penggunaan:'Sering diucapkan untuk menggambarkan semangat gotong royong dalam menghadapi kesulitan bersama.'},
+    {id:'bagaipungguk', teks:'Bagai pungguk merindukan bulan', makna:'Mengharapkan sesuatu yang mustahil didapat.', penggunaan:'Biasa dipakai menggambarkan seseorang yang jatuh cinta pada orang yang tak mungkin terjangkau.'},
+    {id:'tongkosong', teks:'Tong kosong nyaring bunyinya', makna:'Orang yang banyak bicara biasanya kurang berilmu atau kurang berisi.', penggunaan:'Sering dipakai sebagai sindiran halus kepada orang yang suka membual tanpa dasar.'},
+    {id:'sepertikatak', teks:'Seperti katak dalam tempurung', makna:'Orang yang berpengetahuan sempit karena kurang bergaul atau belajar.', penggunaan:'Menggambarkan seseorang yang merasa pengetahuannya sudah luas padahal sangat terbatas.'},
   ],
   sastra:[
-    {id:'pantun_nasihat', bentuk:'Pantun Nasihat', teks:'Berakit-rakit ke hulu, berenang-renang ke tepian; bersakit-sakit dahulu, bersenang-senang kemudian.', makna:'Mengajarkan bahwa kerja keras dan kesabaran di awal akan membuahkan hasil manis di kemudian hari.'},
-    {id:'gurindam12', bentuk:'Gurindam Dua Belas (Raja Ali Haji)', teks:'Barang siapa tiada memegang agama, sekali-kali tiada boleh dibilangkan nama.', makna:'Menekankan pentingnya pegangan agama sebagai dasar hidup dan identitas seseorang.'},
-    {id:'pantun_jenaka', bentuk:'Pantun Jenaka', teks:'Kalau ada sumur di ladang, boleh kita menumpang mandi; kalau ada umur yang panjang, boleh kita berjumpa lagi.', makna:'Ungkapan harapan bertemu kembali di masa depan, biasa dipakai dalam perpisahan.'},
+    {id:'pantun_nasihat', bentuk:'Pantun Nasihat', teks:'Berakit-rakit ke hulu, berenang-renang ke tepian; bersakit-sakit dahulu, bersenang-senang kemudian.', makna:'Mengajarkan bahwa kerja keras dan kesabaran di awal akan membuahkan hasil manis di kemudian hari.',
+     fakta:['Termasuk pantun paling populer yang diajarkan sebagai materi sastra di sekolah dasar','Strukturnya terdiri dari sampiran (dua baris awal) dan isi (dua baris akhir) yang saling berkaitan bunyi']},
+    {id:'gurindam12', bentuk:'Gurindam Dua Belas (Raja Ali Haji)', teks:'Barang siapa tiada memegang agama, sekali-kali tiada boleh dibilangkan nama.', makna:'Menekankan pentingnya pegangan agama sebagai dasar hidup dan identitas seseorang.',
+     fakta:['Ditulis oleh Raja Ali Haji dari Riau pada 1847, terdiri dari 12 pasal berisi nasihat moral dan agama','Dianggap sebagai salah satu karya sastra Melayu klasik paling berpengaruh di Nusantara']},
+    {id:'pantun_jenaka', bentuk:'Pantun Jenaka', teks:'Kalau ada sumur di ladang, boleh kita menumpang mandi; kalau ada umur yang panjang, boleh kita berjumpa lagi.', makna:'Ungkapan harapan bertemu kembali di masa depan, biasa dipakai dalam perpisahan.',
+     fakta:['Biasa digunakan dalam acara pernikahan adat Melayu sebagai hiburan berbalas pantun','Berperan menjaga suasana tetap ringan dan akrab dalam pergaulan sehari-hari']},
   ],
   aksara:[
-    {id:'aksarajawa', nama:'Aksara Jawa (Hanacaraka)', daerah:'Jawa', ringkasan:'Aksara tradisional Jawa terdiri dari 20 huruf dasar yang membentuk legenda Aji Saka, masih diajarkan di sekolah-sekolah Jawa hingga kini.'},
-    {id:'aksarasunda', nama:'Aksara Sunda', daerah:'Jawa Barat', ringkasan:'Aksara tradisional Sunda yang mengalami kebangkitan penggunaan modern lewat papan nama jalan dan gedung pemerintahan di Jawa Barat.'},
-    {id:'aksarabali', nama:'Aksara Bali', daerah:'Bali', ringkasan:'Aksara yang digunakan menulis naskah lontar tradisional Bali, masih dipakai dalam upacara keagamaan dan penanggalan.'},
-    {id:'lontara', nama:'Lontara', daerah:'Sulawesi Selatan', ringkasan:'Aksara tradisional Bugis-Makassar yang dipakai menulis naskah kuno seperti La Galigo, salah satu karya sastra terpanjang di dunia.'},
-    {id:'aksarabatak', nama:'Aksara Batak (Surat Batak)', daerah:'Sumatera Utara', ringkasan:'Aksara tradisional Batak yang dipakai menulis pustaha, naskah kulit kayu berisi ilmu pengobatan dan ramalan leluhur.'},
+    {id:'aksarajawa', nama:'Aksara Jawa (Hanacaraka)', daerah:'Jawa', ringkasan:'Aksara tradisional Jawa terdiri dari 20 huruf dasar yang membentuk legenda Aji Saka, masih diajarkan di sekolah-sekolah Jawa hingga kini sebagai muatan lokal wajib.',
+     fakta:['Terdiri dari 20 huruf dasar (carakan) yang menurut legenda mewakili kisah dua abdi setia Aji Saka','Masih diajarkan sebagai muatan lokal wajib di sekolah-sekolah Jawa Tengah, DIY, dan Jawa Timur']},
+    {id:'aksarasunda', nama:'Aksara Sunda', daerah:'Jawa Barat', ringkasan:'Aksara tradisional Sunda yang mengalami kebangkitan penggunaan modern lewat papan nama jalan dan gedung pemerintahan di Jawa Barat setelah sempat nyaris ditinggalkan.',
+     fakta:['Sempat nyaris punah penggunaannya sebelum dihidupkan kembali lewat kebijakan daerah Jawa Barat','Kini wajib dicantumkan berdampingan dengan huruf Latin pada papan nama instansi pemerintah di Jawa Barat']},
+    {id:'aksarabali', nama:'Aksara Bali', daerah:'Bali', ringkasan:'Aksara yang digunakan menulis naskah lontar tradisional Bali, masih dipakai dalam upacara keagamaan dan penanggalan, ditulis di atas daun lontar kering menggunakan alat pisau kecil.',
+     fakta:['Ditulis di atas daun lontar kering menggunakan alat pisau kecil bernama pengrupak','Digunakan menulis kitab suci dan naskah sastra Hindu Bali seperti Kakawin']},
+    {id:'lontara', nama:'Lontara', daerah:'Sulawesi Selatan', ringkasan:'Aksara tradisional Bugis-Makassar yang dipakai menulis naskah kuno seperti La Galigo, salah satu karya sastra terpanjang di dunia yang diakui UNESCO sebagai Memory of the World.',
+     fakta:['Namanya berasal dari kata "lontar", daun yang dahulu digunakan sebagai media tulis','Naskah La Galigo yang ditulis dengan aksara ini diakui UNESCO sebagai Memory of the World']},
+    {id:'aksarabatak', nama:'Aksara Batak (Surat Batak)', daerah:'Sumatera Utara', ringkasan:'Aksara tradisional Batak yang dipakai menulis pustaha, naskah kulit kayu berisi ilmu pengobatan dan ramalan leluhur, dilipat menyerupai akordeon agar mudah dibawa dukun (datu).',
+     fakta:['Pustaha (naskah kulit kayu) ditulis dan dilipat seperti akordeon agar mudah dibawa datu (dukun)','Upaya revitalisasi aksara Batak kini dilakukan lewat font digital dan pengajaran informal']},
   ],
   bahasaDaerah:[
-    {id:'jawa', nama:'Bahasa Jawa', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Terbesar di Indonesia, dituturkan terutama di Jawa Tengah, Yogyakarta & Jawa Timur', keunikan:'Mengenal tingkatan tutur (ngoko, krama madya, krama inggil) berdasarkan kesantunan sosial.'},
-    {id:'sunda', nama:'Bahasa Sunda', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Jawa Barat & Banten', keunikan:'Memiliki aksara sendiri, Aksara Sunda, serta tradisi pantun lisan yang kaya.'},
-    {id:'batak_bahasa', nama:'Bahasa Batak', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sumatera Utara', keunikan:'Memiliki aksara sendiri (Surat Batak) dan tradisi umpasa (pantun adat) di setiap upacara.'},
-    {id:'bugis', nama:'Bahasa Bugis', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sulawesi Selatan', keunikan:'Memiliki aksara sendiri, Lontara, dipakai menulis naskah La Galigo yang tercatat UNESCO sebagai Memory of the World.'},
-    {id:'minang_bahasa', nama:'Bahasa Minangkabau', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sumatera Barat', keunikan:'Dekat dengan rumpun Melayu, kaya akan pepatah-petitih yang menjadi pedoman falsafah hidup masyarakat Minang.'},
-    {id:'bali_bahasa', nama:'Bahasa Bali', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Bali', keunikan:'Mengenal tingkatan tutur (basa alus, basa madya, basa kasar) yang mencerminkan sistem kasta tradisional.'},
+    {id:'jawa', nama:'Bahasa Jawa', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Terbesar di Indonesia, dituturkan terutama di Jawa Tengah, Yogyakarta & Jawa Timur', keunikan:'Mengenal tingkatan tutur (ngoko, krama madya, krama inggil) berdasarkan kesantunan sosial.',
+     fakta:['Merupakan bahasa daerah dengan jumlah penutur terbanyak di Indonesia, melebihi 80 juta orang','Memiliki karya sastra klasik yang sangat kaya, termasuk serat dan babad']},
+    {id:'sunda', nama:'Bahasa Sunda', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Jawa Barat & Banten', keunikan:'Memiliki aksara sendiri, Aksara Sunda, serta tradisi pantun lisan yang kaya.',
+     fakta:['Bahasa daerah dengan jumlah penutur terbanyak kedua di Indonesia','Memiliki tradisi sisindiran (pantun Sunda) yang masih hidup dalam kesenian dan pergaulan sehari-hari']},
+    {id:'batak_bahasa', nama:'Bahasa Batak', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sumatera Utara', keunikan:'Memiliki aksara sendiri (Surat Batak) dan tradisi umpasa (pantun adat) di setiap upacara.',
+     fakta:['Terbagi menjadi beberapa dialek besar seperti Toba, Karo, dan Mandailing yang cukup berbeda satu sama lain','Umpasa (pantun adat) menjadi bagian penting dalam upacara pernikahan dan penyambutan tamu']},
+    {id:'bugis', nama:'Bahasa Bugis', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sulawesi Selatan', keunikan:'Memiliki aksara sendiri, Lontara, dipakai menulis naskah La Galigo yang tercatat UNESCO sebagai Memory of the World.',
+     fakta:['Naskah La Galigo yang ditulis dalam bahasa ini merupakan salah satu karya sastra terpanjang di dunia','Digunakan luas oleh perantau Bugis yang tersebar hingga ke Malaysia dan negara tetangga lain']},
+    {id:'minang_bahasa', nama:'Bahasa Minangkabau', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sumatera Barat', keunikan:'Dekat dengan rumpun Melayu, kaya akan pepatah-petitih yang menjadi pedoman falsafah hidup masyarakat Minang.',
+     fakta:['Relatif mudah dipahami penutur bahasa Indonesia karena kedekatan rumpun Melayu','Kaya akan pepatah-petitih yang menjadi pedoman falsafah "Alam Takambang Jadi Guru"']},
+    {id:'bali_bahasa', nama:'Bahasa Bali', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Bali', keunikan:'Mengenal tingkatan tutur (basa alus, basa madya, basa kasar) yang mencerminkan sistem kasta tradisional.',
+     fakta:['Tingkatan tuturnya erat berkaitan dengan sistem kasta tradisional Bali (Brahmana, Ksatria, Waisya, Sudra)','Memiliki aksara sendiri, Aksara Bali, yang masih digunakan dalam konteks keagamaan']},
   ]
 };
 
@@ -1363,6 +1377,8 @@ function openEntry(group,id){
   if(e.jenisIbadah) fields.push(['Jenis Tempat Ibadah', e.jenisIbadah]);
   if(e.jenisFF) fields.push(['Jenis', e.jenisFF]);
   if(e.namaIlmiah) fields.push(['Nama Ilmiah', e.namaIlmiah]);
+  if(e.contoh) fields.push(['Contoh Penggunaan', e.contoh]);
+  if(e.penggunaan) fields.push(['Konteks Penggunaan', e.penggunaan]);
 
   document.getElementById('entryDetail').innerHTML = `
     <div class="cat">${catLabel}</div>
