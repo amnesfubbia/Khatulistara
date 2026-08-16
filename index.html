@@ -577,62 +577,95 @@ const PROVINSI = [
 
 const GEOGRAFI = {
   gunung:[
-    {id:'kerinci', nama:'Kerinci', lokasi:'Jambi, Sumatera', ketinggian:'3.805 mdpl', status:'Gunung berapi aktif', ringkasan:'Gunung tertinggi di Sumatra, berada dalam kawasan Taman Nasional Kerinci Seblat.'},
-    {id:'semeru', nama:'Semeru', provinsi:'jatim', lokasi:'Jawa Timur', ketinggian:'3.676 mdpl', status:'Gunung berapi aktif', ringkasan:'Gunung tertinggi di Pulau Jawa, dikenal dengan kawah Jonggring Saloko yang kerap melontarkan abu berkala.'},
-    {id:'rinjani', nama:'Rinjani', provinsi:'ntb', lokasi:'Nusa Tenggara Barat', ketinggian:'3.726 mdpl', status:'Gunung berapi aktif', ringkasan:'Gunung berapi tertinggi kedua di Indonesia, memiliki danau kawah Segara Anak yang menjadi favorit pendaki.'},
-    {id:'jayawijaya', nama:'Puncak Jaya (Jayawijaya)', provinsi:'papua', lokasi:'Papua Tengah', ketinggian:'4.884 mdpl', status:'Bukan gunung berapi', ringkasan:'Puncak tertinggi di Indonesia sekaligus bagian dari Tujuh Puncak Dunia (Seven Summits), memiliki salju abadi meski berada di garis khatulistiwa.'},
+    {id:'kerinci', nama:'Kerinci', lokasi:'Jambi, Sumatera', ketinggian:'3.805 mdpl', status:'Gunung berapi aktif', ringkasan:'Gunung tertinggi di Sumatra dan salah satu gunung berapi tertinggi di Indonesia, membentang di dalam kawasan Taman Nasional Kerinci Seblat yang juga menjadi habitat harimau Sumatra.',
+     fakta:['Puncaknya kerap tertutup kabut sehingga jalur pendakian membutuhkan persiapan cuaca ekstra','Di kakinya terdapat Danau Gunung Tujuh, danau kawah tertinggi di Asia Tenggara']},
+    {id:'semeru', nama:'Semeru', provinsi:'jatim', lokasi:'Jawa Timur', ketinggian:'3.676 mdpl', status:'Gunung berapi aktif', ringkasan:'Gunung tertinggi di Pulau Jawa, dikenal dengan kawah Jonggring Saloko yang kerap melontarkan abu berkala setiap beberapa menit, menjadikannya salah satu gunung api paling aktif di Indonesia.',
+     fakta:['Puncaknya bernama Mahameru, diambil dari nama gunung suci dalam kosmologi Hindu','Jalur pendakian melewati Ranu Kumbolo, danau di ketinggian yang menjadi titik singgah favorit pendaki']},
+    {id:'rinjani', nama:'Rinjani', provinsi:'ntb', lokasi:'Nusa Tenggara Barat', ketinggian:'3.726 mdpl', status:'Gunung berapi aktif', ringkasan:'Gunung berapi tertinggi kedua di Indonesia, memiliki danau kawah Segara Anak yang menjadi favorit pendaki karena keindahan dan sumber air panasnya.',
+     fakta:['Segara Anak berarti "anak laut" dalam bahasa Sasak, dipercaya sebagai tempat suci masyarakat setempat','Taman Nasional Gunung Rinjani ditetapkan UNESCO sebagai bagian dari jaringan Global Geopark']},
+    {id:'jayawijaya', nama:'Puncak Jaya (Jayawijaya)', provinsi:'papua', lokasi:'Papua Tengah', ketinggian:'4.884 mdpl', status:'Bukan gunung berapi', ringkasan:'Puncak tertinggi di Indonesia sekaligus bagian dari Tujuh Puncak Dunia (Seven Summits), memiliki salju abadi meski berada di garis khatulistiwa.',
+     fakta:['Dikenal juga dengan nama Carstensz Pyramid, diambil dari penjelajah Belanda yang pertama melihatnya dari kejauhan pada 1623','Lapisan es di puncaknya kian menyusut akibat perubahan iklim global']},
   ],
   danau:[
-    {id:'toba', nama:'Danau Toba', provinsi:'sumut', lokasi:'Sumatera Utara', luas:'sekitar 1.130 km²', ringkasan:'Danau vulkanik terbesar di dunia, terbentuk dari letusan supervulkan purba sekitar 74.000 tahun lalu; di tengahnya terdapat Pulau Samosir.'},
-    {id:'kelimutu', nama:'Danau Kelimutu', provinsi:'ntt', lokasi:'Flores, NTT', luas:'kawasan tiga danau kawah', ringkasan:'Tiga danau kawah di puncak Gunung Kelimutu yang warnanya dapat berubah-ubah akibat aktivitas mineral vulkanik.'},
-    {id:'sentani', nama:'Danau Sentani', provinsi:'papua', lokasi:'Jayapura, Papua', luas:'sekitar 9.360 hektare', ringkasan:'Danau terbesar di Papua, menjadi pusat kehidupan dan budaya masyarakat sekitar termasuk Festival Danau Sentani.'},
+    {id:'toba', nama:'Danau Toba', provinsi:'sumut', lokasi:'Sumatera Utara', luas:'sekitar 1.130 km²', ringkasan:'Danau vulkanik terbesar di dunia, terbentuk dari letusan supervulkan purba sekitar 74.000 tahun lalu yang diperkirakan sempat memengaruhi iklim global; di tengahnya terdapat Pulau Samosir, pulau vulkanik di dalam danau vulkanik.',
+     fakta:['Ditetapkan sebagai UNESCO Global Geopark pada 2020','Pulau Samosir seluas hampir Pulau Singapura, menjadi pusat budaya dan permukiman Batak Toba']},
+    {id:'kelimutu', nama:'Danau Kelimutu', provinsi:'ntt', lokasi:'Flores, NTT', luas:'kawasan tiga danau kawah', ringkasan:'Tiga danau kawah berdampingan di puncak Gunung Kelimutu yang warnanya dapat berubah-ubah secara independen akibat aktivitas mineral vulkanik, fenomena yang belum sepenuhnya terjelaskan.',
+     fakta:['Masyarakat setempat memaknai ketiga danau sebagai tempat bersemayamnya arwah: muda-mudi, orang tua, dan penyihir jahat','Perubahan warna dapat terjadi dalam hitungan bulan hingga tahun']},
+    {id:'sentani', nama:'Danau Sentani', provinsi:'papua', lokasi:'Jayapura, Papua', luas:'sekitar 9.360 hektare', ringkasan:'Danau terbesar di Papua yang dikelilingi puluhan kampung tradisional di atas air, menjadi pusat kehidupan dan budaya masyarakat sekitar termasuk Festival Danau Sentani tahunan.',
+     fakta:['Terdapat lebih dari 20 pulau kecil di dalam danau ini','Festival Danau Sentani menampilkan tarian perahu dan lukisan kulit kayu khas Papua']},
   ],
   tamanNasional:[
-    {id:'komodo', nama:'Taman Nasional Komodo', provinsi:'ntt', lokasi:'Nusa Tenggara Timur', ekosistem:'Savana kering & perairan laut', ringkasan:'Habitat asli komodo, kadal terbesar di dunia; ditetapkan UNESCO sebagai Situs Warisan Dunia dan salah satu dari New7Wonders of Nature.'},
-    {id:'waykambas', nama:'Taman Nasional Way Kambas', provinsi:'lampung', lokasi:'Lampung', ekosistem:'Hutan hujan dataran rendah & rawa', ringkasan:'Salah satu suaka gajah Sumatra tertua di Indonesia, tempat pelatihan dan konservasi gajah.'},
-    {id:'bunaken', nama:'Taman Nasional Bunaken', provinsi:'sulut', lokasi:'Sulawesi Utara', ekosistem:'Terumbu karang & laut dalam', ringkasan:'Kawasan konservasi laut dengan keanekaragaman terumbu karang tinggi, salah satu destinasi menyelam terbaik dunia.'},
+    {id:'komodo', nama:'Taman Nasional Komodo', provinsi:'ntt', lokasi:'Nusa Tenggara Timur', ekosistem:'Savana kering & perairan laut', ringkasan:'Habitat asli komodo, kadal terbesar di dunia; ditetapkan UNESCO sebagai Situs Warisan Dunia dan salah satu dari New7Wonders of Nature berkat kombinasi savana kering dan biodiversitas lautnya.',
+     fakta:['Mencakup tiga pulau utama: Komodo, Rinca, dan Padar','Perairannya juga menjadi rumah bagi pari manta dan lebih dari seribu spesies ikan']},
+    {id:'waykambas', nama:'Taman Nasional Way Kambas', provinsi:'lampung', lokasi:'Lampung', ekosistem:'Hutan hujan dataran rendah & rawa', ringkasan:'Salah satu suaka gajah Sumatra tertua di Indonesia, tempat pelatihan dan konservasi gajah sekaligus habitat badak Sumatra yang sangat terancam punah.',
+     fakta:['Memiliki Pusat Latihan Gajah tertua di Indonesia, didirikan sejak 1985','Menjadi salah satu benteng terakhir konservasi badak Sumatra di alam liar']},
+    {id:'bunaken', nama:'Taman Nasional Bunaken', provinsi:'sulut', lokasi:'Sulawesi Utara', ekosistem:'Terumbu karang & laut dalam', ringkasan:'Kawasan konservasi laut dengan keanekaragaman terumbu karang tinggi, salah satu destinasi menyelam terbaik dunia berkat dinding karang vertikal yang menukik hingga ratusan meter.',
+     fakta:['Tercatat lebih dari 390 spesies terumbu karang di kawasan ini','Salah satu titik selam ikoniknya, Lekuan Wall, memiliki dinding karang sedalam lebih dari 1.000 meter']},
   ],
   pantai:[
-    {id:'kuta', nama:'Pantai Kuta', provinsi:'bali', lokasi:'Bali', ringkasan:'Pantai pasir putih paling ikonik di Bali, terkenal dengan ombak untuk selancar dan panorama matahari terbenam.'},
-    {id:'parangtritis', nama:'Pantai Parangtritis', provinsi:'yogyakarta', lokasi:'Yogyakarta', ringkasan:'Pantai selatan Jawa yang sarat mitos Nyi Roro Kidul, dikenal dengan gumuk pasir dan ombak besar.'},
-    {id:'pinklombok', nama:'Pantai Pink', provinsi:'ntb', lokasi:'Lombok, NTB', ringkasan:'Salah satu dari sedikit pantai berpasir merah muda di dunia, warnanya berasal dari campuran pecahan karang merah.'},
+    {id:'kuta', nama:'Pantai Kuta', provinsi:'bali', lokasi:'Bali', ringkasan:'Pantai pasir putih paling ikonik di Bali, terkenal dengan ombak yang cocok untuk selancar pemula hingga menengah serta panorama matahari terbenam yang menjadi daya tarik wisatawan dunia.',
+     fakta:['Menjadi salah satu pantai pertama di Bali yang berkembang sebagai destinasi wisata internasional sejak 1970-an','Kawasan sekitarnya kini menjadi pusat kehidupan malam dan ekonomi pariwisata Bali']},
+    {id:'parangtritis', nama:'Pantai Parangtritis', provinsi:'yogyakarta', lokasi:'Yogyakarta', ringkasan:'Pantai selatan Jawa yang sarat mitos Nyi Roro Kidul, penguasa Laut Selatan dalam kepercayaan Jawa, dikenal dengan gumuk pasir unik dan ombak besar yang berbahaya untuk berenang.',
+     fakta:['Gumuk pasirnya merupakan satu-satunya bentang gumuk pasir tipe barchan di Asia Tenggara','Pengunjung dilarang memakai pakaian hijau sesuai kepercayaan lokal terkait Nyi Roro Kidul']},
+    {id:'pinklombok', nama:'Pantai Pink', provinsi:'ntb', lokasi:'Lombok, NTB', ringkasan:'Salah satu dari sedikit pantai berpasir merah muda di dunia, warnanya berasal dari campuran pecahan karang merah (Foraminifera) yang bercampur pasir putih.',
+     fakta:['Hanya ada sekitar tujuh pantai berpasir merah muda di dunia, dan Lombok memiliki salah satunya','Air lautnya jernih dengan terumbu karang yang masih terjaga baik']},
   ],
   situsSejarah:[
-    {id:'borobudur_situs', nama:'Candi Borobudur', tipe:'Candi', provinsi:'jateng', lokasi:'Magelang, Jawa Tengah', periode:'Abad ke-8–9 M', ringkasan:'Candi Buddha terbesar di dunia peninggalan Wangsa Syailendra, ditetapkan UNESCO sebagai Situs Warisan Dunia.'},
-    {id:'prambanan_situs', nama:'Candi Prambanan', tipe:'Candi', provinsi:'jateng', lokasi:'Perbatasan Yogyakarta – Jawa Tengah', periode:'Abad ke-9 M', ringkasan:'Kompleks candi Hindu terbesar di Indonesia, didedikasikan untuk Trimurti (Brahma, Wisnu, Siwa).'},
-    {id:'fortrotterdam_situs', nama:'Benteng Fort Rotterdam', tipe:'Benteng', provinsi:'sulsel', lokasi:'Makassar', periode:'Abad ke-17 M', ringkasan:'Benteng peninggalan Kesultanan Gowa yang direbut VOC, tempat Pangeran Diponegoro sempat ditahan.'},
-    {id:'keratonyogya_situs', nama:'Keraton Yogyakarta', tipe:'Keraton', provinsi:'yogyakarta', lokasi:'Yogyakarta', periode:'Sejak 1755 M', ringkasan:'Istana resmi Kesultanan Ngayogyakarta yang masih aktif menjalankan tradisi kesultanan hingga kini.'},
+    {id:'borobudur_situs', nama:'Candi Borobudur', tipe:'Candi', provinsi:'jateng', lokasi:'Magelang, Jawa Tengah', periode:'Abad ke-8–9 M', ringkasan:'Candi Buddha terbesar di dunia peninggalan Wangsa Syailendra, tersusun dari lebih dari dua juta blok batu yang membentuk sembilan tingkat platform melambangkan kosmologi Buddha, ditetapkan UNESCO sebagai Situs Warisan Dunia.',
+     fakta:['Memiliki 2.672 panel relief dan 504 arca Buddha','Sempat terkubur abu vulkanik dan tertutup hutan selama berabad-abad sebelum ditemukan kembali pada 1814']},
+    {id:'prambanan_situs', nama:'Candi Prambanan', tipe:'Candi', provinsi:'jateng', lokasi:'Perbatasan Yogyakarta – Jawa Tengah', periode:'Abad ke-9 M', ringkasan:'Kompleks candi Hindu terbesar di Indonesia, didedikasikan untuk Trimurti (Brahma, Wisnu, Siwa), dengan candi utama Siwa menjulang setinggi 47 meter.',
+     fakta:['Erat dikaitkan dengan legenda Roro Jonggrang dan seribu arca dalam semalam','Sempat rusak parah akibat gempa 2006 dan menjalani restorasi ekstensif']},
+    {id:'fortrotterdam_situs', nama:'Benteng Fort Rotterdam', tipe:'Benteng', provinsi:'sulsel', lokasi:'Makassar', periode:'Abad ke-17 M', ringkasan:'Benteng peninggalan Kesultanan Gowa yang direbut VOC dan diubah menjadi benteng bergaya Belanda, menjadi saksi bisu penandatanganan Perjanjian Bongaya serta tempat Pangeran Diponegoro sempat ditahan.',
+     fakta:['Bentuknya menyerupai penyu, melambangkan filosofi Kerajaan Gowa yang bisa hidup di darat maupun laut','Kini berfungsi sebagai museum dan pusat kegiatan budaya Makassar']},
+    {id:'keratonyogya_situs', nama:'Keraton Yogyakarta', tipe:'Keraton', provinsi:'yogyakarta', lokasi:'Yogyakarta', periode:'Sejak 1755 M', ringkasan:'Istana resmi Kesultanan Ngayogyakarta Hadiningrat yang masih aktif menjalankan tradisi kesultanan hingga kini, dibangun mengikuti filosofi tata ruang Jawa yang menghubungkan Gunung Merapi, keraton, dan Laut Selatan dalam satu garis imajiner.',
+     fakta:['Sultan yang bertakhta secara otomatis menjabat Gubernur DI Yogyakarta','Kompleksnya masih menjadi tempat tinggal keluarga kesultanan dan pusat upacara adat seperti Grebeg']},
   ],
   tempatIbadah:[
-    {id:'baiturrahman', nama:'Masjid Raya Baiturrahman', jenisIbadah:'Masjid bersejarah', provinsi:'aceh', lokasi:'Banda Aceh', ringkasan:'Masjid ikonik Aceh yang selamat dari bencana tsunami 2004, menjadi simbol ketahanan spiritual masyarakat Aceh.'},
-    {id:'besakih', nama:'Pura Besakih', jenisIbadah:'Pura', provinsi:'bali', lokasi:'Karangasem, Bali', ringkasan:'Pura terbesar dan tersuci di Bali, dikenal sebagai "Pura Induk" dari seluruh pura di pulau tersebut.'},
-    {id:'sampookong', nama:'Klenteng Sam Poo Kong', jenisIbadah:'Klenteng', provinsi:'jateng', lokasi:'Semarang, Jawa Tengah', ringkasan:'Klenteng bersejarah yang dibangun untuk mengenang persinggahan Laksamana Cheng Ho di Semarang.'},
+    {id:'baiturrahman', nama:'Masjid Raya Baiturrahman', jenisIbadah:'Masjid bersejarah', provinsi:'aceh', lokasi:'Banda Aceh', ringkasan:'Masjid ikonik Aceh yang selamat dari bencana tsunami 2004 meski wilayah sekitarnya luluh lantak, menjadi simbol ketahanan spiritual dan identitas masyarakat Aceh.',
+     fakta:['Dibangun pada masa Kesultanan Aceh dan direnovasi besar-besaran era kolonial Belanda pada akhir abad ke-19','Menjadi tempat pengungsian dan pemulihan spiritual bagi ribuan korban tsunami 2004']},
+    {id:'besakih', nama:'Pura Besakih', jenisIbadah:'Pura', provinsi:'bali', lokasi:'Karangasem, Bali', ringkasan:'Pura terbesar dan tersuci di Bali, dikenal sebagai "Pura Induk" karena menaungi lebih dari 80 pura kecil di kompleksnya, terletak di lereng Gunung Agung yang disucikan.',
+     fakta:['Kompleksnya sempat nyaris tersapu lahar saat letusan Gunung Agung 1963, namun bangunan utamanya selamat','Menjadi pusat berbagai upacara besar keagamaan Hindu Bali sepanjang tahun']},
+    {id:'sampookong', nama:'Klenteng Sam Poo Kong', jenisIbadah:'Klenteng', provinsi:'jateng', lokasi:'Semarang, Jawa Tengah', ringkasan:'Klenteng bersejarah yang dibangun untuk mengenang persinggahan Laksamana Cheng Ho (Zheng He) di Semarang pada awal abad ke-15, menjadi simbol akulturasi budaya Tionghoa-Jawa.',
+     fakta:['Awalnya berupa gua tempat persinggahan, kemudian berkembang menjadi kompleks klenteng','Setiap tahun menjadi lokasi perayaan Cheng Ho yang menampilkan perpaduan budaya Tionghoa dan Jawa']},
   ],
   floraFauna:[
-    {id:'komodo_fauna', nama:'Komodo', jenisFF:'Fauna', provinsi:'ntt', namaIlmiah:'Varanus komodoensis', ringkasan:'Kadal terbesar di dunia, hanya ditemukan secara liar di Pulau Komodo dan Rinca, Nusa Tenggara Timur.'},
-    {id:'rafflesia', nama:'Rafflesia arnoldii', jenisFF:'Flora', provinsi:'sumbar', namaIlmiah:'Rafflesia arnoldii', ringkasan:'Bunga tunggal terbesar di dunia, tumbuh di hutan Sumatra, dijuluki "bunga bangkai" karena aromanya.'},
-    {id:'cendrawasih', nama:'Cendrawasih', jenisFF:'Fauna', provinsi:'papua', namaIlmiah:'Paradisaeidae (famili)', ringkasan:'Burung dengan bulu warna-warni memukau, dijuluki "burung surga", identitas fauna khas Papua.'},
+    {id:'komodo_fauna', nama:'Komodo', jenisFF:'Fauna', provinsi:'ntt', namaIlmiah:'Varanus komodoensis', ringkasan:'Kadal terbesar di dunia, hanya ditemukan secara liar di Pulau Komodo, Rinca, dan beberapa pulau kecil di sekitarnya, Nusa Tenggara Timur, dengan gigitan berbisa yang melumpuhkan mangsanya.',
+     fakta:['Panjang tubuhnya bisa mencapai lebih dari 3 meter dengan berat hingga 70 kg','Berstatus rentan (vulnerable) dalam daftar merah IUCN akibat habitat yang menyempit']},
+    {id:'rafflesia', nama:'Rafflesia arnoldii', jenisFF:'Flora', provinsi:'sumbar', namaIlmiah:'Rafflesia arnoldii', ringkasan:'Bunga tunggal terbesar di dunia dengan diameter dapat mencapai satu meter, tumbuh parasit di hutan Sumatra, dijuluki "bunga bangkai" karena aromanya yang menyerupai daging membusuk untuk menarik lalat penyerbuk.',
+     fakta:['Tidak memiliki daun, batang, maupun akar sejati, hidup sepenuhnya menumpang pada tanaman inang','Mekar hanya beberapa hari sebelum layu dan membusuk']},
+    {id:'cendrawasih', nama:'Cendrawasih', jenisFF:'Fauna', provinsi:'papua', namaIlmiah:'Paradisaeidae (famili)', ringkasan:'Burung dengan bulu warna-warni memukau dan tarian kawin yang rumit, dijuluki "burung surga" oleh penjelajah Eropa karena keindahannya yang dianggap tidak berasal dari bumi.',
+     fakta:['Terdapat lebih dari 40 spesies cendrawasih, sebagian besar hanya ditemukan di Papua','Bulunya dahulu menjadi komoditas dagang bernilai tinggi di Eropa pada masa kolonial']},
   ],
   jalurRempah:[
-    {id:'cengkih', nama:'Cengkih', kategori:'Komoditas Rempah', ringkasan:'Rempah asli Kepulauan Maluku yang menjadi incaran bangsa Eropa sejak abad ke-16, memicu perlombaan penjajahan jalur rempah dunia.'},
-    {id:'pala', nama:'Pala', kategori:'Komoditas Rempah', ringkasan:'Rempah asli Kepulauan Banda, Maluku, dahulu bernilai setara emas di Eropa dan menjadi salah satu pemicu kolonialisme di Nusantara.'},
-    {id:'jalurperdaganganrempah', nama:'Jalur Perdagangan Rempah', kategori:'Sejarah Jalur Rempah', ringkasan:'Jaringan pelayaran yang menghubungkan Kepulauan Maluku dengan India, Timur Tengah, hingga Eropa, menjadikan Nusantara pusat perdagangan dunia selama berabad-abad.'},
+    {id:'cengkih', nama:'Cengkih', kategori:'Komoditas Rempah', ringkasan:'Rempah asli Kepulauan Maluku (khususnya Ternate dan Tidore) yang menjadi incaran bangsa Eropa sejak abad ke-16 karena nilainya yang setara emas, memicu perlombaan penjajahan jalur rempah dunia.',
+     fakta:['Sebelum abad ke-19, cengkih hanya tumbuh alami di Kepulauan Maluku sebelum berhasil dibudidayakan di tempat lain','Perebutan monopoli cengkih menjadi salah satu pemicu persaingan Portugis, Spanyol, dan Belanda di Nusantara']},
+    {id:'pala', nama:'Pala', kategori:'Komoditas Rempah', ringkasan:'Rempah asli Kepulauan Banda, Maluku, dahulu bernilai setara emas di Eropa dan menjadi salah satu pemicu kolonialisme di Nusantara, bahkan pernah ditukar dengan wilayah Manhattan oleh Inggris dan Belanda lewat Perjanjian Breda 1667.',
+     fakta:['Pulau Run di Kepulauan Banda ditukar Inggris dengan Pulau Manhattan milik Belanda','VOC melakukan monopoli ketat hingga genosida terhadap penduduk asli Banda demi menguasai perdagangan pala']},
+    {id:'jalurperdaganganrempah', nama:'Jalur Perdagangan Rempah', kategori:'Sejarah Jalur Rempah', ringkasan:'Jaringan pelayaran yang menghubungkan Kepulauan Maluku dengan India, Timur Tengah, hingga Eropa selama berabad-abad, menjadikan Nusantara pusat perdagangan dunia jauh sebelum kedatangan bangsa Eropa.',
+     fakta:['Jalur ini telah aktif sejak era kerajaan Sriwijaya, jauh sebelum era kolonial','UNESCO mengusulkan Jalur Rempah Nusantara sebagai warisan budaya dunia karena signifikansinya bagi sejarah perdagangan global']},
   ]
 };
 
 const KULINER = {
   makananBerat:[
-    {id:'rendang_k', nama:'Rendang', provinsi:'sumbar', bahanUtama:'Daging sapi, santan, cabai, rempah', ringkasan:'Daging dimasak perlahan dalam santan dan rempah hingga kering dan kaya rasa; diakui UNESCO sebagai Warisan Budaya Tak Benda.'},
-    {id:'soto', nama:'Soto', daerah:'Hampir seluruh Indonesia', bahanUtama:'Kaldu, daging/ayam, rempah', ringkasan:'Sup berkuah kaya rempah dengan variasi khas di tiap daerah — Soto Betawi, Soto Lamongan, Coto Makassar, hingga Soto Banjar.'},
-    {id:'gudeg_k', nama:'Gudeg', provinsi:'yogyakarta', bahanUtama:'Nangka muda, santan, gula aren', ringkasan:'Hidangan manis khas Yogyakarta, nangka muda dimasak lama hingga empuk dan berwarna cokelat.'},
+    {id:'rendang_k', nama:'Rendang', provinsi:'sumbar', bahanUtama:'Daging sapi, santan, cabai, rempah', ringkasan:'Daging dimasak perlahan selama berjam-jam dalam santan dan rempah hingga kering dan kaya rasa, awalnya berfungsi sebagai metode pengawetan makanan tradisional Minangkabau sebelum era lemari pendingin; diakui UNESCO sebagai Warisan Budaya Tak Benda.',
+     fakta:['Sempat dinobatkan CNN sebagai hidangan terlezat dunia dalam beberapa jajak pendapat','Proses memasaknya bisa memakan waktu 4-8 jam agar bumbu meresap sempurna dan tahan lama']},
+    {id:'soto', nama:'Soto', daerah:'Hampir seluruh Indonesia', bahanUtama:'Kaldu, daging/ayam, rempah', ringkasan:'Sup berkuah kaya rempah dengan variasi khas di tiap daerah — Soto Betawi bersantan kental, Soto Lamongan dengan koya, Coto Makassar berbahan jeroan, hingga Soto Banjar beraroma rempah khas Kalimantan.',
+     fakta:['Diperkirakan berasal dari pengaruh masakan Tionghoa yang berakulturasi dengan bumbu Nusantara','Setiap daerah memiliki pelengkap khas seperti perkedel, koya, atau sambal yang berbeda-beda']},
+    {id:'gudeg_k', nama:'Gudeg', provinsi:'yogyakarta', bahanUtama:'Nangka muda, santan, gula aren', ringkasan:'Hidangan manis khas Yogyakarta, nangka muda dimasak selama berjam-jam dengan santan dan gula aren hingga empuk dan berwarna cokelat gelap, biasa disajikan dengan ayam kampung, telur, dan sambal krecek.',
+     fakta:['Memasaknya bisa memakan waktu lebih dari 8 jam menggunakan kendil tanah liat tradisional','Menjadikan Yogyakarta dijuluki "Kota Gudeg"']},
   ],
   jajanan:[
-    {id:'klepon', nama:'Klepon', daerah:'Jawa', bahan:'Tepung ketan, gula merah, kelapa parut', ringkasan:'Bola ketan hijau berisi gula merah cair, digulung dengan kelapa parut, populer di seluruh Jawa.'},
-    {id:'kerak_telor_k', nama:'Kerak Telor', provinsi:'jakarta', bahan:'Beras ketan, telur, ebi, serundeng', ringkasan:'Jajanan khas Betawi yang dimasak langsung di atas bara arang hingga permukaannya mengering renyah.'},
+    {id:'klepon', nama:'Klepon', daerah:'Jawa', bahan:'Tepung ketan, gula merah, kelapa parut', ringkasan:'Bola ketan hijau berisi gula merah cair yang meleleh saat digigit, digulung dengan kelapa parut, populer di seluruh Jawa sebagai jajanan pasar tradisional.',
+     fakta:['Warna hijaunya secara tradisional berasal dari daun pandan atau suji, bukan pewarna buatan','Sering disebut sebagai representasi filosofi "manis di dalam, sederhana di luar"']},
+    {id:'kerak_telor_k', nama:'Kerak Telor', provinsi:'jakarta', bahan:'Beras ketan, telur, ebi, serundeng', ringkasan:'Jajanan khas Betawi yang dimasak langsung di atas bara arang tanpa dibalik menggunakan spatula, melainkan wajannya yang dibalik ke atas api hingga permukaannya mengering renyah.',
+     fakta:['Populer terutama saat perayaan ulang tahun Jakarta dan bulan Ramadan','Aslinya menggunakan telur bebek, kini banyak diganti telur ayam yang lebih terjangkau']},
   ],
   minuman:[
-    {id:'wedang_ronde', nama:'Wedang Ronde', daerah:'Jawa Tengah & Yogyakarta', bahan:'Jahe, bola ketan isi kacang, kolang-kaling', ringkasan:'Minuman jahe hangat berisi bola ketan, populer sebagai penghangat di dataran tinggi Jawa.'},
-    {id:'es_pallubutung', nama:'Es Pallubutung', provinsi:'sulsel', bahan:'Pisang kepok, sagu mutiara, santan', ringkasan:'Minuman dingin khas Makassar berbahan pisang dan santan, biasa dinikmati saat Ramadan.'},
+    {id:'wedang_ronde', nama:'Wedang Ronde', daerah:'Jawa Tengah & Yogyakarta', bahan:'Jahe, bola ketan isi kacang, kolang-kaling', ringkasan:'Minuman jahe hangat berisi bola ketan isi kacang tanah dan pelengkap seperti kolang-kaling, populer sebagai penghangat tubuh di dataran tinggi Jawa yang bersuhu sejuk.',
+     fakta:['Dipengaruhi kuliner Tionghoa, mirip dengan tangyuan tetapi disesuaikan dengan cita rasa lokal berkuah jahe','Banyak dijajakan pedagang keliling di malam hari sebagai penghangat']},
+    {id:'es_pallubutung', nama:'Es Pallubutung', provinsi:'sulsel', bahan:'Pisang kepok, sagu mutiara, santan', ringkasan:'Minuman dingin khas Makassar berbahan pisang kepok kukus, sagu mutiara, dan santan, biasa dinikmati sebagai hidangan pembuka puasa saat Ramadan.',
+     fakta:['Namanya berasal dari bahasa Makassar, "pallu" berarti masak dan "butung" merujuk pada pisang','Kerap disajikan bersama sirop merah yang menambah rasa manis segar']},
   ]
 };
 
@@ -722,6 +755,57 @@ const SEJARAH = {
      ringkasan:'Disebarkan pedagang Arab, Persia, dan Gujarat, diperkuat jaringan Wali Songo di Jawa; Samudra Pasai menjadi kesultanan Islam pertama di Nusantara.'},
     {id:'kristenkatolik', nama:'Masuknya Kristen & Katolik', periode:'Abad ke-16 M',
      ringkasan:'Dibawa misionaris Portugis dan Spanyol terutama ke wilayah timur Nusantara seperti Maluku dan Flores.'},
+  ],
+  prasejarah:[
+    {id:'zamanbatu', nama:'Zaman Batu', ringkasan:'Periode awal peradaban manusia di Nusantara yang dicirikan penggunaan alat-alat dari batu, mencakup era Paleolitikum (batu tua), Mesolitikum (batu tengah), dan Neolitikum (batu muda) yang masing-masing menandai kemajuan teknologi dan pola hidup manusia purba.',
+     fakta:['Manusia purba pada masa ini hidup berpindah-pindah (nomaden) sebelum mulai menetap di era Neolitikum','Alat serpih dan kapak genggam dari era Paleolitikum ditemukan di berbagai situs seperti Pacitan dan Ngandong, Jawa']},
+    {id:'megalitikum', nama:'Megalitikum', ringkasan:'Zaman batu besar, periode akhir prasejarah Nusantara yang ditandai pembangunan monumen batu besar untuk pemujaan roh leluhur, menjadi cikal bakal berbagai tradisi kepercayaan lokal yang masih bertahan hingga kini.',
+     fakta:['Menghasilkan peninggalan seperti menhir, dolmen, dan sarkofagus di berbagai wilayah Nusantara','Konsep punden berundak pada masa ini diyakini memengaruhi arsitektur candi di kemudian hari']},
+    {id:'manusiapurba', nama:'Manusia Purba Indonesia', ringkasan:'Indonesia menjadi salah satu situs penemuan fosil manusia purba paling penting di dunia, dengan temuan seperti Pithecanthropus erectus (Manusia Jawa) yang mengubah pemahaman ilmiah tentang evolusi manusia.',
+     fakta:['Fosil Pithecanthropus erectus ditemukan Eugène Dubois di Trinil, Jawa Timur pada 1891','Situs Sangiran di Jawa Tengah ditetapkan UNESCO sebagai Situs Warisan Dunia karena kekayaan fosil manusia purbanya']},
+  ],
+  kolonialisme:[
+    {id:'kedatanganeropa', nama:'Kedatangan Bangsa Eropa', ringkasan:'Diawali kedatangan Portugis pada 1512 yang mencari sumber rempah langsung ke Maluku, disusul Spanyol, lalu Belanda yang membentuk VOC (Vereenigde Oost-Indische Compagnie) pada 1602 untuk memonopoli perdagangan rempah Nusantara.',
+     fakta:['VOC sempat menjadi salah satu perusahaan dagang terbesar dan terkaya dalam sejarah dunia','VOC dibubarkan pada 1799 akibat korupsi dan utang besar, wilayahnya diambil alih pemerintah Hindia Belanda']},
+    {id:'tanampaksa', nama:'Sistem Tanam Paksa (Cultuurstelsel)', ringkasan:'Kebijakan kolonial Belanda sejak 1830 yang mewajibkan petani menanam sebagian lahan dengan komoditas ekspor seperti kopi, tebu, dan nila, menyebabkan penderitaan besar bagi rakyat namun mendatangkan keuntungan luar biasa bagi Belanda.',
+     fakta:['Dicetuskan oleh Gubernur Jenderal Johannes van den Bosch','Kritik terhadap sistem ini disuarakan lewat novel Max Havelaar karya Multatuli, yang ikut mendorong perubahan kebijakan kolonial']},
+  ],
+  perlawanan:[
+    {id:'perangdiponegoro_sej', nama:'Perang Diponegoro (Perang Jawa)', periode:'1825–1830', ringkasan:'Perlawanan besar Pangeran Diponegoro terhadap pemerintah kolonial Belanda di Jawa, dipicu ketidakpuasan atas campur tangan Belanda dalam urusan Keraton Yogyakarta dan pemasangan patok jalan yang melintasi makam leluhurnya.',
+     fakta:['Menjadi salah satu perang termahal bagi Belanda dalam sejarah kolonial Hindia Timur','Diponegoro ditangkap lewat siasat perundingan di Magelang, kemudian diasingkan hingga wafat di Makassar']},
+    {id:'perangaceh_sej', nama:'Perang Aceh', periode:'1873–1904 (perlawanan sporadis berlanjut lebih lama)', ringkasan:'Perang berkepanjangan antara Kesultanan Aceh dan Belanda, salah satu perang kolonial terlama dan terberat yang dihadapi Belanda di Nusantara karena perlawanan gigih rakyat Aceh, termasuk lewat perang gerilya.',
+     fakta:['Tokoh perlawanan penting termasuk Teuku Umar dan Cut Nyak Dhien','Belanda baru mengklaim menguasai Aceh sepenuhnya pada awal abad ke-20, meski perlawanan terus berlanjut']},
+  ],
+  pergerakan:[
+    {id:'budiutomo', nama:'Budi Utomo', periode:'Didirikan 20 Mei 1908', ringkasan:'Organisasi pergerakan modern pertama di Hindia Belanda, didirikan para pelajar STOVIA di Batavia, menandai awal kebangkitan nasional Indonesia dengan pendekatan perjuangan lewat pendidikan dan organisasi modern, bukan lagi perlawanan bersenjata semata.',
+     fakta:['Tanggal berdirinya, 20 Mei, diperingati sebagai Hari Kebangkitan Nasional','Diprakarsai oleh dr. Sutomo bersama pelajar-pelajar sekolah kedokteran pribumi']},
+    {id:'sumpahpemuda_sej', nama:'Sumpah Pemuda', periode:'28 Oktober 1928', ringkasan:'Ikrar para pemuda dari berbagai daerah dan organisasi dalam Kongres Pemuda II di Batavia, mendeklarasikan satu tanah air, satu bangsa, dan satu bahasa Indonesia, menjadi tonggak penting persatuan nasional menjelang kemerdekaan.',
+     fakta:['Lagu "Indonesia Raya" ciptaan W.R. Supratman pertama kali diperdengarkan pada kongres ini','Tanggal 28 Oktober diperingati setiap tahun sebagai Hari Sumpah Pemuda']},
+  ],
+  kemerdekaan:[
+    {id:'proklamasi_sej', nama:'Proklamasi Kemerdekaan Indonesia', periode:'17 Agustus 1945', ringkasan:'Pembacaan naskah proklamasi oleh Soekarno didampingi Mohammad Hatta di kediaman Soekarno, Jalan Pegangsaan Timur 56 Jakarta, menandai lahirnya Republik Indonesia setelah melalui proses perumusan yang melibatkan golongan tua dan muda, termasuk peristiwa Rengasdengklok.',
+     fakta:['Naskah proklamasi dirumuskan di rumah Laksamana Maeda dan diketik oleh Sayuti Melik','Bendera Merah Putih yang dikibarkan saat proklamasi dijahit oleh Fatmawati, istri Soekarno']},
+    {id:'bpupkippki', nama:'BPUPKI & PPKI', periode:'1945', ringkasan:'BPUPKI (Badan Penyelidik Usaha Persiapan Kemerdekaan Indonesia) dibentuk Jepang untuk merumuskan dasar negara, menghasilkan rancangan Pancasila dan UUD 1945, sebelum digantikan PPKI (Panitia Persiapan Kemerdekaan Indonesia) yang mengesahkan konstitusi dan memilih presiden-wakil presiden pertama.',
+     fakta:['Sidang BPUPKI pertama menghasilkan rumusan dasar negara yang disampaikan Soekarno dalam pidato lahirnya Pancasila pada 1 Juni 1945','PPKI mengesahkan UUD 1945 sehari setelah proklamasi, pada 18 Agustus 1945']},
+  ],
+  pascaKemerdekaan:[
+    {id:'ordelama', nama:'Orde Lama', periode:'1945–1966', ringkasan:'Periode awal Indonesia merdeka di bawah kepemimpinan Presiden Soekarno, diwarnai upaya konsolidasi negara, berbagai pemberontakan daerah, sistem Demokrasi Terpimpin, hingga berakhir dengan peralihan kekuasaan pasca peristiwa G30S 1965.',
+     fakta:['Indonesia sempat menerapkan sistem parlementer sebelum kembali ke UUD 1945 lewat Dekret Presiden 1959','Konferensi Asia-Afrika 1955 di Bandung menjadi momen penting diplomasi Indonesia di kancah internasional']},
+    {id:'ordebaru', nama:'Orde Baru', periode:'1967–1998', ringkasan:'Periode pemerintahan Presiden Soeharto yang menitikberatkan stabilitas politik dan pembangunan ekonomi lewat program Repelita (Rencana Pembangunan Lima Tahun), namun juga ditandai sentralisasi kekuasaan yang berakhir lewat gerakan Reformasi 1998.',
+     fakta:['Indonesia mencatat pertumbuhan ekonomi signifikan pada awal Orde Baru lewat program swasembada pangan','Krisis moneter Asia 1997–1998 menjadi pemicu utama runtuhnya kekuasaan Orde Baru']},
+    {id:'reformasi_sej', nama:'Reformasi', periode:'Sejak 1998', ringkasan:'Era baru demokrasi Indonesia yang dimulai setelah lengsernya Presiden Soeharto, membawa kebebasan pers, sistem multipartai, pemilu presiden langsung, serta otonomi daerah yang lebih luas.',
+     fakta:['Empat kali amandemen UUD 1945 dilakukan pada era Reformasi (1999–2002)','Pemilu presiden langsung pertama kali digelar pada 2004']},
+  ],
+  kabinet:[
+    {id:'kabinetkerja', nama:'Kabinet Kerja', periode:'2014–2019', pimpinan:'Presiden Joko Widodo', ringkasan:'Kabinet pertama pemerintahan Joko Widodo-Jusuf Kalla, fokus pada percepatan pembangunan infrastruktur nasional dan reformasi birokrasi.',
+     fakta:['Meluncurkan program tol laut untuk pemerataan distribusi logistik antarpulau']},
+    {id:'indonesiamaju', nama:'Kabinet Indonesia Maju', periode:'2019–2024', pimpinan:'Presiden Joko Widodo', ringkasan:'Kabinet periode kedua Joko Widodo bersama Wakil Presiden Ma\'ruf Amin, menghadapi tantangan pandemi COVID-19 dan melanjutkan pembangunan Ibu Kota Nusantara.',
+     fakta:['Membentuk Kementerian Investasi sebagai kementerian baru pada periode ini']},
+  ],
+  wakilPresiden:[
+    {id:'hatta_wapres', nama:'Mohammad Hatta', periode:'Wakil Presiden ke-1, 1945–1956', ringkasan:'Wakil presiden pertama Indonesia, mendampingi Soekarno sejak proklamasi, dikenal sebagai Bapak Koperasi Indonesia dan tokoh penting perumusan dasar ekonomi kerakyatan.'},
+    {id:'jk_wapres', nama:'Jusuf Kalla', periode:'Wakil Presiden ke-10 (2004–2009) & ke-12 (2014–2019)', ringkasan:'Wakil presiden yang menjabat dua periode terpisah, mendampingi dua presiden berbeda (SBY dan Jokowi), dikenal dengan pendekatan pragmatis dalam penyelesaian konflik dan negosiasi.'},
+    {id:'gibran_wapres', nama:'Gibran Rakabuming Raka', periode:'Wakil Presiden ke-14, 2024–sekarang', ringkasan:'Wakil presiden termuda dalam sejarah Indonesia modern, mendampingi Presiden Prabowo Subianto sejak Oktober 2024, sebelumnya menjabat Wali Kota Surakarta.'},
   ]
 };
 
@@ -925,6 +1009,14 @@ function buildIndex(){
   SEJARAH.presiden.forEach(e=>idx.push({type:'Presiden', menu:'lorong', name:e.nama, meta:e.jabatan, ref:{kind:'entry', group:'presiden', id:e.id}}));
   SEJARAH.prasasti.forEach(e=>idx.push({type:'Prasasti & Manuskrip', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'prasasti', id:e.id}}));
   SEJARAH.agama.forEach(e=>idx.push({type:'Sejarah Agama', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'agama', id:e.id}}));
+  SEJARAH.prasejarah.forEach(e=>idx.push({type:'Prasejarah', menu:'lorong', name:e.nama, meta:'', ref:{kind:'entry', group:'prasejarah', id:e.id}}));
+  SEJARAH.kolonialisme.forEach(e=>idx.push({type:'Kolonialisme', menu:'lorong', name:e.nama, meta:'', ref:{kind:'entry', group:'kolonialisme', id:e.id}}));
+  SEJARAH.perlawanan.forEach(e=>idx.push({type:'Perlawanan Daerah', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'perlawanan', id:e.id}}));
+  SEJARAH.pergerakan.forEach(e=>idx.push({type:'Pergerakan Nasional', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'pergerakan', id:e.id}}));
+  SEJARAH.kemerdekaan.forEach(e=>idx.push({type:'Kemerdekaan', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'kemerdekaan', id:e.id}}));
+  SEJARAH.pascaKemerdekaan.forEach(e=>idx.push({type:'Indonesia Pasca Kemerdekaan', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'pascaKemerdekaan', id:e.id}}));
+  SEJARAH.kabinet.forEach(e=>idx.push({type:'Kabinet Indonesia', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'kabinet', id:e.id}}));
+  SEJARAH.wakilPresiden.forEach(e=>idx.push({type:'Wakil Presiden', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'wakilPresiden', id:e.id}}));
   SENI.tari.forEach(e=>idx.push({type:'Tari', menu:'panggung', name:e.nama, meta:provName(e.provinsi), ref:{kind:'entry', group:'tari', id:e.id}}));
   SENI.wayang.forEach(e=>idx.push({type:'Wayang & Seni Pertunjukan', menu:'panggung', name:e.nama, meta:provName(e.provinsi), ref:{kind:'entry', group:'wayang', id:e.id}}));
   SENI.permainan.forEach(e=>idx.push({type:'Permainan Tradisional', menu:'panggung', name:e.nama, meta:e.jumlahPemain, ref:{kind:'entry', group:'permainan', id:e.id}}));
@@ -977,7 +1069,15 @@ const MENU_GROUPS = {
       ...SEJARAH.presiden.map(e=>({id:e.id,nama:e.nama,meta:e.jabatan,cat:'Presiden',group:'presiden'})),
       ...SEJARAH.prasasti.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Prasasti & Manuskrip',group:'prasasti'})),
       ...SEJARAH.agama.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Sejarah Agama',group:'agama'})),
-    ], title:'Lorong Waktu', sub:'Sejarah Nusantara — kerajaan, tokoh, prasasti, dan sejarah agama.'},
+      ...SEJARAH.prasejarah.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Prasejarah',group:'prasejarah'})),
+      ...SEJARAH.kolonialisme.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Kolonialisme',group:'kolonialisme'})),
+      ...SEJARAH.perlawanan.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Perlawanan Daerah',group:'perlawanan'})),
+      ...SEJARAH.pergerakan.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Pergerakan Nasional',group:'pergerakan'})),
+      ...SEJARAH.kemerdekaan.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Kemerdekaan',group:'kemerdekaan'})),
+      ...SEJARAH.pascaKemerdekaan.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Indonesia Pasca Kemerdekaan',group:'pascaKemerdekaan'})),
+      ...SEJARAH.kabinet.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Kabinet Indonesia',group:'kabinet'})),
+      ...SEJARAH.wakilPresiden.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Wakil Presiden',group:'wakilPresiden'})),
+    ], title:'Lorong Waktu', sub:'Sejarah Nusantara — dari prasejarah, kerajaan, kolonialisme, pergerakan, kemerdekaan, hingga era modern.'},
   panggung: {getItems:()=>[
       ...SENI.tari.map(e=>({id:e.id,nama:e.nama,meta:provName(e.provinsi),cat:'Tari',group:'tari'})),
       ...SENI.wayang.map(e=>({id:e.id,nama:e.nama,meta:provName(e.provinsi),cat:'Wayang & Seni Pertunjukan',group:'wayang'})),
@@ -1019,6 +1119,9 @@ function findEntry(group,id){
   const map = {
     kerajaan:SEJARAH.kerajaan, tokoh:SEJARAH.tokoh, presiden:SEJARAH.presiden,
     prasasti:SEJARAH.prasasti, agama:SEJARAH.agama,
+    prasejarah:SEJARAH.prasejarah, kolonialisme:SEJARAH.kolonialisme, perlawanan:SEJARAH.perlawanan,
+    pergerakan:SEJARAH.pergerakan, kemerdekaan:SEJARAH.kemerdekaan, pascaKemerdekaan:SEJARAH.pascaKemerdekaan,
+    kabinet:SEJARAH.kabinet, wakilPresiden:SEJARAH.wakilPresiden,
     tari:SENI.tari, alatMusik:SENI.alatMusik, wastra:SENI.wastra, wayang:SENI.wayang, permainan:SENI.permainan,
     suku:PUSTAKA.suku, legenda:PUSTAKA.legenda, upacara:PUSTAKA.upacara, kepercayaan:PUSTAKA.kepercayaan,
     kamus:BAHASA.kamus, peribahasa:BAHASA.peribahasa, bahasaDaerah:BAHASA.bahasaDaerah,
@@ -1124,6 +1227,8 @@ function openEntry(group,id){
   const fields = [];
   const catLabel = {
     kerajaan:'Kerajaan', tokoh:'Tokoh', presiden:'Presiden', prasasti:'Prasasti & Manuskrip', agama:'Sejarah Agama',
+    prasejarah:'Prasejarah', kolonialisme:'Kolonialisme', perlawanan:'Perlawanan Daerah', pergerakan:'Pergerakan Nasional',
+    kemerdekaan:'Kemerdekaan', pascaKemerdekaan:'Indonesia Pasca Kemerdekaan', kabinet:'Kabinet Indonesia', wakilPresiden:'Wakil Presiden',
     tari:'Tari Tradisional', alatMusik:'Alat Musik', wastra:'Wastra', wayang:'Wayang & Seni Pertunjukan', permainan:'Permainan Tradisional',
     suku:'Suku & Masyarakat Adat', legenda:'Legenda', upacara:'Upacara Adat', kepercayaan:'Kepercayaan Lokal',
     kamus:'Kamus', peribahasa:'Peribahasa', bahasaDaerah:'Bahasa Daerah', sastra:'Sastra Nusantara', aksara:'Aksara Nusantara',
@@ -1142,6 +1247,10 @@ function openEntry(group,id){
   if(e.ringkasan || e.arti || e.makna || e.penjelasan){
     fields.push(['Ringkasan', e.ringkasan || e.arti || e.makna || e.penjelasan]);
   }
+  if(e.fakta && Array.isArray(e.fakta)){
+    fields.push(['Fakta Penting', '<ul>'+e.fakta.map(f=>`<li>${f}</li>`).join('')+'</ul>']);
+  }
+  if(e.pimpinan) fields.push(['Pimpinan', e.pimpinan]);
   if(e.teks && group==='sastra') fields.push(['Teks', e.teks]);
   if(e.periode) fields.push(['Periode', e.periode]);
   if(e.tipe) fields.push(['Jenis', e.tipe]);
