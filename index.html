@@ -591,6 +591,32 @@ const GEOGRAFI = {
     {id:'komodo', nama:'Taman Nasional Komodo', provinsi:'ntt', lokasi:'Nusa Tenggara Timur', ekosistem:'Savana kering & perairan laut', ringkasan:'Habitat asli komodo, kadal terbesar di dunia; ditetapkan UNESCO sebagai Situs Warisan Dunia dan salah satu dari New7Wonders of Nature.'},
     {id:'waykambas', nama:'Taman Nasional Way Kambas', provinsi:'lampung', lokasi:'Lampung', ekosistem:'Hutan hujan dataran rendah & rawa', ringkasan:'Salah satu suaka gajah Sumatra tertua di Indonesia, tempat pelatihan dan konservasi gajah.'},
     {id:'bunaken', nama:'Taman Nasional Bunaken', provinsi:'sulut', lokasi:'Sulawesi Utara', ekosistem:'Terumbu karang & laut dalam', ringkasan:'Kawasan konservasi laut dengan keanekaragaman terumbu karang tinggi, salah satu destinasi menyelam terbaik dunia.'},
+  ],
+  pantai:[
+    {id:'kuta', nama:'Pantai Kuta', provinsi:'bali', lokasi:'Bali', ringkasan:'Pantai pasir putih paling ikonik di Bali, terkenal dengan ombak untuk selancar dan panorama matahari terbenam.'},
+    {id:'parangtritis', nama:'Pantai Parangtritis', provinsi:'yogyakarta', lokasi:'Yogyakarta', ringkasan:'Pantai selatan Jawa yang sarat mitos Nyi Roro Kidul, dikenal dengan gumuk pasir dan ombak besar.'},
+    {id:'pinklombok', nama:'Pantai Pink', provinsi:'ntb', lokasi:'Lombok, NTB', ringkasan:'Salah satu dari sedikit pantai berpasir merah muda di dunia, warnanya berasal dari campuran pecahan karang merah.'},
+  ],
+  situsSejarah:[
+    {id:'borobudur_situs', nama:'Candi Borobudur', tipe:'Candi', provinsi:'jateng', lokasi:'Magelang, Jawa Tengah', periode:'Abad ke-8–9 M', ringkasan:'Candi Buddha terbesar di dunia peninggalan Wangsa Syailendra, ditetapkan UNESCO sebagai Situs Warisan Dunia.'},
+    {id:'prambanan_situs', nama:'Candi Prambanan', tipe:'Candi', provinsi:'jateng', lokasi:'Perbatasan Yogyakarta – Jawa Tengah', periode:'Abad ke-9 M', ringkasan:'Kompleks candi Hindu terbesar di Indonesia, didedikasikan untuk Trimurti (Brahma, Wisnu, Siwa).'},
+    {id:'fortrotterdam_situs', nama:'Benteng Fort Rotterdam', tipe:'Benteng', provinsi:'sulsel', lokasi:'Makassar', periode:'Abad ke-17 M', ringkasan:'Benteng peninggalan Kesultanan Gowa yang direbut VOC, tempat Pangeran Diponegoro sempat ditahan.'},
+    {id:'keratonyogya_situs', nama:'Keraton Yogyakarta', tipe:'Keraton', provinsi:'yogyakarta', lokasi:'Yogyakarta', periode:'Sejak 1755 M', ringkasan:'Istana resmi Kesultanan Ngayogyakarta yang masih aktif menjalankan tradisi kesultanan hingga kini.'},
+  ],
+  tempatIbadah:[
+    {id:'baiturrahman', nama:'Masjid Raya Baiturrahman', jenisIbadah:'Masjid bersejarah', provinsi:'aceh', lokasi:'Banda Aceh', ringkasan:'Masjid ikonik Aceh yang selamat dari bencana tsunami 2004, menjadi simbol ketahanan spiritual masyarakat Aceh.'},
+    {id:'besakih', nama:'Pura Besakih', jenisIbadah:'Pura', provinsi:'bali', lokasi:'Karangasem, Bali', ringkasan:'Pura terbesar dan tersuci di Bali, dikenal sebagai "Pura Induk" dari seluruh pura di pulau tersebut.'},
+    {id:'sampookong', nama:'Klenteng Sam Poo Kong', jenisIbadah:'Klenteng', provinsi:'jateng', lokasi:'Semarang, Jawa Tengah', ringkasan:'Klenteng bersejarah yang dibangun untuk mengenang persinggahan Laksamana Cheng Ho di Semarang.'},
+  ],
+  floraFauna:[
+    {id:'komodo_fauna', nama:'Komodo', jenisFF:'Fauna', provinsi:'ntt', namaIlmiah:'Varanus komodoensis', ringkasan:'Kadal terbesar di dunia, hanya ditemukan secara liar di Pulau Komodo dan Rinca, Nusa Tenggara Timur.'},
+    {id:'rafflesia', nama:'Rafflesia arnoldii', jenisFF:'Flora', provinsi:'sumbar', namaIlmiah:'Rafflesia arnoldii', ringkasan:'Bunga tunggal terbesar di dunia, tumbuh di hutan Sumatra, dijuluki "bunga bangkai" karena aromanya.'},
+    {id:'cendrawasih', nama:'Cendrawasih', jenisFF:'Fauna', provinsi:'papua', namaIlmiah:'Paradisaeidae (famili)', ringkasan:'Burung dengan bulu warna-warni memukau, dijuluki "burung surga", identitas fauna khas Papua.'},
+  ],
+  jalurRempah:[
+    {id:'cengkih', nama:'Cengkih', kategori:'Komoditas Rempah', ringkasan:'Rempah asli Kepulauan Maluku yang menjadi incaran bangsa Eropa sejak abad ke-16, memicu perlombaan penjajahan jalur rempah dunia.'},
+    {id:'pala', nama:'Pala', kategori:'Komoditas Rempah', ringkasan:'Rempah asli Kepulauan Banda, Maluku, dahulu bernilai setara emas di Eropa dan menjadi salah satu pemicu kolonialisme di Nusantara.'},
+    {id:'jalurperdaganganrempah', nama:'Jalur Perdagangan Rempah', kategori:'Sejarah Jalur Rempah', ringkasan:'Jaringan pelayaran yang menghubungkan Kepulauan Maluku dengan India, Timur Tengah, hingga Eropa, menjadikan Nusantara pusat perdagangan dunia selama berabad-abad.'},
   ]
 };
 
@@ -886,6 +912,11 @@ function buildIndex(){
   GEOGRAFI.gunung.forEach(e=>idx.push({type:'Gunung', menu:'peta', name:e.nama, meta:e.ketinggian, ref:{kind:'entry', group:'gunung', id:e.id}}));
   GEOGRAFI.danau.forEach(e=>idx.push({type:'Danau', menu:'peta', name:e.nama, meta:e.lokasi, ref:{kind:'entry', group:'danau', id:e.id}}));
   GEOGRAFI.tamanNasional.forEach(e=>idx.push({type:'Taman Nasional', menu:'peta', name:e.nama, meta:e.lokasi, ref:{kind:'entry', group:'tamanNasional', id:e.id}}));
+  GEOGRAFI.pantai.forEach(e=>idx.push({type:'Pantai & Pesisir', menu:'peta', name:e.nama, meta:e.lokasi, ref:{kind:'entry', group:'pantai', id:e.id}}));
+  GEOGRAFI.situsSejarah.forEach(e=>idx.push({type:'Situs Sejarah & Bangunan', menu:'peta', name:e.nama, meta:e.lokasi, ref:{kind:'entry', group:'situsSejarah', id:e.id}}));
+  GEOGRAFI.tempatIbadah.forEach(e=>idx.push({type:'Tempat Ibadah & Warisan Religi', menu:'peta', name:e.nama, meta:e.jenisIbadah, ref:{kind:'entry', group:'tempatIbadah', id:e.id}}));
+  GEOGRAFI.floraFauna.forEach(e=>idx.push({type:'Flora & Fauna Identitas', menu:'peta', name:e.nama, meta:e.jenisFF, ref:{kind:'entry', group:'floraFauna', id:e.id}}));
+  GEOGRAFI.jalurRempah.forEach(e=>idx.push({type:'Jalur Rempah Nusantara', menu:'peta', name:e.nama, meta:e.kategori, ref:{kind:'entry', group:'jalurRempah', id:e.id}}));
   KULINER.makananBerat.forEach(e=>idx.push({type:'Makanan Berat', menu:'peta', name:e.nama, meta:e.daerah||provName(e.provinsi), ref:{kind:'entry', group:'makananBerat', id:e.id}}));
   KULINER.jajanan.forEach(e=>idx.push({type:'Jajanan', menu:'peta', name:e.nama, meta:e.daerah||provName(e.provinsi), ref:{kind:'entry', group:'jajanan', id:e.id}}));
   KULINER.minuman.forEach(e=>idx.push({type:'Minuman', menu:'peta', name:e.nama, meta:e.daerah||provName(e.provinsi), ref:{kind:'entry', group:'minuman', id:e.id}}));
@@ -931,6 +962,11 @@ const MENU_GROUPS = {
       ...GEOGRAFI.gunung.map(e=>({id:e.id,nama:e.nama,meta:e.ketinggian,cat:'Gunung',group:'gunung'})),
       ...GEOGRAFI.danau.map(e=>({id:e.id,nama:e.nama,meta:e.lokasi,cat:'Danau & Sungai',group:'danau'})),
       ...GEOGRAFI.tamanNasional.map(e=>({id:e.id,nama:e.nama,meta:e.lokasi,cat:'Taman Nasional',group:'tamanNasional'})),
+      ...GEOGRAFI.pantai.map(e=>({id:e.id,nama:e.nama,meta:e.lokasi,cat:'Pantai & Pesisir',group:'pantai'})),
+      ...GEOGRAFI.situsSejarah.map(e=>({id:e.id,nama:e.nama,meta:e.lokasi,cat:'Situs Sejarah & Bangunan',group:'situsSejarah'})),
+      ...GEOGRAFI.tempatIbadah.map(e=>({id:e.id,nama:e.nama,meta:e.jenisIbadah,cat:'Tempat Ibadah & Warisan Religi',group:'tempatIbadah'})),
+      ...GEOGRAFI.floraFauna.map(e=>({id:e.id,nama:e.nama,meta:e.jenisFF,cat:'Flora & Fauna Identitas',group:'floraFauna'})),
+      ...GEOGRAFI.jalurRempah.map(e=>({id:e.id,nama:e.nama,meta:e.kategori,cat:'Jalur Rempah Nusantara',group:'jalurRempah'})),
       ...KULINER.makananBerat.map(e=>({id:e.id,nama:e.nama,meta:e.daerah||provName(e.provinsi),cat:'Makanan Berat',group:'makananBerat'})),
       ...KULINER.jajanan.map(e=>({id:e.id,nama:e.nama,meta:e.daerah||provName(e.provinsi),cat:'Jajanan',group:'jajanan'})),
       ...KULINER.minuman.map(e=>({id:e.id,nama:e.nama,meta:e.daerah||provName(e.provinsi),cat:'Minuman',group:'minuman'})),
@@ -991,6 +1027,8 @@ function findEntry(group,id){
     konstitusi:WARGA.konstitusi, simbol:WARGA.simbol, pramukaMateri:WARGA.pramukaMateri, sandiPramuka:WARGA.sandiPramuka, taliTemali:WARGA.taliTemali,
     nomorPenting:KODE.nomorPenting, mataUang:KODE.mataUang, kalender:KODE.kalender,
     gunung:GEOGRAFI.gunung, danau:GEOGRAFI.danau, tamanNasional:GEOGRAFI.tamanNasional,
+    pantai:GEOGRAFI.pantai, situsSejarah:GEOGRAFI.situsSejarah, tempatIbadah:GEOGRAFI.tempatIbadah,
+    floraFauna:GEOGRAFI.floraFauna, jalurRempah:GEOGRAFI.jalurRempah,
     makananBerat:KULINER.makananBerat, jajanan:KULINER.jajanan, minuman:KULINER.minuman,
     bandara:KODE.bandara, singkatan:KODE.singkatan,
   };
@@ -1091,6 +1129,8 @@ function openEntry(group,id){
     kamus:'Kamus', peribahasa:'Peribahasa', bahasaDaerah:'Bahasa Daerah', sastra:'Sastra Nusantara', aksara:'Aksara Nusantara',
     pancasila:'Pancasila', nomorPenting:'Nomor Penting', mataUang:'Mata Uang', kalender:'Kalender',
     gunung:'Gunung', danau:'Danau & Sungai', tamanNasional:'Taman Nasional & Kawasan Konservasi',
+    pantai:'Pantai & Pesisir', situsSejarah:'Situs Sejarah & Bangunan Bersejarah', tempatIbadah:'Tempat Ibadah & Warisan Religi',
+    floraFauna:'Flora & Fauna Identitas', jalurRempah:'Jalur Rempah Nusantara',
     makananBerat:'Makanan Berat', jajanan:'Jajanan Tradisional', minuman:'Minuman Tradisional',
     konstitusi:'Konstitusi', simbol:'Simbol Negara', pramukaMateri:'Pramuka', sandiPramuka:'Sandi Pramuka', taliTemali:'Tali-Temali',
     bandara:'Bandara', singkatan:'Singkatan & Istilah'
@@ -1132,6 +1172,9 @@ function openEntry(group,id){
   if(e.jumlahPemain) fields.push(['Jumlah Pemain', e.jumlahPemain]);
   if(e.kodeIATA) fields.push(['Kode IATA', e.kodeIATA]);
   if(e.kepanjangan) fields.push(['Kepanjangan', e.kepanjangan]);
+  if(e.jenisIbadah) fields.push(['Jenis Tempat Ibadah', e.jenisIbadah]);
+  if(e.jenisFF) fields.push(['Jenis', e.jenisFF]);
+  if(e.namaIlmiah) fields.push(['Nama Ilmiah', e.namaIlmiah]);
 
   document.getElementById('entryDetail').innerHTML = `
     <div class="cat">${catLabel}</div>
@@ -1167,6 +1210,10 @@ function openProvince(id){
   const relatedGunung = GEOGRAFI.gunung.filter(g=>g.provinsi===id);
   const relatedDanau = GEOGRAFI.danau.filter(d=>d.provinsi===id);
   const relatedTN = GEOGRAFI.tamanNasional.filter(t=>t.provinsi===id);
+  const relatedPantai = GEOGRAFI.pantai.filter(p=>p.provinsi===id);
+  const relatedSitus = GEOGRAFI.situsSejarah.filter(s=>s.provinsi===id);
+  const relatedIbadah = GEOGRAFI.tempatIbadah.filter(t=>t.provinsi===id);
+  const relatedFF = GEOGRAFI.floraFauna.filter(f=>f.provinsi===id);
   const relatedMakanan = [...KULINER.makananBerat, ...KULINER.jajanan, ...KULINER.minuman].filter(k=>k.provinsi===id);
   const relatedWayang = SENI.wayang.filter(w=>w.provinsi===id);
   const relatedKepercayaan = PUSTAKA.kepercayaan.filter(k=>k.provinsi===id);
@@ -1185,6 +1232,10 @@ function openProvince(id){
     ...relatedGunung.map(g=>({label:'Gunung '+g.nama, fn:`openEntry('gunung','${g.id}')`})),
     ...relatedDanau.map(d=>({label:'Danau '+d.nama, fn:`openEntry('danau','${d.id}')`})),
     ...relatedTN.map(t=>({label:t.nama, fn:`openEntry('tamanNasional','${t.id}')`})),
+    ...relatedPantai.map(p=>({label:p.nama, fn:`openEntry('pantai','${p.id}')`})),
+    ...relatedSitus.map(s=>({label:s.nama, fn:`openEntry('situsSejarah','${s.id}')`})),
+    ...relatedIbadah.map(t=>({label:t.nama, fn:`openEntry('tempatIbadah','${t.id}')`})),
+    ...relatedFF.map(f=>({label:f.nama, fn:`openEntry('floraFauna','${f.id}')`})),
     ...relatedMakanan.map(k=>({label:k.nama, fn:`openEntry('${KULINER.makananBerat.includes(k)?'makananBerat':(KULINER.jajanan.includes(k)?'jajanan':'minuman')}','${k.id}')`})),
     ...relatedWayang.map(w=>({label:w.nama, fn:`openEntry('wayang','${w.id}')`})),
     ...relatedKepercayaan.map(k=>({label:k.nama, fn:`openEntry('kepercayaan','${k.id}')`})),
