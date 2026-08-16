@@ -621,9 +621,33 @@ const SEJARAH = {
     {id:'demak', nama:'Demak', tipe:'Kesultanan Islam', provinsi:'jateng', lokasi:'Demak, Jawa Tengah', periode:'Akhir abad ke-15 – 1554 M',
      ringkasan:'Kesultanan Islam pertama di tanah Jawa, berperan penting menyebarkan Islam melalui jaringan Wali Songo.',
      tokoh:'Raden Patah (pendiri)', peninggalan:'Masjid Agung Demak'},
-    {id:'gowatallo', nama:'Gowa-Tallo', tipe:'Kesultanan Islam', provinsi:'', lokasi:'Makassar, Sulawesi Selatan', periode:'Abad ke-16 – 17 M',
+    {id:'gowatallo', nama:'Gowa-Tallo', tipe:'Kesultanan Islam', provinsi:'sulsel', lokasi:'Makassar, Sulawesi Selatan', periode:'Abad ke-16 – 17 M',
      ringkasan:'Kerajaan maritim Bugis-Makassar yang menjadi kekuatan dagang dan militer utama di kawasan timur Nusantara sebelum ditaklukkan VOC.',
      tokoh:'Sultan Hasanuddin ("Ayam Jantan dari Timur")', peninggalan:'Benteng Fort Rotterdam, Perjanjian Bongaya'},
+    {id:'kutai', nama:'Kutai Martapura', tipe:'Hindu', provinsi:'kaltim', lokasi:'Kalimantan Timur', periode:'Abad ke-4 M',
+     ringkasan:'Kerajaan Hindu tertua yang diketahui di Nusantara, dibuktikan lewat tujuh Prasasti Yupa berbahasa Sanskerta.',
+     tokoh:'Mulawarman (raja termasyhur)', peninggalan:'Prasasti Yupa'},
+    {id:'tarumanegara', nama:'Tarumanegara', tipe:'Hindu', provinsi:'jabar', lokasi:'Jawa Barat', periode:'Abad ke-4 – 7 M',
+     ringkasan:'Kerajaan Hindu tertua di Jawa Barat, meninggalkan beberapa prasasti penting termasuk pahatan jejak kaki raja.',
+     tokoh:'Purnawarman', peninggalan:'Prasasti Ciaruteun, Prasasti Tugu'},
+    {id:'mataramkuno', nama:'Mataram Kuno', tipe:'Hindu-Buddha', provinsi:'jateng', lokasi:'Jawa Tengah', periode:'Abad ke-8 – 10 M',
+     ringkasan:'Kerajaan agraris pembangun candi-candi besar Jawa Tengah, diperintah bergantian oleh Wangsa Sanjaya (Hindu) dan Wangsa Syailendra (Buddha).',
+     tokoh:'Rakai Pikatan, Balitung', peninggalan:'Candi Borobudur, Candi Prambanan'},
+    {id:'kediri', nama:'Kediri', tipe:'Hindu', provinsi:'jatim', lokasi:'Jawa Timur', periode:'Abad ke-11 – 13 M',
+     ringkasan:'Kerajaan penerus Medang yang dikenal lewat karya sastra besar seperti Kitab Bharatayuddha dan ramalan Jayabaya.',
+     tokoh:'Jayabaya', peninggalan:'Kitab Bharatayuddha'},
+    {id:'singhasari', nama:'Singhasari', tipe:'Hindu-Buddha', provinsi:'jatim', lokasi:'Jawa Timur', periode:'1222 – 1292 M',
+     ringkasan:'Kerajaan cikal bakal Majapahit, didirikan Ken Arok dan berakhir dengan pemberontakan Jayakatwang.',
+     tokoh:'Ken Arok, Kertanagara', peninggalan:'Candi Singasari, Candi Jago'},
+    {id:'samudrapasai', nama:'Samudra Pasai', tipe:'Kesultanan Islam', provinsi:'aceh', lokasi:'Aceh', periode:'Akhir abad ke-13 – 16 M',
+     ringkasan:'Kesultanan Islam pertama di Nusantara, menjadi pusat perdagangan dan penyebaran Islam di ujung barat Sumatera.',
+     tokoh:'Sultan Malik al-Saleh (pendiri)', peninggalan:'Makam Sultan Malik al-Saleh, koin emas dirham'},
+    {id:'ternate', nama:'Ternate', tipe:'Kesultanan Islam', provinsi:'', lokasi:'Maluku Utara', periode:'Abad ke-13 M – sekarang (simbolis)',
+     ringkasan:'Kesultanan penguasa jalur rempah cengkih, salah satu dari empat kerajaan bersaudara "Moloku Kie Raha" di Maluku Utara.',
+     tokoh:'Sultan Baabullah', peninggalan:'Benteng Kastela, Istana Kesultanan Ternate'},
+    {id:'banten', nama:'Banten', tipe:'Kesultanan Islam', provinsi:'', lokasi:'Banten', periode:'1526 – 1813 M',
+     ringkasan:'Kesultanan maritim penguasa perdagangan lada di ujung barat Jawa, mencapai puncak kejayaan di masa Sultan Ageng Tirtayasa.',
+     tokoh:'Sultan Ageng Tirtayasa', peninggalan:'Masjid Agung Banten, Benteng Speelwijk'},
   ],
   tokoh:[
     {id:'kartini', nama:'R.A. Kartini', kategori:'Pahlawan Nasional', provinsi:'jateng', periode:'1879–1904',
@@ -634,11 +658,44 @@ const SEJARAH = {
      ringkasan:'Sultan Gowa yang gigih melawan monopoli dagang VOC di kawasan timur Nusantara, dijuluki "Ayam Jantan dari Timur" oleh Belanda.'},
     {id:'hatta', nama:'Mohammad Hatta', kategori:'Tokoh Proklamasi', provinsi:'', periode:'1902–1980',
      ringkasan:'Wakil Presiden pertama Indonesia dan salah satu penanda tangan Proklamasi Kemerdekaan bersama Soekarno, dikenal sebagai "Bapak Koperasi Indonesia".'},
+    {id:'cutnyakdien', nama:'Cut Nyak Dhien', kategori:'Pahlawan Nasional', provinsi:'aceh', periode:'1848–1908',
+     ringkasan:'Pemimpin perlawanan rakyat Aceh melawan Belanda selama puluhan tahun, meneruskan perjuangan setelah suaminya Teuku Umar gugur.'},
+    {id:'pattimura', nama:'Pattimura (Thomas Matulessy)', kategori:'Pahlawan Nasional', provinsi:'maluku', periode:'1783–1817',
+     ringkasan:'Memimpin perlawanan rakyat Maluku terhadap kolonial Belanda pada 1817, ditangkap dan dihukum mati di Ambon.'},
+    {id:'imambonjol', nama:'Tuanku Imam Bonjol', kategori:'Pahlawan Nasional', provinsi:'sumbar', periode:'1772–1864',
+     ringkasan:'Pemimpin Perang Padri di Sumatera Barat, melawan kolonial Belanda selama lebih dari dua dekade.'},
+    {id:'kihajardewantara', nama:'Ki Hajar Dewantara', kategori:'Tokoh Pendidikan', provinsi:'', periode:'1889–1959',
+     ringkasan:'Bapak Pendidikan Nasional Indonesia, pendiri Taman Siswa dengan semboyan "Tut Wuri Handayani" yang kini menjadi lambang Kemendikbud.'},
+    {id:'chairilanwar', nama:'Chairil Anwar', kategori:'Sastrawan', provinsi:'', periode:'1922–1949',
+     ringkasan:'Pelopor Angkatan \'45 dalam sastra Indonesia, dikenal lewat puisi "Aku" yang menjadi ikon semangat individualisme dan perjuangan.'},
   ],
   presiden:[
     {id:'soekarno', nama:'Soekarno', jabatan:'Presiden ke-1', periode:'1945–1967', ringkasan:'Proklamator dan presiden pertama Republik Indonesia, penggagas dasar negara Pancasila.'},
     {id:'soeharto', nama:'Soeharto', jabatan:'Presiden ke-2', periode:'1967–1998', ringkasan:'Memimpin era Orde Baru dengan fokus pembangunan ekonomi selama 32 tahun.'},
     {id:'habibie', nama:'B.J. Habibie', jabatan:'Presiden ke-3', periode:'1998', ringkasan:'Memimpin masa awal Reformasi, membuka kebebasan pers dan jalan bagi pemilu multipartai.'},
+    {id:'gusdur', nama:'Abdurrahman Wahid (Gus Dur)', jabatan:'Presiden ke-4', periode:'1999–2001', ringkasan:'Presiden pertama hasil pemilu multipartai era Reformasi, dikenal dengan pandangan pluralisme dan toleransi beragama.'},
+    {id:'megawati', nama:'Megawati Soekarnoputri', jabatan:'Presiden ke-5', periode:'2001–2004', ringkasan:'Presiden perempuan pertama Indonesia, putri dari Presiden Soekarno.'},
+    {id:'sby', nama:'Susilo Bambang Yudhoyono', jabatan:'Presiden ke-6', periode:'2004–2014', ringkasan:'Presiden pertama yang dipilih langsung rakyat lewat pemilu presiden, menjabat dua periode berturut-turut.'},
+    {id:'jokowi', nama:'Joko Widodo', jabatan:'Presiden ke-7', periode:'2014–2024', ringkasan:'Dikenal lewat gaya blusukan dan fokus pembangunan infrastruktur, termasuk inisiasi pemindahan ibu kota ke Nusantara.'},
+    {id:'prabowo', nama:'Prabowo Subianto', jabatan:'Presiden ke-8', periode:'2024–sekarang', ringkasan:'Menjabat presiden setelah memenangkan Pemilu 2024 berpasangan dengan Wakil Presiden Gibran Rakabuming Raka.'},
+  ],
+  prasasti:[
+    {id:'yupa', nama:'Prasasti Yupa', lokasi:'Kutai, Kalimantan Timur', periode:'Abad ke-4 M', aksara:'Pallawa, bahasa Sanskerta',
+     ringkasan:'Tujuh tiang batu peringatan upacara kurban Raja Mulawarman, bukti tertulis tertua yang ditemukan di Nusantara.'},
+    {id:'ciaruteun', nama:'Prasasti Ciaruteun', lokasi:'Bogor, Jawa Barat', periode:'Abad ke-5 M', aksara:'Pallawa, bahasa Sanskerta',
+     ringkasan:'Memuat pahatan sepasang telapak kaki yang diyakini sebagai jejak kaki Raja Purnawarman dari Tarumanegara.'},
+    {id:'kedukanbukit', nama:'Prasasti Kedukan Bukit', lokasi:'Palembang, Sumatera Selatan', periode:'683 M', aksara:'Pallawa, bahasa Melayu Kuno',
+     ringkasan:'Prasasti tertua berbahasa Melayu, mencatat perjalanan suci (siddhayatra) Dapunta Hyang mendirikan Sriwijaya.'},
+    {id:'negarakertagama', nama:'Kitab Negarakertagama', lokasi:'Majapahit, Jawa Timur', periode:'1365 M', aksara:'Jawa Kuno',
+     ringkasan:'Kakawin karya Mpu Prapanca yang menjadi sumber utama sejarah kejayaan Majapahit di era Hayam Wuruk.'},
+  ],
+  agama:[
+    {id:'hindubuddha', nama:'Masuknya Hindu-Buddha', periode:'Sekitar abad ke-4 M',
+     ringkasan:'Dibawa lewat jalur perdagangan India-Nusantara, membentuk kerajaan-kerajaan awal seperti Kutai dan Tarumanegara serta warisan candi besar.'},
+    {id:'islam_sejarah', nama:'Masuknya Islam', periode:'Sekitar abad ke-13 M',
+     ringkasan:'Disebarkan pedagang Arab, Persia, dan Gujarat, diperkuat jaringan Wali Songo di Jawa; Samudra Pasai menjadi kesultanan Islam pertama di Nusantara.'},
+    {id:'kristenkatolik', nama:'Masuknya Kristen & Katolik', periode:'Abad ke-16 M',
+     ringkasan:'Dibawa misionaris Portugis dan Spanyol terutama ke wilayah timur Nusantara seperti Maluku dan Flores.'},
   ]
 };
 
@@ -648,35 +705,64 @@ const SENI = {
     {id:'piring', nama:'Piring', provinsi:'sumbar', ringkasan:'Tarian dengan piring di kedua telapak tangan penari, mengekspresikan rasa syukur masyarakat Minangkabau atas hasil panen.'},
     {id:'kecak', nama:'Kecak', provinsi:'bali', ringkasan:'Tarian yang bertumpu pada paduan suara vokal "cak" puluhan penari pria duduk melingkar, mengiringi kisah Ramayana tanpa alat musik.'},
     {id:'yospan', nama:'Yospan', provinsi:'papua', ringkasan:'Gabungan tari Yosim dan Pancar, tarian pergaulan energik khas pesisir Papua yang biasa ditarikan bersama dalam lingkaran.'},
+    {id:'jaipong', nama:'Jaipong', provinsi:'jabar', ringkasan:'Tarian energik perpaduan pencak silat, ketuk tilu, dan wayang golek, diciptakan sebagai identitas budaya Sunda modern.'},
+    {id:'tortor', nama:'Tor-Tor', provinsi:'sumut', ringkasan:'Tarian khas Batak diiringi gondang, mengungkapkan rasa syukur dan penghormatan kepada leluhur dalam upacara adat.'},
+    {id:'reogponorogo', nama:'Reog Ponorogo', provinsi:'jatim', ringkasan:'Pertunjukan dengan topeng dadak merak raksasa berbobot puluhan kilogram yang dibawa hanya dengan gigitan penarinya.'},
+    {id:'caci', nama:'Caci', provinsi:'ntt', ringkasan:'Tarian sekaligus duel cambuk tradisional pria Manggarai, Flores, sebagai ajang ketangkasan dan kehormatan.'},
+    {id:'cakalele_tari', nama:'Cakalele', provinsi:'maluku', ringkasan:'Tarian perang khas Maluku dengan properti parang dan perisai, ditampilkan pada upacara adat dan penyambutan tamu.'},
+  ],
+  wayang:[
+    {id:'wayangkulit', nama:'Wayang Kulit', provinsi:'jateng', ringkasan:'Pertunjukan boneka pipih dari kulit kerbau yang dimainkan dalang di balik layar (kelir) dengan iringan gamelan, diakui UNESCO sebagai Warisan Budaya Tak Benda dunia.'},
+    {id:'wayanggolek', nama:'Wayang Golek', provinsi:'jabar', ringkasan:'Boneka kayu tiga dimensi khas Sunda yang dimainkan langsung tanpa layar, populer membawakan cerita Mahabharata dan Ramayana.'},
+    {id:'reog_wayang', nama:'Ketoprak', provinsi:'jateng', ringkasan:'Teater rakyat Jawa yang memadukan dialog, tembang, dan iringan gamelan, biasa mengangkat cerita legenda dan sejarah kerajaan.'},
+  ],
+  permainan:[
+    {id:'congklak', nama:'Congklak', provinsi:'', jumlahPemain:'2 orang', ringkasan:'Permainan tradisional dengan papan berlubang dan biji-bijian, melatih strategi dan ketelitian berhitung, dikenal di hampir seluruh Nusantara dengan nama berbeda-beda.'},
+    {id:'egrang', nama:'Egrang', provinsi:'', jumlahPemain:'Perorangan/kelompok', ringkasan:'Permainan berjalan menggunakan dua batang bambu bertumpu pijakan, melatih keseimbangan tubuh, populer di banyak daerah di Jawa dan Sumatera.'},
+    {id:'gasing', nama:'Gasing', provinsi:'', jumlahPemain:'Perorangan/kelompok', ringkasan:'Permainan memutar benda berbentuk kerucut dengan lilitan tali, di beberapa daerah seperti Kalimantan Barat berkembang menjadi olahraga adu ketahanan putaran.'},
   ],
   alatMusik:[
     {id:'angklung', nama:'Angklung', provinsi:'', bahan:'Bambu', caraMain:'Digoyangkan hingga tabung bambu beradu menghasilkan nada', ringkasan:'Alat musik bambu dari Jawa Barat, diakui UNESCO sebagai Warisan Budaya Tak Benda dunia.'},
     {id:'sasando', nama:'Sasando', provinsi:'', bahan:'Bambu & daun lontar sebagai resonator', caraMain:'Dipetik seperti harp', ringkasan:'Alat musik petik khas Pulau Rote, Nusa Tenggara Timur, berbentuk seperti tabung dikelilingi daun lontar.'},
     {id:'kolintang', nama:'Kolintang', provinsi:'', bahan:'Kayu', caraMain:'Dipukul menggunakan alat pemukul kecil', ringkasan:'Alat musik pukul dari Sulawesi Utara, tersusun dari bilah-bilah kayu bernada.'},
+    {id:'gamelan', nama:'Gamelan', provinsi:'', bahan:'Perunggu, kayu, kulit', caraMain:'Dipukul (bilah/gong) dan digesek/dipetik untuk beberapa instrumen', ringkasan:'Ansambel musik khas Jawa dan Bali terdiri dari gong, saron, kendang, dan bonang, diakui UNESCO sebagai Warisan Budaya Tak Benda dunia.'},
+    {id:'tifa', nama:'Tifa', provinsi:'papua', bahan:'Kayu berlubang dan kulit hewan', caraMain:'Dipukul dengan tangan', ringkasan:'Alat musik pukul khas Papua dan Maluku, hadir dalam hampir setiap upacara adat dan tarian perang.'},
   ],
   wastra:[
     {id:'batik', nama:'Batik', teknik:'Perintangan warna dengan lilin (malam) di atas kain', ringkasan:'Wastra khas Jawa dengan motif sarat filosofi, diakui UNESCO sebagai Warisan Budaya Tak Benda pada 2009.'},
     {id:'ulos', nama:'Ulos', teknik:'Tenun ikat tangan', ringkasan:'Kain tenun khas Batak yang dikenakan dalam berbagai upacara adat kelahiran, pernikahan, hingga kematian sebagai simbol kasih dan restu.'},
     {id:'songket', nama:'Songket', teknik:'Tenun dengan benang emas atau perak', ringkasan:'Kain tenun mewah dari Sumatera dan Bali, dikenakan dalam acara adat dan pernikahan.'},
+    {id:'tenunikat_ntt', nama:'Tenun Ikat NTT', teknik:'Ikat benang sebelum ditenun (ikat lungsi)', ringkasan:'Kain tenun khas Sumba dan Flores dengan motif hewan dan leluhur, tiap corak menyimpan makna status sosial dan kepercayaan.'},
   ]
 };
 
 const PUSTAKA = {
   suku:[
     {id:'baduy', nama:'Baduy', provinsi:'', wilayah:'Kanekes, Banten', ringkasan:'Masyarakat adat yang menjaga tradisi Sunda Wiwitan dan pola hidup sederhana, terbagi menjadi Baduy Dalam dan Baduy Luar dengan aturan adat yang berbeda ketat.'},
-    {id:'toraja', nama:'Toraja', provinsi:'', wilayah:'Tana Toraja, Sulawesi Selatan', ringkasan:'Dikenal lewat rumah adat Tongkonan beratap melengkung dan upacara pemakaman Rambu Solo yang bisa berlangsung berhari-hari.'},
-    {id:'dayak', nama:'Dayak', provinsi:'', wilayah:'Kalimantan', ringkasan:'Rumpun suku asli Kalimantan dengan rumah panjang (Betang) sebagai hunian komunal dan tradisi mengukir yang kuat.'},
+    {id:'toraja', nama:'Toraja', provinsi:'sulsel', wilayah:'Tana Toraja, Sulawesi Selatan', ringkasan:'Dikenal lewat rumah adat Tongkonan beratap melengkung dan upacara pemakaman Rambu Solo yang bisa berlangsung berhari-hari.'},
+    {id:'dayak', nama:'Dayak', provinsi:'kalbar', wilayah:'Kalimantan', ringkasan:'Rumpun suku asli Kalimantan dengan rumah panjang (Betang) sebagai hunian komunal dan tradisi mengukir yang kuat.'},
     {id:'asmat', nama:'Asmat', provinsi:'papua', wilayah:'Papua Selatan', ringkasan:'Terkenal di dunia lewat seni ukir kayu yang menggambarkan hubungan manusia dengan leluhur dan alam.'},
+    {id:'batak', nama:'Batak', provinsi:'sumut', wilayah:'Sumatera Utara', ringkasan:'Rumpun suku (Toba, Karo, Simalungun, Mandailing, dll) dengan sistem kekerabatan patrilineal marga dan tradisi Rumah Bolon.'},
+    {id:'sasak', nama:'Sasak', provinsi:'ntb', wilayah:'Pulau Lombok', ringkasan:'Suku mayoritas di Lombok dengan desa adat Sade yang masih mempertahankan rumah Bale beratap alang-alang dan lantai kotoran kerbau.'},
+    {id:'minangkabau', nama:'Minangkabau', provinsi:'sumbar', wilayah:'Sumatera Barat', ringkasan:'Suku dengan sistem kekerabatan matrilineal terbesar di dunia, harta pusaka diwariskan lewat garis keturunan ibu.'},
   ],
   legenda:[
     {id:'danautoba', nama:'Danau Toba', asal:'Sumatera Utara', ringkasan:'Legenda seorang pemuda yang menikahi ikan jelmaan wanita; ketika sumpahnya dilanggar, banjir besar membentuk danau vulkanik terbesar di Asia Tenggara.'},
     {id:'sangkuriang', nama:'Sangkuriang', asal:'Jawa Barat', ringkasan:'Kisah asal-usul Gunung Tangkuban Perahu, tentang seorang anak yang tanpa sadar jatuh cinta pada ibunya sendiri, Dayang Sumbi.'},
     {id:'malinkundang', nama:'Malin Kundang', asal:'Sumatera Barat', ringkasan:'Legenda anak durhaka yang dikutuk menjadi batu oleh ibunya karena mengingkari asal-usulnya setelah menjadi kaya raya.'},
+    {id:'rorojonggrang', nama:'Roro Jonggrang', asal:'Jawa Tengah', ringkasan:'Kisah asal-usul Candi Prambanan, tentang seribu arca yang gagal diselesaikan dalam semalam oleh Bandung Bondowoso.'},
+    {id:'timunmas', nama:'Timun Mas', asal:'Jawa Tengah', ringkasan:'Kisah seorang gadis yang lolos dari kejaran raksasa dengan melempar biji-bijian ajaib yang berubah menjadi rintangan alam.'},
   ],
   upacara:[
     {id:'ngaben', nama:'Ngaben', provinsi:'bali', jenis:'Kematian', ringkasan:'Upacara kremasi khas Bali yang dipercaya membebaskan roh dari ikatan duniawi menuju alam berikutnya.'},
-    {id:'rambusolo', nama:'Rambu Solo', provinsi:'', jenis:'Kematian', ringkasan:'Upacara pemakaman adat Toraja yang megah dan berbiaya besar, melibatkan penyembelihan kerbau sebagai bekal roh menuju alam baka.'},
-    {id:'serentaun', nama:'Seren Taun', provinsi:'', jenis:'Panen', ringkasan:'Upacara adat Sunda sebagai ungkapan syukur atas hasil panen padi sepanjang tahun.'},
+    {id:'rambusolo', nama:'Rambu Solo', provinsi:'sulsel', jenis:'Kematian', ringkasan:'Upacara pemakaman adat Toraja yang megah dan berbiaya besar, melibatkan penyembelihan kerbau sebagai bekal roh menuju alam baka.'},
+    {id:'serentaun', nama:'Seren Taun', provinsi:'jabar', jenis:'Panen', ringkasan:'Upacara adat Sunda sebagai ungkapan syukur atas hasil panen padi sepanjang tahun.'},
+    {id:'kasada', nama:'Kasada', provinsi:'jatim', jenis:'Keagamaan/adat', ringkasan:'Upacara masyarakat Tengger di Gunung Bromo, melarungkan hasil bumi ke kawah sebagai persembahan kepada leluhur.'},
+  ],
+  kepercayaan:[
+    {id:'kejawen', nama:'Kejawen', wilayah:'Jawa', ringkasan:'Sistem kepercayaan dan filosofi hidup masyarakat Jawa yang memadukan unsur mistik lokal, Hindu-Buddha, dan Islam, menekankan keselarasan batin dan alam semesta.'},
+    {id:'sundawiwitan', nama:'Sunda Wiwitan', wilayah:'Jawa Barat, terutama masyarakat Baduy', ringkasan:'Kepercayaan asli masyarakat Sunda yang menekankan penghormatan terhadap alam dan leluhur, masih dipraktikkan komunitas Baduy hingga kini.'},
+    {id:'kaharingan', nama:'Kaharingan', wilayah:'Kalimantan Tengah', ringkasan:'Kepercayaan asli suku Dayak yang berpusat pada penghormatan roh leluhur dan alam, kini diakui sebagai bagian dari agama Hindu di Indonesia.'},
   ]
 };
 
@@ -685,15 +771,37 @@ const BAHASA = {
     {id:'gotongroyong', kata:'Gotong royong', kelas:'nomina', arti:'Bekerja bersama-sama (tolong-menolong, bantu-membantu) untuk mencapai suatu hasil yang diinginkan.'},
     {id:'musyawarah', kata:'Musyawarah', kelas:'nomina', arti:'Pembahasan bersama dengan maksud mencapai keputusan atas penyelesaian masalah, mufakat.'},
     {id:'nusantara', kata:'Nusantara', kelas:'nomina', arti:'Sebutan bagi seluruh wilayah kepulauan Indonesia; secara historis berasal dari Sumpah Palapa Gajah Mada.'},
+    {id:'bhinneka', kata:'Bhinneka Tunggal Ika', kelas:'frasa', arti:'Semboyan negara Indonesia yang berarti "berbeda-beda tetapi tetap satu jua", diambil dari Kitab Sutasoma karya Mpu Tantular.'},
+    {id:'merdeka', kata:'Merdeka', kelas:'adjektiva', arti:'Bebas (dari perhambaan, penjajahan, dan sebagainya); berdiri sendiri.'},
+    {id:'tenggangrasa', kata:'Tenggang rasa', kelas:'nomina', arti:'Sikap menjaga perasaan orang lain, tidak berbuat sesuatu yang menyinggung hati orang lain.'},
+    {id:'swasembada', kata:'Swasembada', kelas:'nomina', arti:'Usaha mencukupi kebutuhan sendiri, terutama di bidang pangan, dengan kemampuan sendiri tanpa bergantung pihak lain.'},
   ],
   peribahasa:[
     {id:'airtenang', teks:'Air tenang menghanyutkan', makna:'Orang yang pendiam belum tentu tidak berbahaya atau tidak berilmu.'},
     {id:'beratsamadipikul', teks:'Berat sama dipikul, ringan sama dijinjing', makna:'Segala sesuatu dikerjakan bersama-sama, susah maupun senang.'},
     {id:'bagaipungguk', teks:'Bagai pungguk merindukan bulan', makna:'Mengharapkan sesuatu yang mustahil didapat.'},
+    {id:'tongkosong', teks:'Tong kosong nyaring bunyinya', makna:'Orang yang banyak bicara biasanya kurang berilmu atau kurang berisi.'},
+    {id:'sepertikatak', teks:'Seperti katak dalam tempurung', makna:'Orang yang berpengetahuan sempit karena kurang bergaul atau belajar.'},
+  ],
+  sastra:[
+    {id:'pantun_nasihat', bentuk:'Pantun Nasihat', teks:'Berakit-rakit ke hulu, berenang-renang ke tepian; bersakit-sakit dahulu, bersenang-senang kemudian.', makna:'Mengajarkan bahwa kerja keras dan kesabaran di awal akan membuahkan hasil manis di kemudian hari.'},
+    {id:'gurindam12', bentuk:'Gurindam Dua Belas (Raja Ali Haji)', teks:'Barang siapa tiada memegang agama, sekali-kali tiada boleh dibilangkan nama.', makna:'Menekankan pentingnya pegangan agama sebagai dasar hidup dan identitas seseorang.'},
+    {id:'pantun_jenaka', bentuk:'Pantun Jenaka', teks:'Kalau ada sumur di ladang, boleh kita menumpang mandi; kalau ada umur yang panjang, boleh kita berjumpa lagi.', makna:'Ungkapan harapan bertemu kembali di masa depan, biasa dipakai dalam perpisahan.'},
+  ],
+  aksara:[
+    {id:'aksarajawa', nama:'Aksara Jawa (Hanacaraka)', daerah:'Jawa', ringkasan:'Aksara tradisional Jawa terdiri dari 20 huruf dasar yang membentuk legenda Aji Saka, masih diajarkan di sekolah-sekolah Jawa hingga kini.'},
+    {id:'aksarasunda', nama:'Aksara Sunda', daerah:'Jawa Barat', ringkasan:'Aksara tradisional Sunda yang mengalami kebangkitan penggunaan modern lewat papan nama jalan dan gedung pemerintahan di Jawa Barat.'},
+    {id:'aksarabali', nama:'Aksara Bali', daerah:'Bali', ringkasan:'Aksara yang digunakan menulis naskah lontar tradisional Bali, masih dipakai dalam upacara keagamaan dan penanggalan.'},
+    {id:'lontara', nama:'Lontara', daerah:'Sulawesi Selatan', ringkasan:'Aksara tradisional Bugis-Makassar yang dipakai menulis naskah kuno seperti La Galigo, salah satu karya sastra terpanjang di dunia.'},
+    {id:'aksarabatak', nama:'Aksara Batak (Surat Batak)', daerah:'Sumatera Utara', ringkasan:'Aksara tradisional Batak yang dipakai menulis pustaha, naskah kulit kayu berisi ilmu pengobatan dan ramalan leluhur.'},
   ],
   bahasaDaerah:[
     {id:'jawa', nama:'Bahasa Jawa', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Terbesar di Indonesia, dituturkan terutama di Jawa Tengah, Yogyakarta & Jawa Timur', keunikan:'Mengenal tingkatan tutur (ngoko, krama madya, krama inggil) berdasarkan kesantunan sosial.'},
     {id:'sunda', nama:'Bahasa Sunda', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Jawa Barat & Banten', keunikan:'Memiliki aksara sendiri, Aksara Sunda, serta tradisi pantun lisan yang kaya.'},
+    {id:'batak_bahasa', nama:'Bahasa Batak', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sumatera Utara', keunikan:'Memiliki aksara sendiri (Surat Batak) dan tradisi umpasa (pantun adat) di setiap upacara.'},
+    {id:'bugis', nama:'Bahasa Bugis', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sulawesi Selatan', keunikan:'Memiliki aksara sendiri, Lontara, dipakai menulis naskah La Galigo yang tercatat UNESCO sebagai Memory of the World.'},
+    {id:'minang_bahasa', nama:'Bahasa Minangkabau', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Sumatera Barat', keunikan:'Dekat dengan rumpun Melayu, kaya akan pepatah-petitih yang menjadi pedoman falsafah hidup masyarakat Minang.'},
+    {id:'bali_bahasa', nama:'Bahasa Bali', rumpun:'Austronesia, cabang Melayu-Polinesia', penutur:'Bali', keunikan:'Mengenal tingkatan tutur (basa alus, basa madya, basa kasar) yang mencerminkan sistem kasta tradisional.'},
   ]
 };
 
@@ -743,14 +851,21 @@ function buildIndex(){
   SEJARAH.kerajaan.forEach(e=>idx.push({type:'Kerajaan', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'kerajaan', id:e.id}}));
   SEJARAH.tokoh.forEach(e=>idx.push({type:'Tokoh', menu:'lorong', name:e.nama, meta:e.kategori, ref:{kind:'entry', group:'tokoh', id:e.id}}));
   SEJARAH.presiden.forEach(e=>idx.push({type:'Presiden', menu:'lorong', name:e.nama, meta:e.jabatan, ref:{kind:'entry', group:'presiden', id:e.id}}));
+  SEJARAH.prasasti.forEach(e=>idx.push({type:'Prasasti & Manuskrip', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'prasasti', id:e.id}}));
+  SEJARAH.agama.forEach(e=>idx.push({type:'Sejarah Agama', menu:'lorong', name:e.nama, meta:e.periode, ref:{kind:'entry', group:'agama', id:e.id}}));
   SENI.tari.forEach(e=>idx.push({type:'Tari', menu:'panggung', name:e.nama, meta:provName(e.provinsi), ref:{kind:'entry', group:'tari', id:e.id}}));
+  SENI.wayang.forEach(e=>idx.push({type:'Wayang & Seni Pertunjukan', menu:'panggung', name:e.nama, meta:provName(e.provinsi), ref:{kind:'entry', group:'wayang', id:e.id}}));
+  SENI.permainan.forEach(e=>idx.push({type:'Permainan Tradisional', menu:'panggung', name:e.nama, meta:e.jumlahPemain, ref:{kind:'entry', group:'permainan', id:e.id}}));
   SENI.alatMusik.forEach(e=>idx.push({type:'Alat Musik', menu:'panggung', name:e.nama, meta:e.bahan, ref:{kind:'entry', group:'alatMusik', id:e.id}}));
   SENI.wastra.forEach(e=>idx.push({type:'Wastra', menu:'panggung', name:e.nama, meta:e.teknik, ref:{kind:'entry', group:'wastra', id:e.id}}));
   PUSTAKA.suku.forEach(e=>idx.push({type:'Suku', menu:'pustaka', name:e.nama, meta:e.wilayah, ref:{kind:'entry', group:'suku', id:e.id}}));
   PUSTAKA.legenda.forEach(e=>idx.push({type:'Legenda', menu:'pustaka', name:e.nama, meta:e.asal, ref:{kind:'entry', group:'legenda', id:e.id}}));
   PUSTAKA.upacara.forEach(e=>idx.push({type:'Upacara Adat', menu:'pustaka', name:e.nama, meta:e.jenis, ref:{kind:'entry', group:'upacara', id:e.id}}));
+  PUSTAKA.kepercayaan.forEach(e=>idx.push({type:'Kepercayaan Lokal', menu:'pustaka', name:e.nama, meta:e.wilayah, ref:{kind:'entry', group:'kepercayaan', id:e.id}}));
   BAHASA.kamus.forEach(e=>idx.push({type:'Kamus', menu:'bilik', name:e.kata, meta:e.kelas, ref:{kind:'entry', group:'kamus', id:e.id}}));
   BAHASA.peribahasa.forEach(e=>idx.push({type:'Peribahasa', menu:'bilik', name:e.teks, meta:'', ref:{kind:'entry', group:'peribahasa', id:e.id}}));
+  BAHASA.sastra.forEach(e=>idx.push({type:'Sastra Nusantara', menu:'bilik', name:e.bentuk, meta:'', ref:{kind:'entry', group:'sastra', id:e.id}}));
+  BAHASA.aksara.forEach(e=>idx.push({type:'Aksara Nusantara', menu:'bilik', name:e.nama, meta:e.daerah, ref:{kind:'entry', group:'aksara', id:e.id}}));
   BAHASA.bahasaDaerah.forEach(e=>idx.push({type:'Bahasa Daerah', menu:'bilik', name:e.nama, meta:e.penutur, ref:{kind:'entry', group:'bahasaDaerah', id:e.id}}));
   WARGA.pancasila.forEach(e=>idx.push({type:'Pancasila', menu:'balai', name:'Sila '+e.sila+' — '+e.bunyi, meta:e.lambang, ref:{kind:'entry', group:'pancasila', id:e.id}}));
   KODE.nomorPenting.forEach(e=>idx.push({type:'Nomor Penting', menu:'pusat', name:e.nama, meta:e.nomor, ref:{kind:'entry', group:'nomorPenting', id:e.id}}));
@@ -776,9 +891,13 @@ const MENU_GROUPS = {
       ...SEJARAH.kerajaan.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Kerajaan',group:'kerajaan'})),
       ...SEJARAH.tokoh.map(e=>({id:e.id,nama:e.nama,meta:e.kategori,cat:'Tokoh',group:'tokoh'})),
       ...SEJARAH.presiden.map(e=>({id:e.id,nama:e.nama,meta:e.jabatan,cat:'Presiden',group:'presiden'})),
-    ], title:'Lorong Waktu', sub:'Sejarah Nusantara — kerajaan, tokoh, dan kepemimpinan nasional.'},
+      ...SEJARAH.prasasti.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Prasasti & Manuskrip',group:'prasasti'})),
+      ...SEJARAH.agama.map(e=>({id:e.id,nama:e.nama,meta:e.periode,cat:'Sejarah Agama',group:'agama'})),
+    ], title:'Lorong Waktu', sub:'Sejarah Nusantara — kerajaan, tokoh, prasasti, dan sejarah agama.'},
   panggung: {getItems:()=>[
       ...SENI.tari.map(e=>({id:e.id,nama:e.nama,meta:provName(e.provinsi),cat:'Tari',group:'tari'})),
+      ...SENI.wayang.map(e=>({id:e.id,nama:e.nama,meta:provName(e.provinsi),cat:'Wayang & Seni Pertunjukan',group:'wayang'})),
+      ...SENI.permainan.map(e=>({id:e.id,nama:e.nama,meta:e.jumlahPemain,cat:'Permainan Tradisional',group:'permainan'})),
       ...SENI.alatMusik.map(e=>({id:e.id,nama:e.nama,meta:e.bahan,cat:'Alat Musik',group:'alatMusik'})),
       ...SENI.wastra.map(e=>({id:e.id,nama:e.nama,meta:e.teknik,cat:'Wastra',group:'wastra'})),
     ], title:'Panggung Kesenian', sub:'Seni, musik, wastra, permainan & olahraga tradisional.'},
@@ -786,12 +905,15 @@ const MENU_GROUPS = {
       ...PUSTAKA.suku.map(e=>({id:e.id,nama:e.nama,meta:e.wilayah,cat:'Suku',group:'suku'})),
       ...PUSTAKA.legenda.map(e=>({id:e.id,nama:e.nama,meta:e.asal,cat:'Legenda',group:'legenda'})),
       ...PUSTAKA.upacara.map(e=>({id:e.id,nama:e.nama,meta:e.jenis,cat:'Upacara Adat',group:'upacara'})),
+      ...PUSTAKA.kepercayaan.map(e=>({id:e.id,nama:e.nama,meta:e.wilayah,cat:'Kepercayaan Lokal',group:'kepercayaan'})),
     ], title:'Pustaka Nusantara', sub:'Cerita, suku, adat, tradisi & kepercayaan.'},
   bilik: {getItems:()=>[
       ...BAHASA.kamus.map(e=>({id:e.id,nama:e.kata,meta:e.kelas,cat:'Kamus',group:'kamus'})),
       ...BAHASA.peribahasa.map(e=>({id:e.id,nama:e.teks,meta:'Peribahasa',cat:'Peribahasa',group:'peribahasa'})),
+      ...BAHASA.sastra.map(e=>({id:e.id,nama:e.bentuk,meta:'Sastra',cat:'Sastra Nusantara',group:'sastra'})),
+      ...BAHASA.aksara.map(e=>({id:e.id,nama:e.nama,meta:e.daerah,cat:'Aksara Nusantara',group:'aksara'})),
       ...BAHASA.bahasaDaerah.map(e=>({id:e.id,nama:e.nama,meta:e.penutur,cat:'Bahasa Daerah',group:'bahasaDaerah'})),
-    ], title:'Bilik Sastra & Bahasa', sub:'Bahasa Indonesia, bahasa daerah, sastra & peribahasa.'},
+    ], title:'Bilik Sastra & Bahasa', sub:'Bahasa Indonesia, bahasa daerah, sastra & aksara Nusantara.'},
   balai: {getItems:()=>[
       ...WARGA.pancasila.map(e=>({id:e.id,nama:'Sila '+e.sila+' — '+e.bunyi,meta:e.lambang,cat:'Pancasila',group:'pancasila'})),
     ], title:'Balai Pandu & Warga', sub:'Pancasila, kewarganegaraan & Pramuka.'},
@@ -805,9 +927,11 @@ const MENU_GROUPS = {
 function findEntry(group,id){
   const map = {
     kerajaan:SEJARAH.kerajaan, tokoh:SEJARAH.tokoh, presiden:SEJARAH.presiden,
-    tari:SENI.tari, alatMusik:SENI.alatMusik, wastra:SENI.wastra,
-    suku:PUSTAKA.suku, legenda:PUSTAKA.legenda, upacara:PUSTAKA.upacara,
+    prasasti:SEJARAH.prasasti, agama:SEJARAH.agama,
+    tari:SENI.tari, alatMusik:SENI.alatMusik, wastra:SENI.wastra, wayang:SENI.wayang, permainan:SENI.permainan,
+    suku:PUSTAKA.suku, legenda:PUSTAKA.legenda, upacara:PUSTAKA.upacara, kepercayaan:PUSTAKA.kepercayaan,
     kamus:BAHASA.kamus, peribahasa:BAHASA.peribahasa, bahasaDaerah:BAHASA.bahasaDaerah,
+    sastra:BAHASA.sastra, aksara:BAHASA.aksara,
     pancasila:WARGA.pancasila,
     nomorPenting:KODE.nomorPenting, mataUang:KODE.mataUang, kalender:KODE.kalender,
     gunung:GEOGRAFI.gunung, danau:GEOGRAFI.danau, tamanNasional:GEOGRAFI.tamanNasional,
@@ -863,6 +987,7 @@ function openMenu(menuId){
   document.getElementById('menuTitle').textContent = m.name;
   document.getElementById('menuSubtitle').textContent = MENU_GROUPS[menuId].sub;
   renderMenuEntries();
+  pushNavState({view:'menu', menuId});
 }
 
 function renderMenuEntries(){
@@ -899,25 +1024,26 @@ function openEntry(group,id){
   const menuName = menuId ? MENUS.find(m=>m.id===menuId).name : '';
   document.getElementById('entryCrumbMenu').textContent = menuName;
   document.getElementById('entryCrumbMenu').onclick = ()=> openMenu(menuId);
-  document.getElementById('entryCrumbName').textContent = e.nama || e.kata || e.teks;
+  document.getElementById('entryCrumbName').textContent = e.nama || e.kata || e.bentuk || e.teks;
 
   const fields = [];
   const catLabel = {
-    kerajaan:'Kerajaan', tokoh:'Tokoh', presiden:'Presiden',
-    tari:'Tari Tradisional', alatMusik:'Alat Musik', wastra:'Wastra',
-    suku:'Suku & Masyarakat Adat', legenda:'Legenda', upacara:'Upacara Adat',
-    kamus:'Kamus', peribahasa:'Peribahasa', bahasaDaerah:'Bahasa Daerah',
+    kerajaan:'Kerajaan', tokoh:'Tokoh', presiden:'Presiden', prasasti:'Prasasti & Manuskrip', agama:'Sejarah Agama',
+    tari:'Tari Tradisional', alatMusik:'Alat Musik', wastra:'Wastra', wayang:'Wayang & Seni Pertunjukan', permainan:'Permainan Tradisional',
+    suku:'Suku & Masyarakat Adat', legenda:'Legenda', upacara:'Upacara Adat', kepercayaan:'Kepercayaan Lokal',
+    kamus:'Kamus', peribahasa:'Peribahasa', bahasaDaerah:'Bahasa Daerah', sastra:'Sastra Nusantara', aksara:'Aksara Nusantara',
     pancasila:'Pancasila', nomorPenting:'Nomor Penting', mataUang:'Mata Uang', kalender:'Kalender',
     gunung:'Gunung', danau:'Danau & Sungai', tamanNasional:'Taman Nasional & Kawasan Konservasi',
     makananBerat:'Makanan Berat', jajanan:'Jajanan Tradisional', minuman:'Minuman Tradisional'
   }[group];
 
-  const title = e.nama || e.kata || e.teks;
+  const title = e.nama || e.kata || e.bentuk || e.teks;
   const loc = e.lokasi || e.wilayah || e.asal || e.daerah || provName(e.provinsi) || '';
 
   if(e.ringkasan || e.arti || e.makna){
     fields.push(['Ringkasan', e.ringkasan || e.arti || e.makna]);
   }
+  if(e.teks && group==='sastra') fields.push(['Teks', e.teks]);
   if(e.periode) fields.push(['Periode', e.periode]);
   if(e.tipe) fields.push(['Jenis', e.tipe]);
   if(e.tokoh) fields.push(['Tokoh Utama', e.tokoh]);
@@ -943,6 +1069,8 @@ function openEntry(group,id){
   if(e.luas) fields.push(['Luas', e.luas]);
   if(e.bahanUtama) fields.push(['Bahan Utama', e.bahanUtama]);
   if(e.daerah) fields.push(['Daerah', e.daerah]);
+  if(e.aksara) fields.push(['Aksara/Bahasa', e.aksara]);
+  if(e.jumlahPemain) fields.push(['Jumlah Pemain', e.jumlahPemain]);
 
   document.getElementById('entryDetail').innerHTML = `
     <div class="cat">${catLabel}</div>
@@ -958,6 +1086,7 @@ function openEntry(group,id){
         <span class="tag" onclick="openProvince('${e.provinsi}')">Provinsi ${provName(e.provinsi)}</span>
       </div>` : ''}
   `;
+  pushNavState({view:'entry', group, id});
 }
 
 /* =========================================================================
@@ -978,6 +1107,8 @@ function openProvince(id){
   const relatedDanau = GEOGRAFI.danau.filter(d=>d.provinsi===id);
   const relatedTN = GEOGRAFI.tamanNasional.filter(t=>t.provinsi===id);
   const relatedMakanan = [...KULINER.makananBerat, ...KULINER.jajanan, ...KULINER.minuman].filter(k=>k.provinsi===id);
+  const relatedWayang = SENI.wayang.filter(w=>w.provinsi===id);
+  const relatedKepercayaan = PUSTAKA.kepercayaan.filter(k=>k.provinsi===id);
 
   const blocks = [
     ['Rumah Adat', p.rumahAdat], ['Pakaian Adat', p.pakaianAdat], ['Senjata Tradisional', p.senjata],
@@ -994,6 +1125,8 @@ function openProvince(id){
     ...relatedDanau.map(d=>({label:'Danau '+d.nama, fn:`openEntry('danau','${d.id}')`})),
     ...relatedTN.map(t=>({label:t.nama, fn:`openEntry('tamanNasional','${t.id}')`})),
     ...relatedMakanan.map(k=>({label:k.nama, fn:`openEntry('${KULINER.makananBerat.includes(k)?'makananBerat':(KULINER.jajanan.includes(k)?'jajanan':'minuman')}','${k.id}')`})),
+    ...relatedWayang.map(w=>({label:w.nama, fn:`openEntry('wayang','${w.id}')`})),
+    ...relatedKepercayaan.map(k=>({label:k.nama, fn:`openEntry('kepercayaan','${k.id}')`})),
   ];
 
   document.getElementById('provinceBody').innerHTML = `
@@ -1022,6 +1155,7 @@ function openProvince(id){
       ${tags.map(t=>`<span class="tag" onclick="${t.fn}">${t.label}</span>`).join('')}
     </div>` : ''}
   `;
+  pushNavState({view:'province', id});
 }
 
 /* =========================================================================
@@ -1033,7 +1167,42 @@ function showView(id){
   window.scrollTo({top:0, behavior:'smooth'});
   document.getElementById('searchResults').classList.remove('show');
 }
-function goHome(){ showView('view-home'); document.getElementById('searchInput').value=''; }
+
+/* ---- History / back-button handling ----
+   Every navigation (home, menu, entry, province) pushes a history state.
+   The phone's back button and any in-app back link both resolve through
+   the same popstate handler, so navigation always steps back one level
+   instead of jumping out of the app or skipping levels. */
+let __isPopping = false;
+
+function pushNavState(state){
+  if(__isPopping) return;
+  const hash = state.view==='home' ? '#home'
+    : state.view==='menu' ? '#menu/'+state.menuId
+    : state.view==='entry' ? '#entry/'+state.group+'/'+state.id
+    : state.view==='province' ? '#province/'+state.id
+    : '#home';
+  try{
+    history.pushState(state, '', hash);
+  }catch(err){
+    /* Some sandboxed preview environments (e.g. srcdoc iframes) block
+       History API URL changes. Fail silently — in-app navigation still
+       works via showView(); only the browser back-button integration
+       is unavailable in that specific environment. */
+  }
+}
+
+window.addEventListener('popstate', (e)=>{
+  __isPopping = true;
+  const state = e.state || {view:'home'};
+  if(state.view==='menu') openMenu(state.menuId);
+  else if(state.view==='entry') openEntry(state.group, state.id);
+  else if(state.view==='province') openProvince(state.id);
+  else goHome();
+  __isPopping = false;
+});
+
+function goHome(){ showView('view-home'); document.getElementById('searchInput').value=''; pushNavState({view:'home'}); }
 
 const searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
@@ -1063,6 +1232,7 @@ function selectResult(ref){
 }
 
 renderHome();
+try{ history.replaceState({view:'home'}, '', '#home'); }catch(err){ /* see pushNavState note */ }
 </script>
 </body>
 </html>
