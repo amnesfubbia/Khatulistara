@@ -817,8 +817,33 @@ const WARGA = {
     triSatya:'Janji Pramuka yang berisi tiga poin kesetiaan: kepada Tuhan dan negara, kepada sesama manusia, serta kepada Dasa Darma.',
     dasaDarma:['Taqwa kepada Tuhan Yang Maha Esa','Cinta alam dan kasih sayang sesama manusia','Patriot yang sopan dan kesatria','Patuh dan suka bermusyawarah','Rela menolong dan tabah','Rajin, terampil, dan gembira','Hemat, cermat, dan bersahaja','Disiplin, berani, dan setia','Bertanggung jawab dan dapat dipercaya','Suci dalam pikiran, perkataan, dan perbuatan'],
     golongan:['Siaga (7–10 tahun)','Penggalang (11–15 tahun)','Penegak (16–20 tahun)','Pandega (21–25 tahun)']
-  }
+  },
+  konstitusi:[
+    {id:'uud1945', nama:'UUD 1945', ringkasan:'Konstitusi tertulis tertinggi Indonesia, disahkan PPKI pada 18 Agustus 1945 sehari setelah proklamasi kemerdekaan, telah mengalami empat kali amandemen sejak era Reformasi.'},
+    {id:'lembaganegara', nama:'Lembaga Negara', ringkasan:'Struktur kekuasaan negara terdiri dari lembaga eksekutif (Presiden), legislatif (MPR, DPR, DPD), dan yudikatif (Mahkamah Agung, Mahkamah Konstitusi).'},
+    {id:'hakkewajiban', nama:'Hak & Kewajiban Warga Negara', ringkasan:'Diatur dalam UUD 1945 Pasal 27–34, mencakup hak atas pekerjaan, pendidikan, dan perlindungan hukum, serta kewajiban membela negara dan menaati hukum.'},
+  ],
+  simbol:[
+    {id:'garuda', nama:'Garuda Pancasila', ringkasan:'Lambang negara berbentuk burung Garuda dengan perisai lima sila di dada dan semboyan Bhinneka Tunggal Ika dicengkeram kakinya.'},
+    {id:'merahputih', nama:'Bendera Merah Putih', ringkasan:'Bendera pusaka Indonesia berwarna merah (berani) dan putih (suci), pertama kali dikibarkan saat proklamasi 17 Agustus 1945.'},
+    {id:'indonesiaraya', nama:'Indonesia Raya', ringkasan:'Lagu kebangsaan Indonesia ciptaan W.R. Supratman, pertama kali diperdengarkan pada Kongres Pemuda II 1928.'},
+  ],
+  sandiPramuka:[
+    {id:'morse', nama:'Sandi Morse', ringkasan:'Sistem kode berupa titik dan garis (pendek-panjang) yang dapat disampaikan lewat bunyi, cahaya, atau ketukan; wajib dikuasai anggota Pramuka penggalang ke atas.'},
+    {id:'semaphore', nama:'Sandi Semaphore', ringkasan:'Sistem isyarat menggunakan sepasang bendera yang digerakkan membentuk posisi berbeda untuk tiap huruf, dipakai untuk komunikasi jarak pandang.'},
+    {id:'sandikotak', nama:'Sandi Kotak', ringkasan:'Sandi Pramuka yang menyusun huruf dalam kisi-kisi kotak dan silang, dibaca dari bentuk garis kotak yang mengelilingi tiap huruf.'},
+  ],
+  taliTemali:[
+    {id:'simpulmati', nama:'Simpul Mati', ringkasan:'Simpul dasar untuk menyambung dua tali sama besar secara permanen, sulit dilepas kembali setelah dikencangkan.'},
+    {id:'simpulhidup', nama:'Simpul Hidup', ringkasan:'Simpul yang mudah dilepas kembali meski telah dikencangkan, umum dipakai untuk mengikat sementara.'},
+    {id:'simpulanyam', nama:'Simpul Anyam', ringkasan:'Simpul untuk menyambung dua tali berbeda ukuran, sering dipakai dalam kegiatan pionering Pramuka.'},
+  ]
 };
+WARGA.pramukaMateri = [
+  {id:'trisatya', nama:'Tri Satya', ringkasan: WARGA.pramuka.triSatya},
+  {id:'dasadarma', nama:'Dasa Darma', ringkasan: 'Sepuluh butir janji moral Pramuka: ' + WARGA.pramuka.dasaDarma.join('; ') + '.'},
+  {id:'golonganpramuka', nama:'Golongan Pramuka', ringkasan: 'Jenjang keanggotaan Pramuka berdasarkan usia: ' + WARGA.pramuka.golongan.join(', ') + '.'},
+];
 
 const KODE = {
   nomorPenting:[
@@ -826,12 +851,28 @@ const KODE = {
     {id:'ambulans', nama:'Ambulans', nomor:'118 / 119', fungsi:'Layanan gawat darurat medis nasional'},
     {id:'pemadam', nama:'Pemadam Kebakaran', nomor:'113', fungsi:'Panggilan darurat kebakaran nasional'},
     {id:'sar', nama:'Basarnas / SAR', nomor:'115', fungsi:'Pencarian dan pertolongan darurat nasional'},
+    {id:'pln_gangguan', nama:'PLN (Gangguan Listrik)', nomor:'123', fungsi:'Layanan pengaduan gangguan kelistrikan PLN'},
   ],
   mataUang:[
     {id:'rupiah', nama:'Rupiah', kode:'IDR', ringkasan:'Mata uang resmi Indonesia sejak 1946, menggantikan mata uang masa pendudukan Jepang; namanya diserap dari kata "rupee" India.'},
+    {id:'ori', nama:'ORI (Oeang Republik Indonesia)', kode:'-', ringkasan:'Mata uang pertama Republik Indonesia, diterbitkan 1946 untuk menggantikan mata uang masa pendudukan Jepang, sebelum digantikan Rupiah.'},
   ],
   kalender:[
     {id:'weton', nama:'Weton', sistem:'Kalender Jawa', ringkasan:'Perpaduan hari dalam seminggu (7 hari) dengan pasaran Jawa (5 hari: Legi, Pahing, Pon, Wage, Kliwon) yang membentuk siklus 35 hari, dipakai untuk menghitung hari baik.'},
+    {id:'hijriah', nama:'Kalender Hijriah', sistem:'Kalender lunar (peredaran bulan)', ringkasan:'Kalender berdasarkan peredaran bulan yang dipakai menentukan hari besar Islam seperti Ramadan dan Idulfitri di Indonesia.'},
+    {id:'sakabali', nama:'Kalender Saka Bali', sistem:'Kalender lunisolar Bali', ringkasan:'Sistem penanggalan tradisional Bali yang menentukan hari raya seperti Nyepi (Tahun Baru Saka) dan Galungan.'},
+  ],
+  bandara:[
+    {id:'cgk', nama:'Bandara Soekarno-Hatta', kodeIATA:'CGK', lokasi:'Tangerang, Banten (melayani Jakarta)'},
+    {id:'dps', nama:'Bandara Ngurah Rai', kodeIATA:'DPS', lokasi:'Badung, Bali'},
+    {id:'sub', nama:'Bandara Juanda', kodeIATA:'SUB', lokasi:'Surabaya, Jawa Timur'},
+    {id:'upg', nama:'Bandara Sultan Hasanuddin', kodeIATA:'UPG', lokasi:'Makassar, Sulawesi Selatan'},
+  ],
+  singkatan:[
+    {id:'ktp', singkatan:'KTP', kepanjangan:'Kartu Tanda Penduduk', penjelasan:'Identitas resmi wajib bagi warga negara Indonesia berusia 17 tahun ke atas.'},
+    {id:'npwp', singkatan:'NPWP', kepanjangan:'Nomor Pokok Wajib Pajak', penjelasan:'Nomor identitas wajib pajak yang digunakan dalam administrasi perpajakan Indonesia.'},
+    {id:'sim', singkatan:'SIM', kepanjangan:'Surat Izin Mengemudi', penjelasan:'Bukti legitimasi kompetensi seseorang untuk mengemudikan kendaraan bermotor di jalan.'},
+    {id:'bpjs', singkatan:'BPJS', kepanjangan:'Badan Penyelenggara Jaminan Sosial', penjelasan:'Lembaga negara penyelenggara program jaminan kesehatan dan ketenagakerjaan bagi warga Indonesia.'},
   ]
 };
 
@@ -868,9 +909,16 @@ function buildIndex(){
   BAHASA.aksara.forEach(e=>idx.push({type:'Aksara Nusantara', menu:'bilik', name:e.nama, meta:e.daerah, ref:{kind:'entry', group:'aksara', id:e.id}}));
   BAHASA.bahasaDaerah.forEach(e=>idx.push({type:'Bahasa Daerah', menu:'bilik', name:e.nama, meta:e.penutur, ref:{kind:'entry', group:'bahasaDaerah', id:e.id}}));
   WARGA.pancasila.forEach(e=>idx.push({type:'Pancasila', menu:'balai', name:'Sila '+e.sila+' — '+e.bunyi, meta:e.lambang, ref:{kind:'entry', group:'pancasila', id:e.id}}));
+  WARGA.konstitusi.forEach(e=>idx.push({type:'Konstitusi', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'konstitusi', id:e.id}}));
+  WARGA.simbol.forEach(e=>idx.push({type:'Simbol Negara', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'simbol', id:e.id}}));
+  WARGA.pramukaMateri.forEach(e=>idx.push({type:'Pramuka', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'pramukaMateri', id:e.id}}));
+  WARGA.sandiPramuka.forEach(e=>idx.push({type:'Sandi Pramuka', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'sandiPramuka', id:e.id}}));
+  WARGA.taliTemali.forEach(e=>idx.push({type:'Tali-Temali', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'taliTemali', id:e.id}}));
   KODE.nomorPenting.forEach(e=>idx.push({type:'Nomor Penting', menu:'pusat', name:e.nama, meta:e.nomor, ref:{kind:'entry', group:'nomorPenting', id:e.id}}));
   KODE.mataUang.forEach(e=>idx.push({type:'Mata Uang', menu:'pusat', name:e.nama, meta:e.kode, ref:{kind:'entry', group:'mataUang', id:e.id}}));
   KODE.kalender.forEach(e=>idx.push({type:'Kalender', menu:'pusat', name:e.nama, meta:e.sistem, ref:{kind:'entry', group:'kalender', id:e.id}}));
+  KODE.bandara.forEach(e=>idx.push({type:'Bandara', menu:'pusat', name:e.nama, meta:e.kodeIATA, ref:{kind:'entry', group:'bandara', id:e.id}}));
+  KODE.singkatan.forEach(e=>idx.push({type:'Singkatan', menu:'pusat', name:e.singkatan, meta:e.kepanjangan, ref:{kind:'entry', group:'singkatan', id:e.id}}));
   return idx;
 }
 const SEARCH_INDEX = buildIndex();
@@ -916,11 +964,18 @@ const MENU_GROUPS = {
     ], title:'Bilik Sastra & Bahasa', sub:'Bahasa Indonesia, bahasa daerah, sastra & aksara Nusantara.'},
   balai: {getItems:()=>[
       ...WARGA.pancasila.map(e=>({id:e.id,nama:'Sila '+e.sila+' — '+e.bunyi,meta:e.lambang,cat:'Pancasila',group:'pancasila'})),
-    ], title:'Balai Pandu & Warga', sub:'Pancasila, kewarganegaraan & Pramuka.'},
+      ...WARGA.konstitusi.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Konstitusi',group:'konstitusi'})),
+      ...WARGA.simbol.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Simbol Negara',group:'simbol'})),
+      ...WARGA.pramukaMateri.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Pramuka',group:'pramukaMateri'})),
+      ...WARGA.sandiPramuka.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Sandi Pramuka',group:'sandiPramuka'})),
+      ...WARGA.taliTemali.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Tali-Temali',group:'taliTemali'})),
+    ], title:'Balai Pandu & Warga', sub:'Pancasila, konstitusi, simbol negara, dan pengetahuan kepramukaan.'},
   pusat: {getItems:()=>[
       ...KODE.nomorPenting.map(e=>({id:e.id,nama:e.nama,meta:e.nomor,cat:'Nomor Penting',group:'nomorPenting'})),
       ...KODE.mataUang.map(e=>({id:e.id,nama:e.nama,meta:e.kode,cat:'Mata Uang',group:'mataUang'})),
       ...KODE.kalender.map(e=>({id:e.id,nama:e.nama,meta:e.sistem,cat:'Kalender',group:'kalender'})),
+      ...KODE.bandara.map(e=>({id:e.id,nama:e.nama,meta:e.kodeIATA,cat:'Bandara',group:'bandara'})),
+      ...KODE.singkatan.map(e=>({id:e.id,nama:e.singkatan,meta:e.kepanjangan,cat:'Singkatan',group:'singkatan'})),
     ], title:'Pusat Kode & Info', sub:'Kode, nomor penting, mata uang, kalender & data praktis Indonesia.'},
 };
 
@@ -933,9 +988,11 @@ function findEntry(group,id){
     kamus:BAHASA.kamus, peribahasa:BAHASA.peribahasa, bahasaDaerah:BAHASA.bahasaDaerah,
     sastra:BAHASA.sastra, aksara:BAHASA.aksara,
     pancasila:WARGA.pancasila,
+    konstitusi:WARGA.konstitusi, simbol:WARGA.simbol, pramukaMateri:WARGA.pramukaMateri, sandiPramuka:WARGA.sandiPramuka, taliTemali:WARGA.taliTemali,
     nomorPenting:KODE.nomorPenting, mataUang:KODE.mataUang, kalender:KODE.kalender,
     gunung:GEOGRAFI.gunung, danau:GEOGRAFI.danau, tamanNasional:GEOGRAFI.tamanNasional,
     makananBerat:KULINER.makananBerat, jajanan:KULINER.jajanan, minuman:KULINER.minuman,
+    bandara:KODE.bandara, singkatan:KODE.singkatan,
   };
   return (map[group]||[]).find(e=>e.id===id);
 }
@@ -1024,7 +1081,7 @@ function openEntry(group,id){
   const menuName = menuId ? MENUS.find(m=>m.id===menuId).name : '';
   document.getElementById('entryCrumbMenu').textContent = menuName;
   document.getElementById('entryCrumbMenu').onclick = ()=> openMenu(menuId);
-  document.getElementById('entryCrumbName').textContent = e.nama || e.kata || e.bentuk || e.teks;
+  document.getElementById('entryCrumbName').textContent = e.nama || e.kata || e.bentuk || e.singkatan || e.teks;
 
   const fields = [];
   const catLabel = {
@@ -1034,14 +1091,16 @@ function openEntry(group,id){
     kamus:'Kamus', peribahasa:'Peribahasa', bahasaDaerah:'Bahasa Daerah', sastra:'Sastra Nusantara', aksara:'Aksara Nusantara',
     pancasila:'Pancasila', nomorPenting:'Nomor Penting', mataUang:'Mata Uang', kalender:'Kalender',
     gunung:'Gunung', danau:'Danau & Sungai', tamanNasional:'Taman Nasional & Kawasan Konservasi',
-    makananBerat:'Makanan Berat', jajanan:'Jajanan Tradisional', minuman:'Minuman Tradisional'
+    makananBerat:'Makanan Berat', jajanan:'Jajanan Tradisional', minuman:'Minuman Tradisional',
+    konstitusi:'Konstitusi', simbol:'Simbol Negara', pramukaMateri:'Pramuka', sandiPramuka:'Sandi Pramuka', taliTemali:'Tali-Temali',
+    bandara:'Bandara', singkatan:'Singkatan & Istilah'
   }[group];
 
-  const title = e.nama || e.kata || e.bentuk || e.teks;
+  const title = e.nama || e.kata || e.bentuk || e.singkatan || e.teks;
   const loc = e.lokasi || e.wilayah || e.asal || e.daerah || provName(e.provinsi) || '';
 
-  if(e.ringkasan || e.arti || e.makna){
-    fields.push(['Ringkasan', e.ringkasan || e.arti || e.makna]);
+  if(e.ringkasan || e.arti || e.makna || e.penjelasan){
+    fields.push(['Ringkasan', e.ringkasan || e.arti || e.makna || e.penjelasan]);
   }
   if(e.teks && group==='sastra') fields.push(['Teks', e.teks]);
   if(e.periode) fields.push(['Periode', e.periode]);
@@ -1071,6 +1130,8 @@ function openEntry(group,id){
   if(e.daerah) fields.push(['Daerah', e.daerah]);
   if(e.aksara) fields.push(['Aksara/Bahasa', e.aksara]);
   if(e.jumlahPemain) fields.push(['Jumlah Pemain', e.jumlahPemain]);
+  if(e.kodeIATA) fields.push(['Kode IATA', e.kodeIATA]);
+  if(e.kepanjangan) fields.push(['Kepanjangan', e.kepanjangan]);
 
   document.getElementById('entryDetail').innerHTML = `
     <div class="cat">${catLabel}</div>
