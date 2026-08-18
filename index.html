@@ -8,332 +8,474 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #14121A;
-    --bg-panel: #1E1B27;
-    --bg-panel-2: #262230;
-    --line: #362F42;
-    --gold: #C9A24B;
-    --gold-soft: #E4C98A;
-    --clay: #A8432B;
-    --clay-soft: #C86B4C;
-    --cream: #F2E9D8;
-    --muted: #B7AFC2;
-    --muted-dim: #7C7590;
+    --green-deep: #0f3d2c;
+    --green-dark: #0a2e21;
+    --green-mid: #14523c;
+    --gold: #c9a24b;
+    --gold-soft: #ddbd77;
+    --clay: #b5502f;
+    --cream: #f7f1e3;
+    --cream-2: #efe6d2;
+    --card: #ffffff;
+    --ink: #1c2420;
+    --ink-soft: #4a5650;
+    --muted: #8a9089;
+    --line: #e8dfc9;
     --font-display: "Fraunces", serif;
     --font-body: "Work Sans", sans-serif;
+    --radius-lg: 22px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
   body{
     margin:0;
-    background:var(--bg);
-    color:var(--cream);
+    background:var(--cream);
+    color:var(--ink);
     font-family:var(--font-body);
     -webkit-font-smoothing:antialiased;
+    padding-bottom:78px;
   }
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
   }
 
-  /* ===== Top bar ===== */
-  .topbar{
-    position:sticky; top:0; z-index:50;
-    background:rgba(20,18,26,0.92);
-    backdrop-filter: blur(10px);
-    border-bottom:1px solid var(--line);
-    padding:14px 20px;
-    display:flex; align-items:center; gap:14px;
+  /* ===== App shell / header ===== */
+  .appheader{
+    position:sticky; top:0; z-index:60;
+    background:linear-gradient(160deg, var(--green-mid), var(--green-deep) 55%, var(--green-dark));
+    border-radius:0 0 26px 26px;
+    padding:18px 20px 26px;
+    color:#fff;
+    box-shadow:0 8px 24px rgba(10,46,33,0.25);
   }
+  .appheader-row{display:flex; align-items:center; gap:12px;}
+  .appheader-back{
+    width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.12); cursor:pointer; flex-shrink:0;
+    font-size:16px; color:#fff; user-select:none;
+  }
+  .appheader-back:hover{background:rgba(255,255,255,0.2);}
   .brand{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:20px;
-    letter-spacing:0.04em;
-    color:var(--cream);
-    display:flex; align-items:center; gap:10px;
-    cursor:pointer;
-    white-space:nowrap;
+    display:flex; align-items:center; gap:12px; cursor:pointer; flex:1; min-width:0;
   }
-  .brand .dot{
-    width:10px;height:10px;border-radius:50%;
-    background: radial-gradient(circle at 35% 35%, var(--gold-soft), var(--clay) 75%);
-    box-shadow:0 0 12px rgba(201,162,75,0.6);
+  .brand .logo-badge{
+    width:42px; height:42px; border-radius:50%; flex-shrink:0;
+    background:radial-gradient(circle at 35% 30%, var(--gold-soft), var(--gold) 70%);
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; box-shadow:0 3px 10px rgba(0,0,0,0.25);
   }
-  .searchwrap{flex:1; position:relative; max-width:640px; margin:0 auto;}
+  .brand .brand-text{min-width:0;}
+  .brand .brand-title{
+    font-family:var(--font-display); font-weight:700; font-size:17px;
+    letter-spacing:0.06em; color:#fff; line-height:1.15;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .brand .brand-sub{
+    font-size:10.5px; color:var(--gold-soft); letter-spacing:0.03em; margin-top:1px;
+  }
+  .header-title{
+    font-family:var(--font-body); font-weight:600; font-size:17px; color:#fff;
+    flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .header-icon{
+    width:36px; height:36px; border-radius:50%; flex-shrink:0;
+    background:rgba(255,255,255,0.12);
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; color:#fff; cursor:pointer;
+  }
+  .header-icon:hover{background:rgba(255,255,255,0.2);}
+  .header-icon.active{background:var(--gold); color:var(--green-dark);}
+
+  .searchwrap{
+    position:relative; margin-top:16px;
+  }
   .searchwrap input{
     width:100%;
-    background:var(--bg-panel);
-    border:1px solid var(--line);
-    color:var(--cream);
-    padding:10px 14px 10px 38px;
-    border-radius:8px;
+    background:#fff;
+    border:none;
+    color:var(--ink);
+    padding:13px 16px 13px 42px;
+    border-radius:14px;
     font-family:var(--font-body);
     font-size:14px;
     outline:none;
+    box-shadow:0 6px 18px rgba(0,0,0,0.15);
   }
-  .searchwrap input:focus{border-color:var(--gold);}
-  .searchwrap::before{
-    content:"";
-    position:absolute; left:12px; top:50%; transform:translateY(-50%);
-    width:14px;height:14px;
-    border:1.5px solid var(--muted-dim);
-    border-radius:50%;
-  }
-  .searchwrap::after{
-    content:"";
-    position:absolute; left:22px; top:60%;
-    width:6px;height:1.5px;
-    background:var(--muted-dim);
-    transform:rotate(45deg);
+  .searchwrap input::placeholder{color:var(--muted);}
+  .searchwrap-icon{
+    position:absolute; left:15px; top:50%; transform:translateY(-50%);
+    font-size:15px; color:var(--muted); pointer-events:none;
   }
   .searchresults{
     position:absolute; top:calc(100% + 8px); left:0; right:0;
-    background:var(--bg-panel-2);
+    background:var(--card);
     border:1px solid var(--line);
-    border-radius:10px;
+    border-radius:14px;
     max-height:420px; overflow-y:auto;
-    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+    box-shadow:0 20px 40px rgba(0,0,0,0.18);
     display:none;
+    z-index:70;
   }
   .searchresults.show{display:block;}
   .sr-item{
-    padding:10px 14px;
+    padding:12px 16px;
     border-bottom:1px solid var(--line);
     cursor:pointer;
     display:flex; flex-direction:column; gap:2px;
   }
   .sr-item:last-child{border-bottom:none;}
-  .sr-item:hover{background:var(--bg-panel);}
-  .sr-item .sr-name{font-weight:600; font-size:14px;}
-  .sr-item .sr-meta{font-size:12px; color:var(--muted-dim);}
+  .sr-item:hover{background:var(--cream);}
+  .sr-item .sr-name{font-weight:600; font-size:14px; color:var(--ink);}
+  .sr-item .sr-meta{font-size:12px; color:var(--muted);}
 
-  /* ===== Hero ===== */
-  .hero{
-    position:relative;
-    padding:64px 20px 40px;
-    text-align:center;
+  /* ===== Page container ===== */
+  .page{padding:18px 18px 24px; max-width:640px; margin:0 auto;}
+
+  /* ===== Info card (home "Info Nusantara Hari Ini") ===== */
+  .infocard{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:16px 18px; display:flex; align-items:center; gap:14px;
+    box-shadow:0 4px 14px rgba(20,40,30,0.06);
+  }
+  .infocard .infocard-text{flex:1; min-width:0;}
+  .infocard .infocard-date{font-size:11.5px; color:var(--clay); font-weight:600; margin-bottom:4px;}
+  .infocard .infocard-title{font-family:var(--font-display); font-size:16px; font-weight:700; margin:0 0 6px; color:var(--ink);}
+  .infocard .infocard-desc{font-size:12.5px; color:var(--ink-soft); line-height:1.5; margin:0 0 6px;}
+  .infocard .infocard-link{font-size:12px; color:var(--green-deep); font-weight:600; cursor:pointer;}
+  .infocard .infocard-icon{
+    width:56px; height:56px; border-radius:14px; flex-shrink:0;
+    background:linear-gradient(160deg, var(--cream-2), var(--gold-soft));
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+  }
+
+  /* ===== Section headers ===== */
+  .section-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin:26px 0 12px;
+  }
+  .section-head h3{
+    font-family:var(--font-display); font-size:16.5px; font-weight:700; margin:0; color:var(--ink);
+  }
+  .section-head .see-all{font-size:12px; color:var(--green-deep); font-weight:600; cursor:pointer;}
+
+  /* ===== Icon grid (home main menu) ===== */
+  .icongrid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px 10px;
+  }
+  .icongrid-item{
+    display:flex; flex-direction:column; align-items:center; gap:7px;
+    cursor:pointer; text-align:center;
+  }
+  .icongrid-item .icb{
+    width:56px; height:56px; border-radius:16px;
+    background:linear-gradient(160deg, var(--cream-2), var(--gold-soft));
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px;
+    box-shadow:0 4px 10px rgba(20,40,30,0.08);
+    transition:transform .15s;
+  }
+  .icongrid-item:hover .icb{transform:translateY(-2px);}
+  .icongrid-item .icb-label{font-size:11px; color:var(--ink-soft); font-weight:600; line-height:1.2;}
+
+  /* ===== Bottom promo card ===== */
+  .promocard{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:16px 18px; display:flex; align-items:center; gap:14px; cursor:pointer;
+    box-shadow:0 4px 14px rgba(20,40,30,0.06);
+  }
+  .promocard .promocard-text{flex:1; min-width:0;}
+  .promocard .promocard-title{font-family:var(--font-display); font-weight:700; font-size:14.5px; margin:0 0 4px; color:var(--ink);}
+  .promocard .promocard-desc{font-size:12px; color:var(--ink-soft); line-height:1.45; margin:0;}
+  .promocard .promocard-img{
+    width:64px; height:56px; border-radius:12px; flex-shrink:0;
+    background:linear-gradient(160deg, var(--green-mid), var(--green-deep));
+    display:flex; align-items:center; justify-content:center; font-size:24px;
+  }
+
+  /* ===== Bottom nav bar ===== */
+  .bottomnav{
+    position:fixed; left:0; right:0; bottom:0; z-index:80;
+    background:#fff; border-top:1px solid var(--line);
+    display:flex; padding:8px 6px 12px;
+    box-shadow:0 -6px 18px rgba(0,0,0,0.06);
+  }
+  .bottomnav-item{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:3px;
+    cursor:pointer; padding:4px 0; color:var(--muted);
+  }
+  .bottomnav-item .bn-icon{font-size:19px; line-height:1;}
+  .bottomnav-item .bn-label{font-size:10.5px; font-weight:600;}
+  .bottomnav-item.active{color:var(--green-deep);}
+
+  /* ===== List view (Daftar Provinsi, Menu Utama, entry lists) ===== */
+  .listwrap{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius-md);
     overflow:hidden;
+  }
+  .listrow{
+    display:flex; align-items:center; gap:13px;
+    padding:14px 16px;
     border-bottom:1px solid var(--line);
-  }
-  .equator-line{
-    position:relative;
-    width:100%; max-width:680px; margin:0 auto 28px;
-    height:2px;
-    background:linear-gradient(90deg, transparent, var(--gold) 15%, var(--clay-soft) 50%, var(--gold) 85%, transparent);
-  }
-  .equator-line .sun{
-    position:absolute; top:50%; left:50%;
-    width:16px; height:16px; border-radius:50%;
-    transform:translate(-50%,-50%);
-    background:radial-gradient(circle at 35% 35%, var(--gold-soft), var(--clay));
-    box-shadow:0 0 24px 6px rgba(201,162,75,0.45);
-    animation: drift 7s ease-in-out infinite;
-  }
-  @keyframes drift{
-    0%,100%{ transform:translate(-50%,-50%) translateX(-140px); }
-    50%{ transform:translate(-50%,-50%) translateX(140px); }
-  }
-  .hero h1{
-    font-family:var(--font-display);
-    font-weight:700;
-    font-size:clamp(34px,6vw,56px);
-    margin:0 0 10px;
-    letter-spacing:0.02em;
-  }
-  .hero .tagline{
-    font-family:var(--font-display);
-    font-style:italic;
-    font-weight:500;
-    font-size:18px;
-    color:var(--gold-soft);
-    margin:0 0 6px;
-  }
-  .hero p.sub{
-    color:var(--muted);
-    max-width:560px; margin:0 auto;
-    font-size:14.5px; line-height:1.6;
-  }
-
-  /* ===== Main menu grid ===== */
-  .section-label{
-    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--muted-dim); font-weight:600;
-    padding:0 20px; margin:36px 0 12px;
-  }
-  .menugrid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:12px;
-    padding:0 20px;
-  }
-  .menucard{
-    background:var(--bg-panel);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:18px 18px 16px;
-    cursor:pointer;
-    transition:border-color .15s, transform .15s;
-  }
-  .menucard:hover{border-color:var(--gold); transform:translateY(-2px);}
-  .menucard .idx{
-    font-family:var(--font-display);
-    font-size:12px; color:var(--clay-soft); font-weight:600;
-  }
-  .menucard h3{
-    font-family:var(--font-display);
-    font-size:19px; margin:6px 0 6px; font-weight:600; color:var(--cream);
-  }
-  .menucard p{
-    font-size:12.5px; color:var(--muted); margin:0; line-height:1.5;
-  }
-
-  /* ===== Today strip ===== */
-  .todaystrip{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    gap:1px;
-    background:var(--line);
-    border:1px solid var(--line);
-    border-radius:12px;
-    overflow:hidden;
-    margin:0 20px;
-  }
-  .todaycell{
-    background:var(--bg-panel);
-    padding:16px;
-  }
-  .todaycell .lbl{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--gold-soft); font-weight:600;}
-  .todaycell .val{font-family:var(--font-display); font-size:16px; margin-top:6px; font-weight:600;}
-  .todaycell .desc{font-size:12px; color:var(--muted); margin-top:4px; line-height:1.5;}
-
-  /* ===== Content area (menu detail) ===== */
-  .view{display:none; padding:24px 20px 60px; max-width:960px; margin:0 auto;}
-  .view.active{display:block;}
-  .crumb{
-    font-size:12px; color:var(--muted-dim); margin-bottom:6px;
     cursor:pointer;
   }
-  .crumb .back{color:var(--gold-soft); cursor:pointer;}
-  .view h2{
-    font-family:var(--font-display); font-size:30px; margin:4px 0 4px; font-weight:700;
+  .listrow:last-child{border-bottom:none;}
+  .listrow:hover{background:var(--cream);}
+  .listrow .lr-icon{
+    width:42px; height:42px; border-radius:12px; flex-shrink:0;
+    background:var(--cream-2);
+    display:flex; align-items:center; justify-content:center; font-size:19px;
   }
-  .view .subtitle{color:var(--muted); font-size:13.5px; margin-bottom:22px;}
+  .listrow .lr-text{flex:1; min-width:0;}
+  .listrow .lr-title{font-size:14.5px; font-weight:600; color:var(--ink); line-height:1.3;}
+  .listrow .lr-sub{font-size:12px; color:var(--muted); margin-top:2px; line-height:1.3;}
+  .listrow .lr-chev{color:var(--muted); font-size:16px; flex-shrink:0;}
 
-  .filterbar{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;}
+  .searchbar-standalone{position:relative; margin-bottom:14px; display:flex; gap:10px;}
+  .searchbar-standalone input{
+    flex:1; background:var(--card); border:1px solid var(--line); color:var(--ink);
+    padding:12px 16px 12px 40px; border-radius:14px; font-family:var(--font-body); font-size:14px; outline:none;
+  }
+  .searchbar-standalone input:focus{border-color:var(--gold);}
+  .searchbar-standalone .sbs-icon{position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:14px; color:var(--muted);}
+  .filterbtn{
+    width:44px; height:44px; border-radius:14px; background:var(--card); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--ink-soft); cursor:pointer; flex-shrink:0;
+  }
+
+  .filterbar{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
   .pill{
-    padding:6px 13px; border-radius:20px; border:1px solid var(--line);
-    background:var(--bg-panel); font-size:12.5px; cursor:pointer; color:var(--muted);
+    padding:7px 14px; border-radius:20px; border:1px solid var(--line);
+    background:var(--card); font-size:12.5px; cursor:pointer; color:var(--ink-soft); font-weight:500;
   }
-  .pill.active{border-color:var(--gold); color:var(--gold-soft); background:var(--bg-panel-2);}
+  .pill.active{border-color:var(--green-deep); color:#fff; background:var(--green-deep);}
 
-  .entrylist{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px;}
-  .entrycard{
-    background:var(--bg-panel); border:1px solid var(--line); border-radius:10px;
-    padding:14px 16px; cursor:pointer;
+  .empty{color:var(--muted); font-size:13px; padding:30px 0; text-align:center;}
+
+  /* ===== Detail hero (province / entry) ===== */
+  .detailhero{
+    position:relative; height:190px; border-radius:var(--radius-md); overflow:hidden;
+    background:linear-gradient(150deg, #7c9c8a, var(--green-mid) 60%, var(--green-dark));
+    display:flex; align-items:flex-end; padding:16px;
+    margin-bottom:0;
   }
-  .entrycard:hover{border-color:var(--clay-soft);}
-  .entrycard .cat{font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--clay-soft); font-weight:600;}
-  .entrycard h4{font-family:var(--font-display); font-size:16.5px; margin:5px 0 4px; font-weight:600;}
-  .entrycard .loc{font-size:12px; color:var(--muted-dim);}
+  .detailhero .dh-loc{
+    color:#fff; font-size:11px; letter-spacing:.08em; text-transform:uppercase; opacity:.85; font-weight:600;
+    position:absolute; top:14px; left:18px;
+  }
+  .detailhero .dh-icon{font-size:70px; opacity:.9; margin:0 auto;}
 
-  /* ===== Detail page ===== */
-  .detail{background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; padding:26px 26px 10px;}
-  .detail .cat{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--gold-soft); font-weight:700;}
-  .detail h2{margin:8px 0 2px;}
-  .detail .loc{color:var(--muted-dim); font-size:13px; margin-bottom:18px;}
+  .detailcard{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius-md);
+    margin-top:-30px; position:relative; z-index:5; padding:18px 18px 6px;
+    box-shadow:0 8px 24px rgba(20,40,30,0.1);
+  }
+  .detailcard-top{display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;}
+  .detailcard-badge{
+    width:56px; height:56px; border-radius:14px; flex-shrink:0;
+    background:linear-gradient(160deg, var(--cream-2), var(--gold-soft));
+    display:flex; align-items:center; justify-content:center; font-size:26px;
+    box-shadow:0 4px 10px rgba(20,40,30,0.1);
+  }
+  .detailcard-name{font-family:var(--font-display); font-size:21px; font-weight:700; margin:0 0 4px; color:var(--ink);}
+  .detailcard-meta{font-size:12.5px; color:var(--ink-soft); line-height:1.6;}
+
+  .tabbar{display:flex; gap:8px; margin:14px 0 16px; flex-wrap:wrap;}
+  .tabbtn{
+    padding:8px 15px; border-radius:20px; font-size:12.5px; font-weight:600; cursor:pointer;
+    background:var(--cream); color:var(--ink-soft); border:1px solid var(--line);
+  }
+  .tabbtn.active{background:var(--green-deep); color:#fff; border-color:var(--green-deep);}
+
+  .statrow{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:16px 0;}
+  .statcell{
+    background:var(--cream); border-radius:var(--radius-sm); padding:12px 8px; text-align:center;
+  }
+  .statcell .sc-val{font-family:var(--font-display); font-size:18px; font-weight:700; color:var(--ink);}
+  .statcell .sc-lbl{font-size:10.5px; color:var(--muted); margin-top:2px; line-height:1.3;}
+
   .fieldrow{
     border-top:1px solid var(--line);
     padding:14px 0;
-    display:grid; grid-template-columns:130px 1fr; gap:16px;
   }
-  @media (max-width:560px){ .fieldrow{grid-template-columns:1fr;} }
-  .fieldrow .flabel{font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted-dim); font-weight:600; padding-top:1px;}
-  .fieldrow .fval{font-size:14.5px; line-height:1.65; color:var(--cream);}
+  .fieldrow:first-child{border-top:none;}
+  .fieldrow .flabel{font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--gold); font-weight:700; margin-bottom:5px;}
+  .fieldrow .fval{font-size:14px; line-height:1.65; color:var(--ink);}
   .fieldrow .fval ul{margin:0; padding-left:18px;}
-  .related{margin:22px 0 24px;}
-  .related .flabel{font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted-dim); font-weight:600; margin-bottom:8px;}
+
+  .related{margin:18px 0 20px;}
+  .related .flabel{font-size:11.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--gold); font-weight:700; margin-bottom:8px;}
   .tag{
-    display:inline-block; background:var(--bg-panel-2); border:1px solid var(--line);
-    color:var(--muted); font-size:12px; padding:5px 11px; border-radius:16px; margin:0 6px 6px 0; cursor:pointer;
+    display:inline-block; background:var(--cream); border:1px solid var(--line);
+    color:var(--ink-soft); font-size:12px; padding:6px 12px; border-radius:16px; margin:0 6px 6px 0; cursor:pointer;
   }
-  .tag:hover{border-color:var(--gold); color:var(--gold-soft);}
+  .tag:hover{border-color:var(--gold); color:var(--clay);}
 
-  .empty{color:var(--muted-dim); font-size:13px; padding:30px 0; text-align:center;}
-
-  /* province page */
-  .provhead{
-    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:10px;
-    border-bottom:1px solid var(--line); padding-bottom:16px; margin-bottom:20px;
+  .iconlabel-row{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:14px 0 18px;}
+  .iconlabel-card{background:var(--cream); border-radius:var(--radius-sm); overflow:hidden; cursor:pointer;}
+  .iconlabel-card .ilc-img{
+    height:64px; background:linear-gradient(150deg, var(--green-mid), var(--gold-soft));
+    display:flex; align-items:center; justify-content:center; font-size:24px; color:#fff;
   }
-  .provhead .stat{font-size:12px; color:var(--muted-dim);}
-  .provhead .stat b{color:var(--cream); font-weight:600;}
-  .provgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-bottom:24px;}
-  .provblock{background:var(--bg-panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
-  .provblock .flabel{font-size:11px; text-transform:uppercase; color:var(--gold-soft); font-weight:700; letter-spacing:.06em; margin-bottom:6px;}
-  .provblock .fval{font-size:13.5px; line-height:1.55; color:var(--cream);}
+  .iconlabel-card .ilc-cap{padding:7px 8px; font-size:10.5px; font-weight:600; color:var(--ink); line-height:1.3;}
+
+  /* ===== Views (screen switching, kept from original architecture) ===== */
+  .view{display:none;}
+  .view.active{display:block;}
+  .crumb{display:none;} /* replaced by header back-button pattern */
 
   footer{
-    text-align:center; padding:30px 20px 50px; color:var(--muted-dim); font-size:12px; border-top:1px solid var(--line); margin-top:40px;
+    text-align:center; padding:20px 18px 10px; color:var(--muted); font-size:11.5px;
   }
-  footer .motto{font-family:var(--font-display); font-style:italic; color:var(--gold-soft); font-size:14px; margin-bottom:6px;}
+  footer .motto{font-family:var(--font-display); font-style:italic; color:var(--clay); font-size:13px; margin-bottom:5px;}
+  /* ===== SVG icon sizing/coloring ===== */
+  svg{display:block;}
+  .logo-badge{color:var(--green-deep);} .logo-badge svg{width:22px; height:22px;}
+  .header-icon{color:#fff;} .header-icon svg{width:17px; height:17px;}
+  .appheader-back svg{width:19px; height:19px;}
+  .searchwrap-icon svg{width:16px; height:16px;}
+  .sbs-icon svg{width:15px; height:15px;}
+  .infocard-icon{color:var(--green-deep);} .infocard-icon svg{width:26px; height:26px;}
+  .icb{color:var(--green-deep);} .icb svg{width:25px; height:25px;}
+  .promocard-img{color:#fff;} .promocard-img svg{width:26px; height:26px;}
+  .bn-icon svg{width:20px; height:20px; margin:0 auto;}
+  .lr-icon{color:var(--green-deep);} .lr-icon svg{width:20px; height:20px;}
+  .lr-chev{color:var(--muted); display:flex; align-items:center;} .lr-chev svg{width:16px; height:16px;}
+  .detailcard-badge{color:var(--green-deep);} .detailcard-badge svg{width:27px; height:27px;}
+  .dh-icon{color:rgba(255,255,255,0.92);} .dh-icon svg{width:60px; height:60px;}
+  .ilc-img{color:#fff;} .ilc-img svg{width:22px; height:22px;}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="brand" onclick="goHome()"><span class="dot"></span>KHATULISTARA</div>
-  <div class="searchwrap">
-    <input id="searchInput" type="text" placeholder="Cari Aceh, Borobudur, Rendang, Sriwijaya..." autocomplete="off">
+<!-- ===================== HEADER (dynamic: home vs sub-page) ===================== -->
+<div class="appheader" id="appHeader">
+  <div class="appheader-row" id="appHeaderRow">
+    <div class="brand" onclick="goHome()" id="brandBlock">
+      <div class="logo-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6M12 4v3"/></svg></div>
+      <div class="brand-text">
+        <div class="brand-title">KHATULISTARA</div>
+        <div class="brand-sub">Ensiklopedia Nusantara</div>
+      </div>
+    </div>
+    <div class="header-icon" title="Notifikasi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+  </div>
+  <div class="searchwrap" id="headerSearchWrap">
+    <span class="searchwrap-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+    <input id="searchInput" type="text" placeholder="Cari di Khatulistara..." autocomplete="off">
     <div class="searchresults" id="searchResults"></div>
   </div>
 </div>
 
 <!-- ===================== HOME ===================== -->
 <div id="view-home" class="view active">
-  <div class="hero" style="margin:0 -20px;">
-    <div class="equator-line"><div class="sun"></div></div>
-    <h1>KHATULISTARA</h1>
-    <p class="tagline">Mengenal Nusantara, Memahami Indonesia</p>
-    <p class="sub">Ensiklopedia digital terpadu — wilayah, sejarah, budaya, bahasa, kewarganegaraan, Pramuka, dan data praktis Indonesia dalam satu tempat.</p>
+  <div class="page">
+    <div class="infocard">
+      <div class="infocard-text">
+        <div class="infocard-date" id="todayDate">Info Nusantara Hari Ini</div>
+        <div class="infocard-title" id="todayTitle"></div>
+        <p class="infocard-desc" id="todayDesc"></p>
+        <div class="infocard-link">Selengkapnya</div>
+      </div>
+      <div class="infocard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0 1 19 9.5C19 14.7 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg></div>
+    </div>
+
+    <div class="section-head"><h3>Menu Utama</h3><span class="see-all" onclick="openAllMenus()">Lihat Semua</span></div>
+    <div class="icongrid" id="menuGrid"></div>
+
+    <div class="section-head"><h3>Pilihan Untukmu</h3></div>
+    <div class="promocard" id="provQuick"></div>
   </div>
-
-  <div class="section-label">Jelajahi Nusantara</div>
-  <div class="menugrid" id="menuGrid"></div>
-
-  <div class="section-label">Fakta Nusantara Hari Ini</div>
-  <div class="todaystrip" id="todayStrip"></div>
-
-  <div class="section-label">Pilihan Provinsi</div>
-  <div class="menugrid" id="provQuick" style="margin-bottom:10px;"></div>
 </div>
 
-<!-- ===================== MENU VIEWS ===================== -->
+<!-- ===================== ALL MENUS LIST ===================== -->
+<div id="view-allmenus" class="view">
+  <div class="page">
+    <div class="listwrap" id="allMenusList"></div>
+  </div>
+</div>
+
+<!-- ===================== MENU VIEWS (entry lists) ===================== -->
 <div id="view-menu" class="view">
-  <div class="crumb"><span class="back" onclick="goHome()">Beranda</span> / <span id="menuCrumb"></span></div>
-  <h2 id="menuTitle"></h2>
-  <p class="subtitle" id="menuSubtitle"></p>
-  <div class="filterbar" id="menuFilters"></div>
-  <div class="entrylist" id="menuEntries"></div>
+  <div class="page">
+    <div class="searchbar-standalone">
+      <span class="sbs-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></span>
+      <input type="text" placeholder="Cari..." disabled>
+      <div class="filterbtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V19.5a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H4.5a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H10a1.7 1.7 0 0 0 1-1.55V4.5a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V10c.14.42.44.77.83 1"/></svg></div>
+    </div>
+    <div class="filterbar" id="menuFilters"></div>
+    <div class="listwrap" id="menuEntries"></div>
+  </div>
 </div>
 
 <!-- ===================== ENTRY DETAIL ===================== -->
 <div id="view-entry" class="view">
-  <div class="crumb"><span class="back" onclick="goHome()">Beranda</span> / <span class="back" id="entryCrumbMenu"></span> / <span id="entryCrumbName"></span></div>
-  <div class="detail" id="entryDetail"></div>
+  <div class="page">
+    <div class="detailhero"><div class="dh-icon" id="entryHeroIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5v-17z"/><path d="M20 19H6.5A2.5 2.5 0 0 0 4 21.5"/></svg></div></div>
+    <div class="detailcard" id="entryDetail"></div>
+  </div>
 </div>
 
 <!-- ===================== PROVINCE PAGE ===================== -->
 <div id="view-province" class="view">
-  <div class="crumb"><span class="back" onclick="goHome()">Beranda</span> / <span id="provCrumb"></span></div>
-  <div id="provinceBody"></div>
+  <div class="page">
+    <div id="provinceBody"></div>
+  </div>
 </div>
 
 <footer>
   <div class="motto">"Mengenal Nusantara, Memahami Indonesia"</div>
-  Prototipe KHATULISTARA — struktur 7 menu &amp; data contoh. Konten dapat terus diperluas.
+  KHATULISTARA — Ensiklopedia Nusantara. Konten terus diperluas.
 </footer>
 
+<!-- ===================== BOTTOM NAV ===================== -->
+<div class="bottomnav">
+  <div class="bottomnav-item active" id="navBeranda" onclick="goHome()">
+    <div class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg></div><div class="bn-label">Beranda</div>
+  </div>
+  <div class="bottomnav-item" id="navKoleksi" onclick="openAllMenus()">
+    <div class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.3"/><rect x="13" y="4" width="7" height="7" rx="1.3"/><rect x="4" y="13" width="7" height="7" rx="1.3"/><rect x="13" y="13" width="7" height="7" rx="1.3"/></svg></div><div class="bn-label">Koleksi</div>
+  </div>
+  <div class="bottomnav-item" id="navPencarian" onclick="focusSearch()">
+    <div class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><div class="bn-label">Pencarian</div>
+  </div>
+  <div class="bottomnav-item" id="navPengaturan">
+    <div class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V19.5a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H4.5a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H10a1.7 1.7 0 0 0 1-1.55V4.5a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V10c.14.42.44.77.83 1"/></svg></div><div class="bn-label">Pengaturan</div>
+  </div>
+</div>
+
 <script>
+/* =========================================================================
+   KHATULISTARA — ICON SET (inline SVG, no emoji)
+   ========================================================================= */
+const ICONS = {
+  logo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6M12 4v3"/></svg>',
+  bell: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>',
+  search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.3-7-11.5A7 7 0 0 1 19 9.5C19 14.7 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg>',
+  book: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5v-17z"/><path d="M20 19H6.5A2.5 2.5 0 0 0 4 21.5"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>',
+  collection: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.3"/><rect x="13" y="4" width="7" height="7" rx="1.3"/><rect x="4" y="13" width="7" height="7" rx="1.3"/><rect x="13" y="13" width="7" height="7" rx="1.3"/></svg>',
+  gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V19.5a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H4.5a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H10a1.7 1.7 0 0 0 1-1.55V4.5a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V10c.14.42.44.77.83 1"/></svg>',
+  chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
+  back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.8 6.4.6-4.8 4.3 1.4 6.3L12 16.9 6.4 20l1.4-6.3-4.8-4.3 6.4-.6z"/></svg>',
+  map: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3 3 5.5v15L9 18l6 2.5 6-2.5v-15L15 5.5 9 3z"/><path d="M9 3v15M15 5.5v15"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>',
+  masks: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4c2 0 3.5 1.8 3.5 4.5S6 13 4 13"/><path d="M20 4c-2 0-3.5 1.8-3.5 4.5S18 13 20 13"/><path d="M8 18c1.3.9 2.6 1.3 4 1.3s2.7-.4 4-1.3"/><circle cx="9" cy="9" r=".7" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r=".7" fill="currentColor" stroke="none"/></svg>',
+  scroll: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v13a3 3 0 0 1-3 3H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M18 17a3 3 0 0 1-3 3M9 8h6M9 11.5h6"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1.1-4.2A8 8 0 1 1 21 12z"/><path d="M8.5 11.5h7M8.5 14h4.5"/></svg>',
+  badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4z"/><path d="m9 12 2 2 4-4"/></svg>',
+  grid: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 4 8 20M16 4l-2 16"/></svg>',
+  building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6M9 12h.01M15 12h.01M9 9h.01M15 9h.01"/></svg>',
+  photo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m21 15-5-5-11 9"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4z"/></svg>',
+  mountain: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 20 6-11 4 6 2-3 6 8z"/><circle cx="17" cy="6" r="2"/></svg>',
+};
+function ic(name){ return ICONS[name] || ICONS.book; }
+
 /* =========================================================================
    KHATULISTARA — DATA
    Ini adalah prototipe: struktur lengkap (7 menu, relasi antar-data, smart
@@ -1998,34 +2140,60 @@ function findEntry(group,id){
    RENDER — home
    ========================================================================= */
 function renderHome(){
+  document.getElementById('todayDate').textContent = 'Info Nusantara Hari Ini';
+  document.getElementById('todayTitle').textContent = '17.000+ Pulau Nusantara';
+  document.getElementById('todayDesc').textContent = 'Indonesia adalah negara kepulauan terbesar di dunia, membentang dari Sabang hingga Merauke.';
+
+  const menuIcons = {peta:ic('map'), lorong:ic('clock'), panggung:ic('masks'), pustaka:ic('scroll'), bilik:ic('chat'), balai:ic('badge'), pusat:ic('grid')};
   const grid = document.getElementById('menuGrid');
-  grid.innerHTML = MENUS.map(m=>`
-    <div class="menucard" onclick="openMenu('${m.id}')">
-      <div class="idx">${m.idx}</div>
-      <h3>${m.name}</h3>
-      <p>${m.desc}</p>
+  let items = [{id:'__provinsi', name:'Provinsi', icon:ic('shield'), action:"openProvinsiList()"}]
+    .concat(MENUS.map(m=>({id:m.id, name:m.name.split(' ')[0], icon:menuIcons[m.id]||ic('book'), action:`openMenu('${m.id}')`})));
+  grid.innerHTML = items.map(it=>`
+    <div class="icongrid-item" onclick="${it.action}">
+      <div class="icb">${it.icon}</div>
+      <div class="icb-label">${it.name}</div>
     </div>`).join('');
 
-  const today = [
-    {lbl:'Tokoh Hari Ini', val:'R.A. Kartini', desc:'Perintis emansipasi perempuan Indonesia.'},
-    {lbl:'Tempat Hari Ini', val:'Candi Borobudur', desc:'Candi Buddha terbesar di dunia, Jawa Tengah.'},
-    {lbl:'Kuliner Hari Ini', val:'Rendang', desc:'Warisan kuliner tak benda UNESCO dari Minangkabau.'},
-    {lbl:'Fakta Nusantara', val:'17.000+ pulau', desc:'Indonesia adalah negara kepulauan terbesar di dunia.'},
-  ];
-  document.getElementById('todayStrip').innerHTML = today.map(t=>`
-    <div class="todaycell">
-      <div class="lbl">${t.lbl}</div>
-      <div class="val">${t.val}</div>
-      <div class="desc">${t.desc}</div>
-    </div>`).join('');
-
+  const featured = PROVINSI[Math.floor(Math.random()*PROVINSI.length)];
   const pq = document.getElementById('provQuick');
-  pq.innerHTML = PROVINSI.map(p=>`
-    <div class="menucard" onclick="openProvince('${p.id}')">
-      <div class="idx">${p.pulau}</div>
-      <h3>${p.nama}</h3>
-      <p>Ibu kota ${p.ibukota} · ${p.semboyan}</p>
+  pq.onclick = ()=>openProvince(featured.id);
+  pq.innerHTML = `
+    <div class="promocard-text">
+      <div class="promocard-title">${featured.nama}</div>
+      <p class="promocard-desc">${featured.rumahAdat ? featured.rumahAdat.split('—')[0].trim()+' · '+featured.ibukota : featured.ibukota}</p>
+    </div>
+    <div class="promocard-img">${ic('building')}</div>`;
+}
+
+function openAllMenus(){
+  showView('view-allmenus');
+  setHeader({mode:'sub', title:'Menu Utama'});
+  const menuIcons = {peta:ic('map'), lorong:ic('clock'), panggung:ic('masks'), pustaka:ic('scroll'), bilik:ic('chat'), balai:ic('badge'), pusat:ic('grid')};
+  const list = document.getElementById('allMenusList');
+  list.innerHTML = [{id:'__provinsi', name:'Provinsi', desc:'Informasi lengkap 38 provinsi', icon:ic('shield'), action:"openProvinsiList()"}]
+    .concat(MENUS.map(m=>({id:m.id, name:m.name, desc:m.desc, icon:menuIcons[m.id]||ic('book'), action:`openMenu('${m.id}')`})))
+    .map(it=>`
+    <div class="listrow" onclick="${it.action}">
+      <div class="lr-icon">${it.icon}</div>
+      <div class="lr-text"><div class="lr-title">${it.name}</div><div class="lr-sub">${it.desc}</div></div>
+      <div class="lr-chev">${ic('chevron')}</div>
     </div>`).join('');
+  pushNavState({view:'allmenus'});
+}
+
+function openProvinsiList(){
+  showView('view-menu');
+  setHeader({mode:'sub', title:'Daftar Provinsi'});
+  document.getElementById('menuFilters').innerHTML = '';
+  const list = document.getElementById('menuEntries');
+  list.innerHTML = PROVINSI.map(p=>`
+    <div class="listrow" onclick="openProvince('${p.id}')">
+      <div class="lr-icon">${ic('shield')}</div>
+      <div class="lr-text"><div class="lr-title">${p.nama}</div><div class="lr-sub">${p.semboyan || p.ibukota}</div></div>
+      <div class="lr-chev">${ic('chevron')}</div>
+    </div>`).join('');
+  currentMenu = '__provinsilist';
+  pushNavState({view:'provinsilist'});
 }
 
 /* =========================================================================
@@ -2037,12 +2205,11 @@ function openMenu(menuId){
   currentMenu = menuId; currentFilter = 'Semua';
   showView('view-menu');
   const m = MENUS.find(x=>x.id===menuId);
-  document.getElementById('menuCrumb').textContent = m.name;
-  document.getElementById('menuTitle').textContent = m.name;
-  document.getElementById('menuSubtitle').textContent = MENU_GROUPS[menuId].sub;
+  setHeader({mode:'sub', title:m.name});
   renderMenuEntries();
   pushNavState({view:'menu', menuId});
 }
+
 
 function renderMenuEntries(){
   const items = MENU_GROUPS[currentMenu].getItems();
@@ -2058,10 +2225,10 @@ function renderMenuEntries(){
   }
   list.innerHTML = filtered.map(i=>{
     const onclick = i.kind==='province' ? `openProvince('${i.id}')` : `openEntry('${i.group}','${i.id}')`;
-    return `<div class="entrycard" onclick="${onclick}">
-      <div class="cat">${i.cat}</div>
-      <h4>${i.nama}</h4>
-      <div class="loc">${i.meta||''}</div>
+    return `<div class="listrow" onclick="${onclick}">
+      <div class="lr-icon">${ic('book')}</div>
+      <div class="lr-text"><div class="lr-title">${i.nama}</div><div class="lr-sub">${i.cat}${i.meta ? ' · '+i.meta : ''}</div></div>
+      <div class="lr-chev">${ic('chevron')}</div>
     </div>`;
   }).join('');
 }
@@ -2076,9 +2243,8 @@ function openEntry(group,id){
   showView('view-entry');
   const menuId = Object.keys(MENU_GROUPS).find(k => MENU_GROUPS[k].getItems().some(i=>i.group===group));
   const menuName = menuId ? MENUS.find(m=>m.id===menuId).name : '';
-  document.getElementById('entryCrumbMenu').textContent = menuName;
-  document.getElementById('entryCrumbMenu').onclick = ()=> openMenu(menuId);
-  document.getElementById('entryCrumbName').textContent = e.nama || e.kata || e.bentuk || e.singkatan || e.teks;
+  const entryTitle = e.nama || e.kata || e.bentuk || e.singkatan || e.teks;
+  setHeader({mode:'sub', title:entryTitle});
 
   const fields = [];
   const catLabel = {
@@ -2144,9 +2310,13 @@ function openEntry(group,id){
   if(e.penggunaan) fields.push(['Konteks Penggunaan', e.penggunaan]);
 
   document.getElementById('entryDetail').innerHTML = `
-    <div class="cat">${catLabel}</div>
-    <h2>${title}</h2>
-    <div class="loc">${loc}</div>
+    <div class="detailcard-top">
+      <div class="detailcard-badge">${ic('book')}</div>
+      <div>
+        <div class="detailcard-name">${title}</div>
+        <div class="detailcard-meta">${catLabel}${loc ? ' · '+loc : ''}</div>
+      </div>
+    </div>
     ${fields.map(([label,val])=>`
       <div class="fieldrow">
         <div class="flabel">${label}</div>
@@ -2167,7 +2337,7 @@ function openProvince(id){
   const p = PROVINSI.find(x=>x.id===id);
   if(!p) return;
   showView('view-province');
-  document.getElementById('provCrumb').textContent = p.nama;
+  setHeader({mode:'sub', title:p.nama, star:true});
 
   const relatedTari = SENI.tari.filter(t=>t.provinsi===id);
   const relatedSuku = PUSTAKA.suku.filter(s=>s.provinsi===id);
@@ -2208,33 +2378,85 @@ function openProvince(id){
     ...relatedKepercayaan.map(k=>({label:k.nama, fn:`openEntry('kepercayaan','${k.id}')`})),
   ];
 
-  document.getElementById('provinceBody').innerHTML = `
-    <div class="provhead">
-      <div>
-        <h2 style="margin:0;">${p.nama}</h2>
-        <div class="loc">Ibu kota ${p.ibukota} · Pulau ${p.pulau}</div>
-      </div>
-      <div class="stat">Luas: <b>${p.luas}</b> &nbsp;·&nbsp; Zona waktu: <b>${p.zonaWaktu}</b></div>
+  const sukuCount = (p.suku||'').split(',').length;
+  const wisataCount = (p.wisata||[]).length;
+  const faktaCount = (p.fakta||[]).length;
+
+  const panelProfil = `
+    <p style="font-family:var(--font-display); font-style:italic; color:var(--clay); font-size:13.5px; margin:0 0 10px;">"${p.semboyan||''}"</p>
+    <p style="font-size:13.5px; line-height:1.65; color:var(--ink-soft); margin:0 0 4px;">
+      ${p.nama} adalah salah satu provinsi Indonesia di Pulau ${p.pulau}. Provinsi ini beribu kota di ${p.ibukota} dengan luas wilayah ${p.luas} dan berada di zona waktu ${p.zonaWaktu}.
+    </p>
+    <div class="statrow">
+      <div class="statcell"><div class="sc-val">${sukuCount}</div><div class="sc-lbl">Suku/Etnis</div></div>
+      <div class="statcell"><div class="sc-val">${faktaCount}</div><div class="sc-lbl">Fakta Unik</div></div>
+      <div class="statcell"><div class="sc-val">${wisataCount}</div><div class="sc-lbl">Destinasi Wisata</div></div>
     </div>
-    <p style="font-family:var(--font-display); font-style:italic; color:var(--gold-soft); margin-top:-8px;">"${p.semboyan}"</p>
-    <div class="provgrid">
-      ${blocks.map(([l,v])=>`
-        <div class="provblock"><div class="flabel">${l}</div><div class="fval">${v}</div></div>`).join('')}
-    </div>
-    <div class="section-label" style="padding:0;">Fakta Unik</div>
-    <div class="fieldrow" style="border-top:none;">
-      <div class="fval"><ul>${(p.fakta||[]).map(f=>`<li>${f}</li>`).join('')}</ul></div>
-    </div>
-    <div class="section-label" style="padding:0;">Destinasi Wisata</div>
     <div class="fieldrow" style="border-top:none; padding-top:0;">
+      <div class="flabel">Fakta Unik</div>
+      <div class="fval"><ul>${(p.fakta||[]).map(f=>`<li>${f}</li>`).join('')}</ul></div>
+    </div>`;
+
+  const panelBudaya = blocks.map(([l,v])=>`
+      <div class="fieldrow"><div class="flabel">${l}</div><div class="fval">${v}</div></div>`).join('');
+
+  const sejarahItems = [...relatedKerajaan.map(k=>({nama:k.nama, sub:k.periode||'', fn:`openEntry('kerajaan','${k.id}')`})),
+                         ...relatedTokoh.map(t=>({nama:t.nama, sub:t.periode||t.kategori||'', fn:`openEntry('tokoh','${t.id}')`}))];
+  const panelSejarah = sejarahItems.length ? `
+    <div class="listwrap" style="margin-top:2px;">
+      ${sejarahItems.map(s=>`<div class="listrow" onclick="${s.fn}">
+        <div class="lr-icon">${ic('clock')}</div>
+        <div class="lr-text"><div class="lr-title">${s.nama}</div><div class="lr-sub">${s.sub}</div></div>
+        <div class="lr-chev">${ic('chevron')}</div>
+      </div>`).join('')}
+    </div>` : `<div class="empty">Belum ada data sejarah spesifik tercatat untuk provinsi ini.</div>`;
+
+  const panelPariwisata = `
+    <div class="fieldrow" style="border-top:none; padding-top:0;">
+      <div class="flabel">Destinasi Wisata</div>
       <div class="fval"><ul>${(p.wisata||[]).map(f=>`<li>${f}</li>`).join('')}</ul></div>
     </div>
-    ${tags.length ? `<div class="related">
-      <div class="flabel">Data Terkait</div>
-      ${tags.map(t=>`<span class="tag" onclick="${t.fn}">${t.label}</span>`).join('')}
-    </div>` : ''}
+    ${(p.wisata||[]).length ? `<div class="section-head" style="margin:10px 0 8px;"><h3 style="font-size:14px;">Ikon Daerah</h3></div>
+    <div class="iconlabel-row">
+      ${p.wisata.map(w=>`<div class="iconlabel-card"><div class="ilc-img">${ic('pin')}</div><div class="ilc-cap">${w}</div></div>`).join('')}
+    </div>` : ''}`;
+
+  document.getElementById('provinceBody').innerHTML = `
+    <div class="detailhero"><div class="dh-loc">PULAU ${(p.pulau||'').toUpperCase()}</div><div class="dh-icon">${ic('mountain')}</div></div>
+    <div class="detailcard">
+      <div class="detailcard-top">
+        <div class="detailcard-badge">${ic('shield')}</div>
+        <div>
+          <div class="detailcard-name">${p.nama}</div>
+          <div class="detailcard-meta">Ibu Kota: ${p.ibukota}<br>Luas: ${p.luas}<br>Zona Waktu: ${p.zonaWaktu}</div>
+        </div>
+      </div>
+      <div class="tabbar" id="provTabbar">
+        <div class="tabbtn active" onclick="provTab('profil')">Profil</div>
+        <div class="tabbtn" onclick="provTab('sejarah')">Sejarah</div>
+        <div class="tabbtn" onclick="provTab('budaya')">Budaya</div>
+        <div class="tabbtn" onclick="provTab('pariwisata')">Pariwisata</div>
+      </div>
+      <div id="provPanel-profil" class="provpanel">${panelProfil}</div>
+      <div id="provPanel-sejarah" class="provpanel" style="display:none;">${panelSejarah}</div>
+      <div id="provPanel-budaya" class="provpanel" style="display:none;">${panelBudaya}</div>
+      <div id="provPanel-pariwisata" class="provpanel" style="display:none;">${panelPariwisata}</div>
+      ${tags.length ? `<div class="related">
+        <div class="flabel">Data Terkait</div>
+        ${tags.map(t=>`<span class="tag" onclick="${t.fn}">${t.label}</span>`).join('')}
+      </div>` : ''}
+    </div>
   `;
   pushNavState({view:'province', id});
+}
+
+function provTab(name){
+  ['profil','sejarah','budaya','pariwisata'].forEach(t=>{
+    document.getElementById('provPanel-'+t).style.display = t===name ? 'block' : 'none';
+  });
+  document.querySelectorAll('#provTabbar .tabbtn').forEach(btn=>btn.classList.remove('active'));
+  const idx = {profil:0,sejarah:1,budaya:2,pariwisata:3}[name];
+  document.querySelectorAll('#provTabbar .tabbtn')[idx].classList.add('active');
 }
 
 /* =========================================================================
@@ -2245,6 +2467,37 @@ function showView(id){
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
   document.getElementById('searchResults').classList.remove('show');
+}
+
+function setHeader(opts){
+  const row = document.getElementById('appHeaderRow');
+  const searchWrap = document.getElementById('headerSearchWrap');
+  document.querySelectorAll('.bottomnav-item').forEach(x=>x.classList.remove('active'));
+  if(opts.mode === 'home'){
+    row.innerHTML = `
+      <div class="brand" onclick="goHome()">
+        <div class="logo-badge">${ic('logo')}</div>
+        <div class="brand-text">
+          <div class="brand-title">KHATULISTARA</div>
+          <div class="brand-sub">Ensiklopedia Nusantara</div>
+        </div>
+      </div>
+      <div class="header-icon" title="Notifikasi">${ic('bell')}</div>`;
+    searchWrap.style.display = '';
+    document.getElementById('navBeranda').classList.add('active');
+  } else {
+    row.innerHTML = `
+      <div class="appheader-back" onclick="if(history.length>1){history.back();}else{goHome();}">${ic('back')}</div>
+      <div class="header-title">${opts.title||''}</div>
+      ${opts.star ? '<div class="header-icon">'+ic('star')+'</div>' : '<div style="width:36px;flex-shrink:0;"></div>'}`;
+    searchWrap.style.display = 'none';
+    document.getElementById('navKoleksi').classList.add('active');
+  }
+}
+
+function focusSearch(){
+  goHome();
+  setTimeout(()=>document.getElementById('searchInput').focus(), 250);
 }
 
 /* ---- History / back-button handling ----
@@ -2260,6 +2513,8 @@ function pushNavState(state){
     : state.view==='menu' ? '#menu/'+state.menuId
     : state.view==='entry' ? '#entry/'+state.group+'/'+state.id
     : state.view==='province' ? '#province/'+state.id
+    : state.view==='allmenus' ? '#allmenus'
+    : state.view==='provinsilist' ? '#provinsilist'
     : '#home';
   try{
     history.pushState(state, '', hash);
@@ -2277,11 +2532,13 @@ window.addEventListener('popstate', (e)=>{
   if(state.view==='menu') openMenu(state.menuId);
   else if(state.view==='entry') openEntry(state.group, state.id);
   else if(state.view==='province') openProvince(state.id);
+  else if(state.view==='allmenus') openAllMenus();
+  else if(state.view==='provinsilist') openProvinsiList();
   else goHome();
   __isPopping = false;
 });
 
-function goHome(){ showView('view-home'); document.getElementById('searchInput').value=''; pushNavState({view:'home'}); }
+function goHome(){ showView('view-home'); setHeader({mode:'home'}); document.getElementById('searchInput').value=''; pushNavState({view:'home'}); }
 
 const searchInput = document.getElementById('searchInput');
 const searchResults = document.getElementById('searchResults');
