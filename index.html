@@ -346,6 +346,30 @@
   .detailcard-badge{color:var(--green-deep);} .detailcard-badge svg{width:27px; height:27px;}
   .dh-icon{color:rgba(255,255,255,0.92);} .dh-icon svg{width:60px; height:60px;}
   .ilc-img{color:#fff;} .ilc-img svg{width:22px; height:22px;}
+
+  /* ===== Settings page ===== */
+  .toggle{width:44px; height:26px; border-radius:14px; background:var(--line); position:relative; cursor:pointer; flex-shrink:0; transition:background .2s;}
+  .toggle.on{background:var(--green-deep);}
+  .toggle .knob{width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:3px; left:3px; transition:left .2s; box-shadow:0 1px 3px rgba(0,0,0,.3);}
+  .toggle.on .knob{left:21px;}
+  .settings-version{text-align:center; font-size:11.5px; color:var(--muted); padding:16px 0 4px;}
+
+  .toast{
+    position:fixed; left:50%; bottom:96px; transform:translateX(-50%) translateY(20px);
+    background:var(--ink); color:var(--cream); padding:10px 20px; border-radius:24px;
+    font-size:12.5px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .25s, transform .25s;
+    z-index:200; box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* ===== Dark mode ===== */
+  body.dark{
+    --cream:#161d18; --cream-2:#202b23; --card:#1c2620; --ink:#ece7d8; --ink-soft:#b9c2ba; --muted:#7c8880; --line:#2c382f;
+  }
+  body.dark .searchwrap input{background:#1c2620; color:var(--ink);}
+  body.dark .searchwrap input::placeholder{color:var(--muted);}
+  body.dark .bottomnav{background:var(--card); border-color:var(--line);}
+  body.dark .toast{background:#ece7d8; color:#161d18;}
 </style>
 </head>
 <body>
@@ -425,10 +449,19 @@
   </div>
 </div>
 
+<!-- ===================== SETTINGS ===================== -->
+<div id="view-settings" class="view">
+  <div class="page">
+    <div class="listwrap" id="settingsList"></div>
+  </div>
+</div>
+
 <footer>
   <div class="motto">"Mengenal Nusantara, Memahami Indonesia"</div>
   KHATULISTARA — Ensiklopedia Nusantara. Konten terus diperluas.
 </footer>
+
+<div class="toast" id="toast"></div>
 
 <!-- ===================== BOTTOM NAV ===================== -->
 <div class="bottomnav">
@@ -441,7 +474,7 @@
   <div class="bottomnav-item" id="navPencarian" onclick="focusSearch()">
     <div class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></div><div class="bn-label">Pencarian</div>
   </div>
-  <div class="bottomnav-item" id="navPengaturan">
+  <div class="bottomnav-item" id="navPengaturan" onclick="openSettings()">
     <div class="bn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13.5a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V19.5a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H4.5a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H10a1.7 1.7 0 0 0 1-1.55V4.5a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V10c.14.42.44.77.83 1"/></svg></div><div class="bn-label">Pengaturan</div>
   </div>
 </div>
@@ -473,6 +506,13 @@ const ICONS = {
   photo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="m21 15-5-5-11 9"/></svg>',
   shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4z"/></svg>',
   mountain: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m3 20 6-11 4 6 2-3 6 8z"/><circle cx="17" cy="6" r="2"/></svg>',
+  person: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.5 3-6 7-6s7 2.5 7 6"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>',
+  textsize: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18 8.5 6h1L14 18M5.5 14h7"/><path d="M16 18v-6a2.5 2.5 0 0 1 5 0v6M16 15.5h5"/></svg>',
+  globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 5.8 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.8-4-9s1.5-6.5 4-9z"/></svg>',
+  download: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v6M14 11v6"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>',
 };
 function ic(name){ return ICONS[name] || ICONS.book; }
 
@@ -973,6 +1013,18 @@ const GEOGRAFI = {
      fakta:['Memiliki Pusat Latihan Gajah tertua di Indonesia, didirikan sejak 1985','Menjadi salah satu benteng terakhir konservasi badak Sumatra di alam liar']},
     {id:'bunaken', nama:'Taman Nasional Bunaken', provinsi:'sulut', lokasi:'Sulawesi Utara', ekosistem:'Terumbu karang & laut dalam', ringkasan:'Kawasan konservasi laut dengan keanekaragaman terumbu karang tinggi, salah satu destinasi menyelam terbaik dunia berkat dinding karang vertikal yang menukik hingga ratusan meter.',
      fakta:['Tercatat lebih dari 390 spesies terumbu karang di kawasan ini','Salah satu titik selam ikoniknya, Lekuan Wall, memiliki dinding karang sedalam lebih dari 1.000 meter']},
+    {id:'ujungkulon_tn', nama:'Taman Nasional Ujung Kulon', provinsi:'banten', lokasi:'Banten', ekosistem:'Hutan hujan tropis dataran rendah & pesisir', ringkasan:'Satu-satunya habitat tersisa badak Jawa di dunia, ditetapkan UNESCO sebagai Situs Warisan Dunia, sekaligus rumah bagi sisa letusan legendaris Gunung Krakatau 1883.',
+     fakta:['Menjadi rumah terakhir populasi badak Jawa yang tersisa di planet ini, salah satu mamalia paling terancam punah di dunia','Berdekatan dengan kaldera bekas letusan Krakatau 1883 yang mengubah lanskap kawasan ini secara drastis']},
+    {id:'leuser_tn', nama:'Taman Nasional Gunung Leuser', provinsi:'aceh', lokasi:'Aceh & Sumatera Utara', ekosistem:'Hutan hujan tropis pegunungan', ringkasan:'Salah satu kawasan konservasi terluas di Sumatra dan bagian dari Situs Warisan Dunia UNESCO "Hutan Hujan Tropis Sumatra", menjadi salah satu tempat terakhir gajah, badak, harimau, dan orangutan Sumatra hidup berdampingan di alam liar.',
+     fakta:['Menjadi salah satu dari sedikit tempat di dunia empat satwa besar (gajah, badak, harimau, orangutan) masih hidup di habitat yang sama','Namanya diambil dari Gunung Leuser yang menjulang di tengah kawasan konservasi ini']},
+    {id:'lorentz_tn', nama:'Taman Nasional Lorentz', provinsi:'papeg', lokasi:'Papua Pegunungan & Papua Selatan', ekosistem:'Dari puncak bersalju hingga hutan bakau pesisir', ringkasan:'Taman nasional terluas di Asia Tenggara sekaligus satu-satunya kawasan lindung dunia yang memiliki rentang ekosistem dari puncak gunung bersalju abadi hingga hutan bakau tropis pesisir dalam satu kawasan yang sama.',
+     fakta:['Merupakan taman nasional terluas di seluruh Asia Tenggara, mencakup lebih dari 2,3 juta hektare','Satu-satunya kawasan lindung di dunia yang memiliki gletser tropis sekaligus hutan bakau dalam batas kawasan yang sama']},
+    {id:'kerinciseblat_tn', nama:'Taman Nasional Kerinci Seblat', provinsi:'jambi', lokasi:'Jambi, Sumatera Barat, Bengkulu & Sumatera Selatan', ekosistem:'Hutan hujan tropis pegunungan', ringkasan:'Taman nasional terluas di Sumatra yang melintasi empat provinsi, menjadi habitat penting harimau Sumatra dan rumah bagi Gunung Kerinci, gunung berapi tertinggi di Indonesia.',
+     fakta:['Melintasi wilayah empat provinsi sekaligus, menjadikannya salah satu kawasan konservasi lintas provinsi terluas di Indonesia','Menjadi salah satu benteng konservasi harimau Sumatra yang populasinya kian terancam di alam liar']},
+    {id:'baluran_tn', nama:'Taman Nasional Baluran', provinsi:'jatim', lokasi:'Jawa Timur', ekosistem:'Savana kering', ringkasan:'Kawasan konservasi berjuluk "Little Africa van Java" karena savana kering luasnya yang menyerupai lanskap sabana Afrika, menjadi habitat banteng liar, rusa, dan berbagai burung endemik.',
+     fakta:['Dijuluki "Little Africa van Java" karena lanskap savananya yang unik menyerupai sabana Afrika','Menjadi salah satu benteng konservasi terakhir banteng liar (Bos javanicus) di Pulau Jawa']},
+    {id:'tanjungputing_tn', nama:'Taman Nasional Tanjung Puting', provinsi:'kalteng', lokasi:'Kalimantan Tengah', ekosistem:'Hutan rawa gambut & hutan hujan tropis', ringkasan:'Kawasan konservasi terkenal sebagai pusat penelitian dan rehabilitasi orangutan liar terbesar di dunia, didirikan atas jasa peneliti primata Birutė Galdikas sejak 1971.',
+     fakta:['Menjadi lokasi penelitian orangutan jangka panjang yang dirintis peneliti Birutė Galdikas sejak 1971','Pengunjung dapat menyusuri sungai menggunakan kapal tradisional klotok untuk mengamati orangutan liar langsung di habitatnya']},
   ],
   pantai:[
     {id:'kuta', nama:'Pantai Kuta', provinsi:'bali', lokasi:'Bali', ringkasan:'Pantai pasir putih paling ikonik di Bali, terkenal dengan ombak yang cocok untuk selancar pemula hingga menengah serta panorama matahari terbenam yang menjadi daya tarik wisatawan dunia.',
@@ -1085,6 +1137,16 @@ const GEOGRAFI = {
      fakta:['Sebelum abad ke-19, cengkih hanya tumbuh alami di Kepulauan Maluku sebelum berhasil dibudidayakan di tempat lain','Perebutan monopoli cengkih menjadi salah satu pemicu persaingan Portugis, Spanyol, dan Belanda di Nusantara']},
     {id:'pala', nama:'Pala', kategori:'Komoditas Rempah', ringkasan:'Rempah asli Kepulauan Banda, Maluku, dahulu bernilai setara emas di Eropa dan menjadi salah satu pemicu kolonialisme di Nusantara, bahkan pernah ditukar dengan wilayah Manhattan oleh Inggris dan Belanda lewat Perjanjian Breda 1667.',
      fakta:['Pulau Run di Kepulauan Banda ditukar Inggris dengan Pulau Manhattan milik Belanda','VOC melakukan monopoli ketat hingga genosida terhadap penduduk asli Banda demi menguasai perdagangan pala']},
+    {id:'lada_rempah', nama:'Lada', kategori:'Komoditas Rempah', ringkasan:'Rempah yang tumbuh subur di Sumatra, terutama Lampung dan Bangka Belitung, dijuluki "raja rempah" karena menjadi komoditas paling luas diperdagangkan di dunia sejak zaman kuno, jauh sebelum cengkih dan pala populer di Eropa.',
+     fakta:['Dijuluki "raja rempah" (King of Spices) karena menjadi komoditas rempah dengan volume perdagangan terbesar sepanjang sejarah','Lampung telah menjadi salah satu pusat produksi lada terbesar dunia sejak berabad-abad lalu']},
+    {id:'kayumanis_rempah', nama:'Kayu Manis', kategori:'Komoditas Rempah', ringkasan:'Rempah aromatik dari kulit kayu yang tumbuh di Sumatra bagian barat (Kerinci), telah diperdagangkan sejak zaman Mesir Kuno dan Romawi jauh sebelum era kolonial Eropa di Nusantara.',
+     fakta:['Indonesia menjadi salah satu produsen kayu manis terbesar dunia hingga saat ini, terutama dari kawasan Kerinci, Jambi','Sudah diperdagangkan sejak ribuan tahun lalu, tercatat digunakan bangsa Mesir Kuno untuk pengawetan mumi']},
+    {id:'jahe_rempah', nama:'Jahe', kategori:'Komoditas Rempah', ringkasan:'Rempah umbi yang tumbuh luas di berbagai wilayah Nusantara, digunakan sejak lama sebagai bumbu masakan sekaligus bahan obat tradisional (jamu) untuk menghangatkan tubuh dan meningkatkan daya tahan.',
+     fakta:['Menjadi salah satu bahan utama jamu tradisional Indonesia sejak berabad-abad lalu','Tersebar luas di hampir seluruh wilayah Indonesia karena mudah dibudidayakan di berbagai kondisi tanah']},
+    {id:'kunyit_rempah', nama:'Kunyit', kategori:'Komoditas Rempah', ringkasan:'Rempah umbi berwarna kuning cerah yang menjadi bahan pokok bumbu masakan Nusantara sekaligus pewarna alami makanan seperti nasi kuning, juga dipakai luas dalam jamu tradisional Indonesia.',
+     fakta:['Menjadi bahan pewarna alami kuning pada berbagai hidangan tradisional seperti nasi kuning dan gulai','Digunakan secara luas dalam pengobatan tradisional Indonesia karena dipercaya memiliki khasiat antiradang']},
+    {id:'pelabuhanrempah', nama:'Pelabuhan Penting Jalur Rempah', kategori:'Sejarah Jalur Rempah', ringkasan:'Sejumlah pelabuhan Nusantara menjadi simpul penting perdagangan rempah dunia sejak berabad-abad lalu, antara lain Malaka, Banten, Makassar, Ternate-Tidore, dan Banda, masing-masing menjadi pusat pertemuan pedagang dari Asia hingga Eropa.',
+     fakta:['Pelabuhan Malaka pernah menjadi salah satu pelabuhan tersibuk di dunia sebelum direbut Portugis pada 1511','Pelabuhan Banten sempat menjadi pesaing utama Batavia dalam perdagangan rempah pada abad ke-16 dan ke-17']},
     {id:'jalurperdaganganrempah', nama:'Jalur Perdagangan Rempah', kategori:'Sejarah Jalur Rempah', ringkasan:'Jaringan pelayaran yang menghubungkan Kepulauan Maluku dengan India, Timur Tengah, hingga Eropa selama berabad-abad, menjadikan Nusantara pusat perdagangan dunia jauh sebelum kedatangan bangsa Eropa.',
      fakta:['Jalur ini telah aktif sejak era kerajaan Sriwijaya, jauh sebelum era kolonial','UNESCO mengusulkan Jalur Rempah Nusantara sebagai warisan budaya dunia karena signifikansinya bagi sejarah perdagangan global']},
   ]
@@ -1110,6 +1172,30 @@ const KULINER = {
      fakta:['Namanya konon berasal dari sebutan "pek-pek", panggilan untuk penjual keliling keturunan Tionghoa yang mempopulerkannya','Cuko yang pedas dan asam menjadi ciri khas yang membedakannya dari olahan ikan daerah lain']},
     {id:'rawon_k', nama:'Rawon', provinsi:'jatim', bahanUtama:'Daging sapi, kluwek, rempah', ringkasan:'Sup daging berkuah hitam pekat dari buah kluwek, salah satu hidangan khas Jawa Timur yang biasa disajikan dengan nasi, tauge pendek, dan sambal.',
      fakta:['Warna hitam khasnya berasal dari buah kluwek yang harus diolah dengan benar agar tidak beracun','Dianggap sebagai salah satu hidangan sup tertua dalam tradisi kuliner Jawa']},
+    {id:'nasipadang', nama:'Nasi Padang', provinsi:'sumbar', bahanUtama:'Nasi dan lauk-pauk khas Minang (rendang, gulai, sambal)', ringkasan:'Sajian nasi dengan berbagai lauk pauk khas Minangkabau yang disajikan sekaligus dalam piring-piring kecil, pelanggan hanya membayar lauk yang dimakan sesuai konsep "makan sambil melihat".',
+     fakta:['Konsep penyajiannya yang unik memungkinkan pelanggan mencicipi banyak lauk sekaligus tanpa harus memesan satu per satu','Rumah makan Padang telah tersebar hampir di setiap kota di Indonesia bahkan mancanegara']},
+    {id:'gadogado', nama:'Gado-Gado', provinsi:'jakarta', bahanUtama:'Sayuran rebus, tahu, tempe, bumbu kacang', ringkasan:'Salad sayuran khas Indonesia yang disiram bumbu kacang kental, memadukan sayuran rebus, tahu, tempe, dan lontong dalam satu hidangan bergizi seimbang.',
+     fakta:['Sering dijuluki "salad Indonesia" oleh wisatawan mancanegara karena komposisinya yang kaya sayuran','Bumbu kacangnya menjadi ciri khas yang membedakannya dari salad ala Barat']},
+    {id:'ketoprak_k', nama:'Ketoprak', provinsi:'jakarta', bahanUtama:'Ketupat, tahu, bihun, bumbu kacang', ringkasan:'Hidangan khas Betawi berbahan ketupat, tahu, bihun, dan tauge yang disiram bumbu kacang, populer sebagai jajanan kaki lima sehari-hari di Jakarta.',
+     fakta:['Namanya konon berasal dari suara "ketopraktoprak" alat pemotong bahan-bahannya saat dijajakan','Menjadi salah satu kuliner kaki lima favorit yang bertahan lintas generasi di Jakarta']},
+    {id:'nasiliwet', nama:'Nasi Liwet', provinsi:'jateng', bahanUtama:'Beras, santan, ayam, labu siam', ringkasan:'Nasi gurih yang dimasak dengan santan dan disajikan dengan suwiran ayam, telur pindang, dan sayur labu siam berkuah santan, populer sebagai hidangan malam khas Solo.',
+     fakta:['Secara tradisional dijajakan pedagang keliling pada malam hari menggunakan pikulan','Disajikan di atas daun pisang dengan cara "sendok suru" (disendok, bukan dituang)']},
+    {id:'pempek_makanan', nama:'Pempek (Hidangan Utama)', provinsi:'sumsel', bahanUtama:'Ikan tenggiri, sagu, cuko', ringkasan:'Selain sebagai jajanan, pempek juga menjadi hidangan utama khas Palembang yang disajikan lengkap dengan mi kuning, timun, dan ebi sebagai pelengkap dalam porsi besar.',
+     fakta:['Variasi pempek kapal selam (berisi telur utuh) adalah salah satu jenis favorit dengan porsi paling mengenyangkan','Sering menjadi hidangan utama dalam acara keluarga dan perayaan di Palembang']},
+    {id:'cotomakassar', nama:'Coto Makassar', provinsi:'sulsel', bahanUtama:'Jeroan dan daging sapi, kacang tanah, rempah', ringkasan:'Sup daging dan jeroan sapi berkuah kental dari campuran kacang tanah halus dan puluhan rempah, disajikan dengan ketupat sebagai pendamping khas Sulawesi Selatan.',
+     fakta:['Kuahnya menggunakan lebih dari 40 jenis rempah tradisional dalam resep otentiknya','Konon merupakan hasil akulturasi kuliner Tionghoa dengan bumbu rempah lokal Makassar']},
+    {id:'ayambetutu_makanan', nama:'Ayam Betutu (Hidangan Utama)', provinsi:'bali', bahanUtama:'Ayam utuh, bumbu base genep', ringkasan:'Selain dikenal sebagai hidangan khas upacara, Ayam Betutu kini juga populer sebagai menu restoran sehari-hari di Bali dengan cita rasa pedas gurih yang khas.',
+     fakta:['Kini tersedia dalam versi lebih praktis untuk oleh-oleh wisatawan dalam kemasan vakum','Tetap mempertahankan resep bumbu base genep tradisional meski disajikan secara modern']},
+    {id:'sotobetawi', nama:'Soto Betawi', provinsi:'jakarta', bahanUtama:'Daging sapi/jeroan, susu/santan, rempah', ringkasan:'Sup daging sapi khas Betawi dengan kuah santan atau susu yang kental dan gurih, dilengkapi tomat, emping, dan acar sebagai pelengkap khasnya.',
+     fakta:['Penggunaan susu sebagai campuran kuah menjadi ciri khas yang membedakannya dari soto daerah lain','Populer sebagai menu andalan rumah makan legendaris di Jakarta sejak puluhan tahun lalu']},
+    {id:'sotolamongan', nama:'Soto Lamongan', provinsi:'jatim', bahanUtama:'Ayam, koya (bubuk kerupuk-bawang), rempah', ringkasan:'Soto ayam berkuah bening khas Lamongan yang ditaburi koya, bubuk kerupuk dan bawang putih goreng halus yang memberikan rasa gurih khas tak tertandingi.',
+     fakta:['Koya menjadi elemen pembeda utama yang membuat Soto Lamongan begitu digemari di seluruh Indonesia','Pedagang Soto Lamongan tersebar luas hingga ke berbagai kota besar di luar Jawa Timur']},
+    {id:'empekempek_lenjer', nama:'Tekwan', provinsi:'sumsel', bahanUtama:'Ikan tenggiri, sagu, bihun, jamur', ringkasan:'Sup bakso ikan khas Palembang berisi bihun, jamur kuping, dan bakso ikan kecil-kecil dalam kuah udang yang gurih dan segar.',
+     fakta:['Berbeda dari pempek, tekwan disajikan berkuah dan dianggap sebagai "bakso ikan versi Palembang"','Sering disajikan dalam acara-acara resmi dan hajatan sebagai hidangan pembuka']},
+    {id:'nasikuning_makanan', nama:'Nasi Kuning', daerah:'Seluruh Indonesia', bahanUtama:'Beras, santan, kunyit', ringkasan:'Nasi yang dimasak dengan santan dan kunyit hingga berwarna kuning cerah, melambangkan kemakmuran dan sering menjadi hidangan wajib dalam perayaan syukuran di Indonesia.',
+     fakta:['Warna kuningnya melambangkan kemakmuran dan kebahagiaan dalam berbagai tradisi syukuran Nusantara','Biasa dibentuk kerucut (tumpeng) sebagai hidangan utama perayaan ulang tahun atau syukuran']},
+    {id:'ikanbakarmanokwari', nama:'Ikan Bakar Manokwari', provinsi:'pabar', bahanUtama:'Ikan segar, sambal khas Papua', ringkasan:'Ikan segar yang dibakar dan disajikan dengan sambal khas Manokwari yang pedas dan segar berbahan tomat serta cabai rawit, mencerminkan kekayaan hasil laut Papua Barat.',
+     fakta:['Sambal khas Manokwari yang menyertainya kini populer di berbagai daerah lain di Indonesia','Menggunakan ikan segar hasil tangkapan lokal perairan Papua Barat yang melimpah']},
   ],
   jajanan:[
     {id:'klepon', nama:'Klepon', daerah:'Jawa', bahan:'Tepung ketan, gula merah, kelapa parut', ringkasan:'Bola ketan hijau berisi gula merah cair yang meleleh saat digigit, digulung dengan kelapa parut, populer di seluruh Jawa sebagai jajanan pasar tradisional.',
@@ -1124,6 +1210,22 @@ const KULINER = {
      fakta:['Serabi Solo dan Serabi Bandung memiliki tekstur dan penyajian yang cukup berbeda meski nama sama','Secara tradisional dimasak menggunakan cetakan tanah liat di atas bara arang']},
     {id:'putu', nama:'Kue Putu', daerah:'Jawa', bahan:'Tepung beras, gula merah, kelapa parut', ringkasan:'Kue berbentuk silinder yang dikukus dalam cetakan bambu, berisi gula merah cair dan ditaburi kelapa parut, dikenal lewat suara khas "mendesis" saat dimasak.',
      fakta:['Cetakan bambunya menghasilkan suara khas berbunyi seperti peluit saat uap keluar, menjadi ciri khas penjualnya','Sering dijajakan pedagang keliling pada malam hari']},
+    {id:'kuelapis', nama:'Kue Lapis', daerah:'Jawa/Betawi', bahan:'Tepung beras, tepung tapioka, santan, pewarna', ringkasan:'Kue kukus berlapis-lapis dengan warna-warni cerah dan tekstur kenyal, dibuat dengan menuang dan mengukus adonan secara bertahap lapis demi lapis.',
+     fakta:['Proses pembuatannya membutuhkan kesabaran karena tiap lapis harus dikukus terpisah sebelum lapisan berikutnya dituang','Warna-warni cerahnya menjadikannya jajanan pasar favorit untuk berbagai acara perayaan']},
+    {id:'kuecubit', nama:'Kue Cubit', daerah:'DKI Jakarta', bahan:'Tepung terigu, telur, gula, margarin', ringkasan:'Kue kecil bertekstur setengah matang yang dimasak di atas cetakan khusus, populer sebagai jajanan sekolah dengan berbagai topping seperti meses dan keju.',
+     fakta:['Namanya berasal dari cara mengambilnya dari cetakan dengan gerakan seperti "mencubit"','Kini berkembang dengan banyak varian topping modern seperti oreo dan cokelat leleh']},
+    {id:'martabak_manis', nama:'Martabak Manis', daerah:'Seluruh Indonesia', bahan:'Tepung terigu, ragi, telur, topping (cokelat/keju/kacang)', ringkasan:'Kue tebal bertekstur berongga yang dipanggang di atas wajan besar, diberi mentega, susu kental manis, dan berbagai topping manis sebelum dilipat menjadi dua.',
+     fakta:['Disebut juga "terang bulan" atau "kue bandung" tergantung daerahnya di Indonesia','Kini memiliki ratusan varian topping modern dari cokelat premium hingga keju mozzarella']},
+    {id:'pisangmolen', nama:'Pisang Molen', daerah:'Jawa Barat', bahan:'Pisang, tepung terigu, gula', ringkasan:'Pisang yang dibalut adonan tepung tipis membentuk pilinan lalu digoreng hingga renyah, populer sebagai oleh-oleh khas Bandung dalam kemasan modern.',
+     fakta:['Menjadi salah satu oleh-oleh khas Bandung paling populer sejak era 1990-an','Teksturnya yang renyah di luar dan lembut di dalam menjadi daya tarik utamanya']},
+    {id:'wajik', nama:'Wajik', daerah:'Jawa', bahan:'Beras ketan, gula merah, kelapa', ringkasan:'Kue tradisional dari ketan yang dimasak dengan gula merah dan santan hingga lengket dan berbentuk belah ketupat, biasa disajikan dalam acara hajatan Jawa.',
+     fakta:['Bentuknya yang khas belah ketupat melambangkan kebersamaan dalam tradisi Jawa','Sering menjadi bagian dari hantaran atau seserahan pernikahan adat Jawa']},
+    {id:'dodol_garut', nama:'Dodol Garut', provinsi:'jabar', bahan:'Beras ketan, gula merah, santan', ringkasan:'Makanan legit dan kenyal khas Garut hasil pemasakan ketan, gula merah, dan santan dalam waktu lama hingga mengental, menjadi oleh-oleh khas Jawa Barat paling terkenal.',
+     fakta:['Proses memasaknya secara tradisional bisa memakan waktu 6-8 jam sambil terus diaduk','Garut dijuluki "Kota Dodol" karena kepopuleran jajanan legendaris ini']},
+    {id:'bikaambon', nama:'Bika Ambon', provinsi:'sumut', bahan:'Tepung sagu, telur, santan, ragi', ringkasan:'Kue bertekstur berongga khas Medan yang justru tidak berasal dari Ambon melainkan dari sebuah jalan bernama Bika Ambon di Medan, populer sebagai oleh-oleh khas Sumatera Utara.',
+     fakta:['Meski namanya "Ambon", kue ini sebenarnya berasal dari Medan, Sumatera Utara','Namanya diambil dari nama jalan tempat kue ini pertama kali populer dijual']},
+    {id:'kuecucur', nama:'Kue Cucur', daerah:'Jawa/Betawi', bahan:'Tepung beras, gula merah', ringkasan:'Kue goreng berbentuk bundar dengan tekstur renyah di tepi dan lembut kenyal di tengah, berwarna cokelat dari gula merah, populer sebagai jajanan pasar tradisional.',
+     fakta:['Teksturnya yang unik, renyah di tepi namun kenyal di tengah, menjadi ciri khasnya','Sering hadir dalam sesajen dan upacara adat tertentu di Jawa dan Betawi']},
   ],
   minuman:[
     {id:'wedang_ronde', nama:'Wedang Ronde', daerah:'Jawa Tengah & Yogyakarta', bahan:'Jahe, bola ketan isi kacang, kolang-kaling', ringkasan:'Minuman jahe hangat berisi bola ketan isi kacang tanah dan pelengkap seperti kolang-kaling, populer sebagai penghangat tubuh di dataran tinggi Jawa yang bersuhu sejuk.',
@@ -1136,6 +1238,22 @@ const KULINER = {
      fakta:['Sering disajikan bersama roti bakar sebagai teman minum khas kedai malam Sunda','Beberapa variasi modern menambahkan susu kental manis ke dalamnya']},
     {id:'escincau', nama:'Es Cincau', daerah:'Jawa', bahan:'Daun cincau, santan, gula merah', ringkasan:'Minuman menyegarkan berbahan agar-agar hitam alami dari ekstrak daun cincau, dipercaya memiliki khasiat menyejukkan tubuh dan membantu pencernaan.',
      fakta:['Dibuat dari ekstraksi daun cincau hijau atau cincau hitam yang direbus dan dibiarkan mengental alami','Dipercaya secara tradisional memiliki khasiat menurunkan panas dalam']},
+    {id:'esteler', nama:'Es Teler', daerah:'DKI Jakarta', bahan:'Alpukat, kelapa muda, nangka, santan', ringkasan:'Minuman campuran buah segar seperti alpukat, kelapa muda, dan nangka yang disiram santan dan sirop, pernah memenangkan lomba kuliner nasional dan menjadi populer ke seluruh Indonesia.',
+     fakta:['Namanya pernah menjadi pemenang lomba pencipta minuman khas Indonesia pada 1982','Kini menjadi salah satu minuman campuran buah paling populer di seluruh Nusantara']},
+    {id:'bandrekmodern', nama:'Bajigur', provinsi:'jabar', bahan:'Santan, gula aren, jahe, kopi', ringkasan:'Minuman hangat khas Sunda berbahan santan, gula aren, dan sedikit kopi, populer diminum pada malam hari atau saat cuaca dingin di dataran tinggi Jawa Barat.',
+     fakta:['Sering disajikan bersama kacang rebus dan ubi rebus sebagai teman minum khas Sunda','Warnanya cokelat pekat khas dari campuran gula aren dan sentuhan kopi']},
+    {id:'wedanguwuh', nama:'Wedang Uwuh', provinsi:'yogyakarta', bahan:'Rempah kering (kayu secang, cengkih, jahe, kayu manis, daun pala)', ringkasan:'Minuman hangat khas Yogyakarta berbahan campuran rempah kering yang menghasilkan warna merah alami dari kayu secang, dipercaya menghangatkan tubuh dan menyehatkan.',
+     fakta:['Namanya berarti "minuman sampah" karena tampilan rempah keringnya yang berserakan di gelas, meski sebenarnya menyehatkan','Warna merah khasnya berasal dari kayu secang, bukan pewarna buatan']},
+    {id:'sekoteng', nama:'Sekoteng', provinsi:'jateng', bahan:'Jahe, kacang hijau, kacang tanah, roti, pacar cina', ringkasan:'Minuman hangat khas Jawa Tengah berbahan dasar jahe dengan campuran kacang hijau, kacang tanah, potongan roti tawar, dan pacar cina, populer sebagai penghangat di malam hari.',
+     fakta:['Dipengaruhi kuliner Tionghoa yang beradaptasi dengan cita rasa jahe khas Nusantara','Sering dijajakan pedagang keliling menggunakan pikulan pada malam hari di kota-kota Jawa Tengah']},
+    {id:'esdoger', nama:'Es Doger', provinsi:'jabar', bahan:'Tape singkong, kelapa muda, susu, sirop', ringkasan:'Minuman dingin khas Jawa Barat berbahan tape singkong, kelapa muda, dan roti yang disiram susu kental manis dan sirop merah, populer sebagai jajanan sore hari.',
+     fakta:['Namanya konon berasal dari suara "dog-dog", alat musik yang dahulu dipukul pedagang saat berkeliling','Kombinasi tape dan kelapa muda menjadi ciri khas yang membedakannya dari es campur lain']},
+    {id:'kopitubruk', nama:'Kopi Tubruk', daerah:'Seluruh Indonesia', bahan:'Kopi bubuk kasar, gula, air panas', ringkasan:'Cara penyajian kopi tradisional Indonesia yang paling sederhana, bubuk kopi kasar diseduh langsung dengan air panas tanpa disaring, ampasnya mengendap di dasar gelas.',
+     fakta:['Merupakan metode penyeduhan kopi tertua dan paling umum di Indonesia sebelum tren kopi modern','Disebut "tubruk" karena air panas langsung "menubruk" bubuk kopi tanpa alat seduh khusus']},
+    {id:'tehtalua', nama:'Teh Talua', provinsi:'sumbar', bahan:'Teh, telur kuning, gula, jeruk nipis', ringkasan:'Minuman khas Minangkabau berbahan teh yang dikocok dengan kuning telur hingga berbusa, dipercaya sebagai minuman penambah stamina, populer di kedai-kedai kopi Sumatera Barat.',
+     fakta:['Proses pengocokan telur dan gula hingga berbusa dilakukan secara manual dengan teknik khusus','Dipercaya masyarakat Minang sebagai minuman penambah stamina dan vitalitas']},
+    {id:'airtebu', nama:'Air Tebu', daerah:'Seluruh Indonesia', bahan:'Batang tebu segar', ringkasan:'Minuman segar hasil perasan batang tebu langsung menggunakan alat penggiling tradisional, populer sebagai minuman pelepas dahaga di siang hari yang terik.',
+     fakta:['Diperas langsung dari batang tebu segar menggunakan alat giling manual atau mesin sederhana','Populer dijajakan di pinggir jalan terutama di kawasan yang panas dan ramai']},
   ]
 };
 
@@ -1358,12 +1476,26 @@ const SEJARAH = {
      fakta:['Menghasilkan peninggalan seperti menhir, dolmen, dan sarkofagus di berbagai wilayah Nusantara','Konsep punden berundak pada masa ini diyakini memengaruhi arsitektur candi di kemudian hari']},
     {id:'manusiapurba', nama:'Manusia Purba Indonesia', ringkasan:'Indonesia menjadi salah satu situs penemuan fosil manusia purba paling penting di dunia, dengan temuan seperti Pithecanthropus erectus (Manusia Jawa) yang mengubah pemahaman ilmiah tentang evolusi manusia.',
      fakta:['Fosil Pithecanthropus erectus ditemukan Eugène Dubois di Trinil, Jawa Timur pada 1891','Situs Sangiran di Jawa Tengah ditetapkan UNESCO sebagai Situs Warisan Dunia karena kekayaan fosil manusia purbanya']},
+    {id:'meganthropus', nama:'Meganthropus Paleojavanicus', ringkasan:'Jenis manusia purba tertua yang ditemukan di Indonesia, fosilnya ditemukan oleh G.H.R. von Koenigswald di Sangiran, Jawa Tengah, dicirikan tubuh besar dan rahang kuat, diperkirakan hidup sekitar 1-2 juta tahun lalu pada masa Pleistosen Bawah.',
+     fakta:['Namanya berarti "manusia besar dari Jawa" (mega=besar, anthropus=manusia, paleo=purba, javanicus=Jawa)','Dianggap sebagai salah satu manusia purba paling primitif yang pernah ditemukan di Indonesia']},
+    {id:'pithecanthropus_detail', nama:'Pithecanthropus (Manusia Kera Berjalan Tegak)', ringkasan:'Kelompok fosil manusia purba dengan ciri peralihan antara kera dan manusia, terdiri dari beberapa jenis seperti Pithecanthropus erectus, Pithecanthropus mojokertensis, dan Pithecanthropus soloensis, banyak ditemukan di sepanjang aliran Bengawan Solo.',
+     fakta:['Pithecanthropus mojokertensis ditemukan di Mojokerto, Jawa Timur, diperkirakan sebagai fosil anak-anak','Kini secara ilmiah digolongkan sebagai spesies Homo erectus dalam klasifikasi evolusi manusia modern']},
+    {id:'homosapiens_purba', nama:'Homo Soloensis & Homo Wajakensis', ringkasan:'Jenis manusia purba yang lebih maju dibanding Pithecanthropus, dengan volume otak lebih besar dan ciri lebih mendekati manusia modern, ditemukan di Ngandong (Solo) dan Wajak (Tulungagung), Jawa Timur.',
+     fakta:['Homo Wajakensis dianggap sebagai fosil manusia purba paling maju yang ditemukan di Indonesia','Ditemukan oleh B.D. van Rietschoten pada 1889 di Wajak, sebelum penemuan-penemuan Eugène Dubois di Trinil']},
+    {id:'situssangiran', nama:'Situs Sangiran', ringkasan:'Kompleks situs purbakala di Jawa Tengah yang menjadi salah satu lokasi penemuan fosil manusia purba terlengkap dan terpenting di dunia, ditetapkan UNESCO sebagai Situs Warisan Dunia pada 1996.',
+     fakta:['Ditemukan lebih dari 100 fosil manusia purba di kawasan ini, sekitar 50% dari seluruh temuan fosil manusia purba dunia','Kini dikelola sebagai Museum Purbakala Sangiran yang menjadi sarana edukasi sejarah manusia purba bagi pelajar']},
+    {id:'zamanlogam', nama:'Zaman Logam (Perundagian)', ringkasan:'Periode akhir prasejarah ketika manusia mulai mengenal teknologi pengolahan logam seperti perunggu dan besi untuk membuat peralatan dan senjata, menandai munculnya keahlian khusus (undagi) dalam masyarakat.',
+     fakta:['Nekara perunggu peninggalan zaman ini banyak ditemukan di berbagai daerah seperti Bali, Alor, dan Sumatra','Menjadi era transisi penting menuju masyarakat yang lebih terorganisir dengan pembagian kerja dan keahlian khusus']},
   ],
   kolonialisme:[
     {id:'kedatanganeropa', nama:'Kedatangan Bangsa Eropa', ringkasan:'Diawali kedatangan Portugis pada 1512 yang mencari sumber rempah langsung ke Maluku, disusul Spanyol, lalu Belanda yang membentuk VOC (Vereenigde Oost-Indische Compagnie) pada 1602 untuk memonopoli perdagangan rempah Nusantara.',
      fakta:['VOC sempat menjadi salah satu perusahaan dagang terbesar dan terkaya dalam sejarah dunia','VOC dibubarkan pada 1799 akibat korupsi dan utang besar, wilayahnya diambil alih pemerintah Hindia Belanda']},
     {id:'vocopium', nama:'Monopoli VOC & Sistem Opium', ringkasan:'VOC menerapkan monopoli perdagangan rempah yang ketat, memaksa petani menanam komoditas tertentu dan melarang penjualan ke pedagang lain, sambil juga mengontrol penjualan opium sebagai sumber penghasilan besar kolonial.',
      fakta:['Monopoli VOC menyebabkan petani tidak bisa menjual hasil pertanian ke siapa pun selain VOC dengan harga yang ditetapkan VOC sendiri','Pajak opium menjadi salah satu sumber keuangan terbesar Hindia Belanda']},
+    {id:'tanampaksa', nama:'Sistem Tanam Paksa (Cultuurstelsel)', ringkasan:'Kebijakan kolonial Belanda yang dicetuskan Gubernur Jenderal Johannes van den Bosch sejak 1830, mewajibkan petani menyisihkan sebagian lahan (idealnya seperlima) untuk menanam komoditas ekspor seperti tebu, nila, kopi, dan tembakau demi mengisi kas Belanda yang kosong akibat Perang Diponegoro.',
+     fakta:['Dalam praktiknya sering melebihi aturan resmi, memaksa petani menanam lebih dari seperlima lahan bahkan hingga sepanjang tahun','Kritik keras terhadap sistem ini disuarakan lewat novel Max Havelaar (1860) karya Multatuli (nama pena Eduard Douwes Dekker), yang ikut membuka mata publik Belanda dan mendorong penghapusan sistem ini secara bertahap']},
+    {id:'politiketis', nama:'Politik Etis (Politik Balas Budi)', ringkasan:'Kebijakan kolonial Belanda awal abad ke-20 sebagai respons atas kritik terhadap eksploitasi Tanam Paksa, menekankan tiga program utama: irigasi (pengairan), edukasi (pendidikan), dan emigrasi (transmigrasi), meski dalam praktiknya lebih menguntungkan kepentingan Belanda.',
+     fakta:['Dicetuskan oleh Conrad Theodoor van Deventer lewat tulisannya "Een Eereschuld" (Utang Kehormatan) pada 1899','Program edukasi dalam Politik Etis secara tak terduga melahirkan kaum terpelajar pribumi yang kelak memimpin pergerakan nasional Indonesia']},
     {id:'hindiabelanda', nama:'Periode Hindia Belanda (1800–1942)', ringkasan:'Setelah pembubaran VOC, Pemerintah Kerajaan Belanda secara langsung menguasai Nusantara sebagai Hindia Belanda, ditandai dengan ekspansi militer, pembentukan birokrasi modern, dan ekstraksi sumber daya alam secara masif untuk kepentingan Belanda.',
      fakta:['Pemerintah Hindia Belanda mendirikan berbagai infrastruktur seperti jalan raya, rel kereta api, dan jaringan telegrafi','Ekspansi ini memerlukan kampanye militer besar seperti Perang Jawa, Perang Aceh, dan penaklukan wilayah-wilayah lainnya']},
     {id:'japonisme', nama:'Pendudukan Jepang (1942–1945)', ringkasan:'Jepang menggantikan Belanda sebagai kekuatan penjajah setelah Perang Pasifik Dunia II dimulai, dengan sistem pemerintahan militer yang lebih represif, namun paradoksnya membuka peluang bagi gerakan kemerdekaan Indonesia untuk persiapan final menjelang proklamasi 1945.',
@@ -1416,8 +1548,16 @@ const SEJARAH = {
   pascaKemerdekaan:[
     {id:'ordelama', nama:'Orde Lama', periode:'1945–1966', ringkasan:'Periode awal Indonesia merdeka di bawah kepemimpinan Presiden Soekarno, diwarnai upaya konsolidasi negara, berbagai pemberontakan daerah, sistem Demokrasi Terpimpin, hingga berakhir dengan peralihan kekuasaan pasca peristiwa G30S 1965.',
      fakta:['Indonesia sempat menerapkan sistem parlementer sebelum kembali ke UUD 1945 lewat Dekret Presiden 1959','Konferensi Asia-Afrika 1955 di Bandung menjadi momen penting diplomasi Indonesia di kancah internasional']},
+    {id:'ris_periode', nama:'Republik Indonesia Serikat (RIS)', periode:'27 Desember 1949 – 17 Agustus 1950', ringkasan:'Bentuk negara federal Indonesia hasil kesepakatan Konferensi Meja Bundar, terdiri dari beberapa negara bagian, berumur pendek karena besarnya tuntutan rakyat untuk kembali ke bentuk negara kesatuan.',
+     fakta:['Terdiri dari 16 negara bagian, sebagian besar bentukan Belanda untuk memecah kekuatan Republik Indonesia','Dibubarkan kembali menjadi Negara Kesatuan Republik Indonesia (NKRI) pada 17 Agustus 1950, tepat 5 tahun setelah proklamasi']},
+    {id:'demokrasiliberal', nama:'Demokrasi Liberal (Parlementer)', periode:'1950–1959', ringkasan:'Periode penerapan sistem parlementer dengan Perdana Menteri sebagai kepala pemerintahan dan kabinet yang sering berganti akibat sistem multipartai yang tidak stabil, hanya bertahan sembilan tahun sebelum digantikan Demokrasi Terpimpin.',
+     fakta:['Tercatat lebih dari tujuh kali pergantian kabinet dalam kurun waktu sembilan tahun akibat ketidakstabilan politik','Pemilu pertama Indonesia yang demokratis digelar pada 1955 untuk memilih anggota DPR dan Konstituante']},
+    {id:'demokrasiterpimpin', nama:'Demokrasi Terpimpin', periode:'1959–1966', ringkasan:'Sistem pemerintahan yang dimulai lewat Dekret Presiden 5 Juli 1959, memusatkan kekuasaan besar di tangan Presiden Soekarno dengan konsep Nasakom (Nasionalisme-Agama-Komunisme), berakhir dengan pergolakan politik pasca G30S 1965.',
+     fakta:['Presiden Soekarno diangkat menjadi presiden seumur hidup lewat Ketetapan MPRS pada 1963','Konsep Nasakom yang mempersatukan tiga kekuatan ideologi besar akhirnya memicu ketegangan politik yang berujung pada krisis 1965']},
     {id:'ordebaru', nama:'Orde Baru', periode:'1967–1998', ringkasan:'Periode pemerintahan Presiden Soeharto yang menitikberatkan stabilitas politik dan pembangunan ekonomi lewat program Repelita (Rencana Pembangunan Lima Tahun), namun juga ditandai sentralisasi kekuasaan yang berakhir lewat gerakan Reformasi 1998.',
      fakta:['Indonesia mencatat pertumbuhan ekonomi signifikan pada awal Orde Baru lewat program swasembada pangan','Krisis moneter Asia 1997–1998 menjadi pemicu utama runtuhnya kekuasaan Orde Baru']},
+    {id:'krismon', nama:'Krisis Moneter 1997–1998', periode:'1997–1998', ringkasan:'Krisis ekonomi regional Asia yang berdampak parah pada Indonesia, ditandai anjloknya nilai rupiah secara drastis dan gejolak sosial-politik besar, menjadi pemicu langsung tuntutan Reformasi dan lengsernya Presiden Soeharto pada Mei 1998.',
+     fakta:['Nilai tukar rupiah sempat anjlok dari sekitar Rp2.500 menjadi lebih dari Rp16.000 per dolar AS','Krisis ini memicu kerusuhan Mei 1998 di berbagai kota besar yang mempercepat tuntutan mundurnya Presiden Soeharto']},
     {id:'reformasi_sej', nama:'Reformasi', periode:'Sejak 1998', ringkasan:'Era baru demokrasi Indonesia yang dimulai setelah lengsernya Presiden Soeharto, membawa kebebasan pers, sistem multipartai, pemilu presiden langsung, serta otonomi daerah yang lebih luas.',
      fakta:['Empat kali amandemen UUD 1945 dilakukan pada era Reformasi (1999–2002)','Pemilu presiden langsung pertama kali digelar pada 2004']},
   ],
@@ -1605,6 +1745,66 @@ const SENI = {
      fakta:['Teknik ikat sudah digunakan sejak ribuan tahun lalu di berbagai belahan dunia','Motif yang dihasilkan sangat unik karena sulit dikontrol dengan sempurna']},
     {id:'dodot', nama:'Dodot', teknik:'Batik dengan motif khusus', ringkasan:'Kain batik khusus yang dikenakan dalam upacara adat Jawa, terutama dalam upacara pernikahan sebagai busana perempuan pengantin, dengan motif batik yang sangat rumit dan bernilai tinggi.',
      fakta:['Dodot biasanya memiliki motif batik yang sangat rumit dan bernilai uang cukup tinggi','Dipercaya membawa kemakmuran dan keberuntungan bagi pemakai']},
+  ],
+  lagu:[
+    {id:'indonesiaraya_lagu', judul:'Indonesia Raya', jenis:'Lagu Nasional', pencipta:'W.R. Supratman', asal:'Nasional', ringkasan:'Lagu kebangsaan resmi Republik Indonesia, pertama kali diperdengarkan pada Kongres Pemuda II 28 Oktober 1928 sebagai penutup ikrar Sumpah Pemuda, kini wajib dikumandangkan dalam setiap upacara resmi kenegaraan.',
+     fakta:['Pertama kali dimainkan secara instrumental karena liriknya dianggap terlalu provokatif bagi pemerintah kolonial Belanda saat itu','Terdiri dari tiga stanza, namun umumnya hanya stanza pertama yang dinyanyikan dalam upacara resmi']},
+    {id:'garudapancasila_lagu', judul:'Garuda Pancasila', jenis:'Lagu Wajib Nasional', pencipta:'Sudharnoto', asal:'Nasional', ringkasan:'Lagu wajib nasional yang mengagungkan lambang negara Garuda Pancasila sebagai pemersatu bangsa, populer diajarkan di sekolah-sekolah sebagai penguat rasa nasionalisme sejak dini.',
+     fakta:['Menjadi salah satu lagu wajib yang paling awal diajarkan kepada siswa sekolah dasar di Indonesia','Liriknya menegaskan Pancasila sebagai dasar dan ideologi tetap bangsa Indonesia']},
+    {id:'harimerdeka', judul:'Hari Merdeka (17 Agustus)', jenis:'Lagu Wajib Nasional', pencipta:'Husein Mutahar', asal:'Nasional', ringkasan:'Lagu wajib yang mengiringi semangat perayaan Hari Kemerdekaan Indonesia setiap 17 Agustus, sangat populer dinyanyikan dalam berbagai perlombaan dan perayaan kemerdekaan di seluruh pelosok negeri.',
+     fakta:['Diciptakan oleh Husein Mutahar, tokoh yang juga merancang formasi pengibaran bendera Paskibraka','Liriknya yang mudah diingat membuatnya sangat populer dinyanyikan anak-anak setiap perayaan 17 Agustus']},
+    {id:'halohalobandung', judul:'Halo-Halo Bandung', jenis:'Lagu Perjuangan', pencipta:'Ismail Marzuki', asal:'Jawa Barat', ringkasan:'Lagu perjuangan yang menggambarkan kerinduan dan tekad merebut kembali Kota Bandung dari tangan penjajah, diciptakan dalam suasana peristiwa Bandung Lautan Api 1946.',
+     fakta:['Terinspirasi dari peristiwa Bandung Lautan Api, ketika rakyat membakar kota sendiri agar tidak dikuasai sekutu','Menjadi salah satu lagu perjuangan paling dikenang dari komponis legendaris Ismail Marzuki']},
+    {id:'rayuanpulaukelapa', judul:'Rayuan Pulau Kelapa', jenis:'Lagu Nasional', pencipta:'Ismail Marzuki', asal:'Nasional', ringkasan:'Lagu yang menggambarkan keindahan alam kepulauan Indonesia dengan nyiur melambai, sempat menjadi lagu tanda penutup siaran televisi TVRI selama puluhan tahun.',
+     fakta:['Sempat digunakan sebagai lagu penutup siaran resmi TVRI setiap malam selama puluhan tahun','Liriknya melukiskan keindahan alam Nusantara sebagai tanah air yang dicintai']},
+    {id:'syukur_lagu', judul:'Syukur', jenis:'Lagu Nasional', pencipta:'H. Mutahar', asal:'Nasional', ringkasan:'Lagu nasional bernuansa syukur atas kemerdekaan dan kekayaan alam Indonesia, sering dinyanyikan dalam upacara maupun acara keagamaan sebagai ungkapan rasa terima kasih kepada Tuhan.',
+     fakta:['Sering dinyanyikan dalam suasana khidmat sebagai penutup upacara bendera','Liriknya mengajak rakyat Indonesia senantiasa bersyukur atas anugerah kemerdekaan']},
+    {id:'bungongjeumpa', judul:'Bungong Jeumpa', jenis:'Lagu Daerah', asal:'Aceh', ringkasan:'Lagu daerah Aceh yang menggambarkan keindahan bunga cempaka (jeumpa), sering dinyanyikan dalam berbagai acara budaya dan pertunjukan tari Aceh.',
+     fakta:['"Bungong Jeumpa" berarti "bunga cempaka" dalam bahasa Aceh','Sering mengiringi pertunjukan tari tradisional Aceh dalam berbagai festival budaya']},
+    {id:'amparampar', judul:'Ampar-Ampar Pisang', jenis:'Lagu Daerah', asal:'Kalimantan Selatan', ringkasan:'Lagu daerah ceria khas Banjar yang menggambarkan proses menjemur pisang, sangat populer diajarkan kepada anak-anak di seluruh Indonesia sebagai lagu anak tradisional.',
+     fakta:['Salah satu lagu daerah paling populer dan sering dinyanyikan anak-anak di seluruh Indonesia','Liriknya menggambarkan kegiatan sehari-hari masyarakat Banjar menjemur pisang']},
+    {id:'kicirkicir', judul:'Kicir-Kicir', jenis:'Lagu Daerah', asal:'DKI Jakarta (Betawi)', ringkasan:'Lagu daerah khas Betawi yang berbentuk pantun berlagu, sering dinyanyikan dalam acara pernikahan dan pertunjukan seni Betawi seperti gambang kromong.',
+     fakta:['Liriknya berbentuk pantun yang mengandung nasihat dan sindiran halus khas budaya Betawi','Sering diiringi musik gambang kromong dalam pertunjukan seni Betawi']},
+    {id:'manukdadali', judul:'Manuk Dadali', jenis:'Lagu Daerah', pencipta:'Sambas Mangundikarta', asal:'Jawa Barat', ringkasan:'Lagu daerah Sunda yang menggambarkan burung Garuda (manuk dadali) sebagai simbol kegagahan dan semangat juang, populer diajarkan dalam pendidikan seni budaya Sunda.',
+     fakta:['"Manuk Dadali" berarti "burung garuda" dalam bahasa Sunda','Menggambarkan semangat gagah berani dan pantang menyerah yang diasosiasikan dengan burung Garuda']},
+    {id:'gunduljpacul', judul:'Gundul Pacul', jenis:'Lagu Daerah', asal:'Jawa Tengah', ringkasan:'Lagu daerah Jawa Tengah yang sarat filosofi kepemimpinan, menceritakan tentang kepala yang botak (gundul) membawa bakul yang jatuh berantakan sebagai metafora pemimpin yang lalai.',
+     fakta:['Liriknya mengandung filosofi mendalam tentang bahaya pemimpin yang sombong dan ceroboh (gembelengan)','Sering dianalisis sebagai kritik sosial halus terhadap kepemimpinan yang tidak amanah']},
+    {id:'rasasayange', judul:'Rasa Sayange', jenis:'Lagu Daerah', asal:'Maluku', ringkasan:'Lagu daerah Maluku yang penuh kehangatan pergaulan, sangat populer di seluruh Indonesia bahkan di kawasan serumpun seperti Malaysia sebagai lagu rakyat yang akrab.',
+     fakta:['Sempat menjadi polemik lintas negara karena diklaim sebagai lagu rakyat oleh negara tetangga','Liriknya berisi ungkapan kasih sayang dan keakraban khas budaya pergaulan Maluku']},
+    {id:'yamkorambeyamko', judul:'Yamko Rambe Yamko', jenis:'Lagu Daerah', asal:'Papua', ringkasan:'Lagu daerah Papua yang menceritakan kepedihan gugurnya bunga bangsa (pahlawan) dalam pertempuran, dinyanyikan dalam bahasa daerah Papua dengan melodi yang khas dan menyentuh.',
+     fakta:['Liriknya menggunakan bahasa daerah Papua, menceritakan gugurnya para pahlawan bagai bunga yang berguguran','Menjadi salah satu lagu daerah Papua paling dikenal luas di seluruh Indonesia']},
+    {id:'anginggmamiri', judul:'Anging Mamiri', jenis:'Lagu Daerah', asal:'Sulawesi Selatan', ringkasan:'Lagu daerah Bugis-Makassar yang menggambarkan angin sepoi-sepoi (anging mamiri) sebagai metafora kerinduan dan kelembutan perasaan, populer dalam berbagai acara budaya Sulawesi Selatan.',
+     fakta:['"Anging Mamiri" berarti "angin yang bertiup sepoi-sepoi" dalam bahasa Makassar','Sering diaransemen ulang dalam berbagai pertunjukan musik modern bernuansa etnik']},
+    {id:'injitinjitsemut', judul:'Injit-Injit Semut', jenis:'Lagu Daerah', asal:'Jambi', ringkasan:'Lagu daerah Jambi bernuansa Melayu yang ceria, biasa dinyanyikan sebagai lagu permainan anak-anak sambil melakukan gerakan tarian sederhana secara berkelompok.',
+     fakta:['Sering dinyanyikan sambil bermain dalam kelompok anak-anak dengan gerakan sederhana','Bernuansa Melayu yang kental, mencerminkan budaya Jambi yang dekat dengan rumpun Melayu']},
+  ],
+  musikIdentitas:[
+    {id:'keroncong', nama:'Keroncong', ringkasan:'Genre musik khas Indonesia hasil akulturasi budaya Portugis dan pribumi sejak abad ke-16, dicirikan dengan permainan ukulele kecil (cuk dan cak), biola, flute, dan cello yang menghasilkan alunan syahdu dan nostalgik.',
+     fakta:['Berasal dari kata "crong-crong", tiruan bunyi petikan senar instrumen khas genre ini','Kota Tugu di Jakarta dan Solo dianggap sebagai pusat perkembangan awal musik keroncong di Indonesia']},
+    {id:'dangdut', nama:'Dangdut', ringkasan:'Genre musik populer Indonesia yang memadukan unsur musik Melayu, India, dan Arab, dicirikan dengan ketukan gendang khas dan menjadi salah satu genre musik paling digemari lintas kalangan di Indonesia.',
+     fakta:['Namanya diambil dari tiruan bunyi ketukan khas gendang (dang-dut) yang menjadi ciri utamanya','Rhoma Irama dijuluki "Raja Dangdut" atas kontribusinya mempopulerkan genre ini secara nasional']},
+    {id:'gambus', nama:'Gambus', ringkasan:'Genre musik bernuansa Arab-Melayu yang menggunakan alat musik petik sejenis gambus (mirip oud), berkembang di kalangan komunitas keturunan Arab di Indonesia dan sering mengiringi lagu-lagu bernuansa religi.',
+     fakta:['Alat musik gambus sendiri diadaptasi dari oud, alat musik petik khas Timur Tengah','Sering dipadukan dengan tarian zapin dalam pertunjukan budaya bernuansa Islami']},
+    {id:'tarling', nama:'Tarling', ringkasan:'Genre musik khas Cirebon dan Indramayu yang memadukan gitar dan suling (singkatan dari "gitar" dan "suling"), berkembang menjadi genre populer dengan lirik berbahasa Cirebon/Jawa pesisir.',
+     fakta:['Namanya merupakan akronim dari "gitar" dan "suling", dua instrumen utamanya','Berkembang menjadi genre dangdut Cirebonan modern yang tetap populer di pesisir utara Jawa Barat']},
+    {id:'qasidah', nama:'Qasidah/Nasyid', ringkasan:'Genre musik bernuansa Islami yang berisi syair-syair pujian dan dakwah, populer dibawakan grup vokal atau diiringi rebana, berkembang pesat di lingkungan pesantren dan komunitas Muslim Indonesia.',
+     fakta:['Rebana menjadi instrumen utama yang hampir selalu mengiringi penampilan qasidah tradisional','Nasyid modern kini berkembang dengan aransemen musik kontemporer namun tetap mempertahankan pesan dakwah']},
+  ],
+  olahragaTradisional:[
+    {id:'pencaksilat', nama:'Pencak Silat', asal:'Seluruh Indonesia (terutama Sumatera Barat & Jawa Barat)', ringkasan:'Seni bela diri asli Indonesia yang memadukan aspek olahraga, seni, bela diri, dan spiritualitas, telah diakui UNESCO sebagai Warisan Budaya Tak Benda dunia dan menjadi cabang olahraga resmi di ajang SEA Games.',
+     fakta:['Diresmikan UNESCO sebagai Warisan Budaya Tak Benda dunia pada 2019','Menjadi cabang olahraga kebanggaan Indonesia yang rutin dipertandingkan dalam SEA Games dan Asian Games']},
+    {id:'karapansapi_olahraga', nama:'Karapan Sapi', asal:'Madura, Jawa Timur', ringkasan:'Perlombaan balap sepasang sapi yang menarik kereta kayu kecil dengan joki berdiri di atasnya, digelar tiap tahun di Madura sebagai ajang gengsi dan hiburan rakyat yang sangat dinantikan.',
+     fakta:['Sapi-sapi pemenang karapan bisa bernilai sangat tinggi dan menjadi kebanggaan pemiliknya','Final Piala Presiden Karapan Sapi digelar setiap tahun di Pamekasan, Madura']},
+    {id:'fahombo_olahraga', nama:'Fahombo (Lompat Batu)', asal:'Nias, Sumatera Utara', ringkasan:'Tradisi olahraga lompat batu setinggi sekitar 2 meter yang menjadi ritual inisiasi kedewasaan pemuda Nias, membutuhkan keberanian dan latihan fisik intensif sejak usia dini.',
+     fakta:['Batu yang dilompati biasanya setinggi sekitar 2 meter dengan lebar terbatas','Awalnya berfungsi sebagai simbol kesiapan pemuda untuk berperang mempertahankan desa']},
+    {id:'pacujalur', nama:'Pacu Jalur', asal:'Kuantan Singingi, Riau', ringkasan:'Perlombaan mendayung perahu panjang tradisional (jalur) yang bisa memuat puluhan pendayung sekaligus, digelar di Sungai Kuantan sebagai festival tahunan yang meriah.',
+     fakta:['Perahu jalur bisa berukuran hingga puluhan meter dan mengangkut puluhan pendayung sekaligus','Festival Pacu Jalur menjadi salah satu event pariwisata tahunan terbesar di Provinsi Riau']},
+    {id:'caci', nama:'Caci', asal:'Manggarai, Nusa Tenggara Timur', ringkasan:'Tarung tradisional menggunakan cambuk dan perisai antar dua pria, dilakukan dalam suasana penuh sportivitas sebagai ungkapan syukur panen dan penyambutan tamu kehormatan di Manggarai.',
+     fakta:['Meski tampak keras, Caci dilakukan dengan penuh aturan dan semangat sportivitas, bukan permusuhan','Biasa digelar sebagai bagian dari upacara syukur panen dan penyambutan tamu penting']},
+    {id:'sepaktakraw', nama:'Sepak Takraw', asal:'Sumatera & Semenanjung Melayu', ringkasan:'Olahraga tradisional Melayu yang memadukan sepak bola dan bola voli menggunakan bola anyaman rotan, dimainkan dengan kaki, dada, dan kepala tanpa menyentuh tangan, kini menjadi cabang olahraga resmi internasional.',
+     fakta:['Bola tradisionalnya terbuat dari anyaman rotan sebelum kini banyak digantikan bahan sintetis','Kini dipertandingkan secara resmi dalam SEA Games dan Asian Games sebagai cabang olahraga kompetitif']},
+    {id:'perisaian', nama:'Perisaian', asal:'Lombok, Nusa Tenggara Barat', ringkasan:'Pertarungan tradisional menggunakan tongkat rotan (penjalin) dan perisai kulit sapi antar dua petarung (pepadu), digelar sebagai bagian dari ritual permohonan hujan dan perayaan budaya Sasak.',
+     fakta:['Petarungnya disebut "pepadu", bertarung menggunakan tongkat rotan dan perisai kulit sapi','Dipercaya sebagai ritual permohonan hujan bagi masyarakat Sasak di Lombok']},
   ]
 };
 
@@ -1708,6 +1908,50 @@ const PUSTAKA = {
      fakta:['Masih dipraktikkan oleh sebagian kecil masyarakat Bugis di Kabupaten Sidrap, Sulawesi Selatan','Menekankan keseimbangan antara dunia manusia dan dunia roh leluhur']},
     {id:'aluk_todolo', wilayah:'Toraja, Sulawesi Selatan', nama:'Aluk Todolo', ringkasan:'Kepercayaan asli masyarakat Toraja yang berarti "jalan leluhur", menjadi dasar filosofi upacara Rambu Solo dan Rambu Tuka, kini diakui sebagai bagian dari Hindu Aluk Todolo secara administratif.',
      fakta:['Menjadi dasar filosofi di balik upacara pemakaman megah Rambu Solo yang terkenal','Secara administratif kini digolongkan sebagai bagian dari agama Hindu Aluk Todolo']},
+  ],
+  folklore:[
+    {id:'kancildanbuaya', judul:'Kancil dan Buaya', jenis:'Fabel', asal:'Jawa/Sumatera (Melayu Nusantara)', ringkasan:'Fabel populer tentang kecerdikan kancil yang berhasil menyeberangi sungai penuh buaya dengan tipu daya, menghitung buaya seolah untuk keperluan raja, menjadi simbol kecerdikan mengalahkan kekuatan fisik dalam folklore Nusantara.',
+     fakta:['Kancil menjadi tokoh fabel paling ikonik dalam folklore Melayu-Nusantara, melambangkan kecerdikan','Cerita ini diajarkan turun-temurun sebagai dongeng pengantar tidur anak-anak di seluruh Nusantara']},
+    {id:'kancilmencuritimun', judul:'Kancil Mencuri Timun', jenis:'Fabel', asal:'Jawa/Sumatera (Melayu Nusantara)', ringkasan:'Fabel yang menceritakan kancil yang tertangkap petani menggunakan jebakan orang-orangan dari getah, mengajarkan pesan moral bahwa kecerdikan berlebihan tanpa kehati-hatian bisa berujung petaka.',
+     fakta:['Sering dijadikan pelajaran moral tentang akibat dari sifat serakah dan ceroboh','Merupakan salah satu kisah kancil yang paling sering diceritakan ulang dalam buku cerita anak Indonesia']},
+    {id:'sikabayan', judul:'Si Kabayan', jenis:'Cerita Jenaka', asal:'Jawa Barat (Sunda)', ringkasan:'Kumpulan cerita rakyat Sunda tentang tokoh Kabayan yang polos namun sering kali justru menunjukkan kearifan tersembunyi di balik kekonyolannya, populer sebagai hiburan sekaligus sindiran sosial halus.',
+     fakta:['Tokoh Si Kabayan digambarkan pemalas namun memiliki cara pandang hidup yang unik dan mengena','Ceritanya sering diadaptasi ke dalam film dan sinetron Indonesia karena kepopulerannya yang bertahan lama']},
+    {id:'asalusulsurabaya', judul:'Asal Usul Kota Surabaya (Sura dan Baya)', jenis:'Cerita Asal-usul Daerah', asal:'Jawa Timur', ringkasan:'Cerita rakyat tentang pertarungan ikan hiu (sura) dan buaya (baya) yang memperebutkan wilayah kekuasaan, dipercaya menjadi asal-usul nama Kota Surabaya dan diabadikan dalam simbol kota berupa patung Sura dan Baya.',
+     fakta:['Patung ikan hiu dan buaya menjadi ikon resmi Kota Surabaya hingga kini','Nama "Surabaya" dipercaya berasal dari gabungan kata "sura" (hiu) dan "baya" (buaya)']},
+    {id:'asalusulselatbali', judul:'Asal Usul Selat Bali', jenis:'Cerita Asal-usul Daerah', asal:'Jawa Timur/Bali', ringkasan:'Cerita rakyat tentang Sidi Mantra dan putranya Manik Angkeran yang menciptakan pemisah antara Pulau Jawa dan Bali menggunakan kesaktian, dipercaya menjadi asal-usul terbentuknya Selat Bali.',
+     fakta:['Tokoh Sidi Mantra dipercaya sebagai leluhur spiritual yang berkaitan dengan berdirinya Pura Besakih','Cerita ini menjelaskan secara mitologis mengapa Jawa dan Bali terpisah oleh selat']},
+    {id:'sipitung', judul:'Si Pitung', jenis:'Cerita Kepahlawanan', asal:'DKI Jakarta (Betawi)', ringkasan:'Cerita rakyat Betawi tentang jawara yang merampok orang kaya dan pejabat kolonial untuk dibagikan kepada rakyat miskin, dianggap sebagai pahlawan rakyat jelata dalam folklore Betawi meski riwayat historisnya diperdebatkan.',
+     fakta:['Kisahnya sering dibandingkan dengan legenda Robin Hood dari Eropa karena pola cerita yang serupa','Menjadi simbol perlawanan rakyat kecil Betawi terhadap ketidakadilan kolonial dalam folklore lokal']},
+    {id:'jokotingkir', judul:'Joko Tingkir', jenis:'Cerita Kepahlawanan', asal:'Jawa Tengah', ringkasan:'Cerita rakyat tentang pemuda dari Pengging yang menaklukkan buaya-buaya di Sungai Bengawan Solo dan kemudian menjadi Sultan Pajang, mengisahkan perjalanan dari rakyat biasa menjadi pemimpin besar.',
+     fakta:['Dipercaya sebagai cikal bakal pendiri Kesultanan Pajang, kerajaan Islam penerus Demak di Jawa Tengah','Kisah penaklukan buaya-buaya Bengawan Solo menjadi bagian paling populer dari legenda ini']},
+  ],
+  mitologi:[
+    {id:'garuda_mitologi', nama:'Garuda dalam Tradisi Nusantara', kategori:'Makhluk Mitologi', ringkasan:'Burung mitologi raksasa yang berasal dari kepercayaan Hindu-Buddha sebagai kendaraan Dewa Wisnu, diadaptasi menjadi simbol nasional Indonesia lewat lambang negara Garuda Pancasila yang melambangkan kekuatan dan kedaulatan.',
+     fakta:['Dalam mitologi Hindu, Garuda adalah kendaraan (wahana) Dewa Wisnu yang melambangkan kekuatan dan kesetiaan','Relief Garuda banyak ditemukan pada candi-candi kuno seperti Candi Kidal dan Prambanan']},
+    {id:'lembuswana', nama:'Lembuswana', kategori:'Makhluk Mitologi', ringkasan:'Makhluk mitologi berwujud gabungan gajah, singa, dan naga yang menjadi lambang kebesaran Kesultanan Kutai Kartanegara, dipercaya sebagai kendaraan para dewa dan raja dalam kosmologi Kutai.',
+     fakta:['Menjadi lambang resmi Kabupaten Kutai Kartanegara, Kalimantan Timur, hingga kini','Patung Lembuswana dapat ditemukan di berbagai tempat penting di Tenggarong sebagai simbol kebesaran Kutai']},
+    {id:'nyiroro_mitologi', nama:'Nyi Roro Kidul', kategori:'Tokoh Mitologis', ringkasan:'Sosok mitologis Ratu Pantai Selatan yang dipercaya menguasai Samudra Hindia di selatan Jawa, erat kaitannya dengan tradisi keraton Mataram dan berbagai pantangan masyarakat pesisir selatan Jawa.',
+     fakta:['Dipercaya memiliki hubungan spiritual dengan raja-raja Mataram sejak era Panembahan Senopati','Warna hijau sering dipantangkan dikenakan pengunjung pantai selatan Jawa karena kepercayaan terkait sosok ini']},
+    {id:'naga_mitologi', nama:'Naga dalam Budaya Nusantara', kategori:'Makhluk Mitologi', ringkasan:'Makhluk mitologi berwujud ular raksasa yang muncul dalam berbagai kepercayaan lokal Nusantara, dari Naga Banjar di Kalimantan hingga simbol pada motif ukiran Dayak dan Toraja sebagai lambang kekuatan bawah tanah dan air.',
+     fakta:['Motif naga banyak ditemukan pada ukiran tradisional Dayak dan Toraja sebagai simbol dunia bawah','Berbeda dari naga Tiongkok, naga Nusantara sering dikaitkan dengan penguasa sungai dan lautan']},
+    {id:'batarakala', nama:'Batara Kala', kategori:'Tokoh Mitologis', ringkasan:'Dewa waktu dan bencana dalam mitologi Jawa yang dipercaya gemar memangsa manusia dengan weton tertentu (disebut "mangsa Kala"), menjadi dasar berbagai ritual ruwatan tolak bala dalam budaya Jawa.',
+     fakta:['Ritual ruwatan digelar untuk melindungi anak-anak dengan weton tertentu dari "mangsa Kala"','Kisah Batara Kala sering dipentaskan dalam pertunjukan wayang kulit sebagai lakon ruwatan']},
+    {id:'wewegombel', nama:'Wewe Gombel', kategori:'Makhluk Mitologi', ringkasan:'Sosok mitologis perempuan dalam folklore Jawa yang dipercaya melindungi (menculik sementara) anak-anak yang terlantar atau kurang kasih sayang, kerap dijadikan pengingat moral bagi orang tua untuk menjaga anak dengan baik.',
+     fakta:['Berbeda dari sosok hantu jahat lainnya, Wewe Gombel dalam folklore justru dipercaya melindungi anak terlantar','Ceritanya sering dijadikan pengingat moral bagi orang tua akan pentingnya kasih sayang kepada anak']},
+  ],
+  tradisiSosial:[
+    {id:'gotongroyong_tradisi', nama:'Gotong Royong', ringkasan:'Tradisi sosial bekerja sama secara sukarela demi kepentingan bersama, menjadi nilai luhur khas Indonesia yang tercermin dalam berbagai aktivitas masyarakat dari membangun rumah hingga membersihkan lingkungan.',
+     fakta:['Nilai gotong royong menjadi salah satu inti dari sila kelima Pancasila','Konsep ini bahkan diakui dalam berbagai kajian sosiologi internasional sebagai ciri khas masyarakat Indonesia']},
+    {id:'mudik_tradisi', nama:'Mudik', ringkasan:'Tradisi perjalanan pulang ke kampung halaman menjelang hari raya, khususnya Idulfitri, melibatkan jutaan orang setiap tahun dan menjadi salah satu fenomena migrasi musiman terbesar di dunia.',
+     fakta:['Tradisi mudik Lebaran di Indonesia melibatkan puluhan juta orang setiap tahun, salah satu migrasi musiman terbesar di dunia','Pemerintah rutin menyiapkan program mudik gratis dan rekayasa lalu lintas khusus menjelang musim mudik']},
+    {id:'siskamling_tradisi', nama:'Siskamling (Sistem Keamanan Lingkungan)', ringkasan:'Tradisi ronda malam bergiliran yang dilakukan warga untuk menjaga keamanan lingkungan secara swadaya, mencerminkan semangat gotong royong dan kepedulian sosial antarwarga di tingkat RT/RW.',
+     fakta:['Biasanya dilakukan bergiliran oleh warga laki-laki dewasa di lingkungan RT/RW pada malam hari','Menjadi salah satu bentuk nyata partisipasi warga dalam menjaga keamanan tanpa mengandalkan aparat sepenuhnya']},
+    {id:'arisan_tradisi', nama:'Arisan', ringkasan:'Tradisi sosial mengumpulkan uang atau barang secara berkala dari sekelompok orang, kemudian diundi giliran penerimanya, berfungsi sebagai sarana menabung sekaligus mempererat hubungan sosial antarwarga.',
+     fakta:['Selain fungsi ekonomi menabung, arisan juga berfungsi sebagai ajang silaturahmi rutin antarwarga','Kini berkembang dalam berbagai bentuk termasuk arisan daring di kalangan komunitas online']},
+    {id:'kerjabakti_tradisi', nama:'Kerja Bakti', ringkasan:'Tradisi bekerja bersama secara sukarela membersihkan atau memperbaiki fasilitas umum di lingkungan tempat tinggal, biasa digelar rutin oleh warga RT/RW sebagai wujud kepedulian terhadap lingkungan bersama.',
+     fakta:['Sering digelar rutin setiap akhir pekan di berbagai lingkungan perumahan dan pedesaan Indonesia','Menjadi sarana mempererat hubungan sosial sekaligus menjaga kebersihan dan keindahan lingkungan bersama']},
+    {id:'musyawarah_tradisi', nama:'Musyawarah', ringkasan:'Tradisi pengambilan keputusan bersama lewat diskusi dan dialog untuk mencapai mufakat, menjadi salah satu nilai dasar demokrasi khas Indonesia yang tercermin dalam sila keempat Pancasila.',
+     fakta:['Menjadi dasar dari sila keempat Pancasila: "Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan"','Tradisi ini diterapkan luas mulai dari tingkat keluarga, RT/RW, hingga lembaga permusyawaratan nasional seperti MPR']},
   ]
 };
 
@@ -1859,16 +2103,69 @@ const BAHASA = {
      fakta:['Merupakan bahasa daerah dengan penutur terbanyak keempat di Indonesia','Memiliki tingkatan bahasa formal dan informal yang mencerminkan kesantunan sosial']},
     {id:'papua_bahasa', nama:'Bahasa Papua (rumpun)', rumpun:'Non-Austronesia (Papua) & Austronesia', penutur:'Papua', keunikan:'Papua memiliki lebih dari 250 bahasa berbeda, menjadikannya wilayah dengan keragaman bahasa tertinggi di Indonesia, sebagian besar termasuk rumpun bahasa non-Austronesia yang unik.',
      fakta:['Papua memiliki lebih dari 250 bahasa daerah berbeda, keragaman bahasa tertinggi di Indonesia','Sebagian bahasa Papua termasuk rumpun non-Austronesia yang secara linguistik sangat berbeda dari bahasa Nusantara lainnya']},
+  ],
+  tataBahasa:[
+    {id:'katabaku', nama:'Kata Baku dan Tidak Baku', ringkasan:'Kata baku adalah kata yang penulisan dan pengucapannya sesuai kaidah bahasa Indonesia yang telah dibakukan (mengacu KBBI dan PUEBI), sementara kata tidak baku adalah variasi yang biasa dipakai dalam percakapan sehari-hari namun menyimpang dari kaidah resmi.',
+     fakta:['Contoh kata baku vs tidak baku: "apotek" (baku) vs "apotik" (tidak baku), "praktik" (baku) vs "praktek" (tidak baku)','Kata baku wajib digunakan dalam tulisan resmi seperti surat dinas, skripsi, dan dokumen negara']},
+    {id:'imbuhan', nama:'Imbuhan (Afiksasi)', ringkasan:'Proses pembentukan kata baru dengan menambahkan imbuhan (awalan, sisipan, akhiran, atau gabungan) pada kata dasar, mengubah makna atau kelas kata asalnya, seperti me-, di-, ber-, ke-an, pe-an.',
+     fakta:['Imbuhan "me-" pada kata dasar "makan" menjadi "memakan" mengubahnya menjadi kata kerja aktif','Imbuhan "pe-an" pada "didik" menjadi "pendidikan" mengubah kata kerja menjadi kata benda']},
+    {id:'kalimatefektif', nama:'Kalimat Efektif', ringkasan:'Kalimat yang mampu menyampaikan gagasan secara tepat, jelas, dan mudah dipahami pembaca atau pendengar tanpa menimbulkan kesalahpahaman, dengan struktur yang logis dan tidak bertele-tele.',
+     fakta:['Ciri kalimat efektif meliputi kesepadanan struktur, kehematan kata, dan kelogisan makna','Kalimat tidak efektif sering terjadi akibat pengulangan subjek atau penggunaan kata yang mubazir']},
+    {id:'jeniskata', nama:'Jenis Kata (Kelas Kata)', ringkasan:'Pengelompokan kata dalam bahasa Indonesia berdasarkan fungsi dan perannya dalam kalimat, meliputi nomina (kata benda), verba (kata kerja), adjektiva (kata sifat), adverbia (kata keterangan), dan beberapa kelas kata lainnya.',
+     fakta:['Nomina berfungsi sebagai subjek atau objek kalimat, seperti "meja" atau "pendidikan"','Verba menunjukkan tindakan atau keadaan, seperti "berlari" atau "tertidur"']},
+    {id:'ejaanpueb', nama:'Ejaan (PUEBI)', ringkasan:'Pedoman Umum Ejaan Bahasa Indonesia yang mengatur tata cara penulisan huruf, kata, tanda baca, dan unsur serapan, menjadi acuan resmi penulisan bahasa Indonesia yang baik dan benar sejak 2015 menggantikan EYD.',
+     fakta:['PUEBI menggantikan Ejaan Yang Disempurnakan (EYD) yang berlaku sejak 1972 hingga 2015','Mengatur hal detail seperti penulisan huruf kapital, huruf miring, dan kata serapan dari bahasa asing']},
+    {id:'kalimatlangsung', nama:'Kalimat Langsung dan Tidak Langsung', ringkasan:'Kalimat langsung mengutip ucapan seseorang persis seperti aslinya menggunakan tanda petik, sementara kalimat tidak langsung menyampaikan ulang ucapan tersebut dalam bentuk laporan tanpa tanda petik.',
+     fakta:['Kalimat langsung: Ibu berkata, "Aku akan pergi besok." Kalimat tidak langsung: Ibu berkata bahwa ia akan pergi besok','Perubahan kata ganti orang biasanya terjadi saat kalimat langsung diubah menjadi tidak langsung']},
+    {id:'majas', nama:'Majas (Gaya Bahasa)', ringkasan:'Cara pengungkapan bahasa yang khas untuk memperoleh efek tertentu dan memperindah makna, meliputi majas perbandingan (metafora, personifikasi), majas pertentangan (hiperbola, ironi), dan majas penegasan.',
+     fakta:['Metafora membandingkan dua hal secara langsung tanpa kata pembanding, seperti "dia adalah bintang kelas"','Hiperbola melebih-lebihkan sesuatu untuk memberi efek dramatis, seperti "menangis sampai air mata membanjiri lantai"']},
+  ],
+  sinonimAntonim:[
+    {id:'sa_cepat', kata:'Cepat', sinonim:'Lekas, gesit, kilat', antonim:'Lambat, pelan'},
+    {id:'sa_besar', kata:'Besar', sinonim:'Raya, agung, akbar', antonim:'Kecil, mungil'},
+    {id:'sa_indah', kata:'Indah', sinonim:'Elok, cantik, permai', antonim:'Buruk, jelek'},
+    {id:'sa_pintar', kata:'Pintar', sinonim:'Pandai, cerdas, cerdik', antonim:'Bodoh, dungu'},
+    {id:'sa_senang', kata:'Senang', sinonim:'Bahagia, gembira, riang', antonim:'Sedih, murung'},
+    {id:'sa_kuat', kata:'Kuat', sinonim:'Tangguh, perkasa, gagah', antonim:'Lemah, rapuh'},
+    {id:'sa_tinggi', kata:'Tinggi', sinonim:'Menjulang, jangkung', antonim:'Rendah, pendek'},
+    {id:'sa_berani', kata:'Berani', sinonim:'Nekat, gagah berani, pemberani', antonim:'Penakut, pengecut'},
+    {id:'sa_kaya', kata:'Kaya', sinonim:'Berada, mampu, makmur', antonim:'Miskin, papa'},
+    {id:'sa_mudah', kata:'Mudah', sinonim:'Gampang, enteng, ringan', antonim:'Sulit, sukar'},
+  ],
+  kosakataDaerah:[
+    {id:'kd_jawa', bahasa:'Jawa', ringkasan:'Kosakata dasar bahasa Jawa mencakup sapaan, hitungan, dan istilah kekerabatan yang digunakan sehari-hari, dengan tingkatan kesantunan yang berbeda tergantung lawan bicara.',
+     fakta:['Sapaan/terima kasih: "Kulo nuwun" (permisi), "Matur nuwun" (terima kasih)','Angka 1-5: siji, loro, telu, papat, lima. Keluarga: Bapak (ayah), Simbok/Ibu (ibu), Mas (kakak laki-laki), Mbak (kakak perempuan)']},
+    {id:'kd_sunda', bahasa:'Sunda', ringkasan:'Kosakata dasar bahasa Sunda yang digunakan dalam pergaulan sehari-hari masyarakat Jawa Barat, mencerminkan kesantunan dan keakraban khas budaya Sunda.',
+     fakta:['Terima kasih: "Hatur nuhun". Angka 1-5: hiji, dua, tilu, opat, lima','Keluarga: Bapa (ayah), Ibu/Indung (ibu), Aa (kakak laki-laki), Teteh (kakak perempuan)']},
+    {id:'kd_batak', bahasa:'Batak Toba', ringkasan:'Kosakata dasar bahasa Batak Toba yang digunakan dalam percakapan sehari-hari dan upacara adat, mencerminkan struktur kekerabatan (dalihan na tolu) yang kuat dalam budaya Batak.',
+     fakta:['Terima kasih: "Mauliate". Angka 1-5: sada, dua, tolu, opat, lima','Keluarga: Among/Amang (ayah), Inong/Omak (ibu), Abang (kakak laki-laki), Ito (kakak/saudara perempuan)']},
+    {id:'kd_bugis', bahasa:'Bugis', ringkasan:'Kosakata dasar bahasa Bugis yang digunakan masyarakat Sulawesi Selatan, terutama dalam percakapan informal dan interaksi pasar tradisional.',
+     fakta:['Terima kasih: "Tarima kasi". Angka 1-5: seddi, dua, tellu, eppa, lima','Keluarga: Ambo\' (ayah), Indo\' (ibu)']},
+    {id:'kd_minang', bahasa:'Minangkabau', ringkasan:'Kosakata dasar bahasa Minangkabau yang digunakan sehari-hari di Sumatera Barat, relatif mudah dipahami penutur bahasa Indonesia karena kedekatan rumpun Melayu.',
+     fakta:['Terima kasih: "Tarimo kasih". Angka 1-5: ciek, duo, tigo, ampek, limo','Keluarga: Apak/Ayah (ayah), Amak/Mande (ibu), Uda (kakak laki-laki), Uni (kakak perempuan)']},
+    {id:'kd_bali', bahasa:'Bali', ringkasan:'Kosakata dasar bahasa Bali yang digunakan sehari-hari, memiliki variasi tingkatan tutur (basa alus dan basa kasar) tergantung konteks dan lawan bicara.',
+     fakta:['Terima kasih: "Suksma" atau "Matur suksma". Angka 1-5: besik, dua, telu, papat, lima','Keluarga: Bapa/Aji (ayah), Meme/Biang (ibu)']},
+    {id:'kd_aceh', bahasa:'Aceh', ringkasan:'Kosakata dasar bahasa Aceh yang digunakan sehari-hari masyarakat Aceh, dipengaruhi kuat oleh nilai-nilai Islam dalam pola sapaan dan pergaulannya.',
+     fakta:['Terima kasih: "Teurimong geunaseh". Angka 1-5: sa, duwa, lhee, peuet, limong','Keluarga: Ayah/Abi (ayah), Ma/Mak (ibu)']},
+    {id:'kd_betawi', bahasa:'Betawi', ringkasan:'Kosakata dasar bahasa Betawi yang akrab dan santai, banyak dipakai dalam sinetron dan film Indonesia karena logatnya yang khas dan mudah dipahami luas.',
+     fakta:['Terima kasih: "Makasih banyak". Keluarga: Babe (ayah), Nyak (ibu), Encang (paman), Encing (bibi)','Angka umumnya mengikuti bahasa Indonesia standar dengan logat Betawi yang khas']},
+    {id:'kd_madura', bahasa:'Madura', ringkasan:'Kosakata dasar bahasa Madura yang digunakan di Pulau Madura dan sebagian pesisir Jawa Timur, memiliki logat dan intonasi yang tegas dan khas.',
+     fakta:['Terima kasih: "Sakalangkong". Angka 1-5: settong, dhuwa\', tello\', empa\', lema\'','Keluarga: Eppa\'/Eppak (ayah), Emma\'/Ebhu (ibu)']},
   ]
 };
 
 const WARGA = {
   pancasila:[
-    {id:'sila1', sila:'1', bunyi:'Ketuhanan Yang Maha Esa', lambang:'Bintang', makna:'Mengakui dan menjunjung tinggi kepercayaan terhadap Tuhan sesuai agama dan keyakinan masing-masing.'},
-    {id:'sila2', sila:'2', bunyi:'Kemanusiaan yang Adil dan Beradab', lambang:'Rantai', makna:'Mengakui persamaan derajat, hak, dan kewajiban setiap manusia tanpa membeda-bedakan.'},
-    {id:'sila3', sila:'3', bunyi:'Persatuan Indonesia', lambang:'Pohon Beringin', makna:'Menempatkan persatuan, kesatuan, kepentingan bangsa di atas kepentingan pribadi atau golongan.'},
-    {id:'sila4', sila:'4', bunyi:'Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan dalam Permusyawaratan/Perwakilan', lambang:'Kepala Banteng', makna:'Mengutamakan musyawarah mufakat dalam mengambil keputusan bersama.'},
-    {id:'sila5', sila:'5', bunyi:'Keadilan Sosial bagi Seluruh Rakyat Indonesia', lambang:'Padi dan Kapas', makna:'Mewujudkan pemerataan kesejahteraan dan keadilan sosial bagi seluruh rakyat.'},
+    {id:'sila1', sila:'1', bunyi:'Ketuhanan Yang Maha Esa', lambang:'Bintang', makna:'Mengakui dan menjunjung tinggi kepercayaan terhadap Tuhan sesuai agama dan keyakinan masing-masing.',
+     contohPengamalan:['Beribadah sesuai agama dan kepercayaan masing-masing dengan tekun','Saling menghormati dan tidak memaksakan agama kepada orang lain','Hidup rukun dan toleran antarumat beragama dalam kehidupan sehari-hari']},
+    {id:'sila2', sila:'2', bunyi:'Kemanusiaan yang Adil dan Beradab', lambang:'Rantai', makna:'Mengakui persamaan derajat, hak, dan kewajiban setiap manusia tanpa membeda-bedakan.',
+     contohPengamalan:['Saling tolong-menolong kepada sesama tanpa membeda-bedakan suku, agama, atau status sosial','Berani membela kebenaran dan keadilan bagi siapa pun','Tidak bersikap semena-mena atau merendahkan orang lain']},
+    {id:'sila3', sila:'3', bunyi:'Persatuan Indonesia', lambang:'Pohon Beringin', makna:'Menempatkan persatuan, kesatuan, kepentingan bangsa di atas kepentingan pribadi atau golongan.',
+     contohPengamalan:['Cinta tanah air dan bangga menjadi bagian dari bangsa Indonesia','Rela berkorban demi kepentingan bangsa dan negara','Menjaga persatuan meski berbeda suku, agama, ras, dan golongan']},
+    {id:'sila4', sila:'4', bunyi:'Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan dalam Permusyawaratan/Perwakilan', lambang:'Kepala Banteng', makna:'Mengutamakan musyawarah mufakat dalam mengambil keputusan bersama.',
+     contohPengamalan:['Mengutamakan musyawarah dalam mengambil keputusan bersama, baik di keluarga, sekolah, maupun masyarakat','Menghargai dan menghormati pendapat orang lain meski berbeda','Menerima dan melaksanakan hasil musyawarah dengan penuh tanggung jawab']},
+    {id:'sila5', sila:'5', bunyi:'Keadilan Sosial bagi Seluruh Rakyat Indonesia', lambang:'Padi dan Kapas', makna:'Mewujudkan pemerataan kesejahteraan dan keadilan sosial bagi seluruh rakyat.',
+     contohPengamalan:['Bersikap adil dan tidak pilih kasih terhadap sesama','Suka bekerja keras dan menghargai hasil karya orang lain','Tidak bersikap boros dan hidup sesuai kebutuhan, bukan berlebihan']},
   ],
   pramuka:{
     triSatya:'Janji Pramuka yang berisi tiga poin kesetiaan: kepada Tuhan dan negara, kepada sesama manusia, serta kepada Dasa Darma.',
@@ -1895,8 +2192,11 @@ const WARGA = {
     {id:'sumpahpemuda_simbol', nama:'Sumpah Pemuda (Ikrar)', ringkasan:'Ikrar tiga poin hasil Kongres Pemuda II 1928 yang menegaskan satu tanah air, satu bangsa, dan satu bahasa Indonesia, menjadi simbol persatuan pemuda Indonesia.'},
   ],
   sandiPramuka:[
-    {id:'morse', nama:'Sandi Morse', ringkasan:'Sistem kode berupa titik dan garis (pendek-panjang) yang dapat disampaikan lewat bunyi, cahaya, atau ketukan; wajib dikuasai anggota Pramuka penggalang ke atas.'},
-    {id:'semaphore', nama:'Sandi Semaphore', ringkasan:'Sistem isyarat menggunakan sepasang bendera yang digerakkan membentuk posisi berbeda untuk tiap huruf, dipakai untuk komunikasi jarak pandang.'},
+    {id:'morse', nama:'Sandi Morse', ringkasan:'Sistem kode berupa titik dan garis (pendek-panjang) yang dapat disampaikan lewat bunyi, cahaya, atau ketukan; wajib dikuasai anggota Pramuka penggalang ke atas.',
+     tabel:'A=.-  B=-...  C=-.-.  D=-..  E=.  F=..-.  G=--.  H=....  I=..  J=.---  K=-.-  L=.-..  M=--  N=-.  O=---  P=.--.  Q=--.-  R=.-.  S=...  T=-  U=..-  V=...-  W=.--  X=-..-  Y=-.--  Z=--..  |  0=-----  1=.----  2=..---  3=...--  4=....-  5=.....  6=-....  7=--...  8=---..  9=----.',
+     fakta:['Titik (.) dibunyikan/diketuk singkat, garis (-) tiga kali lebih panjang dari titik','Jeda antar huruf dalam satu kata sama dengan durasi 3 titik, jeda antar kata sama dengan durasi 7 titik']},
+    {id:'semaphore', nama:'Sandi Semaphore', ringkasan:'Sistem isyarat menggunakan sepasang bendera yang digerakkan membentuk posisi berbeda untuk tiap huruf, dipakai untuk komunikasi jarak pandang antar penerima yang saling melihat.',
+     fakta:['Posisi bendera untuk tiap huruf mengacu pada arah jarum jam di sekeliling tubuh pengirim isyarat','Karena bergantung sepenuhnya pada posisi visual, sandi ini paling baik dipelajari langsung dari bagan/carta resmi Pramuka dengan bimbingan pembina, bukan hanya dari teks']},
     {id:'sandikotak', nama:'Sandi Kotak', ringkasan:'Sandi Pramuka yang menyusun huruf dalam kisi-kisi kotak dan silang, dibaca dari bentuk garis kotak yang mengelilingi tiap huruf.'},
     {id:'sandirumput', nama:'Sandi Rumput', ringkasan:'Sandi Pramuka yang menggunakan kombinasi garis pendek dan panjang menyerupai rumput, mirip prinsip Sandi Morse namun ditulis dalam bentuk visual garis-garis.'},
     {id:'sandiangka', nama:'Sandi Angka', ringkasan:'Sandi Pramuka yang mengganti setiap huruf alfabet dengan urutan angka sesuai posisinya (A=1, B=2, dst), sederhana namun efektif untuk latihan dasar sandi.'},
@@ -1911,12 +2211,68 @@ const WARGA = {
     {id:'simpulerat', nama:'Simpul Erat', ringkasan:'Simpul untuk memendekkan tali tanpa harus memotongnya, berguna saat tali yang tersedia terlalu panjang untuk suatu keperluan.'},
     {id:'ikatanpalang', nama:'Ikatan Palang', ringkasan:'Ikatan pionering untuk menyambung dua batang kayu secara menyilang membentuk sudut (biasanya 90 derajat), dasar dalam pembuatan struktur seperti tandu atau menara pionering.'},
     {id:'ikatansilang', nama:'Ikatan Silang', ringkasan:'Ikatan pionering untuk menyambung dua batang kayu yang bersilangan pada sudut tertentu, sering dipakai dalam pembuatan rangka bangunan pionering seperti gapura atau jembatan sederhana.'},
+  ],
+  sejarahKebangsaan:[
+    {id:'sk_sumpahpemuda', nama:'Sumpah Pemuda sebagai Simbol Persatuan', ringkasan:'Ikrar Sumpah Pemuda 28 Oktober 1928 menjadi fondasi kesadaran berbangsa satu, bertanah air satu, dan berbahasa satu, mengajarkan generasi muda bahwa persatuan mengatasi perbedaan suku, agama, dan daerah asal.',
+     fakta:['Diikrarkan oleh perwakilan pemuda dari berbagai organisasi kedaerahan di seluruh Nusantara','Menjadi dasar filosofis bagi pentingnya bahasa Indonesia sebagai bahasa pemersatu bangsa hingga kini']},
+    {id:'sk_proklamasi', nama:'Proklamasi sebagai Titik Awal Kedaulatan', ringkasan:'Proklamasi Kemerdekaan 17 Agustus 1945 bukan hanya peristiwa sejarah, tetapi juga fondasi hukum dan moral kedaulatan bangsa Indonesia yang menjadi dasar hak dan kewajiban setiap warga negara hingga saat ini.',
+     fakta:['Menjadi dasar konstitusional lahirnya Negara Kesatuan Republik Indonesia yang berdaulat penuh','Nilai-nilai perjuangan dalam proklamasi terus diwariskan lewat pendidikan kewarganegaraan di sekolah']},
+    {id:'sk_pergerakannasional', nama:'Pergerakan Nasional dan Nilai Kebangsaan', ringkasan:'Rangkaian pergerakan nasional dari Budi Utomo hingga Sumpah Pemuda mengajarkan nilai penting kesadaran kolektif, organisasi modern, dan perjuangan tanpa kekerasan sebagai jalan mencapai kemerdekaan dan cita-cita bersama.',
+     fakta:['Menunjukkan transisi perjuangan dari bersifat kedaerahan menjadi perjuangan berskala nasional','Mengajarkan pentingnya pendidikan dan organisasi modern sebagai alat perjuangan bangsa']},
+    {id:'sk_simbolpersatuan', nama:'Simbol-Simbol Persatuan Bangsa', ringkasan:'Berbagai simbol seperti Garuda Pancasila, bendera Merah Putih, dan bahasa Indonesia berfungsi sebagai perekat identitas nasional yang mengikat keberagaman suku, agama, dan budaya menjadi satu bangsa Indonesia.',
+     fakta:['Simbol-simbol negara diatur secara resmi dalam UU No. 24 Tahun 2009 tentang Bendera, Bahasa, Lambang Negara, dan Lagu Kebangsaan','Penghormatan terhadap simbol negara menjadi bagian penting pendidikan kewarganegaraan sejak dini']},
+    {id:'sk_wawasankebangsaan', nama:'Wawasan Kebangsaan', ringkasan:'Cara pandang dan sikap bangsa Indonesia terhadap diri dan lingkungannya yang mengutamakan persatuan, kesatuan wilayah, serta kepentingan nasional di atas kepentingan pribadi atau golongan dalam kehidupan bermasyarakat, berbangsa, dan bernegara.',
+     fakta:['Menjadi landasan sikap toleransi dan gotong royong dalam kehidupan bermasyarakat yang majemuk','Diajarkan secara formal melalui mata pelajaran Pendidikan Pancasila dan Kewarganegaraan (PPKn) di sekolah']},
+  ],
+  tandaKecakapan:[
+    {id:'tk_tku', nama:'Tanda Kecakapan Umum (TKU)', ringkasan:'Tanda pengenal tingkatan yang menunjukkan pencapaian syarat kecakapan umum (SKU) seorang anggota Pramuka sesuai golongannya, dikenakan di lengan seragam sebagai identitas jenjang keanggotaan.',
+     fakta:['Bentuk dan warna TKU berbeda-beda tiap golongan, dari Siaga (bentuk lingkaran) hingga Pandega (bentuk trapesium)','Kenaikan tingkat TKU dicapai lewat ujian SKU yang diuji langsung oleh pembina di setiap gugus depan']},
+    {id:'tk_tkk', nama:'Tanda Kecakapan Khusus (TKK)', ringkasan:'Tanda yang diberikan kepada anggota Pramuka yang telah menguasai suatu keterampilan atau kecakapan khusus tertentu, seperti berkemah, memasak, pertolongan pertama, atau juru musik.',
+     fakta:['Terdapat ratusan jenis TKK yang dikelompokkan dalam lima bidang: agama, patriotisme, kepribadian, ketangkasan, dan keterampilan','Anggota yang meraih lima TKK dari bidang berbeda berhak menyandang gelar Pramuka Garuda']},
+    {id:'tk_siaga', nama:'Tingkatan Golongan Siaga (Mula, Bantu, Tata)', ringkasan:'Tingkatan kecakapan umum untuk anggota Pramuka usia 7-10 tahun, terdiri dari tiga jenjang berurutan: Mula (dasar), Bantu (menengah), dan Tata (tertinggi) sebelum naik ke golongan Penggalang.',
+     fakta:['Golongan Siaga menekankan pembentukan karakter dasar lewat permainan dan kegiatan menyenangkan','Satuan Siaga disebut "Barung", dipimpin oleh seorang "Sulung" (pemimpin barung)']},
+    {id:'tk_penggalang', nama:'Tingkatan Golongan Penggalang (Ramu, Rakit, Terap)', ringkasan:'Tingkatan kecakapan umum untuk anggota Pramuka usia 11-15 tahun, terdiri dari jenjang Ramu, Rakit, dan Terap, menekankan pembentukan keterampilan kepramukaan dan kemandirian yang lebih matang.',
+     fakta:['Satuan Penggalang disebut "Regu", dipimpin oleh seorang "Pratama" (pemimpin regu)','Golongan ini biasanya paling aktif dalam kegiatan perkemahan dan lomba tingkat kepramukaan (LT)']},
+    {id:'tk_penegak', nama:'Tingkatan Golongan Penegak (Bantara, Laksana)', ringkasan:'Tingkatan kecakapan umum untuk anggota Pramuka usia 16-20 tahun, terdiri dari jenjang Bantara dan Laksana, menekankan kepemimpinan, kemandirian, dan pengabdian kepada masyarakat.',
+     fakta:['Satuan Penegak disebut "Ambalan", dipimpin oleh seorang "Pradana"','Penegak Laksana merupakan tingkatan tertinggi sebelum seseorang dapat menjadi Pembina Pramuka']},
+    {id:'tk_pandega', nama:'Tingkatan Golongan Pandega', ringkasan:'Tingkatan kecakapan umum untuk anggota Pramuka usia 21-25 tahun, menjadi jenjang tertinggi dalam kepramukaan sebelum seseorang beralih peran menjadi pembina atau andalan gerakan Pramuka.',
+     fakta:['Satuan Pandega disebut "Racana", dipimpin oleh seorang "Pradana Racana"','Anggota Pandega sering dilibatkan sebagai pendamping kegiatan golongan Pramuka yang lebih muda']},
   ]
 };
 WARGA.pramukaMateri = [
   {id:'trisatya', nama:'Tri Satya', ringkasan: WARGA.pramuka.triSatya},
   {id:'dasadarma', nama:'Dasa Darma', ringkasan: 'Sepuluh butir janji moral Pramuka: ' + WARGA.pramuka.dasaDarma.join('; ') + '.'},
   {id:'golonganpramuka', nama:'Golongan Pramuka', ringkasan: 'Jenjang keanggotaan Pramuka berdasarkan usia: ' + WARGA.pramuka.golongan.join(', ') + '.'},
+  {id:'dwisatya', nama:'Dwi Satya', ringkasan:'Versi sederhana Tri Satya khusus untuk anggota Pramuka Siaga (usia 7-10 tahun), berisi dua janji: menjalankan kewajiban terhadap Tuhan, Negara Kesatuan Republik Indonesia, dan mengikuti tata krama keluarga; serta setiap hari berbuat kebajikan.',
+   fakta:['Digunakan khusus untuk golongan Siaga sebagai versi lebih sederhana dari Tri Satya','Diucapkan saat pelantikan resmi anggota Siaga ke dalam Gerakan Pramuka']},
+  {id:'dwidarma', nama:'Dwi Darma', ringkasan:'Versi sederhana Dasa Darma khusus untuk anggota Pramuka Siaga, berisi dua butir: Siaga berbakti kepada ayah dan bundanya; Siaga berani dan tidak putus asa.',
+   fakta:['Merupakan versi ringkas Dasa Darma yang disesuaikan dengan usia dan pemahaman anggota Siaga','Menjadi pedoman perilaku dasar sebelum anggota naik ke golongan Penggalang dan mulai memakai Dasa Darma penuh']},
+  {id:'sejarahpramukadunia', nama:'Sejarah Pramuka Dunia', ringkasan:'Gerakan kepanduan dunia dirintis oleh Robert Baden-Powell, perwira militer Inggris, yang mendirikan perkemahan percobaan pertama di Pulau Brownsea pada 1907 dan menerbitkan buku "Scouting for Boys" pada 1908 yang menjadi cikal bakal gerakan pramuka di seluruh dunia.',
+   fakta:['Perkemahan percobaan pertama digelar di Pulau Brownsea, Inggris, pada 1907 dengan 20 anak laki-laki','Gerakan kepanduan kini berkembang di lebih dari 200 negara dengan jutaan anggota di seluruh dunia']},
+  {id:'sejarahpramukaindonesia', nama:'Sejarah Pramuka Indonesia', ringkasan:'Gerakan kepanduan di Indonesia dimulai sejak masa kolonial dengan berbagai organisasi kepanduan, disatukan menjadi Gerakan Pramuka lewat Keputusan Presiden No. 238 Tahun 1961, dengan Sri Sultan Hamengkubuwono IX sebagai Bapak Pramuka Indonesia dan Ketua Kwartir Nasional pertama.',
+   fakta:['Sebelum 1961, terdapat lebih dari 60 organisasi kepanduan berbeda di Indonesia yang kemudian disatukan','Tanggal 14 Agustus 1961 diperingati sebagai Hari Pramuka setelah pawai perkenalan Pramuka di Istana Negara']},
+  {id:'lambangpramuka', nama:'Lambang Gerakan Pramuka (Tunas Kelapa)', ringkasan:'Lambang resmi Gerakan Pramuka berbentuk siluet tunas kelapa, diciptakan oleh Sunardjo Atmodipuro, mengandung 14 makna filosofis yang menggambarkan cita-cita dan sifat luhur setiap anggota Pramuka.',
+   fakta:['Diciptakan oleh Sunardjo Atmodipuro, seorang pembina pramuka sekaligus pegawai Departemen Pertanian','Buah kelapa dipilih karena bisa tumbuh di mana saja dan bertahan lama, melambangkan pramuka yang bisa beradaptasi dan berguna di segala kondisi']},
+  {id:'strukturorganisasipramuka', nama:'Struktur Organisasi Gerakan Pramuka', ringkasan:'Gerakan Pramuka disusun berjenjang dari tingkat nasional hingga satuan terkecil: Kwartir Nasional (Kwarnas), Kwartir Daerah (Kwarda) tingkat provinsi, Kwartir Cabang (Kwarcab) tingkat kabupaten/kota, Kwartir Ranting (Kwaran) tingkat kecamatan, hingga Gugus Depan (Gudep) di sekolah atau kelurahan.',
+   fakta:['Gugus Depan (Gudep) adalah satuan pendidikan terkecil yang biasanya berpangkalan di sekolah','Kwartir Nasional dipimpin oleh seorang Ketua Kwarnas yang dipilih melalui Musyawarah Nasional (Munas)']},
+  {id:'seragampramuka', nama:'Seragam Pramuka & Atribut', ringkasan:'Seragam Pramuka berwarna cokelat muda (atas) dan cokelat tua (bawah) dilengkapi berbagai atribut resmi seperti tanda pelantikan, tanda kecakapan, tanda jabatan, dan hasduk (setangan leher) dengan warna khas tiap Kwartir Daerah.',
+   fakta:['Warna hasduk biasanya menunjukkan identitas Kwartir Daerah atau Gugus Depan masing-masing','Setiap atribut pada seragam memiliki aturan penempatan yang baku sesuai Petunjuk Penyelenggaraan resmi Kwarnas']},
+  {id:'salampramuka', nama:'Salam Pramuka', ringkasan:'Bentuk penghormatan khas anggota Pramuka menggunakan gerakan tangan tertentu, terdiri dari tiga jenis: salam biasa (untuk sesama anggota), salam hormat (untuk pejabat/tamu penting atau bendera), dan salam janji (saat pengucapan Tri Satya).',
+   fakta:['Salam Pramuka dilakukan dengan mengangkat tangan kanan dengan lima jari rapat menghadap ke pelipis','Ketiga jenis salam memiliki aturan dan konteks penggunaan yang berbeda dalam kegiatan resmi kepramukaan']},
+  {id:'mottopramuka', nama:'Motto Gerakan Pramuka', ringkasan:'Motto resmi Gerakan Pramuka Indonesia berbunyi "Satyaku Kudarmakan, Darmaku Kubaktikan", mengandung makna kesungguhan menjalankan janji (satya) dan mengamalkan kode kehormatan (darma) sebagai bakti nyata bagi bangsa dan negara.',
+   fakta:['Motto ini menjadi pengingat bahwa janji (Tri Satya) dan kode kehormatan (Dasa Darma) harus benar-benar diamalkan, bukan sekadar dihafalkan','Sering diucapkan dalam berbagai upacara dan kegiatan resmi kepramukaan']},
+  {id:'upacarapramuka', nama:'Upacara Pembukaan & Penutupan Latihan', ringkasan:'Rangkaian upacara resmi yang dilakukan di awal dan akhir setiap kegiatan latihan Pramuka, meliputi pengibaran/penurunan bendera, doa, dan pembacaan sandi/janji, bertujuan menanamkan disiplin dan kekhidmatan dalam setiap kegiatan kepramukaan.',
+   fakta:['Upacara pembukaan dan penutupan wajib dilakukan di setiap latihan rutin Gugus Depan','Susunan upacara berbeda sedikit tiap golongan (Siaga, Penggalang, Penegak) sesuai tingkat kematangan anggotanya']},
+  {id:'haripramuka', nama:'Hari Pramuka (14 Agustus)', ringkasan:'Peringatan tahunan berdirinya Gerakan Pramuka Indonesia, jatuh setiap 14 Agustus untuk mengenang pawai perkenalan Pramuka pertama di halaman Istana Negara pada 1961, dirayakan dengan berbagai upacara dan kegiatan kepramukaan di seluruh Indonesia.',
+   fakta:['Ditetapkan berdasarkan peristiwa pawai perkenalan pramuka di Istana Negara pada 14 Agustus 1961','Setiap tahun diperingati dengan upacara bendera khusus dan berbagai perlombaan kepramukaan di seluruh gugus depan Indonesia']},
+  {id:'badenpowell', nama:'Baden-Powell (Bapak Pramuka Dunia)', ringkasan:'Robert Stephenson Smyth Baden-Powell, perwira militer Inggris yang mendirikan gerakan kepanduan dunia pada 1907, dijuluki Bapak Pramuka Sedunia atas jasanya menciptakan metode pendidikan kepanduan yang kini diikuti jutaan anak muda di seluruh dunia.',
+   fakta:['Pengalamannya sebagai perwira militer di Afrika Selatan menginspirasi metode pelatihan bertahan hidup dalam kepanduan','Hari lahirnya, 22 Februari, diperingati sebagai "Founders Day" oleh gerakan kepanduan sedunia']},
+  {id:'hamengkubuwono_pramuka', nama:'Sri Sultan Hamengkubuwono IX (Bapak Pramuka Indonesia)', ringkasan:'Sultan Yogyakarta yang menjadi Ketua Kwartir Nasional Gerakan Pramuka pertama sejak 1961, dijuluki Bapak Pramuka Indonesia atas jasanya menyatukan puluhan organisasi kepanduan menjadi satu Gerakan Pramuka nasional.',
+   fakta:['Menjabat sebagai Ketua Kwarnas Gerakan Pramuka selama dua periode berturut-turut','Perannya menyatukan lebih dari 60 organisasi kepanduan menjadi satu wadah nasional dianggap sebagai fondasi Gerakan Pramuka modern']},
+  {id:'gudep', nama:'Gugus Depan (Gudep)', ringkasan:'Satuan pendidikan kepramukaan terkecil dan terdepan yang biasanya berpangkalan di sekolah, kelurahan, atau tempat ibadah, menjadi tempat anggota Pramuka menjalani latihan rutin di bawah bimbingan seorang Pembina Gugus Depan.',
+   fakta:['Setiap sekolah umumnya memiliki minimal satu Gugus Depan putra dan satu Gugus Depan putri','Gudep dipimpin oleh seorang Pembina yang bertanggung jawab langsung atas pembinaan anggota di satuan tersebut']},
+  {id:'kodekehormatan', nama:'Kode Kehormatan Pramuka', ringkasan:'Norma hidup anggota Pramuka yang terdiri dari janji (satya) dan ketentuan moral (darma), menjadi landasan utama pembentukan karakter — bagi Siaga berupa Dwi Satya dan Dwi Darma, bagi Penggalang ke atas berupa Tri Satya dan Dasa Darma.',
+   fakta:['Kode kehormatan menjadi pembeda utama pendidikan kepramukaan dari kegiatan ekstrakurikuler lainnya','Diucapkan secara resmi saat upacara pelantikan sebagai janji pribadi setiap anggota kepada dirinya sendiri dan organisasinya']},
 ];
 
 const KODE = {
@@ -1981,6 +2337,69 @@ const KODE = {
     {id:'bumn', singkatan:'BUMN', kepanjangan:'Badan Usaha Milik Negara', penjelasan:'Perusahaan yang sebagian besar atau seluruh modalnya dimiliki oleh negara, seperti Pertamina, PLN, dan Bank Mandiri.'},
     {id:'stnk', singkatan:'STNK', kepanjangan:'Surat Tanda Nomor Kendaraan', penjelasan:'Dokumen resmi bukti pendaftaran dan legalitas kendaraan bermotor yang wajib dibawa saat berkendara.'},
     {id:'puskesmas', singkatan:'Puskesmas', kepanjangan:'Pusat Kesehatan Masyarakat', penjelasan:'Fasilitas pelayanan kesehatan dasar tingkat kecamatan yang menyediakan layanan kesehatan terjangkau bagi masyarakat.'},
+  ],
+  kodeWilayah:[
+    {id:'kw_jakarta', kota:'Jakarta (DKI Jakarta)', kodePos:'10110–14350 (bervariasi per kecamatan)', kodeTelepon:'021', kodePlat:'B'},
+    {id:'kw_bandung', kota:'Bandung (Jawa Barat)', kodePos:'40111–40614 (bervariasi per kecamatan)', kodeTelepon:'022', kodePlat:'D'},
+    {id:'kw_surabaya', kota:'Surabaya (Jawa Timur)', kodePos:'60111–60299 (bervariasi per kecamatan)', kodeTelepon:'031', kodePlat:'L'},
+    {id:'kw_medan', kota:'Medan (Sumatera Utara)', kodePos:'20111–20371 (bervariasi per kecamatan)', kodeTelepon:'061', kodePlat:'BK'},
+    {id:'kw_semarang', kota:'Semarang (Jawa Tengah)', kodePos:'50111–50276 (bervariasi per kecamatan)', kodeTelepon:'024', kodePlat:'H'},
+    {id:'kw_yogyakarta', kota:'Yogyakarta (DI Yogyakarta)', kodePos:'55111–55293 (bervariasi per kecamatan)', kodeTelepon:'0274', kodePlat:'AB'},
+    {id:'kw_denpasar', kota:'Denpasar (Bali)', kodePos:'80111–80239 (bervariasi per kecamatan)', kodeTelepon:'0361', kodePlat:'DK'},
+    {id:'kw_makassar', kota:'Makassar (Sulawesi Selatan)', kodePos:'90111–90245 (bervariasi per kecamatan)', kodeTelepon:'0411', kodePlat:'DD'},
+    {id:'kw_palembang', kota:'Palembang (Sumatera Selatan)', kodePos:'30111–30267 (bervariasi per kecamatan)', kodeTelepon:'0711', kodePlat:'BG'},
+    {id:'kw_bandaaceh', kota:'Banda Aceh (Aceh)', kodePos:'23111–23247 (bervariasi per kecamatan)', kodeTelepon:'0651', kodePlat:'BL'},
+    {id:'kw_manado', kota:'Manado (Sulawesi Utara)', kodePos:'95111–95259 (bervariasi per kecamatan)', kodeTelepon:'0431', kodePlat:'DB'},
+    {id:'kw_pontianak', kota:'Pontianak (Kalimantan Barat)', kodePos:'78111–78243 (bervariasi per kecamatan)', kodeTelepon:'0561', kodePlat:'KB'},
+    {id:'kw_balikpapan', kota:'Balikpapan (Kalimantan Timur)', kodePos:'76111–76136 (bervariasi per kecamatan)', kodeTelepon:'0542', kodePlat:'KT'},
+    {id:'kw_jayapura', kota:'Jayapura (Papua)', kodePos:'99111–99225 (bervariasi per kecamatan)', kodeTelepon:'0967', kodePlat:'PA'},
+    {id:'kw_padang', kota:'Padang (Sumatera Barat)', kodePos:'25111–25239 (bervariasi per kecamatan)', kodeTelepon:'0751', kodePlat:'BA'},
+  ],
+  transportasi:[
+    {id:'tr_gambir', nama:'Stasiun Gambir', jenis:'Stasiun Kereta Api', lokasi:'Jakarta Pusat, DKI Jakarta', ringkasan:'Stasiun kereta api utama Jakarta yang melayani rute kereta jarak jauh ke berbagai kota besar di Pulau Jawa, salah satu stasiun tersibuk dan bersejarah di Indonesia.'},
+    {id:'tr_bandung', nama:'Stasiun Bandung', jenis:'Stasiun Kereta Api', lokasi:'Bandung, Jawa Barat', ringkasan:'Stasiun kereta api bersejarah peninggalan kolonial yang menjadi pusat transportasi rel utama Kota Bandung, melayani rute ke Jakarta dan kota-kota Jawa lainnya.'},
+    {id:'tr_tuguyogya', nama:'Stasiun Tugu Yogyakarta', jenis:'Stasiun Kereta Api', lokasi:'Yogyakarta', ringkasan:'Stasiun kereta api utama Yogyakarta dengan arsitektur bergaya kolonial yang khas, menjadi salah satu ikon transportasi dan wisata kota pelajar ini.'},
+    {id:'tr_gubeng', nama:'Stasiun Surabaya Gubeng', jenis:'Stasiun Kereta Api', lokasi:'Surabaya, Jawa Timur', ringkasan:'Stasiun kereta api utama Surabaya yang melayani rute jarak jauh ke berbagai kota besar di Jawa, salah satu stasiun tersibuk di Jawa Timur.'},
+    {id:'tr_priok', nama:'Pelabuhan Tanjung Priok', jenis:'Pelabuhan', lokasi:'Jakarta Utara, DKI Jakarta', ringkasan:'Pelabuhan tersibuk dan terbesar di Indonesia yang menjadi pintu gerbang utama arus barang ekspor-impor nasional, terletak di pesisir utara Jakarta.'},
+    {id:'tr_perak', nama:'Pelabuhan Tanjung Perak', jenis:'Pelabuhan', lokasi:'Surabaya, Jawa Timur', ringkasan:'Pelabuhan utama Jawa Timur yang menjadi simpul penting logistik dan transportasi laut kawasan timur Indonesia.'},
+    {id:'tr_merak', nama:'Pelabuhan Merak', jenis:'Pelabuhan Penyeberangan', lokasi:'Cilegon, Banten', ringkasan:'Pelabuhan penyeberangan utama yang menghubungkan Pulau Jawa dan Sumatera lewat Selat Sunda, jalur logistik dan mudik terpadat di Indonesia.'},
+    {id:'tr_bakauheni', nama:'Pelabuhan Bakauheni', jenis:'Pelabuhan Penyeberangan', lokasi:'Lampung Selatan, Lampung', ringkasan:'Pelabuhan penyeberangan di ujung selatan Sumatera yang menjadi pasangan Pelabuhan Merak, pintu gerbang utama arus mudik dan logistik Jawa-Sumatera.'},
+    {id:'tr_pulogebang', nama:'Terminal Pulo Gebang', jenis:'Terminal Bus', lokasi:'Jakarta Timur, DKI Jakarta', ringkasan:'Terminal bus antarkota antarprovinsi terbesar di Asia Tenggara, melayani keberangkatan bus jarak jauh dari Jakarta ke berbagai kota di Pulau Jawa dan Sumatera.'},
+    {id:'tr_bungurasih', nama:'Terminal Purabaya (Bungurasih)', jenis:'Terminal Bus', lokasi:'Sidoarjo, Jawa Timur', ringkasan:'Terminal bus terbesar di Jawa Timur yang melayani rute antarkota dalam provinsi maupun antarprovinsi dari dan menuju Surabaya.'},
+  ],
+  pendidikan:[
+    {id:'pdk_jenjang', nama:'Jenjang Pendidikan Indonesia', ringkasan:'Sistem pendidikan formal Indonesia terdiri dari PAUD/TK, Sekolah Dasar (SD/MI), Sekolah Menengah Pertama (SMP/MTs), Sekolah Menengah Atas/Kejuruan (SMA/SMK/MA), dan Perguruan Tinggi (Diploma hingga Doktor).'},
+    {id:'pdk_diploma', nama:'Gelar Diploma (D1-D4)', ringkasan:'Gelar vokasi yang menekankan keterampilan praktis dan siap kerja, terdiri dari D1 (Ahli Pratama), D2 (Ahli Muda), D3 (Ahli Madya), dan D4 (Sarjana Terapan), ditempuh di politeknik atau akademi.'},
+    {id:'pdk_s1', nama:'Gelar Sarjana (S1)', ringkasan:'Gelar akademik jenjang pendidikan tinggi tahap pertama yang ditempuh sekitar 4 tahun, menghasilkan gelar seperti S.Pd (Sarjana Pendidikan), S.T. (Sarjana Teknik), atau S.H. (Sarjana Hukum) sesuai bidang studi.'},
+    {id:'pdk_s2', nama:'Gelar Magister (S2)', ringkasan:'Gelar akademik jenjang pendidikan tinggi tahap kedua (pascasarjana) yang menekankan pendalaman ilmu dan riset, umumnya ditempuh sekitar 1,5-2 tahun setelah menyelesaikan S1.'},
+    {id:'pdk_s3', nama:'Gelar Doktor (S3)', ringkasan:'Gelar akademik tertinggi dalam sistem pendidikan formal yang menekankan riset orisinal dan kontribusi keilmuan baru, ditempuh melalui disertasi dan ujian promosi doktor.'},
+    {id:'pdk_kalenderpendidikan', nama:'Kalender Pendidikan', ringkasan:'Pengaturan waktu kegiatan pembelajaran dalam satu tahun ajaran, umumnya terbagi menjadi semester ganjil (Juli-Desember) dan semester genap (Januari-Juni) di sebagian besar sekolah Indonesia.'},
+    {id:'pdk_zonasi', nama:'Sistem Zonasi Sekolah', ringkasan:'Kebijakan penerimaan siswa baru berdasarkan jarak tempat tinggal dengan sekolah, bertujuan pemerataan akses pendidikan berkualitas dan mengurangi kesenjangan antar sekolah favorit dan non-favorit.'},
+    {id:'pdk_konversipanjang', nama:'Konversi Satuan Panjang', ringkasan:'Sistem konversi umum satuan panjang yang dipakai di Indonesia: 1 meter = 100 sentimeter = 1.000 milimeter; 1 kilometer = 1.000 meter; 1 kaki (feet) ≈ 0,3048 meter.'},
+    {id:'pdk_konversiberat', nama:'Konversi Satuan Berat', ringkasan:'Sistem konversi umum satuan berat yang dipakai di Indonesia: 1 kilogram = 1.000 gram; 1 ton = 1.000 kilogram; 1 kuintal = 100 kilogram; 1 pon (lokal) = 0,5 kilogram.'},
+    {id:'pdk_zonawaktu', nama:'Zona Waktu Indonesia', ringkasan:'Indonesia terbagi dalam tiga zona waktu resmi: WIB (Waktu Indonesia Barat, UTC+7) meliputi Sumatera-Jawa-Kalimantan Barat/Tengah, WITA (UTC+8) meliputi Bali-Nusa Tenggara-Kalimantan lainnya-Sulawesi, dan WIT (UTC+9) meliputi Maluku-Papua.'},
+  ],
+  numismatik:[
+    {id:'nm_100000', nama:'Uang Kertas Rp100.000', jenis:'Uang Kertas', tahunEmisi:'2022 (TE2022)', ringkasan:'Pecahan terbesar uang kertas Rupiah, bergambar Ir. Soekarno dan Drs. Mohammad Hatta di bagian depan, serta Istana Kepresidenan Bogor sebagai latar; seri Tahun Emisi 2022 memperbarui desain dari seri 2016 dengan pengamanan lebih canggih.'},
+    {id:'nm_50000', nama:'Uang Kertas Rp50.000', jenis:'Uang Kertas', tahunEmisi:'2022 (TE2022)', ringkasan:'Bergambar Ir. H. Djuanda Kartawidjaja, pahlawan nasional pencetus Deklarasi Djuanda tentang wilayah laut Indonesia, dengan latar Taman Nasional Komodo di bagian belakang.'},
+    {id:'nm_20000', nama:'Uang Kertas Rp20.000', jenis:'Uang Kertas', tahunEmisi:'2022 (TE2022)', ringkasan:'Bergambar Dr. G.S.S.J. Ratulangi, pahlawan nasional asal Sulawesi Utara, dengan latar Taman Nasional Kepulauan Derawan di bagian belakang.'},
+    {id:'nm_10000', nama:'Uang Kertas Rp10.000', jenis:'Uang Kertas', tahunEmisi:'2022 (TE2022)', ringkasan:'Bergambar Frans Kaisiepo, pahlawan nasional asal Papua, dengan latar Taman Nasional Wakatobi di bagian belakang.'},
+    {id:'nm_5000', nama:'Uang Kertas Rp5.000', jenis:'Uang Kertas', tahunEmisi:'2022 (TE2022)', ringkasan:'Bergambar K.H. Idham Chalid, tokoh ulama dan negarawan nasional, dengan latar Taman Nasional Gunung Bromo Tengger Semeru di bagian belakang.'},
+    {id:'nm_2000', nama:'Uang Kertas Rp2.000', jenis:'Uang Kertas', tahunEmisi:'2022 (TE2022)', ringkasan:'Bergambar Mohammad Hoesni Thamrin, pahlawan nasional dan tokoh pergerakan asal Betawi, dengan latar Taman Nasional Kepulauan Togean di bagian belakang.'},
+    {id:'nm_1000kertas', nama:'Uang Kertas Rp1.000 (Cut Meutia)', jenis:'Uang Kertas', tahunEmisi:'2016 (TE2016, kini digantikan uang logam)', ringkasan:'Pecahan kertas terkecil dalam seri emisi 2016, bergambar pahlawan nasional Cut Meutia dari Aceh, kini fungsinya telah digantikan sepenuhnya oleh uang logam Rp1.000.'},
+    {id:'nm_75000', nama:'Uang Kertas Rp75.000 (Peringatan)', jenis:'Uang Kertas', tahunEmisi:'2020 (edisi khusus)', ringkasan:'Uang kertas edisi peringatan yang diterbitkan khusus untuk memperingati HUT ke-75 Kemerdekaan Republik Indonesia, menampilkan foto presiden dari masa ke masa dan bukan alat pembayaran sehari-hari yang umum beredar.',
+     fakta:['Diterbitkan terbatas hanya untuk memperingati HUT ke-75 RI pada 2020','Menampilkan potret presiden Indonesia dari periode pertama hingga saat penerbitan sebagai simbol kesinambungan kepemimpinan']},
+    {id:'nm_1000logam', nama:'Uang Logam Rp1.000 (Kelapa Sawit)', jenis:'Uang Logam', tahunEmisi:'2016', ringkasan:'Uang logam pecahan Rp1.000 bergambar tanaman kelapa sawit, komoditas perkebunan unggulan Indonesia, dicetak sebagai bagian dari seri uang logam Tahun Emisi 2016.'},
+    {id:'nm_500logam', nama:'Uang Logam Rp500', jenis:'Uang Logam', tahunEmisi:'2016', ringkasan:'Uang logam pecahan Rp500 bergambar bunga melati, salah satu bunga nasional Indonesia, bagian dari seri uang logam Tahun Emisi 2016 berbahan dasar nikel.'},
+    {id:'nm_200logam', nama:'Uang Logam Rp200', jenis:'Uang Logam', tahunEmisi:'2016', ringkasan:'Uang logam pecahan Rp200 bergambar burung Jalak Bali, satwa endemik yang terancam punah, menjadi bagian dari upaya edukasi konservasi lewat mata uang.'},
+    {id:'nm_100logam', nama:'Uang Logam Rp100', jenis:'Uang Logam', tahunEmisi:'2016', ringkasan:'Uang logam pecahan terkecil dalam sirkulasi umum, bergambar rumah adat dan unsur budaya Nusantara, umum digunakan dalam transaksi harian bernilai kecil.'},
+    {id:'nm_orikuno', nama:'ORI (Oeang Republik Indonesia)', jenis:'Uang Lama', tahunEmisi:'1946', ringkasan:'Mata uang kertas pertama Republik Indonesia yang diterbitkan pemerintah pasca-proklamasi untuk menggantikan mata uang masa pendudukan Jepang, kini menjadi barang koleksi numismatik bernilai sejarah tinggi.'},
+    {id:'nm_orla', nama:'Uang Kertas Era Orde Lama (Seri Soekarno)', jenis:'Uang Lama', tahunEmisi:'1950-an–1965', ringkasan:'Seri uang kertas yang beredar pada era Demokrasi Terpimpin dengan nominal besar akibat inflasi tinggi, berakhir dengan kebijakan sanering (pemotongan nilai uang) 1.000:1 pada tahun 1965.',
+     fakta:['Nominalnya sempat mencapai jutaan rupiah akibat hiperinflasi menjelang akhir era Orde Lama','Kebijakan sanering 1965 memotong nilai uang lama menjadi sepersekian dari nilai aslinya untuk menstabilkan ekonomi']},
+    {id:'nm_gulden', nama:'Gulden Hindia Belanda (Uang Lama Kolonial)', jenis:'Uang Lama', tahunEmisi:'Abad ke-19 – 1945', ringkasan:'Mata uang resmi yang beredar di Nusantara pada masa kolonial Belanda, kini menjadi barang koleksi numismatik langka yang menggambarkan sejarah ekonomi era penjajahan.',
+     fakta:['Diterbitkan oleh De Javasche Bank, cikal bakal Bank Indonesia saat ini','Koin dan uang kertas gulden kolonial kini menjadi incaran kolektor numismatik karena kelangkaannya']},
+    {id:'nm_25logam_lama', nama:'Uang Logam Rp25 (Uang Lama, Sudah Ditarik)', jenis:'Uang Lama', tahunEmisi:'1990-an', ringkasan:'Uang logam pecahan kecil yang pernah beredar pada era 1990-an, kini sudah tidak berlaku sebagai alat pembayaran dan hanya bernilai sebagai koleksi numismatik.',
+     fakta:['Sudah resmi ditarik dari peredaran karena nilai nominalnya terlalu kecil untuk transaksi modern','Kini menjadi incaran kolektor uang logam lama Indonesia']},
   ]
 };
 
@@ -2020,26 +2439,41 @@ function buildIndex(){
   SENI.permainan.forEach(e=>idx.push({type:'Permainan Tradisional', menu:'panggung', name:e.nama, meta:e.jumlahPemain, ref:{kind:'entry', group:'permainan', id:e.id}}));
   SENI.alatMusik.forEach(e=>idx.push({type:'Alat Musik', menu:'panggung', name:e.nama, meta:e.bahan, ref:{kind:'entry', group:'alatMusik', id:e.id}}));
   SENI.wastra.forEach(e=>idx.push({type:'Wastra', menu:'panggung', name:e.nama, meta:e.teknik, ref:{kind:'entry', group:'wastra', id:e.id}}));
+  SENI.lagu.forEach(e=>idx.push({type:'Lagu Nusantara', menu:'panggung', name:e.judul, meta:e.asal, ref:{kind:'entry', group:'lagu', id:e.id}}));
+  SENI.musikIdentitas.forEach(e=>idx.push({type:'Musik Identitas Indonesia', menu:'panggung', name:e.nama, meta:'', ref:{kind:'entry', group:'musikIdentitas', id:e.id}}));
+  SENI.olahragaTradisional.forEach(e=>idx.push({type:'Olahraga Tradisional', menu:'panggung', name:e.nama, meta:e.asal, ref:{kind:'entry', group:'olahragaTradisional', id:e.id}}));
   PUSTAKA.suku.forEach(e=>idx.push({type:'Suku', menu:'pustaka', name:e.nama, meta:e.wilayah, ref:{kind:'entry', group:'suku', id:e.id}}));
   PUSTAKA.legenda.forEach(e=>idx.push({type:'Legenda', menu:'pustaka', name:e.nama, meta:e.asal, ref:{kind:'entry', group:'legenda', id:e.id}}));
   PUSTAKA.upacara.forEach(e=>idx.push({type:'Upacara Adat', menu:'pustaka', name:e.nama, meta:e.jenis, ref:{kind:'entry', group:'upacara', id:e.id}}));
   PUSTAKA.kepercayaan.forEach(e=>idx.push({type:'Kepercayaan Lokal', menu:'pustaka', name:e.nama, meta:e.wilayah, ref:{kind:'entry', group:'kepercayaan', id:e.id}}));
+  PUSTAKA.folklore.forEach(e=>idx.push({type:'Folklore', menu:'pustaka', name:e.judul, meta:e.asal, ref:{kind:'entry', group:'folklore', id:e.id}}));
+  PUSTAKA.mitologi.forEach(e=>idx.push({type:'Mitologi & Makhluk Mitologi', menu:'pustaka', name:e.nama, meta:e.kategori, ref:{kind:'entry', group:'mitologi', id:e.id}}));
+  PUSTAKA.tradisiSosial.forEach(e=>idx.push({type:'Tradisi Sosial', menu:'pustaka', name:e.nama, meta:'', ref:{kind:'entry', group:'tradisiSosial', id:e.id}}));
   BAHASA.kamus.forEach(e=>idx.push({type:'Kamus', menu:'bilik', name:e.kata, meta:e.kelas, ref:{kind:'entry', group:'kamus', id:e.id}}));
   BAHASA.peribahasa.forEach(e=>idx.push({type:'Peribahasa', menu:'bilik', name:e.teks, meta:'', ref:{kind:'entry', group:'peribahasa', id:e.id}}));
   BAHASA.sastra.forEach(e=>idx.push({type:'Sastra Nusantara', menu:'bilik', name:e.bentuk, meta:'', ref:{kind:'entry', group:'sastra', id:e.id}}));
   BAHASA.aksara.forEach(e=>idx.push({type:'Aksara Nusantara', menu:'bilik', name:e.nama, meta:e.daerah, ref:{kind:'entry', group:'aksara', id:e.id}}));
   BAHASA.bahasaDaerah.forEach(e=>idx.push({type:'Bahasa Daerah', menu:'bilik', name:e.nama, meta:e.penutur, ref:{kind:'entry', group:'bahasaDaerah', id:e.id}}));
+  BAHASA.tataBahasa.forEach(e=>idx.push({type:'Tata Bahasa Indonesia', menu:'bilik', name:e.nama, meta:'', ref:{kind:'entry', group:'tataBahasa', id:e.id}}));
+  BAHASA.sinonimAntonim.forEach(e=>idx.push({type:'Sinonim & Antonim', menu:'bilik', name:e.kata, meta:'', ref:{kind:'entry', group:'sinonimAntonim', id:e.id}}));
+  BAHASA.kosakataDaerah.forEach(e=>idx.push({type:'Kosakata Bahasa Daerah', menu:'bilik', name:e.bahasa, meta:'', ref:{kind:'entry', group:'kosakataDaerah', id:e.id}}));
   WARGA.pancasila.forEach(e=>idx.push({type:'Pancasila', menu:'balai', name:'Sila '+e.sila+' — '+e.bunyi, meta:e.lambang, ref:{kind:'entry', group:'pancasila', id:e.id}}));
   WARGA.konstitusi.forEach(e=>idx.push({type:'Konstitusi', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'konstitusi', id:e.id}}));
   WARGA.simbol.forEach(e=>idx.push({type:'Simbol Negara', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'simbol', id:e.id}}));
   WARGA.pramukaMateri.forEach(e=>idx.push({type:'Pramuka', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'pramukaMateri', id:e.id}}));
   WARGA.sandiPramuka.forEach(e=>idx.push({type:'Sandi Pramuka', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'sandiPramuka', id:e.id}}));
   WARGA.taliTemali.forEach(e=>idx.push({type:'Tali-Temali', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'taliTemali', id:e.id}}));
+  WARGA.sejarahKebangsaan.forEach(e=>idx.push({type:'Sejarah Kebangsaan', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'sejarahKebangsaan', id:e.id}}));
+  WARGA.tandaKecakapan.forEach(e=>idx.push({type:'Tanda Kecakapan', menu:'balai', name:e.nama, meta:'', ref:{kind:'entry', group:'tandaKecakapan', id:e.id}}));
   KODE.nomorPenting.forEach(e=>idx.push({type:'Nomor Penting', menu:'pusat', name:e.nama, meta:e.nomor, ref:{kind:'entry', group:'nomorPenting', id:e.id}}));
   KODE.mataUang.forEach(e=>idx.push({type:'Mata Uang', menu:'pusat', name:e.nama, meta:e.kode, ref:{kind:'entry', group:'mataUang', id:e.id}}));
   KODE.kalender.forEach(e=>idx.push({type:'Kalender', menu:'pusat', name:e.nama, meta:e.sistem, ref:{kind:'entry', group:'kalender', id:e.id}}));
   KODE.bandara.forEach(e=>idx.push({type:'Bandara', menu:'pusat', name:e.nama, meta:e.kodeIATA, ref:{kind:'entry', group:'bandara', id:e.id}}));
   KODE.singkatan.forEach(e=>idx.push({type:'Singkatan', menu:'pusat', name:e.singkatan, meta:e.kepanjangan, ref:{kind:'entry', group:'singkatan', id:e.id}}));
+  KODE.kodeWilayah.forEach(e=>idx.push({type:'Kode & Identitas Wilayah', menu:'pusat', name:e.kota, meta:e.kodePlat, ref:{kind:'entry', group:'kodeWilayah', id:e.id}}));
+  KODE.transportasi.forEach(e=>idx.push({type:'Transportasi', menu:'pusat', name:e.nama, meta:e.jenis, ref:{kind:'entry', group:'transportasi', id:e.id}}));
+  KODE.pendidikan.forEach(e=>idx.push({type:'Pendidikan & Referensi', menu:'pusat', name:e.nama, meta:'', ref:{kind:'entry', group:'pendidikan', id:e.id}}));
+  KODE.numismatik.forEach(e=>idx.push({type:'Numismatik', menu:'pusat', name:e.nama, meta:e.tahunEmisi, ref:{kind:'entry', group:'numismatik', id:e.id}}));
   return idx;
 }
 const SEARCH_INDEX = buildIndex();
@@ -2079,36 +2513,51 @@ const MENU_GROUPS = {
   panggung: {getItems:()=>[
       ...SENI.tari.map(e=>({id:e.id,nama:e.nama,meta:provName(e.provinsi),cat:'Tari',group:'tari'})),
       ...SENI.wayang.map(e=>({id:e.id,nama:e.nama,meta:provName(e.provinsi),cat:'Wayang & Seni Pertunjukan',group:'wayang'})),
-      ...SENI.permainan.map(e=>({id:e.id,nama:e.nama,meta:e.jumlahPemain,cat:'Permainan Tradisional',group:'permainan'})),
       ...SENI.alatMusik.map(e=>({id:e.id,nama:e.nama,meta:e.bahan,cat:'Alat Musik',group:'alatMusik'})),
+      ...SENI.lagu.map(e=>({id:e.id,nama:e.judul,meta:e.asal,cat:'Lagu Nusantara',group:'lagu'})),
+      ...SENI.musikIdentitas.map(e=>({id:e.id,nama:e.nama,meta:'Musik Identitas',cat:'Musik Identitas Indonesia',group:'musikIdentitas'})),
       ...SENI.wastra.map(e=>({id:e.id,nama:e.nama,meta:e.teknik,cat:'Wastra',group:'wastra'})),
+      ...SENI.permainan.map(e=>({id:e.id,nama:e.nama,meta:e.jumlahPemain,cat:'Permainan Tradisional',group:'permainan'})),
+      ...SENI.olahragaTradisional.map(e=>({id:e.id,nama:e.nama,meta:e.asal,cat:'Olahraga Tradisional',group:'olahragaTradisional'})),
     ], title:'Panggung Kesenian', sub:'Seni, musik, wastra, permainan & olahraga tradisional.'},
   pustaka: {getItems:()=>[
       ...PUSTAKA.suku.map(e=>({id:e.id,nama:e.nama,meta:e.wilayah,cat:'Suku',group:'suku'})),
+      ...PUSTAKA.folklore.map(e=>({id:e.id,nama:e.judul,meta:e.jenis,cat:'Folklore',group:'folklore'})),
       ...PUSTAKA.legenda.map(e=>({id:e.id,nama:e.nama,meta:e.asal,cat:'Legenda',group:'legenda'})),
+      ...PUSTAKA.mitologi.map(e=>({id:e.id,nama:e.nama,meta:e.kategori,cat:'Mitologi & Makhluk Mitologi',group:'mitologi'})),
       ...PUSTAKA.upacara.map(e=>({id:e.id,nama:e.nama,meta:e.jenis,cat:'Upacara Adat',group:'upacara'})),
       ...PUSTAKA.kepercayaan.map(e=>({id:e.id,nama:e.nama,meta:e.wilayah,cat:'Kepercayaan Lokal',group:'kepercayaan'})),
+      ...PUSTAKA.tradisiSosial.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Tradisi Sosial',group:'tradisiSosial'})),
     ], title:'Pustaka Nusantara', sub:'Cerita, suku, adat, tradisi & kepercayaan.'},
   bilik: {getItems:()=>[
       ...BAHASA.kamus.map(e=>({id:e.id,nama:e.kata,meta:e.kelas,cat:'Kamus',group:'kamus'})),
+      ...BAHASA.tataBahasa.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Tata Bahasa Indonesia',group:'tataBahasa'})),
+      ...BAHASA.sinonimAntonim.map(e=>({id:e.id,nama:e.kata,meta:'',cat:'Sinonim & Antonim',group:'sinonimAntonim'})),
       ...BAHASA.peribahasa.map(e=>({id:e.id,nama:e.teks,meta:'Peribahasa',cat:'Peribahasa',group:'peribahasa'})),
       ...BAHASA.sastra.map(e=>({id:e.id,nama:e.bentuk,meta:'Sastra',cat:'Sastra Nusantara',group:'sastra'})),
       ...BAHASA.aksara.map(e=>({id:e.id,nama:e.nama,meta:e.daerah,cat:'Aksara Nusantara',group:'aksara'})),
       ...BAHASA.bahasaDaerah.map(e=>({id:e.id,nama:e.nama,meta:e.penutur,cat:'Bahasa Daerah',group:'bahasaDaerah'})),
+      ...BAHASA.kosakataDaerah.map(e=>({id:e.id,nama:'Kosakata '+e.bahasa,meta:e.bahasa,cat:'Kosakata Bahasa Daerah',group:'kosakataDaerah'})),
     ], title:'Bilik Sastra & Bahasa', sub:'Bahasa Indonesia, bahasa daerah, sastra & aksara Nusantara.'},
   balai: {getItems:()=>[
       ...WARGA.pancasila.map(e=>({id:e.id,nama:'Sila '+e.sila+' — '+e.bunyi,meta:e.lambang,cat:'Pancasila',group:'pancasila'})),
       ...WARGA.konstitusi.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Konstitusi',group:'konstitusi'})),
+      ...WARGA.sejarahKebangsaan.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Sejarah Kebangsaan',group:'sejarahKebangsaan'})),
       ...WARGA.simbol.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Simbol Negara',group:'simbol'})),
       ...WARGA.pramukaMateri.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Pramuka',group:'pramukaMateri'})),
       ...WARGA.sandiPramuka.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Sandi Pramuka',group:'sandiPramuka'})),
       ...WARGA.taliTemali.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Tali-Temali',group:'taliTemali'})),
+      ...WARGA.tandaKecakapan.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Tanda Kecakapan',group:'tandaKecakapan'})),
     ], title:'Balai Pandu & Warga', sub:'Pancasila, konstitusi, simbol negara, dan pengetahuan kepramukaan.'},
   pusat: {getItems:()=>[
       ...KODE.nomorPenting.map(e=>({id:e.id,nama:e.nama,meta:e.nomor,cat:'Nomor Penting',group:'nomorPenting'})),
       ...KODE.mataUang.map(e=>({id:e.id,nama:e.nama,meta:e.kode,cat:'Mata Uang',group:'mataUang'})),
+      ...KODE.numismatik.map(e=>({id:e.id,nama:e.nama,meta:e.tahunEmisi,cat:'Numismatik',group:'numismatik'})),
       ...KODE.kalender.map(e=>({id:e.id,nama:e.nama,meta:e.sistem,cat:'Kalender',group:'kalender'})),
       ...KODE.bandara.map(e=>({id:e.id,nama:e.nama,meta:e.kodeIATA,cat:'Bandara',group:'bandara'})),
+      ...KODE.transportasi.map(e=>({id:e.id,nama:e.nama,meta:e.jenis,cat:'Transportasi',group:'transportasi'})),
+      ...KODE.kodeWilayah.map(e=>({id:e.id,nama:e.kota,meta:e.kodePlat,cat:'Kode & Identitas Wilayah',group:'kodeWilayah'})),
+      ...KODE.pendidikan.map(e=>({id:e.id,nama:e.nama,meta:'',cat:'Pendidikan & Referensi',group:'pendidikan'})),
       ...KODE.singkatan.map(e=>({id:e.id,nama:e.singkatan,meta:e.kepanjangan,cat:'Singkatan',group:'singkatan'})),
     ], title:'Pusat Kode & Info', sub:'Kode, nomor penting, mata uang, kalender & data praktis Indonesia.'},
 };
@@ -2121,17 +2570,21 @@ function findEntry(group,id){
     pergerakan:SEJARAH.pergerakan, kemerdekaan:SEJARAH.kemerdekaan, pascaKemerdekaan:SEJARAH.pascaKemerdekaan,
     kabinet:SEJARAH.kabinet, wakilPresiden:SEJARAH.wakilPresiden,
     tari:SENI.tari, alatMusik:SENI.alatMusik, wastra:SENI.wastra, wayang:SENI.wayang, permainan:SENI.permainan,
+    lagu:SENI.lagu, musikIdentitas:SENI.musikIdentitas, olahragaTradisional:SENI.olahragaTradisional,
     suku:PUSTAKA.suku, legenda:PUSTAKA.legenda, upacara:PUSTAKA.upacara, kepercayaan:PUSTAKA.kepercayaan,
+    folklore:PUSTAKA.folklore, mitologi:PUSTAKA.mitologi, tradisiSosial:PUSTAKA.tradisiSosial,
     kamus:BAHASA.kamus, peribahasa:BAHASA.peribahasa, bahasaDaerah:BAHASA.bahasaDaerah,
-    sastra:BAHASA.sastra, aksara:BAHASA.aksara,
+    sastra:BAHASA.sastra, aksara:BAHASA.aksara, tataBahasa:BAHASA.tataBahasa, sinonimAntonim:BAHASA.sinonimAntonim, kosakataDaerah:BAHASA.kosakataDaerah,
     pancasila:WARGA.pancasila,
     konstitusi:WARGA.konstitusi, simbol:WARGA.simbol, pramukaMateri:WARGA.pramukaMateri, sandiPramuka:WARGA.sandiPramuka, taliTemali:WARGA.taliTemali,
+    sejarahKebangsaan:WARGA.sejarahKebangsaan, tandaKecakapan:WARGA.tandaKecakapan,
     nomorPenting:KODE.nomorPenting, mataUang:KODE.mataUang, kalender:KODE.kalender,
     gunung:GEOGRAFI.gunung, danau:GEOGRAFI.danau, tamanNasional:GEOGRAFI.tamanNasional,
     pantai:GEOGRAFI.pantai, situsSejarah:GEOGRAFI.situsSejarah, tempatIbadah:GEOGRAFI.tempatIbadah,
     floraFauna:GEOGRAFI.floraFauna, jalurRempah:GEOGRAFI.jalurRempah,
     makananBerat:KULINER.makananBerat, jajanan:KULINER.jajanan, minuman:KULINER.minuman,
     bandara:KODE.bandara, singkatan:KODE.singkatan,
+    kodeWilayah:KODE.kodeWilayah, transportasi:KODE.transportasi, pendidikan:KODE.pendidikan, numismatik:KODE.numismatik,
   };
   return (map[group]||[]).find(e=>e.id===id);
 }
@@ -2243,7 +2696,7 @@ function openEntry(group,id){
   showView('view-entry');
   const menuId = Object.keys(MENU_GROUPS).find(k => MENU_GROUPS[k].getItems().some(i=>i.group===group));
   const menuName = menuId ? MENUS.find(m=>m.id===menuId).name : '';
-  const entryTitle = e.nama || e.kata || e.bentuk || e.singkatan || e.teks;
+  const entryTitle = e.nama || e.kata || e.bentuk || e.singkatan || e.teks || e.judul || e.kota;
   setHeader({mode:'sub', title:entryTitle});
 
   const fields = [];
@@ -2252,19 +2705,24 @@ function openEntry(group,id){
     prasejarah:'Prasejarah', kolonialisme:'Kolonialisme', perlawanan:'Perlawanan Daerah', pergerakan:'Pergerakan Nasional',
     kemerdekaan:'Kemerdekaan', pascaKemerdekaan:'Indonesia Pasca Kemerdekaan', kabinet:'Kabinet Indonesia', wakilPresiden:'Wakil Presiden',
     tari:'Tari Tradisional', alatMusik:'Alat Musik', wastra:'Wastra', wayang:'Wayang & Seni Pertunjukan', permainan:'Permainan Tradisional',
+    lagu:'Lagu Nusantara', musikIdentitas:'Musik Identitas Indonesia', olahragaTradisional:'Olahraga Tradisional',
     suku:'Suku & Masyarakat Adat', legenda:'Legenda', upacara:'Upacara Adat', kepercayaan:'Kepercayaan Lokal',
+    folklore:'Folklore', mitologi:'Mitologi & Makhluk Mitologi', tradisiSosial:'Tradisi Sosial',
     kamus:'Kamus', peribahasa:'Peribahasa', bahasaDaerah:'Bahasa Daerah', sastra:'Sastra Nusantara', aksara:'Aksara Nusantara',
+    tataBahasa:'Tata Bahasa Indonesia', sinonimAntonim:'Sinonim & Antonim', kosakataDaerah:'Kosakata Bahasa Daerah',
     pancasila:'Pancasila', nomorPenting:'Nomor Penting', mataUang:'Mata Uang', kalender:'Kalender',
     gunung:'Gunung', danau:'Danau & Sungai', tamanNasional:'Taman Nasional & Kawasan Konservasi',
     pantai:'Pantai & Pesisir', situsSejarah:'Situs Sejarah & Bangunan Bersejarah', tempatIbadah:'Tempat Ibadah & Warisan Religi',
     floraFauna:'Flora & Fauna Identitas', jalurRempah:'Jalur Rempah Nusantara',
     makananBerat:'Makanan Berat', jajanan:'Jajanan Tradisional', minuman:'Minuman Tradisional',
     konstitusi:'Konstitusi', simbol:'Simbol Negara', pramukaMateri:'Pramuka', sandiPramuka:'Sandi Pramuka', taliTemali:'Tali-Temali',
-    bandara:'Bandara', singkatan:'Singkatan & Istilah'
+    sejarahKebangsaan:'Sejarah Kebangsaan', tandaKecakapan:'Tanda Kecakapan',
+    bandara:'Bandara', singkatan:'Singkatan & Istilah',
+    kodeWilayah:'Kode & Identitas Wilayah', transportasi:'Transportasi', pendidikan:'Pendidikan & Referensi', numismatik:'Numismatik'
   }[group];
 
-  const title = e.nama || e.kata || e.bentuk || e.singkatan || e.teks;
-  const loc = e.lokasi || e.wilayah || e.asal || e.daerah || provName(e.provinsi) || '';
+  const title = e.nama || e.kata || e.bentuk || e.singkatan || e.teks || e.judul || e.kota;
+  const loc = e.lokasi || e.wilayah || e.asal || e.daerah || e.bahasa || provName(e.provinsi) || '';
 
   if(e.ringkasan || e.arti || e.makna || e.penjelasan){
     fields.push(['Ringkasan', e.ringkasan || e.arti || e.makna || e.penjelasan]);
@@ -2283,7 +2741,16 @@ function openEntry(group,id){
   if(e.bahan) fields.push(['Bahan', e.bahan]);
   if(e.caraMain) fields.push(['Cara Memainkan', e.caraMain]);
   if(e.teknik) fields.push(['Teknik', e.teknik]);
-  if(e.jenis) fields.push(['Jenis Upacara', e.jenis]);
+  if(e.contohPengamalan) fields.push(['Contoh Pengamalan', '<ul>'+e.contohPengamalan.map(c=>`<li>${c}</li>`).join('')+'</ul>']);
+  if(e.jenis) fields.push(['Jenis', e.jenis]);
+  if(e.tabel) fields.push(['Tabel Kode', `<div style="font-family:monospace; font-size:12.5px; line-height:1.8; letter-spacing:0.3px; word-break:break-all;">${e.tabel}</div>`]);
+  if(e.pencipta) fields.push(['Pencipta', e.pencipta]);
+  if(e.kodePos) fields.push(['Kode Pos', e.kodePos]);
+  if(e.kodeTelepon) fields.push(['Kode Area Telepon', e.kodeTelepon]);
+  if(e.kodePlat) fields.push(['Kode Plat Nomor', e.kodePlat]);
+  if(e.tahunEmisi) fields.push(['Tahun Emisi', e.tahunEmisi]);
+  if(e.sinonim) fields.push(['Sinonim', e.sinonim]);
+  if(e.antonim) fields.push(['Antonim', e.antonim]);
   if(e.kelas) fields.push(['Kelas Kata', e.kelas]);
   if(e.rumpun) fields.push(['Rumpun Bahasa', e.rumpun]);
   if(e.penutur) fields.push(['Wilayah Penutur', e.penutur]);
@@ -2500,6 +2967,72 @@ function focusSearch(){
   setTimeout(()=>document.getElementById('searchInput').focus(), 250);
 }
 
+/* =========================================================================
+   SETTINGS PAGE
+   ========================================================================= */
+let __darkMode = false, __notifOn = true;
+const TEXT_SIZES = ['Kecil','Sedang','Besar'];
+let __textSizeIdx = 1;
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+function toggleDarkMode(){
+  __darkMode = !__darkMode;
+  document.body.classList.toggle('dark', __darkMode);
+  renderSettings();
+}
+function toggleNotif(){
+  __notifOn = !__notifOn;
+  renderSettings();
+  showToast(__notifOn ? 'Notifikasi diaktifkan' : 'Notifikasi dimatikan');
+}
+function cycleTextSize(){
+  __textSizeIdx = (__textSizeIdx + 1) % TEXT_SIZES.length;
+  document.documentElement.style.fontSize = ['14px','16px','18px'][__textSizeIdx];
+  renderSettings();
+}
+function clearCache(){
+  showToast('Cache berhasil dibersihkan');
+  renderSettings();
+}
+
+function openSettings(){
+  showView('view-settings');
+  setHeader({mode:'sub', title:'Pengaturan'});
+  renderSettings();
+  pushNavState({view:'settings'});
+}
+
+function renderSettings(){
+  const rows = [
+    {icon:'person', title:'Akun', sub:'Kelola akun Anda', type:'nav'},
+    {icon:'moon', title:'Tema', sub: __darkMode ? 'Mode Gelap' : 'Mode Terang', type:'toggle', on:__darkMode, fn:'toggleDarkMode()'},
+    {icon:'textsize', title:'Ukuran Teks', sub: TEXT_SIZES[__textSizeIdx], type:'cycle', fn:'cycleTextSize()'},
+    {icon:'globe', title:'Bahasa', sub:'Bahasa Indonesia', type:'nav'},
+    {icon:'bell', title:'Notifikasi', sub: __notifOn ? 'Aktif' : 'Nonaktif', type:'toggle', on:__notifOn, fn:'toggleNotif()'},
+    {icon:'download', title:'Unduh Data', sub:'Kelola data offline', type:'nav'},
+    {icon:'trash', title:'Bersihkan Cache', sub:'25,6 MB', type:'cycle', fn:'clearCache()'},
+    {icon:'info', title:'Tentang Aplikasi', sub:'Khatulistara v1.0.0', type:'nav'},
+  ];
+  document.getElementById('settingsList').innerHTML = rows.map(r=>{
+    const right = r.type==='toggle'
+      ? `<div class="toggle ${r.on?'on':''}"><div class="knob"></div></div>`
+      : `<div class="lr-chev">${ic('chevron')}</div>`;
+    const onclick = r.fn ? ` onclick="${r.fn}"` : '';
+    return `<div class="listrow"${onclick}>
+      <div class="lr-icon">${ic(r.icon)}</div>
+      <div class="lr-text"><div class="lr-title">${r.title}</div><div class="lr-sub">${r.sub}</div></div>
+      ${right}
+    </div>`;
+  }).join('') + `<div class="settings-version">KHATULISTARA v1.0.0 — Prototipe</div>`;
+}
+
 /* ---- History / back-button handling ----
    Every navigation (home, menu, entry, province) pushes a history state.
    The phone's back button and any in-app back link both resolve through
@@ -2515,6 +3048,7 @@ function pushNavState(state){
     : state.view==='province' ? '#province/'+state.id
     : state.view==='allmenus' ? '#allmenus'
     : state.view==='provinsilist' ? '#provinsilist'
+    : state.view==='settings' ? '#settings'
     : '#home';
   try{
     history.pushState(state, '', hash);
@@ -2534,6 +3068,7 @@ window.addEventListener('popstate', (e)=>{
   else if(state.view==='province') openProvince(state.id);
   else if(state.view==='allmenus') openAllMenus();
   else if(state.view==='provinsilist') openProvinsiList();
+  else if(state.view==='settings') openSettings();
   else goHome();
   __isPopping = false;
 });
