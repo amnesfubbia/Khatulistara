@@ -370,6 +370,30 @@
   body.dark .searchwrap input::placeholder{color:var(--muted);}
   body.dark .bottomnav{background:var(--card); border-color:var(--line);}
   body.dark .toast{background:#ece7d8; color:#161d18;}
+
+  /* ===== Kalender Interaktif ===== */
+  .calnav{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;}
+  .calnav .calnav-btn{width:38px; height:38px; border-radius:12px; background:var(--card); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink-soft);}
+  .calnav .calnav-btn svg{width:17px; height:17px;}
+  .calnav .calnav-title{font-family:var(--font-display); font-size:17px; font-weight:700; color:var(--ink); text-align:center;}
+  .caltabs{display:flex; gap:8px; margin-bottom:14px;}
+  .caltab{flex:1; text-align:center; padding:9px 6px; border-radius:12px; font-size:12.5px; font-weight:600; background:var(--cream); color:var(--ink-soft); border:1px solid var(--line); cursor:pointer;}
+  .caltab.active{background:var(--green-deep); color:#fff; border-color:var(--green-deep);}
+  .calgrid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px;}
+  .calgrid .calhead{text-align:center; font-size:11px; font-weight:700; color:var(--muted); padding:4px 0;}
+  .calcell{aspect-ratio:1; border-radius:10px; background:var(--card); border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; padding:2px;}
+  .calcell.empty{background:transparent; border:none; cursor:default;}
+  .calcell.today{border-color:var(--gold); border-width:2px;}
+  .calcell.selected{background:var(--green-deep); border-color:var(--green-deep);}
+  .calcell.selected .cal-num, .calcell.selected .cal-sub{color:#fff;}
+  .calcell .cal-num{font-size:13px; font-weight:700; color:var(--ink); line-height:1.1;}
+  .calcell .cal-sub{font-size:8.5px; color:var(--muted); line-height:1.1; margin-top:1px;}
+  .calcell.hasevent::after{content:''; width:4px; height:4px; border-radius:50%; background:var(--clay); margin-top:2px;}
+  .calinfo{margin-top:16px;}
+  .calinfo .calinfo-date{font-family:var(--font-display); font-weight:700; font-size:15px; color:var(--ink); margin-bottom:8px;}
+  .calinfo .calinfo-item{background:var(--cream); border-radius:12px; padding:10px 14px; margin-bottom:8px; font-size:13px; color:var(--ink-soft); line-height:1.5;}
+  .calinfo .calinfo-empty{font-size:12.5px; color:var(--muted); padding:8px 0;}
+  .caldisclaimer{background:var(--cream-2); border-radius:12px; padding:10px 14px; font-size:11.5px; color:var(--ink-soft); line-height:1.5; margin-bottom:14px;}
 </style>
 </head>
 <body>
@@ -456,6 +480,21 @@
   </div>
 </div>
 
+<!-- ===================== KALENDER INTERAKTIF ===================== -->
+<div id="view-kalender" class="view">
+  <div class="page">
+    <div class="caltabs" id="calTabs"></div>
+    <div id="calDisclaimerWrap"></div>
+    <div class="calnav">
+      <div class="calnav-btn" id="calPrevBtn" onclick="calShiftMonth(-1)"></div>
+      <div class="calnav-title" id="calTitle"></div>
+      <div class="calnav-btn" id="calNextBtn" onclick="calShiftMonth(1)"></div>
+    </div>
+    <div class="calgrid" id="calGrid"></div>
+    <div class="calinfo" id="calInfo"></div>
+  </div>
+</div>
+
 <footer>
   <div class="motto">"Mengenal Nusantara, Memahami Indonesia"</div>
   KHATULISTARA — Ensiklopedia Nusantara. Konten terus diperluas.
@@ -515,6 +554,9 @@ const ICONS = {
   info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg>',
 };
 function ic(name){ return ICONS[name] || ICONS.book; }
+ICONS.chevleft = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>';
+ICONS.chevright = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+ICONS.calendar = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>';
 
 /* =========================================================================
    KHATULISTARA — DATA
@@ -2350,6 +2392,10 @@ const WARGA = {
     {id:'simpulerat', nama:'Simpul Erat', ringkasan:'Simpul untuk memendekkan tali tanpa harus memotongnya, berguna saat tali yang tersedia terlalu panjang untuk suatu keperluan.'},
     {id:'ikatanpalang', nama:'Ikatan Palang', ringkasan:'Ikatan pionering untuk menyambung dua batang kayu secara menyilang membentuk sudut (biasanya 90 derajat), dasar dalam pembuatan struktur seperti tandu atau menara pionering.'},
     {id:'ikatansilang', nama:'Ikatan Silang', ringkasan:'Ikatan pionering untuk menyambung dua batang kayu yang bersilangan pada sudut tertentu, sering dipakai dalam pembuatan rangka bangunan pionering seperti gapura atau jembatan sederhana.'},
+    {id:'simpultiang', nama:'Simpul Tiang', ringkasan:'Simpul yang menghasilkan lingkaran tetap di ujung tali yang tidak mengencang/mengunci meski ditarik, sering digunakan untuk mengikat sesuatu pada tiang tanpa mencekik atau melukai objek yang diikat.'},
+    {id:'simpulkembar', nama:'Simpul Kembar (Simpul Nelayan)', ringkasan:'Simpul kuat untuk menyambung dua tali licin atau berbeda ukuran secara aman, populer digunakan nelayan untuk menyambung tali pancing atau jaring karena tidak mudah lepas meski basah.'},
+    {id:'ikatancanggah', nama:'Ikatan Canggah', ringkasan:'Ikatan pionering untuk menyambung tiga batang kayu membentuk cabang/canggah, dasar penting dalam pembuatan tandu, menara pandang, dan berbagai struktur pionering kompleks lainnya.'},
+    {id:'tandu_pionering', nama:'Tandu Pionering', ringkasan:'Struktur pionering hasil rangkaian ikatan dan simpul tali-temali yang dibuat dari tongkat/bambu untuk mengangkut korban dalam kondisi darurat, menjadi salah satu keterampilan wajib SKU Pramuka Penggalang.'},
   ],
   sejarahKebangsaan:[
     {id:'sk_sumpahpemuda', nama:'Sumpah Pemuda sebagai Simbol Persatuan', ringkasan:'Ikrar Sumpah Pemuda 28 Oktober 1928 menjadi fondasi kesadaran berbangsa satu, bertanah air satu, dan berbahasa satu, mengajarkan generasi muda bahwa persatuan mengatasi perbedaan suku, agama, dan daerah asal.',
@@ -2362,6 +2408,14 @@ const WARGA = {
      fakta:['Simbol-simbol negara diatur secara resmi dalam UU No. 24 Tahun 2009 tentang Bendera, Bahasa, Lambang Negara, dan Lagu Kebangsaan','Penghormatan terhadap simbol negara menjadi bagian penting pendidikan kewarganegaraan sejak dini']},
     {id:'sk_wawasankebangsaan', nama:'Wawasan Kebangsaan', ringkasan:'Cara pandang dan sikap bangsa Indonesia terhadap diri dan lingkungannya yang mengutamakan persatuan, kesatuan wilayah, serta kepentingan nasional di atas kepentingan pribadi atau golongan dalam kehidupan bermasyarakat, berbangsa, dan bernegara.',
      fakta:['Menjadi landasan sikap toleransi dan gotong royong dalam kehidupan bermasyarakat yang majemuk','Diajarkan secara formal melalui mata pelajaran Pendidikan Pancasila dan Kewarganegaraan (PPKn) di sekolah']},
+    {id:'sk_bhinnekatunggal', nama:'Bhinneka Tunggal Ika sebagai Perekat Bangsa', ringkasan:'Semboyan yang menjadi landasan hidup berdampingan lebih dari 1.300 suku bangsa dan ratusan bahasa daerah di Indonesia, mengajarkan bahwa keberagaman bukan ancaman melainkan kekuatan bangsa jika dikelola dengan toleransi.',
+     fakta:['Diambil dari Kitab Sutasoma karya Mpu Tantular era Majapahit, jauh sebelum konsep negara-bangsa modern ada','Menjadi dasar sikap saling menghormati antarsuku, agama, ras, dan golongan (SARA) dalam kehidupan bernegara']},
+    {id:'sk_nkri', nama:'Negara Kesatuan Republik Indonesia (NKRI)', ringkasan:'Bentuk final negara Indonesia yang menyatukan ribuan pulau dan beragam suku bangsa dalam satu kedaulatan, ditegaskan sebagai harga mati yang tidak dapat ditawar dalam kehidupan berbangsa dan bernegara.',
+     fakta:['Bentuk NKRI ditegaskan kembali setelah sempat berbentuk negara federal (RIS) pada 1949-1950','Semboyan "NKRI Harga Mati" sering digaungkan untuk menegaskan keutuhan wilayah dari ancaman disintegrasi']},
+    {id:'sk_belanegara', nama:'Bela Negara', ringkasan:'Kewajiban dan hak setiap warga negara untuk turut serta dalam upaya pembelaan negara, tidak selalu berarti angkat senjata, tetapi dapat diwujudkan lewat prestasi, kepatuhan hukum, dan kontribusi positif bagi bangsa.',
+     fakta:['Diatur dalam UUD 1945 Pasal 27 Ayat 3, menegaskan hak dan kewajiban warga negara dalam pembelaan negara','Dapat diwujudkan lewat berbagai cara, dari menjaga persatuan, berprestasi, hingga menaati hukum yang berlaku']},
+    {id:'sk_identitasnasional', nama:'Identitas Nasional Indonesia', ringkasan:'Ciri khas yang membedakan bangsa Indonesia dari bangsa lain, terbentuk dari perpaduan sejarah panjang, keberagaman budaya, bahasa persatuan, dan nilai-nilai Pancasila yang disepakati bersama sebagai jati diri bangsa.',
+     fakta:['Terbentuk dari proses sejarah panjang mulai era kerajaan kuno hingga perjuangan kemerdekaan modern','Bahasa Indonesia, Pancasila, dan semboyan Bhinneka Tunggal Ika menjadi tiga pilar utama identitas nasional']},
   ],
   tandaKecakapan:[
     {id:'tk_tku', nama:'Tanda Kecakapan Umum (TKU)', ringkasan:'Tanda pengenal tingkatan yang menunjukkan pencapaian syarat kecakapan umum (SKU) seorang anggota Pramuka sesuai golongannya, dikenakan di lengan seragam sebagai identitas jenjang keanggotaan.',
@@ -2420,6 +2474,51 @@ WARGA.pramukaMateri = [
    fakta:['Kode kehormatan menjadi pembeda utama pendidikan kepramukaan dari kegiatan ekstrakurikuler lainnya','Diucapkan secara resmi saat upacara pelantikan sebagai janji pribadi setiap anggota kepada dirinya sendiri dan organisasinya']},
 ];
 
+/* =========================================================================
+   HARI PENTING NASIONAL (untuk Kalender Interaktif)
+   Hanya tanggal Masehi tetap yang sudah pasti (bukan tanggal bergerak
+   seperti Idulfitri/Nyepi yang butuh rujukan resmi tahunan).
+   ========================================================================= */
+const HARI_NASIONAL = {
+  1: [{tgl:1, nama:'Tahun Baru Masehi'}],
+  2: [],
+  3: [],
+  4: [{tgl:21, nama:'Hari Kartini — memperingati jasa R.A. Kartini bagi emansipasi perempuan Indonesia'}],
+  5: [{tgl:1, nama:'Hari Buruh Internasional'}, {tgl:2, nama:'Hari Pendidikan Nasional — memperingati kelahiran Ki Hajar Dewantara'}, {tgl:20, nama:'Hari Kebangkitan Nasional — memperingati berdirinya Budi Utomo 1908'}],
+  6: [{tgl:1, nama:'Hari Lahir Pancasila — memperingati pidato Soekarno tentang dasar negara 1945'}],
+  7: [{tgl:23, nama:'Hari Anak Nasional'}],
+  8: [{tgl:14, nama:'Hari Pramuka — memperingati berdirinya Gerakan Pramuka 1961'}, {tgl:17, nama:'Hari Kemerdekaan Republik Indonesia'}],
+  9: [{tgl:24, nama:'Hari Tani Nasional'}, {tgl:30, nama:'Peringatan Gerakan 30 September (G30S) 1965'}],
+  10: [{tgl:1, nama:'Hari Kesaktian Pancasila'}, {tgl:5, nama:'Hari Tentara Nasional Indonesia (TNI)'}, {tgl:28, nama:'Hari Sumpah Pemuda — memperingati Kongres Pemuda II 1928'}],
+  11: [{tgl:10, nama:'Hari Pahlawan — memperingati Pertempuran Surabaya 1945'}, {tgl:12, nama:'Hari Kesehatan Nasional'}],
+  12: [{tgl:10, nama:'Hari Hak Asasi Manusia (HAM) Sedunia'}, {tgl:22, nama:'Hari Ibu — memperingati Kongres Perempuan Indonesia 1928'}, {tgl:25, nama:'Hari Raya Natal'}],
+};
+const NAMA_BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const NAMA_HARI_PENDEK = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+
+/* Konversi Hijriah tabular (algoritma Kuwaiti/civil) — PERKIRAAN, bukan hasil
+   rukyat hilal resmi. Bisa meleset 1-2 hari dari penetapan Kemenag RI. */
+function toJulianDay(y,m,d){
+  const a = Math.floor((14-m)/12);
+  const y2 = y + 4800 - a;
+  const m2 = m + 12*a - 3;
+  return d + Math.floor((153*m2+2)/5) + 365*y2 + Math.floor(y2/4) - Math.floor(y2/100) + Math.floor(y2/400) - 32045;
+}
+function hijriApprox(y,m,d){
+  const jd = toJulianDay(y,m,d) + 0.5;
+  const epoch = 1948439.5;
+  let l = jd - epoch + 10632;
+  const n = Math.floor((l-1)/10631);
+  l = l - 10631*n + 354;
+  const j = Math.floor((10985-l)/5316)*Math.floor((50*l)/17719) + Math.floor(l/5670)*Math.floor((43*l)/15238);
+  l = l - Math.floor((30-j)/15)*Math.floor((17719*j)/50) - Math.floor(j/16)*Math.floor((15238*j)/43) + 29;
+  const bulan = Math.floor((24*l)/709);
+  const hari = l - Math.floor((709*bulan)/24);
+  const tahun = 30*n + j - 30;
+  return {tahun, bulan, hari};
+}
+const NAMA_BULAN_HIJRIAH = ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Dzulqaidah','Dzulhijjah'];
+
 const KODE = {
   nomorPenting:[
     {id:'polisi', nama:'Polisi', nomor:'110', fungsi:'Panggilan darurat kepolisian nasional'},
@@ -2461,6 +2560,9 @@ const KODE = {
      fakta:['Hari Lahir Pancasila diperingati tiap 1 Juni untuk mengenang pidato Soekarno tentang dasar negara pada 1945','Hari Pendidikan Nasional diperingati setiap 2 Mei bertepatan dengan hari lahir Ki Hajar Dewantara']},
     {id:'pranatamangsa', nama:'Pranata Mangsa', sistem:'Kalender musim Jawa', ringkasan:'Sistem penanggalan musim tradisional Jawa yang membagi satu tahun menjadi 12 mangsa (musim) berdasarkan siklus pertanian dan gejala alam, digunakan petani Jawa untuk menentukan waktu tanam yang tepat.',
      fakta:['Setiap mangsa memiliki durasi berbeda, berkisar antara 23 hingga 43 hari tergantung pola musimnya','Masih digunakan sebagian petani tradisional Jawa sebagai panduan waktu tanam yang selaras dengan alam']},
+    {id:'kalenderakademik', nama:'Kalender Akademik/Pendidikan', sistem:'Kalender tahun ajaran', ringkasan:'Sistem penanggalan yang mengatur jadwal kegiatan belajar-mengajar di Indonesia, umumnya dimulai bulan Juli dan terbagi dalam semester ganjil dan genap, berbeda dari tahun kalender Masehi biasa yang dimulai Januari.'},
+    {id:'kalenderhijriahevent', nama:'Hari Besar Kalender Hijriah', sistem:'Kalender lunar Islam', ringkasan:'Kalender Hijriah menentukan hari-hari besar Islam penting di Indonesia seperti Ramadan, Idulfitri, Iduladha, dan Maulid Nabi, yang tanggalnya bergeser sekitar 11 hari lebih awal setiap tahun dibanding kalender Masehi.'},
+    {id:'musimindonesia', nama:'Musim di Indonesia (Kemarau & Hujan)', sistem:'Iklim tropis', ringkasan:'Indonesia hanya mengenal dua musim karena letaknya di garis khatulistiwa: musim kemarau (April-Oktober) dan musim hujan (Oktober-April), dipengaruhi pola angin muson dari Asia dan Australia.'},
   ],
   bandara:[
     {id:'cgk', nama:'Bandara Soekarno-Hatta', kodeIATA:'CGK', lokasi:'Tangerang, Banten (melayani Jakarta)'},
@@ -2525,6 +2627,10 @@ const KODE = {
     {id:'tr_bakauheni', nama:'Pelabuhan Bakauheni', jenis:'Pelabuhan Penyeberangan', lokasi:'Lampung Selatan, Lampung', ringkasan:'Pelabuhan penyeberangan di ujung selatan Sumatera yang menjadi pasangan Pelabuhan Merak, pintu gerbang utama arus mudik dan logistik Jawa-Sumatera.'},
     {id:'tr_pulogebang', nama:'Terminal Pulo Gebang', jenis:'Terminal Bus', lokasi:'Jakarta Timur, DKI Jakarta', ringkasan:'Terminal bus antarkota antarprovinsi terbesar di Asia Tenggara, melayani keberangkatan bus jarak jauh dari Jakarta ke berbagai kota di Pulau Jawa dan Sumatera.'},
     {id:'tr_bungurasih', nama:'Terminal Purabaya (Bungurasih)', jenis:'Terminal Bus', lokasi:'Sidoarjo, Jawa Timur', ringkasan:'Terminal bus terbesar di Jawa Timur yang melayani rute antarkota dalam provinsi maupun antarprovinsi dari dan menuju Surabaya.'},
+    {id:'tr_kualanamu', nama:'Bandara Kualanamu (Akses Kereta Bandara)', jenis:'Integrasi Bandara-Kereta', lokasi:'Deli Serdang, Sumatera Utara', ringkasan:'Salah satu bandara pertama di Indonesia yang terintegrasi langsung dengan jalur kereta api bandara menuju pusat Kota Medan, menjadi contoh transportasi multimoda modern di Indonesia.'},
+    {id:'tr_lrtjabodebek', nama:'LRT Jabodebek', jenis:'Kereta Ringan (Light Rail Transit)', lokasi:'Jakarta, Bogor, Depok, Bekasi', ringkasan:'Sistem transportasi kereta ringan modern tanpa masinis (otomatis) yang menghubungkan Jakarta dengan kawasan penyangga Bogor, Depok, dan Bekasi, diresmikan pada 2023 untuk mengurangi kemacetan Jabodetabek.'},
+    {id:'tr_mrtjakarta', nama:'MRT Jakarta', jenis:'Kereta Bawah Tanah & Layang', lokasi:'Jakarta', ringkasan:'Sistem transportasi cepat massal pertama di Indonesia yang beroperasi kombinasi jalur bawah tanah dan layang, menghubungkan kawasan Lebak Bulus hingga Bundaran HI, resmi beroperasi sejak 2019.'},
+    {id:'tr_soetta_kereta', nama:'Kereta Bandara Soekarno-Hatta', jenis:'Kereta Bandara', lokasi:'Tangerang, Banten', ringkasan:'Layanan kereta api yang menghubungkan Bandara Soekarno-Hatta langsung dengan Stasiun BNI City di pusat Jakarta, mempersingkat waktu tempuh dari dan menuju bandara tersibuk Indonesia.'},
   ],
   pendidikan:[
     {id:'pdk_jenjang', nama:'Jenjang Pendidikan Indonesia', ringkasan:'Sistem pendidikan formal Indonesia terdiri dari PAUD/TK, Sekolah Dasar (SD/MI), Sekolah Menengah Pertama (SMP/MTs), Sekolah Menengah Atas/Kejuruan (SMA/SMK/MA), dan Perguruan Tinggi (Diploma hingga Doktor).'},
@@ -2537,6 +2643,10 @@ const KODE = {
     {id:'pdk_konversipanjang', nama:'Konversi Satuan Panjang', ringkasan:'Sistem konversi umum satuan panjang yang dipakai di Indonesia: 1 meter = 100 sentimeter = 1.000 milimeter; 1 kilometer = 1.000 meter; 1 kaki (feet) ≈ 0,3048 meter.'},
     {id:'pdk_konversiberat', nama:'Konversi Satuan Berat', ringkasan:'Sistem konversi umum satuan berat yang dipakai di Indonesia: 1 kilogram = 1.000 gram; 1 ton = 1.000 kilogram; 1 kuintal = 100 kilogram; 1 pon (lokal) = 0,5 kilogram.'},
     {id:'pdk_zonawaktu', nama:'Zona Waktu Indonesia', ringkasan:'Indonesia terbagi dalam tiga zona waktu resmi: WIB (Waktu Indonesia Barat, UTC+7) meliputi Sumatera-Jawa-Kalimantan Barat/Tengah, WITA (UTC+8) meliputi Bali-Nusa Tenggara-Kalimantan lainnya-Sulawesi, dan WIT (UTC+9) meliputi Maluku-Papua.'},
+    {id:'pdk_ujiannasional', nama:'Ujian Sekolah & Asesmen Nasional', ringkasan:'Sistem evaluasi pendidikan Indonesia yang berevolusi dari Ujian Nasional (UN) menjadi Asesmen Nasional (AN) sejak 2021, mengukur literasi, numerasi, dan karakter siswa, bukan lagi sekadar kelulusan berbasis nilai ujian akhir.'},
+    {id:'pdk_kurikulum', nama:'Kurikulum Pendidikan Indonesia', ringkasan:'Rangkaian rencana dan pengaturan mengenai tujuan, isi, dan bahan pelajaran di sekolah, telah mengalami beberapa kali perubahan di Indonesia — dari Kurikulum 2013 (K13) hingga Kurikulum Merdeka yang diterapkan bertahap sejak 2022.'},
+    {id:'pdk_konversiwaktu', nama:'Konversi Satuan Waktu', ringkasan:'Sistem konversi umum satuan waktu: 1 menit = 60 detik, 1 jam = 60 menit, 1 hari = 24 jam, 1 minggu = 7 hari, 1 tahun = 12 bulan atau sekitar 365 hari (366 hari pada tahun kabisat).'},
+    {id:'pdk_satuanpendidikan', nama:'Jenis Satuan Pendidikan', ringkasan:'Satuan pendidikan formal di Indonesia terbagi menjadi sekolah negeri (dikelola pemerintah), sekolah swasta (dikelola yayasan/masyarakat), dan sekolah berbasis agama seperti madrasah dan pesantren yang berada di bawah Kementerian Agama.'},
   ],
   numismatik:[
     {id:'nm_100000', nama:'Uang Kertas Rp100.000', jenis:'Uang Kertas', tahunEmisi:'2022 (TE2022)', ringkasan:'Pecahan terbesar uang kertas Rupiah, bergambar Ir. Soekarno dan Drs. Mohammad Hatta di bagian depan, serta Istana Kepresidenan Bogor sebagai latar; seri Tahun Emisi 2022 memperbarui desain dari seri 2016 dengan pengamanan lebih canggih.'},
@@ -2831,11 +2941,17 @@ function renderMenuEntries(){
 
   const filtered = currentFilter==='Semua' ? items : items.filter(i=>i.cat===currentFilter);
   const list = document.getElementById('menuEntries');
-  if(filtered.length===0){
+  const kalenderBtn = (currentMenu==='pusat' && (currentFilter==='Semua' || currentFilter==='Kalender'))
+    ? `<div class="listrow" onclick="openKalenderInteraktif()">
+        <div class="lr-icon">${ic('calendar')}</div>
+        <div class="lr-text"><div class="lr-title">Buka Kalender Interaktif</div><div class="lr-sub">Lihat tanggal Masehi & Hijriah, cari hari penting</div></div>
+        <div class="lr-chev">${ic('chevron')}</div>
+      </div>` : '';
+  if(filtered.length===0 && !kalenderBtn){
     list.innerHTML = '<div class="empty">Belum ada entri pada kategori ini.</div>';
     return;
   }
-  list.innerHTML = filtered.map(i=>{
+  list.innerHTML = kalenderBtn + filtered.map(i=>{
     const onclick = i.kind==='province' ? `openProvince('${i.id}')` : `openEntry('${i.group}','${i.id}')`;
     return `<div class="listrow" onclick="${onclick}">
       <div class="lr-icon">${ic('book')}</div>
@@ -3161,6 +3277,118 @@ function clearCache(){
   renderSettings();
 }
 
+/* =========================================================================
+   KALENDER INTERAKTIF
+   ========================================================================= */
+let calSystem = 'masehi';
+let calYear, calMonth; // calMonth: 0-11
+let calSelectedDate = null;
+
+function openKalenderInteraktif(){
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  calSelectedDate = now.getDate();
+  showView('view-kalender');
+  setHeader({mode:'sub', title:'Kalender Interaktif'});
+  document.getElementById('calPrevBtn').innerHTML = ic('chevleft');
+  document.getElementById('calNextBtn').innerHTML = ic('chevright');
+  document.getElementById('calTabs').innerHTML = ['masehi','hijriah','bali'].map(s=>{
+    const label = s==='masehi' ? 'Masehi' : s==='hijriah' ? 'Hijriah' : 'Bali (Saka)';
+    return `<div class="caltab ${calSystem===s?'active':''}" onclick="calSetSystem('${s}')">${label}</div>`;
+  }).join('');
+  renderKalender();
+  pushNavState({view:'kalender'});
+}
+
+function calSetSystem(s){ calSystem = s; renderKalender(); document.querySelectorAll('.caltab').forEach(t=>t.classList.remove('active')); const i=['masehi','hijriah','bali'].indexOf(s); document.querySelectorAll('.caltab')[i].classList.add('active'); }
+
+function calShiftMonth(dir){
+  calMonth += dir;
+  if(calMonth<0){ calMonth=11; calYear--; }
+  if(calMonth>11){ calMonth=0; calYear++; }
+  calSelectedDate = null;
+  renderKalender();
+}
+
+function renderKalender(){
+  const disWrap = document.getElementById('calDisclaimerWrap');
+  if(calSystem==='hijriah'){
+    disWrap.innerHTML = `<div class="caldisclaimer"><b>Perkiraan.</b> Tanggal Hijriah di sini dihitung dengan kalender tabular (perhitungan matematis), bukan hasil rukyat hilal resmi. Bisa berbeda 1-2 hari dari penetapan Kementerian Agama RI — untuk tanggal ibadah resmi (awal Ramadan, Idulfitri, dll), selalu cek pengumuman resmi Kemenag.</div>`;
+  } else if(calSystem==='bali'){
+    disWrap.innerHTML = `<div class="caldisclaimer"><b>Tidak dihitung otomatis.</b> Kalender Saka Bali (sistem Pawukon 210 hari + Wuku) memerlukan tabel rujukan khusus agar akurat. Untuk menghindari tanggal yang salah, silakan lihat penjelasan sistemnya di entri <i>Kalender Saka Bali</i> pada menu Pusat Kode & Info, atau rujuk kalender Bali resmi/appl khusus.</div>`;
+  } else {
+    disWrap.innerHTML = '';
+  }
+
+  if(calSystem==='bali'){
+    document.getElementById('calTitle').textContent = NAMA_BULAN[calMonth]+' '+calYear;
+    document.getElementById('calGrid').innerHTML = '';
+    document.getElementById('calInfo').innerHTML = `<div class="calinfo-empty">Pilih tab Masehi atau Hijriah untuk melihat kalender harian.</div>`;
+    return;
+  }
+
+  const firstDay = new Date(calYear, calMonth, 1);
+  const startWeekday = firstDay.getDay(); // 0=Sun
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const today = new Date();
+
+  let titleText = NAMA_BULAN[calMonth]+' '+calYear;
+  if(calSystem==='hijriah'){
+    const hMid = hijriApprox(calYear, calMonth+1, 15);
+    titleText += '  (~ '+NAMA_BULAN_HIJRIAH[(hMid.bulan-1+12)%12]+' '+hMid.tahun+' H)';
+  }
+  document.getElementById('calTitle').textContent = titleText;
+
+  let cells = NAMA_HARI_PENDEK.map(h=>`<div class="calhead">${h}</div>`).join('');
+  for(let i=0;i<startWeekday;i++) cells += `<div class="calcell empty"></div>`;
+  for(let d=1; d<=daysInMonth; d++){
+    const isToday = today.getFullYear()===calYear && today.getMonth()===calMonth && today.getDate()===d;
+    const isSelected = calSelectedDate===d;
+    const hasEvent = calSystem==='masehi' && (HARI_NASIONAL[calMonth+1]||[]).some(e=>e.tgl===d);
+    let sub = '';
+    if(calSystem==='hijriah'){
+      const h = hijriApprox(calYear, calMonth+1, d);
+      sub = h.hari;
+    }
+    cells += `<div class="calcell ${isToday?'today':''} ${isSelected?'selected':''} ${hasEvent?'hasevent':''}" onclick="calSelectDate(${d})">
+      <div class="cal-num">${d}</div>
+      ${sub ? `<div class="cal-sub">${sub}</div>` : ''}
+    </div>`;
+  }
+  document.getElementById('calGrid').innerHTML = cells;
+  calRenderInfo();
+}
+
+function calSelectDate(d){ calSelectedDate = d; renderKalender(); }
+
+function calRenderInfo(){
+  const info = document.getElementById('calInfo');
+  if(!calSelectedDate){ info.innerHTML=''; return; }
+  const d = calSelectedDate;
+  const dateObj = new Date(calYear, calMonth, d);
+  const namaHari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][dateObj.getDay()];
+  let head = `${namaHari}, ${d} ${NAMA_BULAN[calMonth]} ${calYear}`;
+  if(calSystem==='hijriah'){
+    const h = hijriApprox(calYear, calMonth+1, d);
+    head += ` (~ ${h.hari} ${NAMA_BULAN_HIJRIAH[(h.bulan-1+12)%12]} ${h.tahun} H)`;
+  }
+  const events = (HARI_NASIONAL[calMonth+1]||[]).filter(e=>e.tgl===d);
+  const monthEvents = (HARI_NASIONAL[calMonth+1]||[]);
+  let html = `<div class="calinfo-date">${head}</div>`;
+  if(events.length){
+    html += events.map(e=>`<div class="calinfo-item">${e.nama}</div>`).join('');
+  } else {
+    html += `<div class="calinfo-empty">Tidak ada hari peringatan nasional pada tanggal ini.</div>`;
+  }
+  if(monthEvents.length > events.length){
+    const others = monthEvents.filter(e=>e.tgl!==d);
+    html += `<div class="calinfo-date" style="margin-top:14px; font-size:13px;">Hari penting lain bulan ${NAMA_BULAN[calMonth]}</div>`;
+    html += others.map(e=>`<div class="calinfo-item">Tgl ${e.tgl} — ${e.nama}</div>`).join('');
+  }
+  info.innerHTML = html;
+}
+
 function openSettings(){
   showView('view-settings');
   setHeader({mode:'sub', title:'Pengaturan'});
@@ -3208,6 +3436,7 @@ function pushNavState(state){
     : state.view==='allmenus' ? '#allmenus'
     : state.view==='provinsilist' ? '#provinsilist'
     : state.view==='settings' ? '#settings'
+    : state.view==='kalender' ? '#kalender'
     : '#home';
   try{
     history.pushState(state, '', hash);
@@ -3228,6 +3457,7 @@ window.addEventListener('popstate', (e)=>{
   else if(state.view==='allmenus') openAllMenus();
   else if(state.view==='provinsilist') openProvinsiList();
   else if(state.view==='settings') openSettings();
+  else if(state.view==='kalender') openKalenderInteraktif();
   else goHome();
   __isPopping = false;
 });
