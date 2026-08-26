@@ -947,6 +947,9 @@ html, body { overflow-x: hidden; }
 .hero-search .btn-search { height: 50px; padding: 0 20px; border-radius: 14px; font-size: .9rem; }
 
 
+/* --- kartu subkategori: nama + deskripsi + jumlah --- */
+.cat-tile .cd { font-size: .74rem; color: var(--ink-faint); display: block; line-height: 1.4; margin: 1px 0 4px; }
+
 </style>
 </head>
 <body>
@@ -1376,6 +1379,8 @@ window.DB = (function () {
         'Kawasan Tsunami 2004; Masjid Raya Baiturrahman bertahan dari bencana tersebut.',
         'Rumah tradisional dan seni Tari Saman (dari Tanah Gayo) dikenal mendunia.'
       ],
+      kabupaten: 18, kota: 5,
+      history: 'Aceh memiliki sejarah panjang sejak Kerajaan Lamuri dan Samudra Pasai — kesultanan Islam pertama di Nusantara — hingga Kesultanan Aceh Darussalam yang mencapai puncak kejayaan pada Sultan Iskandar Muda (1607–1636). Wilayah ini menjadi pusat perlawanan terhadap kolonial melalui Perang Aceh (1873–1904). Setelah tsunami 2004, Aceh menjalani rekonsiliasi melalui Nota Kesepahaman Helsinki (2005) dan memperoleh otonomi khusus.',
       source: 'BPS, Pemerintah Provinsi Aceh'
     },
     'sumatera-barat': {
@@ -1389,6 +1394,8 @@ window.DB = (function () {
         'Sistem kekerabatan Minangkabau bersifat matrilineal — garis keturunan mengikuti ibu.',
         'Jam Gadang di Bukittinggi menjadi ikon arsitektur masa Hindia Belanda.'
       ],
+      kabupaten: 12, kota: 7,
+      history: 'Ranah Minangkabau berkembang melalui Kerajaan Pagaruyung dengan adat matrilineal dan tradisi merantau. Perlawanan terhadap kolonial terwujud dalam Perang Padri (1803–1837) dengan tokoh seperti Tuanku Imam Bonjol. Sumatera Barat ikut menegakkan kemerdekaan dan dikenal sebagai salah satu daerah dengan pemerintahan awal paling dinamis pada masa revolusi.',
       source: 'BPS, Pemerintah Provinsi Sumatera Barat'
     },
     'jawa-barat': {
@@ -1402,6 +1409,8 @@ window.DB = (function () {
         'Kota Bandung pernah menjadi tuan rumah Konferensi Asia-Afrika 1955.',
         'Memiliki populasi terbesar di Indonesia (±49,9 juta jiwa, 2023).'
       ],
+      kabupaten: 18, kota: 9,
+      history: 'Tatar Sunda memiliki warisan Kerajaan Sunda (Pajajaran) dengan pusat di Pakuan Pajajaran. Pada masa kolonial, Bandung menjadi pusat pemerintahan Hindia Belanda dan kemudian tuan rumah Konferensi Asia-Afrika 1955. Setelah kemerdekaan, wilayahnya dimekarkan dengan lahirnya Banten (2000) dan Jakarta yang berstatus khusus.',
       source: 'BPS, Pemerintah Provinsi Jawa Barat'
     },
     'jawa-tengah': {
@@ -1415,6 +1424,8 @@ window.DB = (function () {
         'Candi Prambanan merupakan kompleks candi Hindu Siwa terbesar di Indonesia.',
         'Batik Indonesia ditetapkan UNESCO sebagai Warisan Budaya Takbenda (2009); Solo dan Pekalongan menjadi pusat batik.'
       ],
+      kabupaten: 29, kota: 6,
+      history: 'Jawa Tengah menjadi pusat Kerajaan Mataram Kuno dengan peninggalan Candi Borobudur dan Prambanan, dilanjutkan oleh Kesultanan Demak sebagai kesultanan Islam pertama di Jawa serta Kesultanan Mataram Islam. Wilayah ini juga menjadi medan Perang Diponegoro (1825–1830) melawan kolonial Belanda, dengan tokoh Pangeran Diponegoro yang kini menjadi pahlawan nasional.',
       source: 'BPS, Pemerintah Provinsi Jawa Tengah, UNESCO'
     },
     bali: {
@@ -1428,6 +1439,8 @@ window.DB = (function () {
         'Pura Besakih di lereng Gunung Agung adalah pura terbesar dan tersuci di Bali.',
         'Kalender Saka Bali dan upacara Nyepi menjadi ciri khas perayaan keagamaan Bali.'
       ],
+      kabupaten: 8, kota: 1,
+      history: 'Bali memiliki sejarah Hindu-Buddha sejak kerajaan-kerajaan Bali Kuno hingga pengaruh Majapahit yang membentuk tradisi subak dan upacara. Perlawanan rakyat Bali terhadap kolonial Belanda dikenal melalui perang puputan (1906–1908). Setelah kemerdekaan, Bali berkembang menjadi destinasi pariwisata dunia sambil mempertahankan adat dan keseniannya.',
       source: 'BPS, Pemerintah Provinsi Bali, UNESCO'
     },
     'kalimantan-timur': {
@@ -1441,6 +1454,8 @@ window.DB = (function () {
         'Pesut Mahakam, mamalia air tawar langka, hidup di Sungai Mahakam.',
         'Ibu Kota Nusantara (IKN) dibangun di Kalimantan Timur sejak 2022.'
       ],
+      kabupaten: 7, kota: 3,
+      history: 'Kalimantan Timur memiliki jejak kerajaan tertua di Nusantara — Kerajaan Kutai (sekitar abad ke-4 M) — yang kemudian berkembang menjadi Kesultanan Kutai Kartanegara. Sungai Mahakam menjadi jalur kehidupan dan perdagangan masyarakat Dayak serta Kutai. Pada era modern, provinsi ini menjadi lokasi pembangunan Ibu Kota Nusantara (IKN) sebagai pusat pemerintahan baru Indonesia.',
       source: 'BPS, Pemerintah Provinsi Kalimantan Timur'
     },
     'sulawesi-selatan': {
@@ -1454,6 +1469,8 @@ window.DB = (function () {
         'Makassar pernah menjadi pusat perdagangan rempah dan pelabuhan utama Nusantara timur.',
         'Suku Toraja memiliki upacara pemakaman Rambu Solo yang monumental.'
       ],
+      kabupaten: 21, kota: 3,
+      history: 'Sulawesi Selatan adalah tanah Bugis, Makassar, dan Toraja. Kerajaan Gowa-Tallo menjadi kekuatan maritim utama Nusantara bagian timur sebelum dikalahkan VOC melalui Perjanjian Bongaya (1667). Masyarakat Bugis dikenal melalui pelayaran tradisional Pinisi, sementara budaya Toraja dengan upacara Rambu Solo\' mempertahankan identitasnya hingga kini.',
       source: 'BPS, Pemerintah Provinsi Sulawesi Selatan, UNESCO'
     },
     maluku: {
@@ -1467,6 +1484,8 @@ window.DB = (function () {
         'Kapitan Pattimura (Thomas Matulessy) memimpin perlawanan rakyat Maluku 1817.',
         'Kota Tua Ambon dan Benteng Victoria menyimpan jejak kolonialisme sejak 1576.'
       ],
+      kabupaten: 9, kota: 2,
+      history: 'Maluku dikenal sebagai pusat perdagangan rempah dunia — cengkih dan pala — yang menarik kedatangan Portugis, Spanyol, dan Belanda. Perlawanan rakyat Maluku terhadap kolonial terwujud dalam perjuangan Kapitan Pattimura (1817). Ambon menjadi pusat administrasi kolonial; setelah kemerdekaan, Maluku terus mengembangkan identitas budaya dan kepulauannya.',
       source: 'BPS, Pemerintah Provinsi Maluku'
     },
     papua: {
@@ -1480,6 +1499,8 @@ window.DB = (function () {
         'Suku Asmat dikenal melalui seni ukir kayunya yang mendunia.',
         'Noken, tas rajut khas Papua, diakui UNESCO sebagai Warisan Budaya Takbenda (2012).'
       ],
+      kabupaten: 8, kota: 1,
+      history: 'Papua dihuni ribuan tahun oleh masyarakat adat dengan keragaman bahasa dan budaya yang luar biasa, termasuk suku Asmat, Dani, dan Amungme. Pada masa kolonial Hindia Belanda, wilayah ini dikenal sebagai Nugini Belanda; setelah kemerdekaan, Papua bergabung dengan Indonesia dan kemudian dimekarkan menjadi beberapa provinsi (Papua Barat, Papua Tengah, Papua Pegunungan, Papua Selatan, dan Papua Barat Daya).',
       source: 'BPS, Pemerintah Provinsi Papua, UNESCO'
     },
     /* ------- 38 provinsi: tambahan (data referensi, estimasi 2023) ------- */
@@ -1861,6 +1882,102 @@ window.DB = (function () {
       source: 'BPS, Pemerintah Provinsi Papua Selatan'
     }
   };
+
+  /* ============================================================
+     PELENGKAP DATA PROVINSI — history, jumlah & daftar
+     kabupaten/kota (referensi Kemendagri/BPS; daftar dapat
+     berubah mengikuti pemekaran)
+     ============================================================ */
+  var PROV_EXTRA = {
+    aceh: { regencies: ['Simeulue', 'Aceh Singkil', 'Aceh Selatan', 'Aceh Tenggara', 'Aceh Timur', 'Aceh Tengah', 'Aceh Barat', 'Aceh Besar', 'Pidie', 'Aceh Utara', 'Aceh Barat Daya', 'Gayo Lues', 'Aceh Tamiang', 'Nagan Raya', 'Aceh Jaya', 'Bener Meriah', 'Pidie Jaya', 'Bireuen'], cities: ['Banda Aceh', 'Sabang', 'Lhokseumawe', 'Langsa', 'Subulussalam'] },
+    'sumatera-utara': { kabupaten: 25, kota: 8, regencies: ['Nias', 'Mandailing Natal', 'Tapanuli Selatan', 'Tapanuli Tengah', 'Tapanuli Utara', 'Toba', 'Labuhanbatu', 'Asahan', 'Simalungun', 'Dairi', 'Karo', 'Deli Serdang', 'Langkat', 'Nias Selatan', 'Humbang Hasundutan', 'Pakpak Bharat', 'Samosir', 'Serdang Bedagai', 'Batu Bara', 'Padang Lawas Utara', 'Padang Lawas', 'Labuhanbatu Selatan', 'Labuhanbatu Utara', 'Nias Utara', 'Nias Barat'], cities: ['Medan', 'Pematangsiantar', 'Sibolga', 'Tanjungbalai', 'Binjai', 'Tebing Tinggi', 'Padangsidimpuan', 'Gunungsitoli'], history: 'Sumatera Utara merupakan pertemuan budaya Batak, Melayu, dan Nias. Kesultanan Deli di Medan menjadi pusat perdagangan tembakau dan karet pada masa kolonial. Medan berkembang menjadi kota metropolitan dan pusat ekonomi Sumatra, sementara Danau Toba dan kawasan Batak menjadi ikon pariwisata serta identitas budaya.' },
+    'sumatera-barat': { regencies: ['Pesisir Selatan', 'Solok', 'Sijunjung', 'Tanah Datar', 'Padang Pariaman', 'Agam', 'Lima Puluh Kota', 'Pasaman', 'Solok Selatan', 'Dharmasraya', 'Pasaman Barat'], cities: ['Padang', 'Solok', 'Sawahlunto', 'Padang Panjang', 'Bukittinggi', 'Payakumbuh', 'Pariaman'] },
+    riau: { kabupaten: 10, kota: 2, regencies: ['Kuantan Singingi', 'Indragiri Hulu', 'Indragiri Hilir', 'Pelalawan', 'Siak', 'Kampar', 'Rokan Hulu', 'Bengkalis', 'Rokan Hilir', 'Kepulauan Meranti'], cities: ['Pekanbaru', 'Dumai'], history: 'Riau adalah pusat budaya Melayu dengan jejak Kesultanan Siak dan Kerajaan Melayu lainnya di pesisir Selat Malaka. Pekanbaru berkembang dari kawasan perdagangan ke pusat pemerintahan provinsi. Riau kini menjadi salah satu penghasil minyak, gas, dan sawit terbesar Indonesia.' },
+    jambi: { kabupaten: 9, kota: 2, regencies: ['Kerinci', 'Merangin', 'Sarolangun', 'Batanghari', 'Muaro Jambi', 'Tanjung Jabung Timur', 'Tanjung Jabung Barat', 'Tebo', 'Bungo'], cities: ['Jambi', 'Sungai Penuh'], history: 'Jambi merupakan lokasi Kerajaan Melayu Kuno yang berkembang sekitar abad ke-7 M serta pusat Candi Muaro Jambi, kompleks candi terluas di Indonesia. Budaya Melayu dan pengaruh Islam membentuk masyarakatnya. Kota Jambi kini menjadi pusat perdagangan dan pemerintahan di sepanjang Sungai Batanghari.' },
+    'sumatera-selatan': { kabupaten: 13, kota: 4, regencies: ['Ogan Komering Ulu', 'Ogan Komering Ilir', 'Muara Enim', 'Lahat', 'Musi Rawas', 'Musi Banyuasin', 'Banyuasin', 'Ogan Komering Ulu Selatan', 'Ogan Komering Ulu Timur', 'Ogan Ilir', 'Empat Lawang', 'Penukal Abab Lematang Ilir', 'Musi Rawas Utara'], cities: ['Palembang', 'Prabumulih', 'Pagar Alam', 'Lubuklinggau'], history: 'Palembang adalah pusat Kerajaan Sriwijaya, salah satu kerajaan maritim terbesar di Asia Tenggara pada abad ke-7–13. Sungai Musi menjadi jalur perdagangan utama hingga masa Kesultanan Palembang. Palembang kini menjadi kota metropolitan dan tuan rumah berbagai ajang olahraga nasional.' },
+    bengkulu: { kabupaten: 9, kota: 1, regencies: ['Bengkulu Selatan', 'Rejang Lebong', 'Bengkulu Utara', 'Kaur', 'Seluma', 'Mukomuko', 'Lebong', 'Kepahiang', 'Bengkulu Tengah'], cities: ['Bengkulu'], history: 'Bengkulu pernah menjadi wilayah jajahan Inggris (Fort Marlborough) sebelum beralih ke Belanda. Di kota Bengkulu, Soekarno diasingkan pada masa kolonial dan berinteraksi dengan tokoh-tokoh pergerakan. Daerah ini juga dikenal sebagai rumah Rafflesia arnoldii, bunga terbesar di dunia.' },
+    lampung: { kabupaten: 13, kota: 2, regencies: ['Lampung Barat', 'Tanggamus', 'Lampung Selatan', 'Lampung Timur', 'Lampung Tengah', 'Lampung Utara', 'Way Kanan', 'Tulangbawang', 'Pesawaran', 'Pringsewu', 'Mesuji', 'Tulangbawang Barat', 'Pesisir Barat'], cities: ['Bandar Lampung', 'Metro'], history: 'Lampung menjadi daerah tujuan utama transmigrasi sejak masa kolonial, membentuk masyarakat multietnis di samping penduduk asli Saibatin dan Pepadun. Pelabuhan Bakauheni dan Bandar Lampung menjadi gerbang Sumatra dari Jawa. Provinsi ini dikenal dengan budaya tari dan kopi robustanya.' },
+    'bangka-belitung': { kabupaten: 6, kota: 1, regencies: ['Bangka', 'Belitung', 'Bangka Barat', 'Bangka Tengah', 'Bangka Selatan', 'Belitung Timur'], cities: ['Pangkalpinang'], history: 'Pulau Bangka dan Belitung dikenal sejak masa kolonial sebagai pusat tambang timah dunia, menarik banyak pendatang Tionghoa dan Jawa. Budaya campuran Melayu-Tionghoa terlihat pada kuliner dan arsitekturnya. Provinsi ini dimekarkan dari Sumatera Selatan pada tahun 2000.' },
+    'kepulauan-riau': { kabupaten: 5, kota: 2, regencies: ['Karimun', 'Bintan', 'Natuna', 'Lingga', 'Kepulauan Anambas'], cities: ['Batam', 'Tanjungpinang'], history: 'Kepulauan Riau merupakan pusat peradaban Melayu dengan jejak Kesultanan Riau-Lingga dan warisan sastra Melayu klasik di Pulau Penyengat. Batam berkembang menjadi kawasan industri dan perdagangan yang berbatasan dengan Singapura. Tanjungpinang menjadi pusat pemerintahan dan budaya Melayu.' },
+    jakarta: { kabupaten: 1, kota: 5, regencies: ['Kepulauan Seribu'], cities: ['Jakarta Pusat', 'Jakarta Utara', 'Jakarta Barat', 'Jakarta Selatan', 'Jakarta Timur'], history: 'Jakarta berawal dari pelabuhan Sunda Kelapa, kemudian Jayakarta, dan menjadi Batavia pada masa kolonial Belanda — pusat kekuasaan VOC selama dua abad. Setelah kemerdekaan, Jakarta menjadi ibu kota Republik Indonesia dan pusat pemerintahan, ekonomi, serta budaya nasional. Sebagai Daerah Khusus Ibukota, kedudukannya akan bergeser seiring pemindahan ibu kota ke Nusantara.' },
+    'jawa-barat': { regencies: ['Bogor', 'Sukabumi', 'Cianjur', 'Bandung', 'Garut', 'Tasikmalaya', 'Ciamis', 'Kuningan', 'Cirebon', 'Majalengka', 'Sumedang', 'Indramayu', 'Subang', 'Purwakarta', 'Karawang', 'Bekasi', 'Bandung Barat', 'Pangandaran'], cities: ['Bogor', 'Sukabumi', 'Bandung', 'Cirebon', 'Bekasi', 'Depok', 'Cimahi', 'Tasikmalaya', 'Banjar'] },
+    'jawa-tengah': { regencies: ['Cilacap', 'Banyumas', 'Purbalingga', 'Banjarnegara', 'Kebumen', 'Purworejo', 'Wonosobo', 'Magelang', 'Boyolali', 'Klaten', 'Sukoharjo', 'Wonogiri', 'Karanganyar', 'Sragen', 'Grobogan', 'Blora', 'Rembang', 'Pati', 'Kudus', 'Jepara', 'Demak', 'Semarang', 'Temanggung', 'Kendal', 'Batang', 'Pekalongan', 'Pemalang', 'Tegal', 'Brebes'], cities: ['Magelang', 'Surakarta', 'Salatiga', 'Semarang', 'Pekalongan', 'Tegal'] },
+    yogyakarta: { kabupaten: 4, kota: 1, regencies: ['Kulon Progo', 'Bantul', 'Gunungkidul', 'Sleman'], cities: ['Yogyakarta'], history: 'Yogyakarta lahir dari Kesultanan Ngayogyakarta Hadiningrat dan Kadipaten Pakualaman yang bersatu mendukung kemerdekaan Indonesia. Pada 1946–1949, Yogyakarta menjadi ibu kota Republik Indonesia. Daerah Istimewa ini dipimpin oleh Sultan dan Adipati, menjadikannya satu-satunya provinsi di Indonesia dengan sistem pemerintahan kesultanan.' },
+    'jawa-timur': { kabupaten: 29, kota: 9, regencies: ['Pacitan', 'Ponorogo', 'Trenggalek', 'Tulungagung', 'Blitar', 'Kediri', 'Malang', 'Lumajang', 'Jember', 'Banyuwangi', 'Bondowoso', 'Situbondo', 'Probolinggo', 'Pasuruan', 'Sidoarjo', 'Mojokerto', 'Jombang', 'Nganjuk', 'Madiun', 'Magetan', 'Ngawi', 'Bojonegoro', 'Tuban', 'Lamongan', 'Gresik', 'Bangkalan', 'Sampang', 'Pamekasan', 'Sumenep'], cities: ['Kediri', 'Blitar', 'Malang', 'Probolinggo', 'Pasuruan', 'Mojokerto', 'Madiun', 'Surabaya', 'Batu'], history: 'Jawa Timur adalah pusat Kerajaan Singhasari dan Majapahit, kemaharajaan besar Nusantara pada abad ke-13–15. Surabaya menjadi kota perjuangan, termasuk Pertempuran 10 November 1945 yang diperingati sebagai Hari Pahlawan. Kawasan Madura dan Tapal Kuda membentuk keragaman budaya yang khas.' },
+    banten: { kabupaten: 4, kota: 4, regencies: ['Pandeglang', 'Lebak', 'Tangerang', 'Serang'], cities: ['Tangerang', 'Cilegon', 'Serang', 'Tangerang Selatan'], history: 'Banten adalah pusat Kesultanan Banten yang menjadi pelabuhan perdagangan rempah penting pada abad ke-16–17, bersaing dengan VOC. Masa kolonial meninggalkan benteng dan peninggalan Belanda di kawasan pelabuhan lama. Banten dimekarkan dari Jawa Barat pada tahun 2000 dan kini tumbuh sebagai kawasan industri serta pariwisata (Ujung Kulon, Tanjung Lesung).' },
+    bali: { regencies: ['Jembrana', 'Tabanan', 'Badung', 'Gianyar', 'Klungkung', 'Bangli', 'Karangasem', 'Buleleng'], cities: ['Denpasar'] },
+    'nusa-tenggara-barat': { kabupaten: 8, kota: 2, regencies: ['Lombok Barat', 'Lombok Tengah', 'Lombok Timur', 'Sumbawa', 'Dompu', 'Bima', 'Sumbawa Barat', 'Lombok Utara'], cities: ['Mataram', 'Bima'], history: 'Nusa Tenggara Barat dihuni masyarakat Sasak (Lombok), Samawa, dan Mbojo (Bima) dengan pengaruh Hindu, Islam, dan tradisi lokal. Lombok memiliki jejak Kerajaan Selaparang dan kini berkembang sebagai destinasi wisata bersama Gili. Gempa 2018 mendorong pembangunan kembali yang pesat.' },
+    'nusa-tenggara-timur': { kabupaten: 21, kota: 1, regencies: ['Sumba Barat', 'Sumba Timur', 'Kupang', 'Timor Tengah Selatan', 'Timor Tengah Utara', 'Belu', 'Alor', 'Lembata', 'Flores Timur', 'Sikka', 'Ende', 'Ngada', 'Manggarai', 'Rote Ndao', 'Manggarai Barat', 'Sumba Tengah', 'Sumba Barat Daya', 'Nagekeo', 'Manggarai Timur', 'Sabu Raijua', 'Malaka'], cities: ['Kupang'], history: 'NTT terdiri atas gugusan pulau Timor, Flores, Sumba, dan sekitarnya dengan keragaman budaya luar biasa, termasuk rumah adat dan kain tenun ikat. Pulau Flores menjadi lokasi temuan Homo floresiensis. Ende pernah menjadi tempat pengasingan Soekarno, tempat ia merenungkan dasar negara.' },
+    'kalimantan-barat': { kabupaten: 12, kota: 2, regencies: ['Sambas', 'Bengkayang', 'Landak', 'Mempawah', 'Kubu Raya', 'Sanggau', 'Ketapang', 'Sintang', 'Kapuas Hulu', 'Sekadau', 'Melawi', 'Kayong Utara'], cities: ['Pontianak', 'Singkawang'], history: 'Kalimantan Barat dihuni beragam suku Dayak dan Melayu dengan sejarah Kesultanan Pontianak, Sambas, dan Mempawah. Pontianak terletak tepat di garis khatulistiwa. Singkawang dikenal dengan budaya Tionghoa dan perayaan Cap Go Meh yang meriah.' },
+    'kalimantan-tengah': { kabupaten: 13, kota: 1, regencies: ['Kotawaringin Barat', 'Kotawaringin Timur', 'Kapuas', 'Katingan', 'Seruyan', 'Sukamara', 'Lamandau', 'Gunung Mas', 'Pulang Pisau', 'Murung Raya', 'Barito Utara', 'Barito Selatan', 'Barito Timur'], cities: ['Palangka Raya'], history: 'Kalimantan Tengah adalah jantung budaya Dayak Ngaju dengan tradisi Kaharingan dan upacara Tiwah. Sungai Kapuas dan Barito menjadi jalur kehidupan masyarakat. Provinsi ini dimekarkan dari Kalimantan Selatan pada 1957; Taman Nasional Sebangau menjadi kawasan gambut penting bagi orangutan.' },
+    'kalimantan-selatan': { kabupaten: 11, kota: 2, regencies: ['Tanah Laut', 'Kota Baru', 'Banjar', 'Barito Kuala', 'Tapin', 'Hulu Sungai Selatan', 'Hulu Sungai Tengah', 'Hulu Sungai Utara', 'Tabalong', 'Tanah Bumbu', 'Balangan'], cities: ['Banjarmasin', 'Banjarbaru'], history: 'Kalimantan Selatan adalah pusat Kesultanan Banjar yang berperan besar dalam sejarah perdagangan dan penyebaran Islam di Kalimantan. Banjarmasin dikenal sebagai kota seribu sungai dengan pasar terapungnya. Perlawanan Banjar terhadap kolonial dipimpin Pangeran Antasari, yang kini menjadi pahlawan nasional.' },
+    'kalimantan-timur': { regencies: ['Paser', 'Kutai Barat', 'Kutai Kartanegara', 'Kutai Timur', 'Berau', 'Penajam Paser Utara', 'Mahakam Ulu'], cities: ['Balikpapan', 'Samarinda', 'Bontang'] },
+    'kalimantan-utara': { kabupaten: 4, kota: 1, regencies: ['Malinau', 'Bulungan', 'Nunukan', 'Tana Tidung'], cities: ['Tarakan'], history: 'Kalimantan Utara merupakan provinsi termuda di Indonesia (dimekarkan 2012 dari Kalimantan Timur). Tarakan memiliki sejarah pertempuran pada Perang Dunia II. Wilayah ini berbatasan langsung dengan Malaysia dan menjadi pintu masuk perbatasan serta kawasan konservasi Kayan Mentarang.' },
+    'sulawesi-utara': { kabupaten: 11, kota: 4, regencies: ['Bolaang Mongondow', 'Minahasa', 'Kepulauan Sangihe', 'Kepulauan Talaud', 'Minahasa Selatan', 'Minahasa Utara', 'Bolaang Mongondow Utara', 'Siau Tagulandang Biaro', 'Minahasa Tenggara', 'Bolaang Mongondow Selatan', 'Bolaang Mongondow Timur'], cities: ['Manado', 'Bitung', 'Tomohon', 'Kotamobagu'], history: 'Sulawesi Utara dikenal dengan sejarah penyebaran agama Kristen di Nusantara serta keragaman budaya Minahasa, Bolaang Mongondow, dan Sangihe. Manado berkembang dari pelabuhan dagang menjadi kota metropolitan. Bunaken dan Taman Nasional Laut-nya menjadi ikon wisata bahari dunia.' },
+    gorontalo: { kabupaten: 5, kota: 1, regencies: ['Boalemo', 'Gorontalo', 'Pohuwato', 'Bone Bolango', 'Gorontalo Utara'], cities: ['Gorontalo'], history: 'Gorontalo adalah wilayah dengan sejarah Kerajaan Gorontalo dan pengaruh Islam sejak abad ke-16. Provinsi ini dimekarkan dari Sulawesi Utara pada tahun 2000. Tokoh nasional dari Gorontalo antara lain Jenderal Besar Abdul Haris Nasution.' },
+    'sulawesi-tengah': { kabupaten: 12, kota: 1, regencies: ['Banggai', 'Poso', 'Donggala', 'Toli-Toli', 'Buol', 'Morowali', 'Banggai Kepulauan', 'Parigi Moutong', 'Tojo Una-Una', 'Sigi', 'Banggai Laut', 'Morowali Utara'], cities: ['Palu'], history: 'Sulawesi Tengah memiliki keragaman budaya Kaili, Pamona, dan masyarakat adat lainnya. Palu, teluknya yang indah, dan kawasan Lore Lindu menjadi ciri provinsi ini. Kawasan Morowali kini berkembang menjadi kawasan industri nikel dan smelter terbesar di Indonesia.' },
+    'sulawesi-barat': { kabupaten: 5, kota: 1, regencies: ['Majene', 'Polewali Mandar', 'Mamasa', 'Mamuju', 'Pasangkayu'], cities: ['Mamuju'], history: 'Sulawesi Barat adalah tanah Mandar yang dikenal dengan tradisi pelayaran dan sandeq (perahu layar). Provinsi ini dimekarkan dari Sulawesi Selatan pada tahun 2004. Budaya Mamasa dan Pasangkayu memperkaya keragaman provinsi ini.' },
+    'sulawesi-selatan': { regencies: ['Selayar', 'Bulukumba', 'Bantaeng', 'Jeneponto', 'Takalar', 'Gowa', 'Sinjai', 'Maros', 'Pangkajene dan Kepulauan', 'Barru', 'Bone', 'Soppeng', 'Wajo', 'Sidenreng Rappang', 'Pinrang', 'Enrekang', 'Luwu', 'Tana Toraja', 'Luwu Utara', 'Luwu Timur', 'Toraja Utara'], cities: ['Makassar', 'Parepare', 'Palopo'] },
+    'sulawesi-tenggara': { kabupaten: 15, kota: 2, regencies: ['Buton', 'Muna', 'Konawe', 'Kolaka', 'Konawe Selatan', 'Bombana', 'Wakatobi', 'Kolaka Utara', 'Buton Utara', 'Konawe Utara', 'Kolaka Timur', 'Konawe Kepulauan', 'Muna Barat', 'Buton Tengah', 'Buton Selatan'], cities: ['Kendari', 'Bau-Bau'], history: 'Sulawesi Tenggara adalah pusat Kesultanan Buton dengan peninggalan Benteng Keraton Buton di Bau-Bau. Kepulauan Wakatobi menjadi kawasan konservasi laut dengan terumbu karang terkaya di dunia. Kendari dan Bau-Bau menjadi pusat pemerintahan dan budaya.' },
+    maluku: { regencies: ['Maluku Tenggara Barat', 'Maluku Tenggara', 'Maluku Tengah', 'Buru', 'Seram Bagian Barat', 'Seram Bagian Timur', 'Maluku Barat Daya', 'Buru Selatan', 'Kepulauan Aru'], cities: ['Ambon', 'Tual'] },
+    'maluku-utara': { kabupaten: 8, kota: 2, regencies: ['Halmahera Barat', 'Halmahera Tengah', 'Kepulauan Sula', 'Halmahera Selatan', 'Halmahera Utara', 'Halmahera Timur', 'Pulau Morotai', 'Pulau Taliabu'], cities: ['Ternate', 'Tidore Kepulauan'], history: 'Maluku Utara adalah asal sejarah Kesultanan Ternate dan Tidore yang menjadi pusat perdagangan cengkih dunia. Persaingan keduanya melibatkan Portugis dan Spanyol pada abad ke-16. Morotai menjadi pangkalan militer penting pada Perang Dunia II.' },
+    papua: { regencies: ['Biak Numfor', 'Jayapura', 'Keerom', 'Kepulauan Yapen', 'Mamberamo Raya', 'Sarmi', 'Supiori', 'Waropen'], cities: ['Jayapura'] },
+    'papua-barat': { kabupaten: 7, kota: 1, regencies: ['Fakfak', 'Kaimana', 'Manokwari', 'Manokwari Selatan', 'Pegunungan Arfak', 'Teluk Bintuni', 'Teluk Wondama'], cities: ['Manokwari'], history: 'Papua Barat (dulunya Irian Jaya Barat) dimekarkan dari Papua pada tahun 2003. Kawasan Teluk Cenderawasih menjadi taman nasional laut terbesar di Indonesia. Raja Ampat di Papua Barat Daya (pemekaran 2022) terkenal sebagai pusat keanekaragaman hayati laut dunia.' },
+    'papua-barat-daya': { kabupaten: 5, kota: 1, regencies: ['Maybrat', 'Raja Ampat', 'Sorong', 'Sorong Selatan', 'Tambrauw'], cities: ['Sorong'], history: 'Papua Barat Daya dimekarkan dari Papua Barat pada tahun 2022 dengan ibu kota Sorong. Kepulauan Raja Ampat di provinsi ini dikenal sebagai salah satu kawasan terumbu karang terkaya dan terindah di dunia, menjadi tujuan utama wisata bahari internasional.' },
+    'papua-tengah': { kabupaten: 8, kota: 0, regencies: ['Deiyai', 'Dogiyai', 'Intan Jaya', 'Mimika', 'Nabire', 'Paniai', 'Puncak', 'Puncak Jaya'], cities: [], history: 'Papua Tengah dimekarkan dari Papua pada tahun 2022 dengan ibu kota Nabire. Kawasan ini mencakup Pegunungan Sudirman dengan Puncak Jaya, titik tertinggi Indonesia. Tembagapura (Mimika) menjadi pusat tambang emas dan tembaga Grasberg.' },
+    'papua-pegunungan': { kabupaten: 8, kota: 0, regencies: ['Jayawijaya', 'Lanny Jaya', 'Mamberamo Tengah', 'Nduga', 'Pegunungan Bintang', 'Tolikara', 'Yahukimo', 'Yalimo'], cities: [], history: 'Papua Pegunungan dimekarkan dari Papua pada tahun 2022 dengan ibu kota Wamena (Jayawijaya). Wilayah ini adalah tanah Lembah Baliem, rumah masyarakat Dani yang terkenal dengan tradisi perang-perangan adat, mumi, dan budaya pertanian ubi jalar.' },
+    'papua-selatan': { kabupaten: 4, kota: 0, regencies: ['Asmat', 'Boven Digoel', 'Mappi', 'Merauke'], cities: [], history: 'Papua Selatan dimekarkan dari Papua pada tahun 2022 dengan ibu kota Merauke. Kabupaten Asmat di provinsi ini terkenal dengan seni ukir kayu yang mendunia. Taman Nasional Wasur di Merauke menjadi kawasan konservasi penting di timur Indonesia.' }
+  };
+  Object.keys(PROV_EXTRA).forEach(function (k) {
+    if (provinces[k]) Object.assign(provinces[k], PROV_EXTRA[k]);
+  });
+
+  /* ============================================================
+     BATAS WILAYAH PER PROVINSI (referensi peta administrasi)
+     ============================================================ */
+  var PROV_BORDERS = {
+    aceh: { utara: 'Selat Malaka', selatan: 'Sumatera Utara', barat: 'Samudra Hindia', timur: 'Selat Malaka' },
+    'sumatera-utara': { utara: 'Aceh & Selat Malaka', selatan: 'Sumatera Barat & Riau', barat: 'Samudra Hindia', timur: 'Selat Malaka' },
+    'sumatera-barat': { utara: 'Sumatera Utara', selatan: 'Bengkulu & Jambi', barat: 'Samudra Hindia', timur: 'Riau & Jambi' },
+    riau: { utara: 'Selat Malaka & Kepulauan Riau', selatan: 'Jambi & Sumatera Barat', barat: 'Sumatera Utara', timur: 'Kepulauan Riau' },
+    jambi: { utara: 'Riau', selatan: 'Sumatera Selatan', barat: 'Sumatera Barat & Bengkulu', timur: 'Selat Berhala (Laut Cina Selatan)' },
+    'sumatera-selatan': { utara: 'Jambi', selatan: 'Lampung', barat: 'Bengkulu', timur: 'Selat Bangka & Laut Jawa' },
+    bengkulu: { utara: 'Sumatera Barat', selatan: 'Lampung', barat: 'Samudra Hindia', timur: 'Sumatera Selatan & Jambi' },
+    lampung: { utara: 'Sumatera Selatan & Bengkulu', selatan: 'Selat Sunda', barat: 'Samudra Hindia', timur: 'Laut Jawa' },
+    'bangka-belitung': { utara: 'Laut Natuna', selatan: 'Laut Jawa', barat: 'Selat Bangka', timur: 'Selat Karimata' },
+    'kepulauan-riau': { utara: 'Selat Singapura & Malaysia', selatan: 'Selat Berhala', barat: 'Selat Malaka', timur: 'Laut Natuna' },
+    jakarta: { utara: 'Laut Jawa', selatan: 'Jawa Barat', barat: 'Banten', timur: 'Jawa Barat' },
+    'jawa-barat': { utara: 'Laut Jawa & DKI Jakarta', selatan: 'Samudra Hindia', barat: 'Banten', timur: 'Jawa Tengah' },
+    'jawa-tengah': { utara: 'Laut Jawa', selatan: 'DI Yogyakarta & Samudra Hindia', barat: 'Jawa Barat', timur: 'Jawa Timur' },
+    yogyakarta: { utara: 'Jawa Tengah', selatan: 'Samudra Hindia', barat: 'Jawa Tengah', timur: 'Jawa Tengah' },
+    'jawa-timur': { utara: 'Laut Jawa', selatan: 'Samudra Hindia', barat: 'Jawa Tengah', timur: 'Selat Bali' },
+    banten: { utara: 'Laut Jawa & DKI Jakarta', selatan: 'Samudra Hindia', barat: 'Selat Sunda', timur: 'DKI Jakarta & Jawa Barat' },
+    bali: { utara: 'Laut Bali', selatan: 'Samudra Hindia', barat: 'Selat Bali', timur: 'Selat Lombok' },
+    'nusa-tenggara-barat': { utara: 'Laut Flores', selatan: 'Samudra Hindia', barat: 'Selat Lombok', timur: 'Selat Sape' },
+    'nusa-tenggara-timur': { utara: 'Laut Flores & Laut Banda', selatan: 'Samudra Hindia', barat: 'NTB', timur: 'Timor-Leste & Laut Arafura' },
+    'kalimantan-barat': { utara: 'Sarawak (Malaysia)', selatan: 'Laut Jawa & Kalimantan Tengah', barat: 'Laut Natuna & Selat Karimata', timur: 'Kalimantan Tengah' },
+    'kalimantan-tengah': { utara: 'Kalimantan Barat & Kalimantan Timur', selatan: 'Laut Jawa & Kalimantan Selatan', barat: 'Kalimantan Barat', timur: 'Kalimantan Timur' },
+    'kalimantan-selatan': { utara: 'Kalimantan Tengah & Kalimantan Timur', selatan: 'Laut Jawa', barat: 'Kalimantan Tengah', timur: 'Selat Makassar' },
+    'kalimantan-timur': { utara: 'Kalimantan Utara', selatan: 'Kalimantan Selatan', barat: 'Kalimantan Tengah', timur: 'Selat Makassar' },
+    'kalimantan-utara': { utara: 'Sabah (Malaysia)', selatan: 'Kalimantan Timur', barat: 'Sarawak (Malaysia)', timur: 'Laut Sulawesi' },
+    'sulawesi-utara': { utara: 'Laut Sulawesi (Filipina)', selatan: 'Gorontalo & Teluk Tomini', barat: 'Selat Makassar', timur: 'Laut Maluku' },
+    gorontalo: { utara: 'Laut Sulawesi', selatan: 'Teluk Tomini', barat: 'Sulawesi Tengah', timur: 'Sulawesi Utara' },
+    'sulawesi-tengah': { utara: 'Laut Sulawesi & Gorontalo', selatan: 'Teluk Tolo & Teluk Bone', barat: 'Selat Makassar', timur: 'Maluku Utara' },
+    'sulawesi-barat': { utara: 'Sulawesi Tengah', selatan: 'Teluk Mandar', barat: 'Selat Makassar', timur: 'Sulawesi Selatan' },
+    'sulawesi-selatan': { utara: 'Sulawesi Barat & Sulawesi Tengah', selatan: 'Laut Flores', barat: 'Selat Makassar', timur: 'Teluk Bone' },
+    'sulawesi-tenggara': { utara: 'Sulawesi Tengah', selatan: 'Laut Banda', barat: 'Teluk Bone', timur: 'Laut Banda' },
+    maluku: { utara: 'Laut Seram & Maluku Utara', selatan: 'Laut Banda', barat: 'Sulawesi Tenggara', timur: 'Papua Barat' },
+    'maluku-utara': { utara: 'Samudra Pasifik & Filipina', selatan: 'Maluku & Laut Seram', barat: 'Sulawesi Utara', timur: 'Papua Barat' },
+    papua: { utara: 'Samudra Pasifik', selatan: 'Papua Selatan', barat: 'Papua Barat & Papua Tengah', timur: 'Papua Nugini' },
+    'papua-barat': { utara: 'Samudra Pasifik', selatan: 'Laut Seram & Teluk Berau', barat: 'Maluku Utara', timur: 'Papua & Papua Tengah' },
+    'papua-barat-daya': { utara: 'Samudra Pasifik', selatan: 'Laut Seram', barat: 'Maluku Utara', timur: 'Papua Barat' },
+    'papua-tengah': { utara: 'Papua & Papua Barat', selatan: 'Laut Arafura', barat: 'Papua Barat', timur: 'Papua Pegunungan & Papua Selatan' },
+    'papua-pegunungan': { utara: 'Papua', selatan: 'Papua Selatan', barat: 'Papua Tengah', timur: 'Papua Nugini' },
+    'papua-selatan': { utara: 'Papua Tengah & Papua Pegunungan', selatan: 'Laut Arafura', barat: 'Papua Barat Daya', timur: 'Papua Nugini' }
+  };
+  Object.keys(PROV_BORDERS).forEach(function (k) {
+    if (provinces[k]) provinces[k].borders = PROV_BORDERS[k];
+  });
 
   /* ============================================================
      ENTITAS — ACEH
@@ -5051,6 +5168,419 @@ window.DB = (function () {
     );
 
     /* ============================================================
+       DATA TAMBAHAN 2 — EKONOMI, FLORA, BUMBU KHAS & INFRASTRUKTUR
+       ============================================================ */
+    items.push(
+      /* ---------- EKONOMI & KOMODITAS ---------- */
+      ent('kelapa-sawit', 'Kelapa Sawit', 'Ekonomi', 'Perkebunan', null,
+        'Kelapa sawit (Elaeis guineensis) adalah komoditas perkebunan terbesar Indonesia yang menghasilkan minyak sawit mentah (CPO). Indonesia merupakan produsen CPO terbesar di dunia, dengan sentra utama di Riau, Kalimantan Barat, Kalimantan Timur, dan Sumatera Utara. Minyak sawit menjadi bahan baku minyak goreng, margarin, dan bahan bakar hayati, sekaligus komoditas ekspor utama.',
+        {
+          classification: 'Elaeis guineensis',
+          origin: 'Afrika Barat; dibudidayakan di Indonesia sejak era kolonial dan meluas sejak Orde Baru.',
+          function: 'Bahan baku minyak goreng, margarin, oleokimia, dan biodiesel.',
+          facts: ['Indonesia menyumbang sekitar setengah produksi CPO dunia.', 'Perkebunan sawit menimbulkan perdebatan lingkungan (deforestasi) sehingga mendorong praktik berkelanjutan (ISPO).'],
+          sources: ['Kementerian Pertanian RI', 'BPS', 'Gapki']
+        }),
+      ent('karet', 'Karet', 'Ekonomi', 'Perkebunan', 'sumatera-selatan',
+        'Karet (Hevea brasiliensis) adalah komoditas perkebunan penting Indonesia yang menghasilkan lateks untuk ban, sarung tangan, dan karet industri. Indonesia termasuk produsen karet alam terbesar dunia bersama Thailand dan Vietnam, dengan sentra di Sumatera Selatan, Jambi, Riau, dan Kalimantan.',
+        {
+          classification: 'Hevea brasiliensis',
+          origin: 'Amerika Selatan (Amazon); masuk Indonesia pada akhir abad ke-19.',
+          function: 'Bahan baku ban, karet industri, dan ekspor nonmigas.',
+          facts: ['Sebagian besar kebun karet Indonesia dimiliki rakyat (perkebunan rakyat).', 'Karet alam mulai tergantikan karet sintetis pada sebagian aplikasi.'],
+          sources: ['Kementerian Pertanian RI', 'BPS']
+        }),
+      ent('kopi', 'Kopi', 'Ekonomi', 'Perkebunan', null,
+        'Kopi adalah salah satu komoditas andalan Indonesia, baik robusta maupun arabika. Daerah penghasil terkenal antara lain Aceh (Kopi Gayo), Bali (Kintamani), Toraja, dan Lampung. Kopi Indonesia dikenal dengan citarasa khas dan menjadi bahan minuman serta komoditas ekspor penting.',
+        {
+          classification: 'Coffea arabica / Coffea canephora (robusta)',
+          origin: 'Etiopia (arabika) dan Afrika (robusta); masuk Nusantara melalui kolonial Belanda.',
+          function: 'Minuman, komoditas ekspor, dan bahan industri kopi.',
+          facts: ['Kopi Gayo memperoleh Indikasi Geografis.', 'Indonesia berada di antara produsen kopi terbesar dunia.'],
+          sources: ['Kementerian Pertanian RI', 'BPS']
+        }),
+      ent('kakao', 'Kakao', 'Ekonomi', 'Perkebunan', 'sulawesi-selatan',
+        'Kakao (Theobroma cacao) adalah komoditas perkebunan penghasil biji cokelat. Indonesia termasuk produsen kakao terbesar dunia, dengan sentra utama di Sulawesi (Sulawesi Selatan, Tengah, Tenggara) serta Sumatera dan Jawa. Biji kakao diolah menjadi cokelat, bubuk, dan lemak kakao.',
+        {
+          classification: 'Theobroma cacao',
+          origin: 'Amerika Tropis; dibudidayakan di Indonesia sejak era kolonial dan berkembang pesat sejak 1980-an.',
+          function: 'Bahan baku cokelat dan produk kakao olahan.',
+          facts: ['Sebagian besar kakao Indonesia diusahakan perkebunan rakyat.', 'Sulawesi menjadi lumbung kakao nasional.'],
+          sources: ['Kementerian Pertanian RI', 'BPS']
+        }),
+      ent('batubara', 'Batubara', 'Ekonomi', 'Pertambangan', 'kalimantan-timur',
+        'Batubara adalah komoditas tambang utama Indonesia yang digunakan untuk pembangkit listrik dan ekspor. Daerah penghasil terbesar berada di Kalimantan Timur, Kalimantan Selatan, dan Sumatera Selatan. Indonesia termasuk eksportir batubara termal terbesar dunia.',
+        {
+          origin: 'Endapan organik purba; ditambang secara besar-besaran sejak 1980-an.',
+          function: 'Bahan bakar pembangkit listrik, industri, dan komoditas ekspor.',
+          facts: ['Kebijakan DMO (Domestic Market Obligation) mengatur pasokan dalam negeri.', 'Transisi energi mendorong pengurangan ketergantungan batubara.'],
+          sources: ['Kementerian ESDM RI', 'BPS']
+        }),
+      ent('nikel', 'Nikel', 'Ekonomi', 'Pertambangan', 'sulawesi-tenggara',
+        'Nikel adalah bijih tambang strategis Indonesia yang menjadi bahan baku baja tahan karat dan baterai kendaraan listrik. Indonesia memiliki cadangan nikel terbesar dunia, dengan sentra di Sulawesi Tenggara (Kolaka), Sulawesi Tengah, dan Maluku Utara. Kebijakan hilirisasi mendorong pembangunan smelter di dalam negeri.',
+        {
+          origin: 'Bijih laterit; eksploitasi modern berkembang sejak akhir abad ke-20.',
+          function: 'Bahan baku stainless steel dan prekursor baterai lithium.',
+          facts: ['Indonesia menghentikan ekspor bijih mentah dan mendorong hilirisasi.', 'Kawasan industri nikel terbesar berada di Morowali dan Halmahera.'],
+          sources: ['Kementerian ESDM RI', 'BPS']
+        }),
+
+      /* ---------- FLORA ---------- */
+      ent('rafflesia-arnoldii', 'Rafflesia Arnoldii', 'Flora', 'Flora Endemik', 'bengkulu',
+        'Rafflesia arnoldii adalah bunga terbesar di dunia dengan diameter hingga satu meter, endemik hutan Sumatera, terutama Bengkulu dan sekitarnya. Bunga ini bersifat parasit pada akar tumbuhan merambat (Tetrastigma), tidak memiliki batang, daun, atau akar sejati, dan berbau khas untuk menarik lalat penyerbuk.',
+        {
+          classification: 'Rafflesia arnoldii',
+          origin: 'Ditemukan pertama kali di Bengkulu pada 1818 oleh Dr. Joseph Arnold.',
+          habitat: 'Hutan hujan dataran rendah Sumatera.',
+          facts: ['Bunga mekar hanya beberapa hari dan menebar bau busuk.', 'Dilindungi undang-undang; Bengkulu menjadikannya ikon flora daerah.'],
+          sources: ['KLHK RI', 'BKSDA Bengkulu']
+        }),
+      ent('bunga-bangkai', 'Bunga Bangkai (Titan Arum)', 'Flora', 'Flora Endemik', 'sumatera-barat',
+        'Bunga bangkai raksasa (Amorphophallus titanum) adalah tumbuhan endemik Sumatera dengan perbungaan (bunga majemuk) tertinggi di dunia, dapat mencapai tiga meter. Berbeda dari Rafflesia, bunga bangkai memiliki umbi dan daun; bau busuknya berfungsi menarik serangga penyerbuk. Kebun Raya Bogor dan Kebun Raya Solok dikenal sebagai pusat pelestariannya.',
+        {
+          classification: 'Amorphophallus titanum',
+          origin: 'Endemik hutan Sumatera Barat.',
+          habitat: 'Hutan hujan tropis dataran rendah.',
+          facts: ['Mekar singkat (1–2 hari) dan jarang — menjadi peristiwa ilmiah.', 'Umbinya dapat berbobot puluhan kilogram.'],
+          sources: ['BRIN', 'KLHK RI']
+        }),
+      ent('kantong-semar', 'Kantong Semar', 'Flora', 'Flora Endemik', 'kalimantan-tengah',
+        'Kantong semar (Nepenthes) adalah tumbuhan karnivora yang menangkap serangga melalui kantong berisi cairan pencerna. Indonesia memiliki keragaman Nepenthes tertinggi di dunia, terutama di Kalimantan dan Sumatera. Habitatnya berupa hutan rawa gambut dan pegunungan, sebagian jenis kini langka akibat perburuan dan alih fungsi lahan.',
+        {
+          classification: 'Nepenthes spp.',
+          origin: 'Endemik Asia Tenggara; pusat keragaman di Kalimantan dan Sumatera.',
+          habitat: 'Rawa gambut, hutan kerangas, dan pegunungan.',
+          facts: ['Beberapa jenis termasuk dilindungi dan terancam (mis. N. rajah).', 'Kantong berfungsi menjebak serangga sebagai sumber nitrogen.'],
+          sources: ['KLHK RI', 'BRIN']
+        }),
+      ent('cendana', 'Cendana', 'Flora', 'Flora Khas', 'nusa-tenggara-timur',
+        'Cendana (Santalum album) adalah pohon penghasil kayu wangi bernilai ekonomi tinggi yang menjadi flora identitas Nusa Tenggara Timur. Kayu dan minyak cendana digunakan untuk wewangian, obat tradisional, dan kerajinan. Populasi alaminya menurun sehingga dibudidayakan secara terkontrol.',
+        {
+          classification: 'Santalum album',
+          origin: 'Kawasan Nusa Tenggara dan India Selatan.',
+          habitat: 'Daerah kering beriklim muson.',
+          facts: ['NTT adalah sentra cendana utama Indonesia.', 'Minyak cendana termasuk bahan wewangian termahal di dunia.'],
+          sources: ['Kementerian Lingkungan Hidup dan Kehutanan RI', 'Pemerintah Provinsi NTT']
+        }),
+      ent('edelweis-jawa', 'Edelweis Jawa', 'Flora', 'Flora Endemik', 'jawa-tengah',
+        'Edelweis Jawa (Anaphalis javanica) adalah tumbuhan endemik pegunungan tinggi Jawa yang dikenal sebagai "bunga abadi" karena bunganya tidak mudah layu. Edelweis tumbuh di atas 2.000 mdpl, antara lain di Gunung Merapi, Semeru, dan Bromo, dan dilindungi undang-undang dengan larangan memetik.',
+        {
+          classification: 'Anaphalis javanica',
+          origin: 'Endemik pegunungan Jawa.',
+          habitat: 'Zona subalpin di atas 2.000 mdpl.',
+          facts: ['Terdiri atas ratusan kuntum kecil yang tampak seperti satu bunga.', 'Dipetik besar-besaran di masa lalu sehingga kini dilindungi.'],
+          sources: ['KLHK RI', 'BRIN']
+        }),
+
+      /* ---------- BUMBU KHAS ---------- */
+      ent('terasi', 'Terasi', 'Kuliner', 'Bumbu Khas', null,
+        'Terasi adalah bumbu khas Indonesia berupa pasta udang atau ikan kecil yang difermentasi dan dijemur, lalu dipadatkan. Terasi menjadi dasar berbagai sambal dan masakan Nusantara, terutama sambal terasi, dan dikenal di banyak daerah dengan nama berbeda (belacan di Melayu).',
+        {
+          origin: 'Tradisi fermentasi hasil laut Nusantara; sentra di Cirebon, Banyuwangi, dan Kepulauan Riau.',
+          ingredients: 'Udang rebon atau ikan kecil, garam.',
+          function: 'Bumbu dasar sambal dan masakan tradisional.',
+          facts: ['Terasi Cirebon dan Bagansiapiapi dikenal sebagai yang terbaik.', 'Baunya kuat tetapi memberi rasa gurih khas (umami).'],
+          sources: ['Kemendikbud RI']
+        }),
+      ent('petis', 'Petis', 'Kuliner', 'Bumbu Khas', 'jawa-timur',
+        'Petis adalah bumbu kental khas Jawa Timur berwarna hitam kecokelatan yang terbuat dari fermentasi udang (atau ikan) dengan campuran gula. Petis menjadi bahan utama sambal petis, rujak cingur, tahu tek, dan lontong balap, serta memberi rasa manis gurih yang khas.',
+        {
+          origin: 'Jawa Timur, terutama Sidoarjo dan Semarang (petis Semarang).',
+          ingredients: 'Rebusan udang, gula merah, garam.',
+          function: 'Bumbu sambal dan masakan khas Jawa Timur.',
+          facts: ['Petis berbeda dari kecap — berbasis udang, bukan kedelai.', 'Rujak cingur adalah hidangan ikonik berbasis petis.'],
+          sources: ['Kemendikbud RI']
+        }),
+
+      /* ---------- INFRASTRUKTUR ---------- */
+      ent('bandara-sultan-iskandar-muda', 'Bandara Sultan Iskandar Muda', 'Infrastruktur', 'Transportasi Udara', 'aceh',
+        'Bandara Sultan Iskandar Muda (BTJ) adalah bandara utama Provinsi Aceh di Blang Bintang, Aceh Besar, melayani rute domestik dan internasional. Bandara ini dinamai menurut sultan ke-12 Kesultanan Aceh, Sultan Iskandar Muda, dan menjadi pintu masuk utama wisata serta ibadah ke Aceh.',
+        {
+          function: 'Pintu masuk udara Provinsi Aceh.',
+          facts: ['Kode IATA: BTJ.', 'Rute internasional utama: Penang (Malaysia).'],
+          sources: ['Kementerian Perhubungan RI', 'Angkasa Pura']
+        }),
+      ent('bandara-minangkabau', 'Bandara Minangkabau', 'Infrastruktur', 'Transportasi Udara', 'sumatera-barat',
+        'Bandara Minangkabau (PDG) adalah bandara utama Sumatera Barat yang terletak di Kabupaten Padang Pariaman, dengan arsitektur bergaya rumah gadang. Bandara ini melayani rute domestik dan internasional (Kuala Lumpur, Malaysia) serta menjadi gerbang wisata Ranah Minang.',
+        {
+          function: 'Pintu masuk udara Sumatera Barat.',
+          facts: ['Kode IATA: PDG.', 'Arsitektur terminal mengadopsi bentuk atap gonjong rumah gadang.'],
+          sources: ['Kementerian Perhubungan RI', 'Angkasa Pura']
+        }),
+      ent('stasiun-gambir', 'Stasiun Gambir', 'Infrastruktur', 'Transportasi Darat', 'jakarta',
+        'Stasiun Gambir adalah stasiun kereta api utama di Jakarta yang melayani kereta antarkota, terutama kelas eksekutif menuju Jawa Tengah dan Jawa Timur. Stasiun ini menjadi pusat layanan Kereta Api Indonesia (KAI) di ibu kota dan terhubung dengan transportasi umum lain.',
+        {
+          function: 'Terminal KA antarkota kelas eksekutif di Jakarta.',
+          facts: ['Gerbang utama KA antarkota Jakarta, terhubung dengan layanan KA Bandara Soekarno-Hatta.', 'Layanan utama: rute Jakarta–Surabaya dan Jakarta–Yogyakarta.'],
+          sources: ['KAI', 'Kementerian Perhubungan RI']
+        }),
+      ent('pelabuhan-tanjung-perak', 'Pelabuhan Tanjung Perak', 'Infrastruktur', 'Transportasi Laut', 'jawa-timur',
+        'Pelabuhan Tanjung Perak di Surabaya adalah pelabuhan terbesar kedua Indonesia dan gerbang utama Jawa Timur. Pelabuhan ini melayani petikemas, penumpang, dan kapal perintis ke kawasan timur Indonesia, serta menjadi pusat logistik dan ekspor.',
+        {
+          function: 'Pelabuhan utama Jawa Timur dan hub logistik timur Indonesia.',
+          facts: ['Berdekatan dengan Pelabuhan Teluk Lamong yang modern.', 'Melayani jalur penyeberangan ke Kalimantan dan Indonesia timur.'],
+          sources: ['Pelindo', 'Kementerian Perhubungan RI']
+        }),
+      ent('pelabuhan-belawan', 'Pelabuhan Belawan', 'Infrastruktur', 'Transportasi Laut', 'sumatera-utara',
+        'Pelabuhan Belawan di Medan adalah pelabuhan utama Sumatera Utara dan salah satu pelabuhan tersibuk di Sumatera. Belawan melayani petikemas, penumpang, dan ekspor komoditas (kelapa sawit, karet) serta menjadi gerbang pintu laut Sumatera.',
+        {
+          function: 'Pelabuhan utama Sumatera Utara dan gerbang ekspor Sumatera.',
+          facts: ['Kota pelabuhan Belawan berkembang menjadi kawasan industri.', 'Melayani kapal domestik dan internasional.'],
+          sources: ['Pelindo', 'Kementerian Perhubungan RI']
+        })
+    );
+
+    /* ============================================================
+       DATA TAMBAHAN 3 — SUNGAI/PANTAI/SELAT, TOKOH NON-PAHLAWAN,
+       MUSEUM, AIR TERJUN & DESA WISATA
+       ============================================================ */
+    items.push(
+      /* ---------- SUNGAI ---------- */
+      ent('sungai-musi', 'Sungai Musi', 'Geografi', 'Sungai', 'sumatera-selatan',
+        'Sungai Musi adalah sungai terpanjang di Sumatera Selatan, membelah Kota Palembang dan menjadi jalur kehidupan sejak era Kerajaan Sriwijaya. Sungai sepanjang sekitar 750 km ini bermuara di Selat Bangka dan dikenal dengan Jembatan Ampera serta pasar terapungnya.',
+        {
+          localName: 'Sungai Musi',
+          length: '±750 km',
+          origin: 'Berasal dari Pegunungan Bukit Barisan, bermuara di Selat Bangka.',
+          function: 'Transportasi, perdagangan, perikanan, dan identitas budaya Palembang.',
+          facts: ['Palembang dijuluki kota yang terbelah Sungai Musi.', 'Jembatan Ampera menjadi ikon sungai ini.'],
+          sources: ['Kementerian PUPR RI', 'BPS Sumatera Selatan']
+        }),
+      ent('sungai-kapuas', 'Sungai Kapuas', 'Geografi', 'Sungai', 'kalimantan-barat',
+        'Sungai Kapuas di Kalimantan Barat adalah sungai terpanjang di Indonesia, sekitar 1.143 km, mengalir dari Pegunungan Müller menuju Laut Natuna. Sungai ini menjadi urat nadi transportasi, perdagangan, dan kehidupan masyarakat di sepanjang tepiannya.',
+        {
+          localName: 'Sungai Kapuas',
+          length: '±1.143 km (terpanjang di Indonesia)',
+          origin: 'Pegunungan Müller, bermuara di Laut Natuna.',
+          function: 'Transportasi, perdagangan, perikanan, dan sumber kehidupan.',
+          facts: ['Terpanjang di Indonesia dan salah satu terpanjang di Asia Tenggara.', 'Sungai ini pernah dihuni lumba-lumba air tawar pesut (populasi menurun).'],
+          sources: ['Kementerian PUPR RI', 'BPS Kalimantan Barat']
+        }),
+      ent('sungai-barito', 'Sungai Barito', 'Geografi', 'Sungai', 'kalimantan-selatan',
+        'Sungai Barito adalah sungai besar di Kalimantan Selatan dan Tengah yang menjadi jalur perdagangan utama, dengan pasar terapung di Muara Kuin (Banjarmasin). Sungai ini bermuara di Laut Jawa dan membentuk delta serta kawasan rawa gambut luas.',
+        {
+          localName: 'Sungai Barito',
+          length: '±900 km',
+          origin: 'Pegunungan Müller (Kalimantan Tengah), bermuara di Laut Jawa.',
+          function: 'Transportasi, perdagangan (pasar terapung), dan perikanan.',
+          facts: ['Pasar terapung Muara Kuin adalah warisan budaya Banjar.', 'Sungai ini menghubungkan pedalaman Kalimantan dengan pesisir.'],
+          sources: ['Kementerian PUPR RI', 'BPS Kalimantan Selatan']
+        }),
+      ent('sungai-batanghari', 'Sungai Batanghari', 'Geografi', 'Sungai', 'jambi',
+        'Sungai Batanghari adalah sungai terpanjang di Sumatera, sekitar 800 km, mengalir dari Sumatera Barat menuju Selat Berhala di Jambi. Di tepiannya berdiri Candi Muaro Jambi, kompleks candi terluas di Indonesia, bekas pusat Kerajaan Melayu.',
+        {
+          localName: 'Sungai Batanghari',
+          length: '±800 km (terpanjang di Sumatera)',
+          origin: 'Sumatera Barat, bermuara di Selat Berhala.',
+          function: 'Transportasi, irigasi, perikanan, dan kawasan bersejarah.',
+          facts: ['Terpanjang di Sumatera.', 'Candi Muaro Jambi berada di tepi sungai ini.'],
+          sources: ['Kementerian PUPR RI', 'BPS Jambi']
+        }),
+
+      /* ---------- PANTAI ---------- */
+      ent('pantai-kuta', 'Pantai Kuta', 'Pariwisata', 'Wisata Bahari', 'bali',
+        'Pantai Kuta di Kabupaten Badung, Bali, adalah salah satu pantai paling terkenal di dunia dengan pasir putih dan ombak yang cocok untuk berselancar pemula. Kuta berkembang menjadi kawasan wisata utama Bali dengan akomodasi, restoran, dan kehidupan malam.',
+        {
+          localName: 'Pantai Kuta',
+          origin: 'Kuta, Kabupaten Badung, Bali.',
+          characteristics: 'Pasir putih halus, ombak landai, matahari terbenam yang ikonik.',
+          function: 'Destinasi wisata utama Bali.',
+          facts: ['Bom Bali 2002 & 2005 melanda kawasan ini dan menjadi titik rekonsiliasi.', 'Pantai ini termasuk kawasan sempit namun paling ramai di Bali.'],
+          sources: ['Dinas Pariwisata Provinsi Bali']
+        }),
+      ent('pantai-parangtritis', 'Pantai Parangtritis', 'Pariwisata', 'Wisata Bahari', 'yogyakarta',
+        'Pantai Parangtritis di Bantul, DI Yogyakarta, adalah pantai selatan Jawa yang terkenal dengan pasir hitam, ombak besar, dan mitos Nyi Roro Kidul. Pantai ini menjadi destinasi wisata utama Yogyakarta serta kawasan pendidikan (paralayang dan penangkaran penyu).',
+        {
+          localName: 'Pantai Parangtritis',
+          origin: 'Parangtritis, Bantul, DI Yogyakarta.',
+          characteristics: 'Pasir hitam vulkanik, ombak kuat, gumuk pasir di sekitarnya.',
+          function: 'Wisata, rekreasi, dan kegiatan ilmiah (geomorfologi).',
+          facts: ['Terhubung dengan mitos Ratu Laut Selatan (tradisi lisan).', 'Ombak berbahaya — pengunjung diimbau tidak berenang jauh.'],
+          sources: ['Dinas Pariwisata DI Yogyakarta']
+        }),
+      ent('pantai-anyer', 'Pantai Anyer', 'Pariwisata', 'Wisata Bahari', 'banten',
+        'Pantai Anyer di ujung barat Jawa adalah kawasan wisata pantai tertua di Indonesia yang dikembangkan sejak masa kolonial. Anyer menjadi gerbang menuju Selat Sunda dan terkenal dengan Mercusuar Anyer yang dibangun pemerintah Belanda pada 1885.',
+        {
+          localName: 'Pantai Anyer',
+          origin: 'Anyer, Serang, Banten.',
+          characteristics: 'Pasir putih di pesisir Selat Sunda, pemandangan Gunung Krakatau.',
+          function: 'Wisata pantai, rekreasi, dan transit menuju Lampung.',
+          facts: ['Mercusuar Anyer (1885) adalah peninggalan kolonial yang masih berfungsi.', 'Kawasan ini menjadi saksi erupsi Krakatau 1883.'],
+          sources: ['Dinas Pariwisata Provinsi Banten']
+        }),
+
+      /* ---------- SELAT ---------- */
+      ent('selat-malaka', 'Selat Malaka', 'Geografi', 'Selat', null,
+        'Selat Malaka adalah selat antara Sumatra dan Semenanjung Malaya, salah satu jalur pelayaran tersibuk di dunia yang menghubungkan Samudra Hindia dan Laut Cina Selatan. Sejak era Sriwijaya hingga kini, selat ini menjadi koridor perdagangan global dan sejarah maritim Nusantara.',
+        {
+          localName: 'Selat Malaka',
+          length: '±800 km, lebar 65–250 km',
+          origin: 'Memisahkan Sumatera dan Semenanjung Malaya.',
+          function: 'Jalur pelayaran internasional dan perikanan.',
+          facts: ['Sekitar seperempat perdagangan laut dunia melintasi selat ini.', 'Sriwijaya menguasai jalur ini pada abad ke-7–13.'],
+          sources: ['Kementerian Kelautan dan Perikanan RI']
+        }),
+      ent('selat-sunda', 'Selat Sunda', 'Geografi', 'Selat', null,
+        'Selat Sunda memisahkan Pulau Jawa dan Sumatera, menghubungkan Laut Jawa dengan Samudra Hindia. Selat ini menjadi saksi letusan Gunung Krakatau 1883 dan jalur pelayaran strategis yang kini juga direncanakan untuk jembatan penghubung kedua pulau.',
+        {
+          localName: 'Selat Sunda',
+          width: '24–110 km',
+          origin: 'Memisahkan Jawa (Banten) dan Sumatera (Lampung).',
+          function: 'Jalur pelayaran, perikanan, dan kawasan geologi aktif.',
+          facts: ['Letusan Krakatau 1883 terjadi di selat ini.', 'Pulau vulkanik Anak Krakatau tumbuh di tengahnya.'],
+          sources: ['Kementerian Kelautan dan Perikanan RI']
+        }),
+      ent('selat-karimata', 'Selat Karimata', 'Geografi', 'Selat', null,
+        'Selat Karimata terletak antara Pulau Sumatera, Kalimantan, dan Bangka Belitung, menghubungkan Laut Natuna dan Laut Jawa. Selat ini menjadi jalur pelayaran penting bagi kapal dari dan menuju Selat Malaka.',
+        {
+          localName: 'Selat Karimata',
+          origin: 'Memisahkan Kalimantan Barat dan Kepulauan Bangka Belitung.',
+          function: 'Jalur pelayaran domestik dan internasional.',
+          facts: ['Namanya berasal dari Pulau Karimata di tengah selat.', 'Kawasan ini kaya terumbu karang dan perikanan.'],
+          sources: ['Kementerian Kelautan dan Perikanan RI']
+        }),
+      ent('selat-lombok', 'Selat Lombok', 'Geografi', 'Selat', null,
+        'Selat Lombok memisahkan Pulau Bali dan Lombok (NTB), menghubungkan Laut Bali dan Samudra Hindia. Kedalaman selat ini menjadikannya jalur lintas kapal besar yang tidak dapat melalui Selat Malaka yang dangkal, serta menjadi batas biogeografis Garis Wallace.',
+        {
+          localName: 'Selat Lombok',
+          depth: 'Dapat dilalui kapal besar (kedalaman >250 m)',
+          origin: 'Memisahkan Bali dan Lombok.',
+          function: 'Jalur pelayaran internasional dan perikanan.',
+          facts: ['Menjadi bagian Garis Wallace — batas flora fauna Asia dan Australasia.', 'Lintasan kapal kontainer besar dari Australia.'],
+          sources: ['Kementerian Kelautan dan Perikanan RI']
+        }),
+
+      /* ---------- TOKOH NON-PAHLAWAN ---------- */
+      ent('chairil-anwar', 'Chairil Anwar', 'Tokoh', 'Sastrawan', 'jakarta',
+        'Chairil Anwar (1922–1949) adalah penyair terkemuka Angkatan 45 yang karya-karyanya seperti "Aku", "Karawang-Bekasi", dan "Diponegoro" menjadi tonggak puisi Indonesia modern. Gaya puisinya yang lugas dan berani menjadikannya ikon sastra Indonesia.',
+        {
+          birth: 'Medan, 26 Juli 1922', death: 'Jakarta, 28 April 1949',
+          field: 'Penyair / Sastrawan', period: 'Angkatan 45 (1940-an)',
+          facts: ['Sastrawan termuda yang diangkat menjadi ikon sastra nasional.', 'Puisinya "Aku" paling dikenal: "Aku ini binatang jalang".'],
+          sources: ['Kemendikbud RI']
+        }),
+      ent('pramoedya-ananta-toer', 'Pramoedya Ananta Toer', 'Tokoh', 'Sastrawan', 'jawa-tengah',
+        'Pramoedya Ananta Toer (1925–2006) adalah novelis terbesar Indonesia, lahir di Blora, Jawa Tengah. Tetralogi Buru (Bumi Manusia, Anak Semua Bangsa, Jejak Langkah, Rumah Kaca) diakui dunia dan menjadikannya kandidat Nobel Sastra.',
+        {
+          birth: 'Blora, 6 Februari 1925', death: 'Jakarta, 30 April 2006',
+          field: 'Novelis / Sastrawan', period: 'Abad ke-20',
+          facts: ['Tetralogi Buru ditulis saat ditahan di Pulau Buru.', 'Karyanya diterjemahkan ke puluhan bahasa.'],
+          sources: ['Kemendikbud RI']
+        }),
+      ent('ki-hajar-dewantara', 'Ki Hajar Dewantara', 'Tokoh', 'Pendidik', 'yogyakarta',
+        'Raden Mas Soewardi Soerjaningrat atau Ki Hajar Dewantara (1889–1959) adalah Bapak Pendidikan Nasional, pendiri Taman Siswa (1922), dan pencetus semboyan "Ing Ngarsa Sung Tulada, Ing Madya Mangun Karsa, Tut Wuri Handayani". Ia juga tokoh pergerakan yang diasingkan ke Belanda karena tulisan politiknya.',
+        {
+          birth: 'Yogyakarta, 2 Mei 1889', death: 'Yogyakarta, 26 April 1959',
+          field: 'Pendidik / Tokoh Pergerakan', period: '1908–1959',
+          facts: ['Hari Pendidikan Nasional (2 Mei) memperingati kelahirannya.', 'Taman Siswa menjadi model pendidikan nasionalis.'],
+          sources: ['Kemendikbud RI']
+        }),
+      ent('buya-hamka', 'Buya Hamka', 'Tokoh', 'Sastrawan & Ulama', 'sumatera-barat',
+        'Haji Abdul Malik Karim Amrullah (Hamka, 1908–1981) adalah ulama, sastrawan, dan tokoh Muhammadiyah dari Sumatera Barat. Novelnya "Tenggelamnya Kapal Van Der Wijck" dan tafsir Al-Azhar menjadikannya figur intelektual Islam paling berpengaruh di Indonesia.',
+        {
+          birth: 'Maninjau, 17 Februari 1908', death: 'Jakarta, 24 Juli 1981',
+          field: 'Ulama, Sastrawan, Sejarawan', period: '1908–1981',
+          facts: ['Novelnya diadaptasi menjadi film terkenal.', 'Tafsir Al-Azhar terdiri atas 30 jilid.'],
+          sources: ['Kemendikbud RI', 'Muhammadiyah']
+        }),
+      ent('bj-habibie', 'B.J. Habibie', 'Tokoh', 'Ilmuwan & Negarawan', 'sulawesi-selatan',
+        'Bacharuddin Jusuf Habibie (1936–2019), lahir di Parepare, Sulawesi Selatan, adalah ilmuwan penerbangan yang dikenal dengan teori Crack Propagation (rumus Habibie) dan Presiden RI ke-3. Ia mendorong industri strategis nasional seperti pesawat N-250.',
+        {
+          birth: 'Parepare, 25 Juni 1936', death: 'Jakarta, 11 September 2019',
+          field: 'Ilmuwan, Insinyur, Presiden RI ke-3', period: '1936–2019',
+          facts: ['Rumus Habibie diakui dunia penerbangan internasional.', 'Memimpin IPTN yang mengembangkan N-250 Gatotkaca.'],
+          sources: ['Kemendikbud RI']
+        }),
+      ent('wr-soepratman', 'W.R. Soepratman', 'Tokoh', 'Seniman', 'jawa-tengah',
+        'Wage Rudolf Soepratman (1903–1938) adalah pencipta lagu kebangsaan "Indonesia Raya", diperdengarkan pertama kali pada Kongres Pemuda II (28 Oktober 1928). Ia wafat muda pada 1938 dan ditetapkan sebagai Pahlawan Nasional.',
+        {
+          birth: 'Purworejo, 9 Maret 1903', death: 'Surabaya, 17 Agustus 1938',
+          field: 'Komponis / Pencipta Lagu', period: '1920–1938',
+          facts: ['Indonesia Raya pertama kali dikumandangkan tanpa lirik tertulis resmi.', 'Ia dijuluki Bapak Musik Nasional Indonesia.'],
+          sources: ['Kemendikbud RI']
+        }),
+
+      /* ---------- MUSEUM ---------- */
+      ent('museum-nasional', 'Museum Nasional Indonesia', 'Pariwisata', 'Museum', 'jakarta',
+        'Museum Nasional Indonesia di Jakarta, dikenal sebagai Museum Gajah, adalah museum terbesar dan terlengkap di Indonesia dengan koleksi ratusan ribu artefak dari seluruh Nusantara, termasuk arca, prasasti, dan koleksi etnografi.',
+        {
+          origin: 'Didirikan 1778 oleh Bataviaasch Genootschap van Kunsten en Wetenschappen.',
+          function: 'Pelestarian, penelitian, dan edukasi warisan budaya Indonesia.',
+          facts: ['Patung gajah hadiah Raja Chulalongkorn (Siam) menjadi ikonnya.', 'Koleksi mencakup peradaban Hindu-Buddha hingga etnografi modern.'],
+          sources: ['Museum Nasional RI']
+        }),
+      ent('museum-sangiran', 'Museum Sangiran', 'Pariwisata', 'Museum', 'jawa-tengah',
+        'Museum Manusia Purba Sangiran di Sragen, Jawa Tengah, adalah pusat informasi situs Sangiran — salah satu situs manusia purba terpenting di dunia yang masuk Warisan Dunia UNESCO. Di sini ditemukan fosil Homo erectus, fauna purba, dan peralatan batu.',
+        {
+          origin: 'Situs Sangiran dikenal sejak ditemukan fosil oleh G.H.R. von Koenigswald (1934).',
+          function: 'Edukasi paleoantropologi dan pelestarian situs fosil.',
+          facts: ['Situs Sangiran ditetapkan Warisan Dunia UNESCO pada 1996.', 'Menyimpan fosil "Manusia Jawa" (Pithecanthropus erectus).'],
+          sources: ['Kementerian Kebudayaan RI', 'UNESCO']
+        }),
+
+      /* ---------- AIR TERJUN ---------- */
+      ent('air-terjun-madakaripura', 'Air Terjun Madakaripura', 'Pariwisata', 'Wisata Alam', 'jawa-timur',
+        'Air Terjun Madakaripura di Kabupaten Probolinggo, Jawa Timur, adalah air terjun tertinggi di Pulau Jawa (±200 m) yang berada di kawasan Taman Nasional Bromo Tengger Semeru. Legenda setempat mengaitkannya dengan Patih Gajah Mada (tradisi lisan).',
+        {
+          localName: 'Air Terjun Madakaripura',
+          origin: 'Probolinggo, Jawa Timur.',
+          characteristics: 'Tinggi ±200 m, dinding jurang basah, kabut air.',
+          function: 'Wisata alam dan kawasan konservasi.',
+          facts: ['Air terjun tertinggi di Jawa.', 'Dinamai dari petilasahan Patih Gajah Mada menurut tradisi.'],
+          sources: ['Balai TNBTS', 'Dinas Pariwisata Jawa Timur']
+        }),
+      ent('air-terjun-sipiso-piso', 'Air Terjun Sipiso-Piso', 'Pariwisata', 'Wisata Alam', 'sumatera-utara',
+        'Air Terjun Sipiso-Piso di Kabupaten Karo, Sumatera Utara, adalah air terjun setinggi sekitar 120 meter di tepi Kaldera Danau Toba. Pemandangan dari tebingnya menampilkan Danau Toba dan Gunung Sinabung, menjadikannya destinasi wisata utama kawasan Toba.',
+        {
+          localName: 'Air Terjun Sipiso-Piso',
+          origin: 'Desa Tongging, Karo, Sumatera Utara.',
+          characteristics: 'Tinggi ±120 m, jatuh dari tepi kaldera Toba.',
+          function: 'Wisata alam dan panorama kaldera.',
+          facts: ['Nama Sipiso-piso berarti "seperti pisau" (sempit dan tajam).', 'Terletak di kawasan Geopark Kaldera Toba.'],
+          sources: ['Dinas Pariwisata Sumatera Utara', 'UNESCO Global Geopark']
+        }),
+      ent('curug-ciomas', 'Curug Ciomas', 'Pariwisata', 'Wisata Alam', 'jawa-barat',
+        'Curug Ciomas di Kabupaten Bogor, Jawa Barat, adalah air terjun bertingkat (±90 m) di kawasan Taman Nasional Gunung Halimun Salak. Nama "Ciomas" berasal dari asap (omas/ngomas) kabut air yang menyelimuti air terjun.',
+        {
+          localName: 'Curug Ciomas',
+          origin: 'Kecamatan Cisolok, Kabupaten Sukabumi — Kawasan TNGHS.',
+          characteristics: 'Bertingkat, ±90 m, dikelilingi hutan hujan tropis.',
+          function: 'Wisata alam, penelitian, dan konservasi.',
+          facts: ['Berada di dalam Taman Nasional Gunung Halimun Salak.', 'Akses melalui jalur trekking dari Cisolok.'],
+          sources: ['Balai TNGHS', 'Dinas Pariwisata Jawa Barat']
+        }),
+
+      /* ---------- DESA WISATA ---------- */
+      ent('desa-wisata-penglipuran', 'Desa Wisata Penglipuran', 'Pariwisata', 'Desa Wisata', 'bali',
+        'Desa Penglipuran di Bangli, Bali, adalah desa adat Bali Aga yang terkenal dengan tata ruang tradisional yang rapi, arsitektur seragam, dan kebersihannya. Desa ini menjadi model desa wisata budaya dan pernah dinobatkan sebagai salah satu desa terbersih di dunia.',
+        {
+          origin: 'Desa adat Bali Aga di Kabupaten Bangli.',
+          characteristics: 'Tata ruang tri mandala, gerbang khas, kebun bambu.',
+          function: 'Desa wisata budaya dan pelestarian adat.',
+          facts: ['Menjadi desa wisata percontohan nasional.', 'Seluruh kawasan mengikuti aturan adat desa.'],
+          sources: ['Pemerintah Kabupaten Bangli', 'Kemenparekraf RI']
+        }),
+      ent('desa-wisata-wae-rebo', 'Desa Wisata Wae Rebo', 'Pariwisata', 'Desa Wisata', 'nusa-tenggara-timur',
+        'Desa Wae Rebo di Kabupaten Manggarai, NTT, adalah desa adat di lereng Gunung Inerie yang terkenal dengan rumah kerucut Mbaru Niang. Desa ini menerima penghargaan dunia sebagai desa wisata terbaik dan menjadi ikon pariwisata Flores.',
+        {
+          origin: 'Kampung adat Manggarai, Flores, NTT.',
+          characteristics: 'Tujuh rumah kerucut Mbaru Niang dari ijuk dan bambu.',
+          function: 'Desa wisata budaya dan pelestarian rumah adat.',
+          facts: ['Penghargaan ASEAN Award for Community-Based Tourism.', 'Tidak ada listrik dan sinyal di desa ini.'],
+          sources: ['Kemenparekraf RI', 'Pemerintah Kabupaten Manggarai']
+        }),
+      ent('desa-wisata-osing', 'Desa Wisata Kemiren (Using)', 'Pariwisata', 'Desa Wisata', 'jawa-timur',
+        'Desa Kemiren di Banyuwangi, Jawa Timur, adalah desa adat Suku Using yang melestarikan bahasa Using, tari Gandrung, barong ider bumi, dan tradisi tumpeng sewu. Desa ini menjadi pusat budaya Using dan salah satu desa wisata terbaik Indonesia.',
+        {
+          origin: 'Kampung adat Using, Banyuwangi.',
+          characteristics: 'Tradisi ider bumi, rumah adat Using, kuliner khas.',
+          function: 'Pelestarian budaya Using dan wisata budaya.',
+          facts: ['Suku Using adalah penduduk asli Banyuwangi dengan bahasa campuran Jawa-Bali.', 'Tumpeng Sewu (1000 tumpeng) digelar setiap tahun.'],
+          sources: ['Pemerintah Kabupaten Banyuwangi', 'Kemenparekraf RI']
+        })
+    );
+
+    /* ============================================================
        RELATIONSHIP (Knowledge Graph)
        ============================================================ */
     const relations = [
@@ -5312,7 +5842,8 @@ window.DB = (function () {
        STRUKTUR 7 MENU UTAMA
        ============================================================ */
     const menus = [
-      { id: 'provinsi', name: 'Provinsi Indonesia', tagline: 'Ensiklopedia wilayah, alam, masyarakat & identitas daerah', categories: ['Administrasi', 'Geografi', 'Alam', 'Konservasi', 'Pariwisata', 'Situs Sejarah', 'Tempat Ibadah', 'Budaya Fisik', 'Flora', 'Fauna', 'Suku & Masyarakat', 'Seni', 'Bahasa', 'Wastra', 'Kuliner', 'Jalur Rempah', 'Tokoh', 'Data Praktis'] },
+      { id: 'provinsi', name: 'Provinsi Indonesia', tagline: 'Ensiklopedia wilayah, alam, masyarakat & identitas daerah', categories: ['Administrasi', 'Geografi', 'Alam', 'Konservasi', 'Pariwisata', 'Situs Sejarah', 'Tempat Ibadah', 'Budaya Fisik', 'Flora', 'Fauna', 'Ekonomi', 'Jalur Rempah', 'Infrastruktur', 'Tokoh', 'Data Praktis'] },
+      { id: 'kuliner', name: 'Kuliner Nusantara', tagline: 'Makanan, minuman, jajanan & buah khas Indonesia', categories: ['Kuliner'] },
       { id: 'lorong-waktu', name: 'Lorong Waktu', tagline: 'Ensiklopedia sejarah Nusantara', categories: ['Prasejarah', 'Kerajaan', 'Kolonialisme', 'Perlawanan', 'Pergerakan Nasional', 'Kemerdekaan', 'Pasca Kemerdekaan', 'Prasasti & Manuskrip', 'Sejarah Agama', 'Tokoh'] },
       { id: 'panggung-kesenian', name: 'Panggung Kesenian', tagline: 'Seni, musik, wastra, permainan & olahraga tradisional', categories: ['Tari', 'Wayang & Pertunjukan', 'Alat Musik', 'Lagu', 'Musik', 'Wastra', 'Permainan', 'Olahraga Tradisional', 'Seni Rupa', 'Kerajinan'] },
       { id: 'pustaka-nusantara', name: 'Pustaka Nusantara', tagline: 'Cerita, suku, adat, tradisi & kepercayaan', categories: ['Folklore', 'Legenda', 'Mitologi', 'Suku & Masyarakat', 'Upacara Adat', 'Kepercayaan Lokal', 'Tradisi Sosial', 'Hukum Adat', 'Kearifan Lokal'] },
@@ -6026,9 +6557,7 @@ window.DB = (function () {
         var count = 0;
         m.categories.forEach(function (c) { count += DB.itemsForCategory(c).length + DB.events.filter(function (e) { return e.period === c; }).length; });
         return '<a href="#/menu/' + m.id + '" class="menu-tile"><span class="mt-name">' + esc(m.name) + '</span><span class="mt-count">' + count + ' entri</span></a>';
-      }).join('') +
-      '<a href="#/menu" class="menu-tile"><span class="mt-name">Semua Menu</span><span class="mt-count">Jelajah semua</span></a>' +
-      '</div></section>';
+      }).join('') + '</div></section>';
 
     /* Fakta Nusantara Hari Ini — kartu unggulan */
     if (fakta) {
@@ -6276,14 +6805,30 @@ window.DB = (function () {
           ['Ibu kota', esc(prov.capital)], ['Pulau / Kepulauan', esc(prov.island)],
           ['Zona waktu', esc(prov.timezone)], ['Luas wilayah', num(prov.areaKm2) + ' km\u00b2'],
           ['Populasi (ref.)', compact(prov.population) + ' jiwa'],
+          ['Kepadatan', (prov.population && prov.areaKm2) ? Math.round(prov.population / prov.areaKm2).toLocaleString('id-ID') + ' jiwa/km\u00b2' : '\u2014'],
+          ['Kabupaten', prov.kabupaten ? prov.kabupaten + ' kabupaten' : '\u2014'],
+          ['Kota', prov.kota ? prov.kota + ' kota' : '\u2014'],
           ['Semboyan', esc(prov.slogan || '\u2014')], ['Hari jadi', esc(prov.established || '\u2014')],
           ['Koordinat', esc(prov.coordinates)]
-        ];
+        ].concat(prov.borders ? [
+          ['Batas utara', esc(prov.borders.utara || '\u2014')],
+          ['Batas selatan', esc(prov.borders.selatan || '\u2014')],
+          ['Batas barat', esc(prov.borders.barat || '\u2014')],
+          ['Batas timur', esc(prov.borders.timur || '\u2014')]
+        ] : []);
         var adminTable = '<table class="info-table">' + adminRows.map(function (r) {
           return '<tr><th>' + r[0] + '</th><td>' + r[1] + '</td></tr>';
         }).join('') + '</table>';
         body += '<div class="prov-map-row">' + islandMapSVG(prov.id) + sealSVG(prov, 0) + '</div>';
         body += section('Data Administrasi', adminTable);
+        if ((prov.regencies && prov.regencies.length) || (prov.cities && prov.cities.length)) {
+          var daftarWil = [];
+          if (prov.regencies && prov.regencies.length) daftarWil.push('<b>Kabupaten (' + prov.regencies.length + '):</b> ' + prov.regencies.map(esc).join(', '));
+          if (prov.cities && prov.cities.length) daftarWil.push('<b>Kota (' + prov.cities.length + '):</b> ' + prov.cities.map(esc).join(', '));
+          body += section('Kabupaten & Kota', '<p class="small">' + daftarWil.join('<br><br>') + '</p>' +
+            '<p class="small muted">Daftar referensi Kemendagri/BPS — dapat berubah mengikuti pemekaran wilayah.</p>');
+        }
+        if (prov.history) body += section('Sejarah & Asal-usul', '<div class="prose"><p>' + esc(prov.history) + '</p></div>');
         if (prov.facts && prov.facts.length) body += section('Fakta Penting', '<ul class="fact-list">' + prov.facts.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>');
         body += section('Lokasi', '<p>' + esc(prov.coordinates) + ' \u00b7 ' + esc(prov.capital) + ', ' + esc(prov.name) + '</p><p class="small muted">Peta interaktif (data geospasial Point/Line/Polygon) direncanakan pada tahap pengembangan berikutnya.</p>');
         if (provEvents.length) body += section('Peristiwa di ' + esc(prov.name), '<div class="timeline">' + provEvents.map(function (e) { return '<div class="tl-item"><div class="tl-date">' + esc(e.date) + '</div><h3>' + esc(e.title) + '</h3><p>' + esc(e.description) + '</p></div>'; }).join('') + '</div><p style="margin-top:12px">' + link('timeline?prov=' + prov.id, 'Lihat semua timeline \u2192') + '</p>');
@@ -6370,6 +6915,18 @@ window.DB = (function () {
       return h;
     }
 
+    /* Menu Kuliner Nusantara: kartu kelompok langsung */
+    if (menu.id === 'kuliner') {
+      var kg = subcatGroups('Kuliner');
+      h += '<div class="cat-grid" style="margin-top:16px">' + kg.map(function (g) {
+        var n = 0;
+        g.subcats.forEach(function (s) { n += DB.itemsForCategory('Kuliner').filter(function (i) { return i.subcategory === s; }).length; });
+        return '<a href="#/kategori/' + menu.id + '/Kuliner/group/' + g.key + '" class="cat-tile">' +
+          '<span class="cn">' + esc(g.name) + '</span><span class="cd">' + esc(g.desc) + '</span><span class="cc">' + n + ' entri</span></a>';
+      }).join('') + '</div>';
+      return h;
+    }
+
     h += '<div class="cat-grid" style="margin-top:16px">';
     menu.categories.forEach(function (cat) {
       var n = DB.itemsForCategory(cat).length;
@@ -6383,17 +6940,107 @@ window.DB = (function () {
     return h;
   }
 
-  function pageKategori(menuId, cat) {
+  /* ============================================================
+     SUBKATEGORI BERJENJANG — kartu sebelum daftar
+     (contoh: Kuliner → Makanan/Minuman/Jajanan → Jajanan →
+      Jajanan Kering/Basah/Gorengan → daftar entri)
+     ============================================================ */
+  var SUBCAT_GROUPS = {
+    'Kuliner': [
+      { key: 'makanan', name: 'Makanan', desc: 'Makanan berat & hidangan utama', subcats: ['Makanan Berat'] },
+      { key: 'minuman', name: 'Minuman', desc: 'Minuman tradisional hangat & segar', subcats: ['Minuman Tradisional'] },
+      { key: 'jajanan', name: 'Jajanan', desc: 'Kue, camilan & gorengan tradisional', subcats: ['Jajanan Kering', 'Jajanan Basah', 'Gorengan'] },
+      { key: 'buah', name: 'Buah Nusantara', desc: 'Buah-buahan khas Indonesia', subcats: ['Buah Nusantara'] },
+      { key: 'bumbu', name: 'Bumbu Khas', desc: 'Bumbu dasar masakan Nusantara', subcats: ['Bumbu Khas'] }
+    ]
+  };
+  function subcatGroups(cat) { return SUBCAT_GROUPS[cat] || null; }
+
+  function pageKategori(menuId, cat, sub, group) {
     var menu = DB.menus.filter(function (m) { return m.id === menuId; })[0];
+    if (!menu) return pageNotFound();
     var items = DB.itemsForCategory(cat);
     var events = DB.events.filter(function (e) { return e.period === cat; });
-    if (!menu) return pageNotFound();
     setTitle(cat);
-    var h = breadcrumb([
+
+    /* --- PETA BREADCRUMB --- */
+    var crumb = [
       { html: link('menu', 'Menu Utama') },
       { html: link('menu/' + menuId, esc(menu.name)) },
-      { html: '<span>' + esc(cat) + '</span>' }
-    ]);
+      { html: link('kategori/' + menuId + '/' + encodeURIComponent(cat), esc(cat)) }
+    ];
+
+    /* --- LEVEL 1: kartu kelompok subkategori (mis. Jajanan) --- */
+    var groups = subcatGroups(cat);
+    if (!sub && !group && groups) {
+      var h1 = breadcrumb(crumb);
+      h1 += '<p class="eyebrow">Kategori · ' + esc(menu.name) + '</p><h1>' + esc(cat) + '</h1>';
+      h1 += '<p class="muted">Pilih kelompok terlebih dahulu — ' + items.length + ' entri tersedia</p>';
+      h1 += '<div class="cat-grid" style="margin-top:16px">' + groups.map(function (g) {
+        var n = 0;
+        g.subcats.forEach(function (s) { n += items.filter(function (i) { return i.subcategory === s; }).length; });
+        return '<a href="#/kategori/' + menuId + '/' + encodeURIComponent(cat) + '/group/' + g.key + '" class="cat-tile">' +
+          '<span class="cn">' + esc(g.name) + '</span>' +
+          '<span class="cd">' + esc(g.desc) + '</span>' +
+          '<span class="cc">' + n + ' entri</span></a>';
+      }).join('') + '</div>';
+      return h1;
+    }
+
+    /* --- LEVEL 2: kartu subkategori (mis. Jajanan Kering/Basah/Gorengan) --- */
+    if (group) {
+      var g = null;
+      (groups || []).forEach(function (x) { if (x.key === group) g = x; });
+      if (!g) return pageKategori(menuId, cat);
+      crumb.push({ html: '<span>' + esc(g.name) + '</span>' });
+      var h2 = breadcrumb(crumb);
+      h2 += '<p class="eyebrow">' + esc(cat) + ' · ' + esc(g.name) + '</p><h1>' + esc(g.name) + '</h1>';
+      h2 += '<p class="muted">Pilih jenis ' + esc(g.name.toLowerCase()) + '</p>';
+      h2 += '<div class="cat-grid" style="margin-top:16px">' + g.subcats.map(function (s) {
+        var n = items.filter(function (i) { return i.subcategory === s; }).length;
+        return '<a href="#/kategori/' + menuId + '/' + encodeURIComponent(cat) + '/sub/' + encodeURIComponent(s) + '" class="cat-tile">' +
+          '<span class="cn">' + esc(s) + '</span>' +
+          '<span class="cc">' + n + ' entri</span></a>';
+      }).join('') + '</div>';
+      return h2;
+    }
+
+    /* --- LEVEL 3 (atau 1): daftar entri subkategori / kategori --- */
+    if (sub) {
+      var filtered = items.filter(function (i) { return i.subcategory === sub; });
+      if (!filtered.length) return pageKategori(menuId, cat);
+      crumb.push({ html: '<span>' + esc(sub) + '</span>' });
+      var h3 = breadcrumb(crumb);
+      h3 += '<p class="eyebrow">' + esc(cat) + '</p><h1>' + esc(sub) + '</h1>';
+      h3 += '<p class="muted">' + filtered.length + ' entri</p>';
+      if (filtered.length > 6) {
+        h3 += '<div class="cat-grid" style="margin-top:16px">' + filtered.map(function (it) {
+          return '<a href="#/item/' + it.id + '" class="cat-tile"><span class="cn">' + esc(it.name) + '</span>' +
+            '<span class="cd">' + esc(it.description.slice(0, 90)) + '…</span>' +
+            '<span class="cc">' + esc(it.subcategory) + '</span></a>';
+        }).join('') + '</div>';
+      } else {
+        h3 += '<div id="catList" data-cat="' + esc(cat) + '" data-sub="' + esc(sub) + '">' + catListHTML(filtered) + '</div>';
+      }
+      return h3;
+    }
+
+    /* --- tanpa sub/group: kategori dengan banyak subkategori → kartu subkategori --- */
+    var subs = {};
+    items.forEach(function (i) { subs[i.subcategory] = (subs[i.subcategory] || 0) + 1; });
+    var subNames = Object.keys(subs);
+    if (subNames.length >= 2 && items.length > 8) {
+      var h4 = breadcrumb(crumb);
+      h4 += '<p class="eyebrow">Kategori · ' + esc(menu.name) + '</p><h1>' + esc(cat) + '</h1>';
+      h4 += '<p class="muted">Pilih jenis terlebih dahulu — ' + items.length + ' entri</p>';
+      h4 += '<div class="cat-grid" style="margin-top:16px">' + subNames.map(function (s) {
+        return '<a href="#/kategori/' + menuId + '/' + encodeURIComponent(cat) + '/sub/' + encodeURIComponent(s) + '" class="cat-tile">' +
+          '<span class="cn">' + esc(s) + '</span><span class="cc">' + subs[s] + ' entri</span></a>';
+      }).join('') + '</div>';
+      return h4;
+    }
+
+    var h = breadcrumb(crumb);
     h += '<p class="eyebrow">Kategori</p><h1>' + esc(cat) + '</h1>';
     h += '<p class="muted">' + (items.length + events.length) + ' entri ensiklopedia</p>';
 
@@ -6811,7 +7458,11 @@ window.DB = (function () {
       else if (segs[0] === 'provinsi' && segs[1]) view = pageProvinsiDetail(segs[1]);
       else if (segs[0] === 'provinsi') view = pageProvinsiList();
       else if (segs[0] === 'menu' && segs[1]) view = pageMenuDetail(segs[1]);
-      else if (segs[0] === 'kategori' && segs[1] && segs[2]) view = pageKategori(segs[1], decodeURIComponent(segs[2]));
+      else if (segs[0] === 'kategori' && segs[1] && segs[2]) {
+        if (segs[3] === 'group' && segs[4]) view = pageKategori(segs[1], decodeURIComponent(segs[2]), null, decodeURIComponent(segs[4]));
+        else if (segs[3] === 'sub' && segs[4]) view = pageKategori(segs[1], decodeURIComponent(segs[2]), decodeURIComponent(segs[4]));
+        else view = pageKategori(segs[1], decodeURIComponent(segs[2]));
+      }
       else if (segs[0] === 'menu') view = pageMenu();
       else if (segs[0] === 'item' && segs[1]) view = pageItem(segs[1]);
       else if (segs[0] === 'search') view = pageSearch(r.query.q || '');
@@ -6850,7 +7501,7 @@ window.DB = (function () {
   var MENU_ICON = {
     provinsi: 'pin', 'lorong-waktu': 'clock', 'panggung-kesenian': 'music',
     'pustaka-nusantara': 'book', 'bilik-sastra-bahasa': 'pen',
-    'balai-pandu-warga': 'shield', 'pusat-kode-info': 'db'
+    'balai-pandu-warga': 'shield', 'pusat-kode-info': 'db', kuliner: 'leaf'
   };
   function menuIcon(m) {
     return MENU_ICON[m.id] || catIcon(m.name) || 'book';
